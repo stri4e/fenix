@@ -1,0 +1,63 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.7.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.github'
+version = '0.0.1'
+sourceCompatibility = JavaVersion.VERSION_11
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+bootJar {
+	mainClassName = 'com.github.admins.AdminsApplication'
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.SR4")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springframework.cloud:spring-cloud-config-client"
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.1'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
+	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
+
+	implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.29'
+	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+	implementation group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-core', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.5'
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

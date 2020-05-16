@@ -1,0 +1,10 @@
+server:
+  port: 8585
+spring:
+  application:
+    name: admin-service
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server

@@ -1,0 +1,33 @@
+package com.github.admins.services;
+
+import com.github.admins.payload.Comment;
+import com.github.admins.services.impl.CommentService;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+@FeignClient(
+        name = "products-service",
+        fallback = CommentService.class
+)
+public interface ICommentService {
+
+    @PostMapping(
+            path = "/v1/comments/",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    Comment create(@RequestBody Comment c);
+
+    @GetMapping(
+            path = "/v1/comments/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    Comment readById(@PathVariable Long id);
+
+    @DeleteMapping(
+            path = "/v1/comments/{id}"
+    )
+    void remove(@PathVariable Long id);
+
+}
