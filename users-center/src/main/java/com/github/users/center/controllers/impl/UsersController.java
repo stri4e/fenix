@@ -13,6 +13,7 @@ import com.github.users.center.exceptions.PreconditionFailed;
 import com.github.users.center.payload.ConfirmEmail;
 import com.github.users.center.payload.JwtAuthResponse;
 import com.github.users.center.services.IConfirmService;
+import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
 import com.github.users.center.services.IUserService;
 import com.github.users.center.utils.UsersUtils;
@@ -53,6 +54,8 @@ public class UsersController implements IUsersController, Serializable {
 
     private final JwtTokenProvider jtp;
 
+    private final IEmailService es;
+
     @Override
     public ResponseEntity<Void>
     submitReg(String userUrl, @Valid UserRegDto payload) {
@@ -66,7 +69,7 @@ public class UsersController implements IUsersController, Serializable {
         var ct = new ConfirmToken(userUrl, user);
         this.cs.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        //todo send email to email service
+        this.es.submitReg(cf);
         return new ResponseEntity<>(CREATED);
     }
 
@@ -107,8 +110,8 @@ public class UsersController implements IUsersController, Serializable {
         rt.setExpiryDate(EXPIRATION_TIME);
         this.rps.create(rt);
         ConfirmEmail cf = fetchConfirmEmail(rt.getToken(), user);
-        //todo send email to email service
-        return null;
+        this.es.resetPass(cf);
+        return new ResponseEntity<>(OK);
     }
 
     @Override

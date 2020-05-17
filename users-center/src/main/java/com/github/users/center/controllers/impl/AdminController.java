@@ -12,6 +12,7 @@ import com.github.users.center.payload.ConfirmEmail;
 import com.github.users.center.payload.JwtRefreshResponse;
 import com.github.users.center.payload.TokenType;
 import com.github.users.center.services.IConfirmService;
+import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IRefreshSessionService;
 import com.github.users.center.services.IUserService;
 import com.github.users.center.utils.JwtTokenProvider;
@@ -51,10 +52,11 @@ public class AdminController implements IAdminController, Serializable {
 
     private final IRefreshSessionService rss;
 
+    private final IEmailService es;
+
     @Override
     public ResponseEntity<Void> submitReg(String userUrl, @Valid UserRegDto payload) {
-        if (this.us.existsByEmailOrLogin(
-                payload.getEmail(), payload.getLogin())) {
+        if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
         var user = TransferObj.user(payload, ROLE_ADMIN);
@@ -63,7 +65,7 @@ public class AdminController implements IAdminController, Serializable {
         var ct = new ConfirmToken(userUrl, user);
         this.cs.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        //todo send email to email service
+        this.es.submitReg(cf);
         return new ResponseEntity<>(CREATED);
     }
 
