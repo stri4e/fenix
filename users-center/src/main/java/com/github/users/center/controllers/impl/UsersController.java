@@ -59,8 +59,7 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     public ResponseEntity<Void>
     submitReg(String userUrl, @Valid UserRegDto payload) {
-        if (this.us.existsByEmailOrLogin(
-                payload.getEmail(), payload.getLogin())) {
+        if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
         var user = TransferObj.user(payload, ROLE_USER);
