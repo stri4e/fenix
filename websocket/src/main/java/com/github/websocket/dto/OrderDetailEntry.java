@@ -1,7 +1,7 @@
-package com.github.orders.dto;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.orders.entity.OrderStatus;
+import com.github.websocket.payload.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailEntryDto {
+public class OrderDetailEntry {
 
     @JsonProperty(value = "id")
     private Long id;
@@ -30,7 +30,6 @@ public class OrderDetailEntryDto {
     @NotNull
     @JsonProperty(value = "amount")
     private BigDecimal amount;
-
     @NotNull
     @JsonProperty(value = "userId")
     private Long userId;

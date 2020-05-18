@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.github.admins.utils.TransferObjects.fromSpecification;
-import static com.github.admins.utils.TransferObjects.toSpecification;
+import static com.github.admins.utils.TransferObj.fromSpecification;
+import static com.github.admins.utils.TransferObj.toSpecification;
 
 @RestController
 @RequestMapping(path = "/v1/specification")

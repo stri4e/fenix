@@ -5,7 +5,6 @@ import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.ProductDto;
 import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
-import com.github.admins.payload.Product;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.admins.utils.TransferObjects.fromOrderDetailDto;
-import static com.github.admins.utils.TransferObjects.toOrderDetail;
+import static com.github.admins.utils.TransferObj.fromOrderDetailDto;
+import static com.github.admins.utils.TransferObj.toOrderDetail;
 
 @RestController
 @RequestMapping(path = "/v1/orders")
@@ -33,17 +32,17 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     public ResponseEntity<List<OrderDetailDto>>
     ordersByStatus(OrderStatus status) {
-        List<OrderDetail> orders = this.os.readAllByStatus(status);
-        List<OrderDetailDto> result = orders.stream()
+        var orders = this.os.readAllByStatus(status);
+        var ordersDto = orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(ordersDto, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<OrderDetailDto> orderById(Long orderId) {
-        OrderDetail order = this.os.readById(orderId);
-        List<Product> products = this.ps.readByIds(order.getProductIds());
+        var order = this.os.readById(orderId);
+        var products = this.ps.readByIds(order.getProductIds());
         return new ResponseEntity<>(
                 fromOrderDetailDto(order, products),
                 HttpStatus.OK
@@ -52,7 +51,7 @@ public class OrderDetailController implements IOrderDetailController {
 
     @Override
     public ResponseEntity<List<OrderDetailDto>> userHistory(Long userId) {
-        List<OrderDetail> history = this.os.readByUserId(userId);
+        var history = this.os.readByUserId(userId);
         return new ResponseEntity<>(
                 history.stream()
                         .map(this::collect)
@@ -63,11 +62,10 @@ public class OrderDetailController implements IOrderDetailController {
 
     @Override
     public ResponseEntity<Void> updateOrder(@Valid OrderDetailDto payload) {
-        List<Long> productIds = payload.getProducts().stream()
+        var productIds = payload.getProducts().stream()
                 .map(ProductDto::getId)
                 .collect(Collectors.toList());
-        OrderDetail result = toOrderDetail(payload, productIds);
-        this.os.update(result);
+        this.os.update(toOrderDetail(payload, productIds));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -79,9 +77,10 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     private OrderDetailDto collect(OrderDetail order) {
-        List<Product> products = this.ps
-                .readByIds(order.getProductIds());
-        return fromOrderDetailDto(order, products);
+        return fromOrderDetailDto(
+                order,
+                this.ps.readByIds(order.getProductIds())
+        );
     }
 
 }

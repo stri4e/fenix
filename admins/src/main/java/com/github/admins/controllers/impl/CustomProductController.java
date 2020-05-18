@@ -7,7 +7,7 @@ import com.github.admins.payload.Product;
 import com.github.admins.payload.ProductStatus;
 import com.github.admins.services.ICategoryService;
 import com.github.admins.services.IProductService;
-import com.github.admins.utils.TransferObjects;
+import com.github.admins.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.admins.utils.TransferObjects.fromProduct;
-import static com.github.admins.utils.TransferObjects.toProduct;
+import static com.github.admins.utils.TransferObj.fromProduct;
+import static com.github.admins.utils.TransferObj.toProduct;
 
 @RestController
 @RequestMapping(path = "/v1/product")
@@ -52,7 +52,7 @@ public class CustomProductController implements ICustomProductController {
     public ResponseEntity<List<ProductDto>> getAllUnPublish() {
         List<Product> products = this.ps.readAllUnPublish();
         List<ProductDto> result = products.stream()
-                .map(TransferObjects::fromProduct)
+                .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

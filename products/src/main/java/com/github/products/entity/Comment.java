@@ -46,9 +46,4 @@ public class Comment {
     )
     private String comment;
 
-    public Comment(String name, String comment) {
-        this.name = name;
-        this.comment = comment;
-    }
-
 }

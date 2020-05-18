@@ -60,14 +60,4 @@ public class OrderDetailDto {
     )
     private OrderStatus status;
 
-    public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<ProductDetailDto> products,
-                          @NotNull BigDecimal amount,
-                          @NotNull OrderStatus status) {
-        this.customer = customer;
-        this.products = products;
-        this.amount = amount;
-        this.status = status;
-    }
-
 }

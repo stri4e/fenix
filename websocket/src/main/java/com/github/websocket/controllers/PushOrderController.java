@@ -1,6 +1,6 @@
 package com.github.websocket.controllers;
 
-import com.github.websocket.payload.OrderDetailEntry;
+import com.github.websocket.dto.OrderDetailEntry;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.RestController;
 

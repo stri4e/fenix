@@ -1,8 +1,6 @@
-package com.github.orders.dto;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,26 +14,16 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(description = "This model use for keep product detail.")
 public class ProductDetailDto extends ProductDto {
 
-    @ApiModelProperty(
-            value = "Product specifications"
-    )
     @NotEmpty
-    @JsonProperty(value = "specification")
-    private List<SpecificationDto> specification;
+    @JsonProperty(value = "specifications")
+    private List<SpecificationDto> specifications;
 
-    @ApiModelProperty(
-            value = "Product comments"
-    )
     @NotEmpty
     @JsonProperty(value = "comments")
     private List<CommentDto> comments;
 
-    @ApiModelProperty(
-            value = "Product category"
-    )
     @NotNull
     @JsonProperty(value = "category")
     private CategoryDto category;
@@ -50,7 +38,7 @@ public class ProductDetailDto extends ProductDto {
                             List<CommentDto> comments,
                             CategoryDto category) {
         super(id, name, price, quantity, description, previewImage, images);
-        this.specification = specification;
+        this.specifications = specification;
         this.comments = comments;
         this.category = category;
     }

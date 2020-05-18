@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.github.admins.utils.TransferObjects.fromComment;
-import static com.github.admins.utils.TransferObjects.toComment;
+import static com.github.admins.utils.TransferObj.fromComment;
+import static com.github.admins.utils.TransferObj.toComment;
 
 @RestController
 @RequestMapping(path = "/v1/comment")

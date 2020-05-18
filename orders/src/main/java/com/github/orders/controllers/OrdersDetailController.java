@@ -39,9 +39,9 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> createOrder(Long userId, OrderDetailDto payload) {
-        Customer customer = TransferObj.customer(payload.getCustomer());
+        Customer customer = TransferObj.toCustomer(payload.getCustomer());
         Customer c = this.customerService.create(customer);
-        OrderDetail data = TransferObj.orderDetail(
+        OrderDetail data = TransferObj.toOrderDetail(
                 c, payload.getProductsIds(),
                 payload.getAmount(), userId, payload.getStatus()
         );

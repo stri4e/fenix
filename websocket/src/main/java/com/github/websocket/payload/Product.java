@@ -1,35 +1,38 @@
 package com.github.websocket.payload;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Product {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class Product extends Item implements Serializable, Cloneable {
 
-    private Long id;
+    private static final long serialVersionUID = -3490371538827798606L;
 
-    @NotBlank(message = "Name is required.")
-    private String name;
+    @NotEmpty
+    @JsonProperty(value = "id")
+    private Set<Specification> specification;
 
-    @NotNull(message = "Price is required.")
-    private BigDecimal price;
+    @NotEmpty
+    @JsonProperty(value = "comments")
+    private Set<Comment> comments;
 
-    @NotNull(message = "Quantity is required.")
-    private Integer quantity;
+    @NotNull
+    @JsonProperty(value = "category")
+    private Category category;
 
-    @NotBlank(message = "Description is required.")
-    private String description;
-
-    private String previewImage;
-
-    private List<String> images;
+    @NotNull
+    @JsonProperty(value = "publish")
+    private ProductStatus status;
 
 }

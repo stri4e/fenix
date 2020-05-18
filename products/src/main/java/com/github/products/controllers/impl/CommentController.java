@@ -30,10 +30,10 @@ public class CommentController implements ICommentController {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest(TypeMessage.invalidPayload);
         }
-        Comment comment = TransferObj.transferCommentDto(payload);
+        Comment comment = TransferObj.toComment(payload);
         Comment result = this.commentService.create(comment);
         return new ResponseEntity<>(
-                TransferObj.transferComment(result), HttpStatus.CREATED
+                TransferObj.fromComment(result), HttpStatus.CREATED
         );
     }
 

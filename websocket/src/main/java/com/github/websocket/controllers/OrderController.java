@@ -1,6 +1,6 @@
 package com.github.websocket.controllers;
 
-import com.github.websocket.payload.OrderDetailEntry;
+import com.github.websocket.dto.OrderDetailEntry;
 import com.github.websocket.utils.Topics;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

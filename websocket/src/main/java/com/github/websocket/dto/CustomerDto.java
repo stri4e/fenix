@@ -1,4 +1,4 @@
-package com.github.orders.dto;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,31 +1,33 @@
-package com.github.orders.dto;
+package com.github.websocket.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.orders.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailEntryDto {
+@AllArgsConstructor
+public class OrderDetail implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -8001976834441332571L;
 
     @JsonProperty(value = "id")
     private Long id;
 
     @NotNull
     @JsonProperty(value = "customer")
-    private CustomerDto customer;
+    private Customer customer;
 
     @NotEmpty
     @JsonProperty(value = "productIds")
-    private List<ProductDetailDto> productIds;
+    private List<Long> productIds;
 
     @NotNull
     @JsonProperty(value = "amount")

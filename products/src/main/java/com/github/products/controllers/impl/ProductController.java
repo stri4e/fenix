@@ -35,7 +35,7 @@ public class ProductController implements IProductController {
         long total = products.getTotalElements();
         return new PageImpl<>(
                 products.stream()
-                        .map(TransferObj::transferProduct)
+                        .map(TransferObj::fromProduct)
                         .collect(Collectors.toList()), pageable, total
         );
     }
@@ -48,7 +48,7 @@ public class ProductController implements IProductController {
         long total = products.getTotalElements();
         return new PageImpl<>(
                 products.stream()
-                        .map(TransferObj::transferProduct)
+                        .map(TransferObj::fromProduct)
                         .collect(Collectors.toList()), pageable, total
         );
     }

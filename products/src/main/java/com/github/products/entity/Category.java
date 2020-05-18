@@ -44,8 +44,4 @@ public class Category implements Serializable, Cloneable {
     )
     private String name;
 
-    public Category(String name) {
-        this.name = name;
-    }
-
 }

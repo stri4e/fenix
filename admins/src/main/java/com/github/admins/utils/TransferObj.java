@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TransferObjects {
+public class TransferObj {
 
-    private TransferObjects() {
+    private TransferObj() {
     }
 
     public static Category toCategory(CategoryDto data) {
@@ -68,7 +68,7 @@ public class TransferObjects {
                 data.getId(),
                 fromCustomer(data.getCustomer()),
                 products.stream()
-                        .map(TransferObjects::toProductDetail)
+                        .map(TransferObj::toProductDetail)
                         .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getUserId(),
@@ -117,10 +117,10 @@ public class TransferObjects {
                 p.getPreviewImage(),
                 p.getImages(),
                 p.getSpecification().stream()
-                        .map(TransferObjects::fromSpecification)
+                        .map(TransferObj::fromSpecification)
                         .collect(Collectors.toList()),
                 p.getComments().stream()
-                        .map(TransferObjects::fromComment)
+                        .map(TransferObj::fromComment)
                         .collect(Collectors.toList()),
                 fromCategory(p.getCategory())
         );

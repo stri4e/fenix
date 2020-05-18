@@ -4,7 +4,7 @@ import com.github.admins.controllers.ICategoryController;
 import com.github.admins.dto.CategoryDto;
 import com.github.admins.payload.Category;
 import com.github.admins.services.ICategoryService;
-import com.github.admins.utils.TransferObjects;
+import com.github.admins.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.admins.utils.TransferObjects.fromCategory;
-import static com.github.admins.utils.TransferObjects.toCategory;
+import static com.github.admins.utils.TransferObj.fromCategory;
+import static com.github.admins.utils.TransferObj.toCategory;
 
 @RestController
 @RequestMapping(path = "/v1/category")
@@ -42,7 +42,7 @@ public class CategoryController implements ICategoryController {
     public ResponseEntity<List<CategoryDto>> getAllCategory() {
         List<Category> categories = this.cs.readAll();
         List<CategoryDto> result = categories.stream()
-                .map(TransferObjects::fromCategory)
+                .map(TransferObj::fromCategory)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -1,4 +1,4 @@
-package com.github.orders.payload;
+package com.github.websocket.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

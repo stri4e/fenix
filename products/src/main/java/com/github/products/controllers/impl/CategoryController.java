@@ -24,7 +24,7 @@ public class CategoryController implements ICategoryController {
     @Logging(isTime = true, isReturn = false)
     public List<CategoryDto> categories() {
         return this.categoryService.read().stream()
-                .map(TransferObj::transferCategory)
+                .map(TransferObj::fromCategory)
                 .collect(Collectors.toList());
     }
 

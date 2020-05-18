@@ -50,9 +50,4 @@ public class Specification implements Serializable, Cloneable {
     )
     private String description;
 
-    public Specification(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
 }

@@ -1,9 +1,12 @@
 package com.github.orders.payload;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,24 +19,20 @@ public class Product extends Item implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -3490371538827798606L;
 
-    private Set<Specification> specification = new HashSet<>();
+    @NotEmpty
+    @JsonProperty(value = "specification")
+    private Set<Specification> specification;
 
-    private Set<Comment> comments = new HashSet<>();
+    @NotEmpty
+    @JsonProperty(value = "comments")
+    private Set<Comment> comments;
 
+    @NotNull
+    @JsonProperty(value = "category")
     private Category category;
 
-    private ProductStatus publish;
-
-    public void addSpecification(Specification s) {
-        if (Objects.nonNull(s)) {
-            this.specification.add(s);
-        }
-    }
-
-    public void addComment(Comment c) {
-        if (Objects.nonNull(c)) {
-            this.comments.add(c);
-        }
-    }
+    @NotNull
+    @JsonProperty(value = "status")
+    private ProductStatus status;
 
 }

@@ -1,48 +1,20 @@
-package com.github.orders.utils;
+package com.github.websocket.utils;
 
-import com.github.orders.dto.*;
-import com.github.orders.entity.Customer;
-import com.github.orders.entity.OrderDetail;
-import com.github.orders.entity.OrderStatus;
-import com.github.orders.exceptions.BadRequest;
-import com.github.orders.exceptions.TypeMessage;
-import com.github.orders.payload.Category;
-import com.github.orders.payload.Comment;
-import com.github.orders.payload.Product;
-import com.github.orders.payload.Specification;
+import com.github.websocket.dto.*;
+import com.github.websocket.payload.*;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Customer toCustomer(CustomerDto data) {
-        if (Objects.nonNull(data)) {
-            return new Customer(
-                    data.getCustomerName(),
-                    data.getCustomerAddress(),
-                    data.getCustomerEmail(),
-                    data.getCustomerPhone()
-            );
-        }
-        throw new BadRequest(TypeMessage.badOrderData);
-    }
-
-    public static OrderDetail toOrderDetail(
-            Customer c, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
-        return new OrderDetail(c, productIds, amount, userId, status);
-    }
-
-    public static OrderDetailEntryDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products) {
-        return new OrderDetailEntryDto(
+    public static OrderDetailEntry
+    fromOrderDetail(OrderDetail data, List<Product> products) {
+        return new OrderDetailEntry(
                 data.getId(),
                 fromCustomer(data.getCustomer()),
                 products.stream()
-                        .map(TransferObj::fromProduct)
+                        .map(TransferObj::fromProductDetail)
                         .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getUserId(),
@@ -60,7 +32,7 @@ public class TransferObj {
         );
     }
 
-    public static ProductDetailDto fromProduct(Product p) {
+    public static ProductDetailDto fromProductDetail(Product p) {
         return new ProductDetailDto(
                 p.getId(),
                 p.getName(),

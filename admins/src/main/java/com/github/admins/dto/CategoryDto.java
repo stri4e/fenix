@@ -27,8 +27,4 @@ public class CategoryDto {
     @NotBlank(message = "Category name is required")
     private String name;
 
-    public CategoryDto(String name) {
-        this.name = name;
-    }
-
 }

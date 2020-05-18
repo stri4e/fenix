@@ -1,5 +1,6 @@
 package com.github.products.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,15 +15,23 @@ public class SpecificationDto {
 
     @ApiModelProperty(
             value = "Specification id",
-            example = "1")
+            example = "1"
+    )
+    @JsonProperty(value = "id")
     private Long id;
+
     @ApiModelProperty(
             value = "Specification name",
-            example = "Power")
+            example = "Power"
+    )
+    @JsonProperty(value = "name")
     private String name;
+
     @ApiModelProperty(
             value = "Specification description",
-            example = "Supper powerful device")
+            example = "Supper powerful device"
+    )
+    @JsonProperty(value = "description")
     private String description;
 
 }

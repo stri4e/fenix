@@ -30,8 +30,4 @@ public class CommentDto {
     )
     private String description;
 
-    public CommentDto(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

@@ -1,19 +1,21 @@
 package com.github.websocket.payload;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Customer {
+@NoArgsConstructor
+public class Customer implements Serializable, Cloneable {
 
+    private static final long serialVersionUID = -6968351368477077711L;
+
+    @JsonProperty(value = "id")
     private Long id;
 
     @NotBlank
