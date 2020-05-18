@@ -62,7 +62,8 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     private Category category;
 
-    @Column(name = "publish")
-    private boolean publish;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
 }

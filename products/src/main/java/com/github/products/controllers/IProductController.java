@@ -54,7 +54,7 @@ public interface IProductController {
             path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    void update(Product p);
+    void update(Product payload);
 
     @PutMapping(
             path = "/v1/edit/{id}/{status}"

@@ -1,9 +1,9 @@
 package com.github.products.services.impl;
 
-import com.products.service.entity.Category;
-import com.products.service.exceptions.BadRequest;
-import com.products.service.repository.CategoryRepo;
-import com.products.service.service.ICategoryService;
+import com.github.products.entity.Category;
+import com.github.products.exceptions.BadRequest;
+import com.github.products.repository.CategoryRepo;
+import com.github.products.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,11 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CategoryService implements com.products.service.service.ICategoryService {
+public class CategoryService implements ICategoryService {
 
     private final CategoryRepo categoryRepo;
 
-    @Override
-    public List<Category> find() {
+    public List<Category> read() {
         return this.categoryRepo.findAll(Sort.by("id"));
     }
 
@@ -33,8 +32,7 @@ public class CategoryService implements com.products.service.service.ICategorySe
         return this.categoryRepo.save(c);
     }
 
-    @Override
-    public Category findByName(String name) {
+    public Category readByName(String name) {
         if (StringUtils.isEmpty(name)) {
             throw new BadRequest();
         }
@@ -51,8 +49,7 @@ public class CategoryService implements com.products.service.service.ICategorySe
         this.categoryRepo.deleteById(id);
     }
 
-    @Override
-    public List<Category> findAll() {
+    public List<Category> readAll() {
         return this.categoryRepo.findAll();
     }
 

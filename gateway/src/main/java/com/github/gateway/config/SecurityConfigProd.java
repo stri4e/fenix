@@ -25,9 +25,15 @@ public class SecurityConfigProd {
 
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-        String[] allowAccess = new String[] {"/users/**", "/products/**"};
-        String[] userAccess  = new String[] {"/products/v1/comments", "/orders/**"};
-        String[] adminAccess = new String[] {"/admin/**", "/websocket/**"};
+        String[] allowAccess = new String[] {
+                "/users/**", "/products/**"
+        };
+        String[] userAccess  = new String[] {
+                "/products/v1/comments", "/orders/**"
+        };
+        String[] adminAccess = new String[] {
+                "/admin/**", "**/info/**", "**/edit/**", "/websocket/**"
+        };
         return http.cors().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {

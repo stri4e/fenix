@@ -23,7 +23,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @Logging(isTime = true, isReturn = false)
     public List<CategoryDto> categories() {
-        return this.categoryService.find().stream()
+        return this.categoryService.read().stream()
                 .map(TransferObj::transferCategory)
                 .collect(Collectors.toList());
     }
@@ -31,25 +31,25 @@ public class CategoryController implements ICategoryController {
     @Override
     @Logging(isTime = true, isReturn = false)
     public Category createCategory(Category payload) {
-        return null;
+        return this.categoryService.create(payload);
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
     public Category readByName(String name) {
-        return null;
+        return this.categoryService.readByName(name);
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
     public void updateCategory(Category payload) {
-
+        this.categoryService.update(payload);
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
     public void removeCategory(Long id) {
-
+        this.categoryService.remove(id);
     }
 
 }

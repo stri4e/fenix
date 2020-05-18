@@ -41,36 +41,38 @@ public class OrdersDetailController implements IOrdersDetailController {
         if (Objects.isNull(result)) {
             throw new BadRequest(TypeMessage.badOrderData);
         }
-//        Message<OrderDetailDto> message = this.sender.createMsg(
-//                Topics.websocket, TransferObj.orderDetailDto(result)
-//        );
-//        this.sender.send(message);
+        // TODO: 18.05.20 add logic for get all products convert and send send to websocket service
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetail> readAllByStatus(OrderStatus status) {
-        return null;
+        return this.orderService.readByStatus(status);
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public OrderDetail readById(Long id) {
-        return null;
+        return this.orderService.readById(id);
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetail> readByUserId(Long userId) {
-        return null;
+        return this.orderService.readAllUserId(userId);
     }
 
     @Override
-    public void update(OrderDetail o) {
-
+    @Logging(isTime = true, isReturn = false)
+    public void update(OrderDetail payload) {
+        this.orderService.update(payload);
     }
 
     @Override
-    public void update(Long productId, OrderStatus orderStatus) {
-
+    @Logging(isTime = true, isReturn = false)
+    public void update(Long productId, OrderStatus status) {
+        this.orderService.update(productId, status);
     }
 
 }

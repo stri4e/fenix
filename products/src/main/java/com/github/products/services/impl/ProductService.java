@@ -1,6 +1,7 @@
 package com.github.products.services.impl;
 
 import com.github.products.entity.Product;
+import com.github.products.entity.ProductStatus;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.exceptions.TypeMessage;
@@ -26,18 +27,18 @@ public class ProductService implements IProductService {
     private final ProductRepo productRepo;
 
     @Override
-    public Page<Product> find(Pageable pageable) {
+    public Page<Product> read(Pageable pageable) {
         if (Objects.isNull(pageable)) {
             throw new BadRequest(TypeMessage.invalidPageable);
         }
         return this.productRepo.findAll(
-                ProductSpec.isPublishTrue(), pageable
+                ProductSpec.statusUsed(), pageable
         );
     }
 
     @Override
     public Page<Product>
-    findAllByCategory(String category, Pageable pageable) {
+    readAllByCategory(String category, Pageable pageable) {
         if (StringUtils.isEmpty(category) || Objects.isNull(pageable)) {
             throw new BadRequest(TypeMessage.invalidPageableOrCategory);
         }
@@ -66,7 +67,7 @@ public class ProductService implements IProductService {
     @Override
     public List<Product> readAllUnPublish() {
         return this.productRepo
-                .findAll(ProductSpec.isPublishFalse());
+                .findAll(ProductSpec.statusUnUsed());
     }
 
     @Override
@@ -80,8 +81,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateIsPublish(boolean isPublish, Long id) {
-        this.productRepo.updateIsPublish(isPublish, id);
+    public void updateStatus(ProductStatus status, Long id) {
+        this.productRepo.updateStatus(status, id);
     }
 
 }

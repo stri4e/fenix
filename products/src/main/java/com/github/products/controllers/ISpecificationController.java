@@ -13,7 +13,7 @@ public interface ISpecificationController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Specification create(Specification s);
+    Specification create(Specification payload);
 
     @GetMapping(
             path = "/info",

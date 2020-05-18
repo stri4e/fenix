@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface ICategoryService {
 
-    List<Category> find();
+    List<Category> read();
 
     Category create(Category c);
 
-    Category findByName(String name);
+    Category readByName(String name);
 
     void update(Category c);
 
     void remove(Long id);
 
-    List<Category> findAll();
+    List<Category> readAll();
 
 }
