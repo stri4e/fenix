@@ -20,7 +20,7 @@ public interface ICommentService {
     Comment create(@RequestBody Comment c);
 
     @GetMapping(
-            path = "/v1/comments/edit/{id}",
+            path = "/v1/comments/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Comment readById(@PathVariable Long id);

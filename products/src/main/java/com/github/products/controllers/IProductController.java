@@ -42,7 +42,7 @@ public interface IProductController {
     Product createProduct(@Valid @RequestBody Product payload);
 
     @GetMapping(
-            path = "/v1/edit/{id}",
+            path = "/v1/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     ResponseEntity<?> readByParams(

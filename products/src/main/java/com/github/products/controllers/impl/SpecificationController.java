@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/specification/edit")
+@RequestMapping(path = "/v1/specification")
 public class SpecificationController implements ISpecificationController {
 
     @Override

@@ -22,7 +22,7 @@ public interface ICategoryService {
     Category create(@RequestBody Category c);
 
     @GetMapping(
-            path = "/v1/categories/edit/{name}",
+            path = "/v1/categories/info/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Category readByName(@PathVariable String name);

@@ -22,7 +22,7 @@ public interface ISpecificationService {
     Specification create(Specification s);
 
     @GetMapping(
-            path = "/v1/specification/edit",
+            path = "/v1/specification/info",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Specification readById(Long id);

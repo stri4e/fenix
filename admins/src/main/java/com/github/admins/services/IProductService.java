@@ -23,19 +23,19 @@ public interface IProductService {
     Product create(@RequestBody Product p);
 
     @GetMapping(
-            path = "/v1/edit/{id}",
+            path = "/v1/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Product readById(@PathVariable Long id);
 
     @GetMapping(
-            path = "/v1/edit",
+            path = "/v1/info",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<Product> readAllUnPublish();
 
     @GetMapping(
-            path = "/v1/edit",
+            path = "/v1/info",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

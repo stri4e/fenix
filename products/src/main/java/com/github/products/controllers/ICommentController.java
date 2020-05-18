@@ -19,7 +19,7 @@ public interface ICommentController {
     );
 
     @GetMapping(
-            path = "/edit/{id}",
+            path = "/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Comment readById(@PathVariable Long id);
