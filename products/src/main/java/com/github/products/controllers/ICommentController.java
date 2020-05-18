@@ -1,6 +1,6 @@
 package com.github.products.controllers;
 
-import com.products.service.dto.CommentDto;
+import com.github.products.dto.CommentDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

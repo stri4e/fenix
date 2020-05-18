@@ -15,6 +15,7 @@ import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IRefreshSessionService;
 import com.github.users.center.services.IUserService;
 import com.github.users.center.utils.JwtTokenProvider;
+import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,7 @@ public class AdminController implements IAdminController, Serializable {
     private final IEmailService es;
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
@@ -68,6 +70,7 @@ public class AdminController implements IAdminController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<JwtRefreshResponse>
     submitAuth(String fingerprint, String address, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
@@ -91,6 +94,7 @@ public class AdminController implements IAdminController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<JwtRefreshResponse>
     submitRefreshSession(String refreshToken, @Valid String fingerprint) {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {

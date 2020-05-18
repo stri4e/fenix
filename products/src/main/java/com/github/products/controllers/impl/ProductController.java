@@ -4,6 +4,7 @@ import com.github.products.controllers.IProductController;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.Product;
 import com.github.products.services.IProductService;
+import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ public class ProductController implements IProductController {
     private final IProductService productService;
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public Page<ProductDto> getProduct(Pageable pageable) {
         Page<Product> products = this.productService.find(pageable);
         long total = products.getTotalElements();
@@ -33,6 +35,7 @@ public class ProductController implements IProductController {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public Page<ProductDto> getProduct(String category, Pageable pageable) {
         Page<Product> products = this.productService
                 .findAllByCategory(category, pageable);

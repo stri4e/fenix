@@ -15,6 +15,7 @@ import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
 import com.github.users.center.services.IUserService;
+import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.UsersUtils;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.TransferObj;
@@ -55,6 +56,7 @@ public class UsersController implements IUsersController, Serializable {
     private final IEmailService es;
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void>
     submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
@@ -71,6 +73,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> confirmAccount(String token) {
         if (StringUtils.isEmpty(token)) {
             throw new BadRequest();
@@ -87,6 +90,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<JwtAuthResponse> submitAuth(@Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
@@ -100,6 +104,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> processForgotPass(@Valid ForgotPassDto payload) {
         var user = this.us.readByEmail(payload.getEmail());
         var rt = new PassResetToken(user);
@@ -112,6 +117,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> resetPass(String token) {
         PassResetToken result = this.rps.readByToken(token);
         if (result.isExpired()) {

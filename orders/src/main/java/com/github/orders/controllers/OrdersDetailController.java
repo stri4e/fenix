@@ -7,6 +7,7 @@ import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.TypeMessage;
 import com.github.orders.service.ICustomerService;
 import com.github.orders.service.IOrderDetailService;
+import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     private final IOrderDetailService orderService;
 
     @Override
-    //@Logging(isTime = true, isReturn = false)
+    @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> createOrder(Long userId, OrderDetailDto payload) {
         Customer customer = TransferObj.customer(payload.getCustomer());
         Customer c = this.customerService.create(customer);
