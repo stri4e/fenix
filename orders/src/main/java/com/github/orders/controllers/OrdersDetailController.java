@@ -1,13 +1,17 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.dto.OrderDetailEntryDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.TypeMessage;
+import com.github.orders.payload.Product;
 import com.github.orders.service.ICustomerService;
 import com.github.orders.service.IOrderDetailService;
+import com.github.orders.service.IProductService;
+import com.github.orders.service.IPushOrders;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,10 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IOrderDetailService orderService;
 
+    private final IProductService productService;
+
+    private final IPushOrders pushOrders;
+
     @Override
     @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> createOrder(Long userId, OrderDetailDto payload) {
@@ -41,7 +49,9 @@ public class OrdersDetailController implements IOrdersDetailController {
         if (Objects.isNull(result)) {
             throw new BadRequest(TypeMessage.badOrderData);
         }
-        // TODO: 18.05.20 add logic for get all products convert and send send to websocket service
+        List<Product> products = this.productService.readByIds(result.getProductIds());
+        OrderDetailEntryDto pushData = TransferObj.fromOrderDetailDto(result, products);
+        this.pushOrders.pushOrder(pushData);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -1,0 +1,10 @@
+server:
+  port: 8187
+spring:
+  application:
+    name: websocket
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
