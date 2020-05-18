@@ -29,11 +29,22 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.1'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
+	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation group: 'junit', name: 'junit', version: '4.12'
+	testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
+	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-core', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.5'
+	testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.5'
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
+	testImplementation group: 'com.h2database', name: 'h2'
 }
 
 dependencyManagement {

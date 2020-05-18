@@ -28,7 +28,7 @@ public interface ISpecificationService {
     Specification readById(Long id);
 
     @PutMapping(
-            path = "/v1",
+            path = "/v1/",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     void update(Specification s);

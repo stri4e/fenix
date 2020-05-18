@@ -1,0 +1,10 @@
+server:
+  port: 8686
+spring:
+  application:
+    name: products-service
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
