@@ -6,6 +6,7 @@ import com.github.products.exceptions.NotFound;
 import com.github.products.repository.SpecificationRepo;
 import com.github.products.services.ISpecificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,11 +15,15 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = {"specification"})
 public class SpecificationService implements ISpecificationService {
 
     private final SpecificationRepo specificationRepo;
 
     @Override
+    @Caching(
+            put = @CachePut(value = "category", key = "#s.id")
+    )
     public Specification create(Specification s) {
         if (Objects.isNull(s)) {
             throw new BadRequest();
@@ -27,6 +32,7 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
+    @Cacheable(value = "category", key = "#id")
     public Specification readById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
@@ -36,6 +42,9 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "category", key = "#s.id")
+    )
     public void update(Specification s) {
         this.specificationRepo.save(s);
     }

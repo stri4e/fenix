@@ -10,6 +10,7 @@ import com.github.products.services.IProductService;
 import com.github.products.utils.ProductSpec;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,13 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = {"product", "products", "products_by_category", "products_unpublished"})
 public class ProductService implements IProductService {
 
     private final ProductRepo productRepo;
 
     @Override
+    @Cacheable(value = "products", unless = "#result.size() == 0")
     public Page<Product> read(Pageable pageable) {
         if (Objects.isNull(pageable)) {
             throw new BadRequest(TypeMessage.invalidPageable);
@@ -37,6 +40,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Cacheable(value = "products_by_category", key = "#category")
     public Page<Product>
     readAllByCategory(String category, Pageable pageable) {
         if (StringUtils.isEmpty(category) || Objects.isNull(pageable)) {
@@ -48,6 +52,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "product", key = "#p.id"),
+            evict = {
+                    @CacheEvict(value = "products", allEntries = true),
+                    @CacheEvict(value = "products_unpublished", allEntries = true),
+                    @CacheEvict(value = "products_by_category", allEntries = true),
+            }
+    )
     public Product create(Product p) {
         if (Objects.isNull(p)) {
             throw new BadRequest();
@@ -56,6 +68,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Cacheable(value = "product", key = "#id")
     public Product readById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
@@ -65,6 +78,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Cacheable(value = "products_unpublished", unless = "#result.size() == 0")
     public List<Product> readAllUnPublish() {
         return this.productRepo
                 .findAll(ProductSpec.statusUnUsed());
@@ -76,11 +90,27 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "product", key = "#p.id"),
+            evict = {
+                    @CacheEvict(value = "products", allEntries = true),
+                    @CacheEvict(value = "products_unpublished", allEntries = true),
+                    @CacheEvict(value = "products_by_category", allEntries = true),
+            }
+    )
     public void updateProduct(Product p) {
         this.productRepo.save(p);
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "product", key = "#id"),
+            evict = {
+                    @CacheEvict(value = "products", allEntries = true),
+                    @CacheEvict(value = "products_unpublished", allEntries = true),
+                    @CacheEvict(value = "products_by_category", allEntries = true),
+            }
+    )
     public void updateStatus(ProductStatus status, Long id) {
         this.productRepo.updateStatus(status, id);
     }

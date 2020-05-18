@@ -7,17 +7,22 @@ import com.github.products.exceptions.TypeMessage;
 import com.github.products.repository.CommentRepo;
 import com.github.products.services.ICommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "comment")
 public class CommentService implements ICommentService {
 
     private final CommentRepo commentRepo;
 
     @Override
+    @Caching(
+            put = @CachePut(value = "comment", key = "#c.id")
+    )
     public Comment create(Comment c) {
         if (Objects.isNull(c)) {
             throw new BadRequest(
@@ -28,6 +33,7 @@ public class CommentService implements ICommentService {
     }
 
     @Override
+    @Cacheable(value = "comment", key = "#id")
     public Comment readById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
@@ -37,6 +43,9 @@ public class CommentService implements ICommentService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "comment", key = "#id")
+    })
     public void remove(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();

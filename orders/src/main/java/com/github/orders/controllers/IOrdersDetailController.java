@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
 public interface IOrdersDetailController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -47,6 +46,5 @@ public interface IOrdersDetailController {
             path = "/v1/edit/{productId}/{orderStatus}"
     )
     void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);
-
 
 }

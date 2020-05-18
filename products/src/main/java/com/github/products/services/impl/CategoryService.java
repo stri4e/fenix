@@ -5,6 +5,7 @@ import com.github.products.exceptions.BadRequest;
 import com.github.products.repository.CategoryRepo;
 import com.github.products.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,15 +17,22 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = {"category", "categories"})
 public class CategoryService implements ICategoryService {
 
     private final CategoryRepo categoryRepo;
 
+    @Override
+    @Cacheable(value = "categories", unless = "#result.size() == 0")
     public List<Category> read() {
         return this.categoryRepo.findAll(Sort.by("id"));
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "category", key = "#c.id"),
+            evict = @CacheEvict(value = "categories", allEntries = true)
+    )
     public Category create(Category c) {
         if (Objects.isNull(c)) {
             throw new BadRequest();
@@ -32,6 +40,8 @@ public class CategoryService implements ICategoryService {
         return this.categoryRepo.save(c);
     }
 
+    @Override
+    @Cacheable(value = "category", key = "#name")
     public Category readByName(String name) {
         if (StringUtils.isEmpty(name)) {
             throw new BadRequest();
@@ -40,15 +50,25 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Caching(
+            put = @CachePut(value = "category", key = "#c.id"),
+            evict = @CacheEvict(value = "categories", allEntries = true)
+    )
     public void update(Category c) {
         this.categoryRepo.save(c);
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "category", key = "#id"),
+            @CacheEvict(value = "categories", allEntries = true)
+    })
     public void remove(Long id) {
         this.categoryRepo.deleteById(id);
     }
 
+    @Override
+    @Cacheable(value = "categories", unless = "#result.size() == 0")
     public List<Category> readAll() {
         return this.categoryRepo.findAll();
     }
