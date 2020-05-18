@@ -9,10 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@RequestMapping(path = "/v1")
 @RequiredArgsConstructor
 public class EmailControllers {
 
@@ -20,15 +24,15 @@ public class EmailControllers {
 
     private final ResetPass resetPass;
 
-    @PostMapping("/v1/submit/reg")
-    public ResponseEntity<Void> submitReg(@RequestBody ConfirmEmail payload) {
+    @PostMapping("/submit/reg")
+    public ResponseEntity<Void> submitReg(@Valid @RequestBody ConfirmEmail payload) {
         log.info("Enter: {}", payload);
         this.submitReg.send(payload);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/v1/reset/pass")
-    public ResponseEntity<Void> resetPass(@RequestBody ConfirmEmail payload) {
+    @PostMapping("/reset/pass")
+    public ResponseEntity<Void> resetPass(@Valid @RequestBody ConfirmEmail payload) {
         log.info("Enter: {}", payload);
         this.resetPass.send(payload);
         return new ResponseEntity<>(HttpStatus.OK);
