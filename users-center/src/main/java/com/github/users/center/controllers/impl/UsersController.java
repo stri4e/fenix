@@ -3,7 +3,6 @@ package com.github.users.center.controllers.impl;
 import com.github.users.center.controllers.IUsersController;
 import com.github.users.center.dto.ForgotPassDto;
 import com.github.users.center.dto.UserAuthDto;
-import com.github.users.center.dto.UserDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.PassResetToken;
@@ -21,7 +20,6 @@ import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
@@ -52,7 +50,7 @@ public class UsersController implements IUsersController, Serializable {
 
     private final PasswordEncoder pe;
 
-    private final JwtTokenProvider jtp;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final IEmailService es;
 
@@ -94,7 +92,7 @@ public class UsersController implements IUsersController, Serializable {
         var pass = payload.getPass();
         var user = this.us.readByEmailOrLogin(userName, userName);
         if (this.pe.matches(pass, user.getPass()) && user.isEnable()) {
-            final String token = this.jtp.createUserAccessToken(user);
+            final String token = this.jwtTokenProvider.createUserAccessToken(user);
             var response = new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
             return new ResponseEntity<>(response, OK);
         }

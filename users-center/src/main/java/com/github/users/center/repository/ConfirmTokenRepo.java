@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ConfirmTokenRepo extends JpaRepository<ConfirmToken, Long> {
     Optional<ConfirmToken> findByToken(String token);
+    Optional<ConfirmToken> findByUserId(Long id);
 }

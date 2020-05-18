@@ -5,7 +5,6 @@ import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.RefreshSession;
-import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.ConfirmEmail;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -48,7 +46,7 @@ public class AdminController implements IAdminController, Serializable {
 
     private final PasswordEncoder pe;
 
-    private final JwtTokenProvider jtp;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final IRefreshSessionService rss;
 
@@ -76,8 +74,8 @@ public class AdminController implements IAdminController, Serializable {
         var pass = payload.getPass();
         var user = this.us.readByEmailOrLogin(userName, userName);
         if (this.pe.matches(pass, user.getPass()) && user.isEnable()) {
-            var accessToken = this.jtp.createAdminAccessToken(user);
-            RefreshSession rs = this.jtp.createRefreshSession(
+            var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
+            RefreshSession rs = this.jwtTokenProvider.createRefreshSession(
                     fingerprint, address, user
             );
             this.rss.create(rs);
@@ -85,7 +83,7 @@ public class AdminController implements IAdminController, Serializable {
                     TYPE_HTTP_TOKEN,
                     accessToken,
                     rs.getRefreshToken(),
-                    this.jtp.getRefreshExpireTime()
+                    this.jwtTokenProvider.getRefreshExpireTime()
             );
             return new ResponseEntity<>(response, OK);
         }
@@ -95,14 +93,14 @@ public class AdminController implements IAdminController, Serializable {
     @Override
     public ResponseEntity<JwtRefreshResponse>
     submitRefreshSession(String refreshToken, @Valid String fingerprint) {
-        if (this.jtp.validateRefreshToken(refreshToken)) {
-            var userId = this.jtp.getUserFromJwt(refreshToken);
+        if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
+            var userId = this.jwtTokenProvider.getUserFromJwt(refreshToken);
             var sessions = this.rss.readAllByUserId(userId);
             RefreshSession session = findSession(sessions, fingerprint);
             if (!session.isExpired()) {
                 var user = this.us.readById(userId);
-                var accessToken = this.jtp.createAdminAccessToken(user);
-                RefreshSession newSession = this.jtp.createRefreshSession(
+                var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
+                RefreshSession newSession = this.jwtTokenProvider.createRefreshSession(
                         fingerprint, session.getIp(), user
                 );
                 this.rss.remove(session.getId());
@@ -111,7 +109,7 @@ public class AdminController implements IAdminController, Serializable {
                         TokenType.TYPE_HTTP_TOKEN,
                         accessToken,
                         newSession.getRefreshToken(),
-                        this.jtp.getRefreshExpireTime()
+                        this.jwtTokenProvider.getRefreshExpireTime()
                 );
                 return new ResponseEntity<>(response, CREATED);
             }

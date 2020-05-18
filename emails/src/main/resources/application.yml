@@ -1,0 +1,10 @@
+server:
+  port: 8689
+#spring:
+#  application:
+#    name: emails
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: config-server

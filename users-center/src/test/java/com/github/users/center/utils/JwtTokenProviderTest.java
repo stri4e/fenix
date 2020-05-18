@@ -1,44 +1,52 @@
 package com.github.users.center.utils;
 
+
+import com.github.users.center.TestConfig;
+import com.github.users.center.TestUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-class JwtTokenProviderTest {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = TestConfig.class)
+public class JwtTokenProviderTest {
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    void createUserAccessToken() {
-
+    public void createUserAccessToken() {
+        Long exp = 1L;
+        var user = UtilsMocks.userExp();
+        String token = this.jwtTokenProvider.createUserAccessToken(user);
+        Long act = TestUtils.parserToken(token);
+        assertEquals(exp, act);
     }
 
     @Test
-    void createAdminAccessToken() {
-
+    public void createUserAccessTokenFailed() {
+        String token = this.jwtTokenProvider.createUserAccessToken(null);
+        assertNull(token);
     }
 
     @Test
-    void createRefreshSession() {
-
+    public void createAdminAccessToken() {
+        Long exp = 1L;
+        var user = UtilsMocks.userExp();
+        String token = this.jwtTokenProvider.createAdminAccessToken(user);
+        Long act = TestUtils.parserToken(token);
+        assertEquals(exp, act);
     }
 
     @Test
-    void createRefreshToken() {
-
-    }
-
-    @Test
-    void getUserFromJwt() {
-
-    }
-
-    @Test
-    void validateRefreshToken() {
-
-    }
-
-    @Test
-    void getRefreshExpireTime() {
-
+    public void createAdminAccessTokenFailed() {
+        String token = this.jwtTokenProvider.createAdminAccessToken(null);
+        assertNull(token);
     }
 
 }

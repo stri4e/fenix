@@ -12,7 +12,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="orders" target="11" />
+      <module name="stub-server" target="11" />
+      <module name="stub-server.main" target="11" />
+      <module name="stub-server.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
