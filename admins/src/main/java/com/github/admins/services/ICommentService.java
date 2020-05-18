@@ -20,13 +20,13 @@ public interface ICommentService {
     Comment create(@RequestBody Comment c);
 
     @GetMapping(
-            path = "/v1/comments/{id}",
+            path = "/v1/comments/edit/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Comment readById(@PathVariable Long id);
 
     @DeleteMapping(
-            path = "/v1/comments/{id}"
+            path = "/v1/comments/edit/{id}"
     )
     void remove(@PathVariable Long id);
 

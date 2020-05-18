@@ -37,4 +37,16 @@ public class CommentController implements ICommentController {
         );
     }
 
+    @Override
+    @Logging(isTime = true, isReturn = false)
+    public Comment readById(Long id) {
+        return null;
+    }
+
+    @Override
+    @Logging(isTime = true, isReturn = false)
+    public void remove(Long id) {
+
+    }
+
 }

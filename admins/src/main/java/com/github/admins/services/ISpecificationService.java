@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 public interface ISpecificationService {
 
     @PostMapping(
-            path = "/v1/",
+            path = "/v1/specification/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Specification create(Specification s);
 
     @GetMapping(
-            path = "/v1/",
+            path = "/v1/specification/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Specification readById(Long id);
 
     @PutMapping(
-            path = "/v1/",
+            path = "/v1/specification/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     void update(Specification s);

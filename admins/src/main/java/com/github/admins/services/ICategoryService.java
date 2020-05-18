@@ -15,14 +15,14 @@ import java.util.List;
 public interface ICategoryService {
 
     @PostMapping(
-            path = "/v1/categories",
+            path = "/v1/categories/edit",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     Category create(@RequestBody Category c);
 
     @GetMapping(
-            path = "/v1/categories/{name}",
+            path = "/v1/categories/edit/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Category readByName(@PathVariable String name);
@@ -34,12 +34,12 @@ public interface ICategoryService {
     List<Category> readAll();
 
     @PutMapping(
-            path = "/v1/categories"
+            path = "/v1/categories/edit"
     )
     void update(@RequestBody Category c);
 
     @DeleteMapping(
-            path = "/v1/categories/{id}"
+            path = "/v1/categories/edit/{id}"
     )
     void remove(@PathVariable Long id);
 

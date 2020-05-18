@@ -16,39 +16,39 @@ import java.util.List;
 public interface IProductService {
 
     @PostMapping(
-            path = "/v1/",
+            path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Product create(@RequestBody Product p);
 
     @GetMapping(
-            path = "/v1/",
+            path = "/v1/edit/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Product readById(Long id);
+    Product readById(@PathVariable Long id);
 
     @GetMapping(
-            path = "/v1/",
+            path = "/v1/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<Product> readAllUnPublish();
 
     @GetMapping(
-            path = "/v1/",
+            path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<Product> readByIds(List<Long> ids);
+    List<Product> readByIds(@RequestParam List<Long> ids);
 
     @PutMapping(
-            path = "/v1",
+            path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     void update(Product p);
 
     @PutMapping(
-            path = "/v1/{id}/{status}"
+            path = "/v1/edit/{id}/{status}"
     )
     void updateStatus(
             @PathVariable Long id,
