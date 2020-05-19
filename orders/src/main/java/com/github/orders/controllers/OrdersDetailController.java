@@ -6,7 +6,6 @@ import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.BadRequest;
-import com.github.orders.exceptions.TypeMessage;
 import com.github.orders.payload.Product;
 import com.github.orders.service.ICustomerService;
 import com.github.orders.service.IOrderDetailService;
@@ -47,7 +46,7 @@ public class OrdersDetailController implements IOrdersDetailController {
         );
         OrderDetail result = this.orderService.crete(data);
         if (Objects.isNull(result)) {
-            throw new BadRequest(TypeMessage.badOrderData);
+            throw new BadRequest();
         }
         List<Product> products = this.productService.readByIds(result.getProductIds());
         OrderDetailEntryDto pushData = TransferObj.fromOrderDetailDto(result, products);

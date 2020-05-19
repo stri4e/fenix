@@ -1,4 +1,4 @@
-package com.github.admins.payload;
+package com.github.orders.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

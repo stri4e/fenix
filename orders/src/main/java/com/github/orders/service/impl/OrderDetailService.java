@@ -4,7 +4,6 @@ import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
-import com.github.orders.exceptions.TypeMessage;
 import com.github.orders.repository.OrderDetailRepo;
 import com.github.orders.service.IOrderDetailService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +41,7 @@ public class OrderDetailService implements IOrderDetailService {
     @Cacheable(value = "order", key = "#userId")
     public OrderDetail readUserId(Long userId) {
         return this.orderRepo.findByUserId(userId)
-                .orElseThrow(() -> new BadRequest(
-                        TypeMessage.orderFindError)
-                );
+                .orElseThrow(BadRequest::new);
     }
 
     @Override

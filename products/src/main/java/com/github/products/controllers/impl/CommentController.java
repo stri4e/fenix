@@ -4,7 +4,6 @@ import com.github.products.controllers.ICommentController;
 import com.github.products.dto.CommentDto;
 import com.github.products.entity.Comment;
 import com.github.products.exceptions.BadRequest;
-import com.github.products.exceptions.TypeMessage;
 import com.github.products.services.ICommentService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
@@ -28,7 +27,7 @@ public class CommentController implements ICommentController {
     public ResponseEntity<CommentDto>
     addComment(Long productId, CommentDto payload) {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
-            throw new BadRequest(TypeMessage.invalidPayload);
+            throw new BadRequest();
         }
         Comment comment = TransferObj.toComment(payload);
         Comment result = this.commentService.create(comment);

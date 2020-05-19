@@ -3,7 +3,6 @@ package com.github.products.services.impl;
 import com.github.products.entity.Comment;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
-import com.github.products.exceptions.TypeMessage;
 import com.github.products.repository.CommentRepo;
 import com.github.products.services.ICommentService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +24,7 @@ public class CommentService implements ICommentService {
     )
     public Comment create(Comment c) {
         if (Objects.isNull(c)) {
-            throw new BadRequest(
-                    TypeMessage.invalidComment
-            );
+            throw new BadRequest();
         }
         return this.commentRepo.save(c);
     }

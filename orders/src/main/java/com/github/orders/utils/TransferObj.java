@@ -4,8 +4,6 @@ import com.github.orders.dto.*;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import com.github.orders.exceptions.BadRequest;
-import com.github.orders.exceptions.TypeMessage;
 import com.github.orders.payload.Category;
 import com.github.orders.payload.Comment;
 import com.github.orders.payload.Product;
@@ -13,21 +11,17 @@ import com.github.orders.payload.Specification;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
     public static Customer toCustomer(CustomerDto data) {
-        if (Objects.nonNull(data)) {
-            return new Customer(
-                    data.getCustomerName(),
-                    data.getCustomerAddress(),
-                    data.getCustomerEmail(),
-                    data.getCustomerPhone()
-            );
-        }
-        throw new BadRequest(TypeMessage.badOrderData);
+        return new Customer(
+                data.getCustomerName(),
+                data.getCustomerAddress(),
+                data.getCustomerEmail(),
+                data.getCustomerPhone()
+        );
     }
 
     public static OrderDetail toOrderDetail(

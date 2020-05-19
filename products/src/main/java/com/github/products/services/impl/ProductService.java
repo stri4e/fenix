@@ -4,7 +4,6 @@ import com.github.products.entity.Product;
 import com.github.products.entity.ProductStatus;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
-import com.github.products.exceptions.TypeMessage;
 import com.github.products.repository.ProductRepo;
 import com.github.products.services.IProductService;
 import com.github.products.utils.ProductSpec;
@@ -32,7 +31,7 @@ public class ProductService implements IProductService {
     @Cacheable(value = "products", unless = "#result.size() == 0")
     public Page<Product> read(Pageable pageable) {
         if (Objects.isNull(pageable)) {
-            throw new BadRequest(TypeMessage.invalidPageable);
+            throw new BadRequest();
         }
         return this.productRepo.findAll(
                 ProductSpec.statusUsed(), pageable
@@ -44,7 +43,7 @@ public class ProductService implements IProductService {
     public Page<Product>
     readAllByCategory(String category, Pageable pageable) {
         if (StringUtils.isEmpty(category) || Objects.isNull(pageable)) {
-            throw new BadRequest(TypeMessage.invalidPageableOrCategory);
+            throw new BadRequest();
         }
         return this.productRepo.findAll(
                 ProductSpec.category(category), pageable
