@@ -32,12 +32,14 @@ public class TransferObj {
 
     public static OrderDetailEntryDto
     fromOrderDetailDto(OrderDetail data, List<Product> products) {
+        var customer = fromCustomer(data.getCustomer());
+        var productsDto = products.stream()
+                .map(TransferObj::fromProduct)
+                .collect(Collectors.toList());
         return new OrderDetailEntryDto(
                 data.getId(),
-                fromCustomer(data.getCustomer()),
-                products.stream()
-                        .map(TransferObj::fromProduct)
-                        .collect(Collectors.toList()),
+                customer,
+                productsDto,
                 data.getAmount(),
                 data.getUserId(),
                 data.getStatus()
@@ -55,6 +57,13 @@ public class TransferObj {
     }
 
     public static ProductDetailDto fromProduct(Product p) {
+        var specifications = p.getSpecification().stream()
+                .map(TransferObj::fromSpecification)
+                .collect(Collectors.toList());
+        var comments = p.getComments().stream()
+                .map(TransferObj::fromComment)
+                .collect(Collectors.toList());
+        var category = fromCategory(p.getCategory());
         return new ProductDetailDto(
                 p.getId(),
                 p.getName(),
@@ -63,13 +72,9 @@ public class TransferObj {
                 p.getDescription(),
                 p.getPreviewImage(),
                 p.getImages(),
-                p.getSpecification().stream()
-                        .map(TransferObj::fromSpecification)
-                        .collect(Collectors.toList()),
-                p.getComments().stream()
-                        .map(TransferObj::fromComment)
-                        .collect(Collectors.toList()),
-                fromCategory(p.getCategory())
+                specifications,
+                comments,
+                category
         );
     }
 

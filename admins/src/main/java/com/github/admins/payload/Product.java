@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;

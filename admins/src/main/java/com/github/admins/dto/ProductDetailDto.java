@@ -1,5 +1,6 @@
 package com.github.admins.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,16 +21,19 @@ public class ProductDetailDto extends ProductDto {
     @ApiModelProperty(
             value = "Product specifications"
     )
+    @JsonProperty(value = "specification")
     private List<SpecificationDto> specification;
 
     @ApiModelProperty(
             value = "Product comments"
     )
+    @JsonProperty(value = "comments")
     private List<CommentDto> comments;
 
     @ApiModelProperty(
             value = "Product category"
     )
+    @JsonProperty(value = "category")
     private CategoryDto category;
 
     public ProductDetailDto(Long id,

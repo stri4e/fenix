@@ -8,8 +8,6 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Data

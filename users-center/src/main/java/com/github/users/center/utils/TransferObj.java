@@ -9,15 +9,14 @@ import java.util.Collections;
 public class TransferObj {
 
     public static User user(UserRegDto dto, String role) {
-        User u = new User();
-        u.setFName(dto.getFName());
-        u.setLName(dto.getLName());
-        u.setEmail(dto.getEmail());
-        u.setLogin(dto.getLogin());
-        u.setPass(dto.getPass());
-        u.setRoles(Collections.singleton(new Role(role)));
-        return u;
+        return new User(
+                dto.getFName(),
+                dto.getLName(),
+                dto.getEmail(),
+                dto.getLogin(),
+                dto.getPass(),
+                Collections.singleton(new Role(role))
+        );
     }
-
 
 }

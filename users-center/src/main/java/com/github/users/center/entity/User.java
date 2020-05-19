@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -124,5 +125,21 @@ public class User implements Serializable, Cloneable {
             )
     )
     private Collection<Role> roles;
+
+    public User(
+            String fName,
+            String lName,
+            String email,
+            String login,
+            String pass,
+            Collection<Role> roles
+    ) {
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.login = login;
+        this.pass = pass;
+        this.roles = roles;
+    }
 
 }

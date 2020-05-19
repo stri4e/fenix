@@ -15,8 +15,7 @@ public class ProductSpec {
     }
 
     public static Specification<Product> category(String category) {
-        return ((root, query, cb) ->
-                cb.equal(root.get("category").get("name"), category));
+        return ((root, query, cb) -> cb.equal(root.get("category").get("name"), category));
     }
 
 }

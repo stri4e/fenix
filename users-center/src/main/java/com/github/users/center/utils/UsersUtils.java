@@ -17,12 +17,12 @@ public class UsersUtils {
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     public static ConfirmEmail fetchConfirmEmail(String token, User user) {
-        ConfirmEmail ce = new ConfirmEmail();
-        ce.setToken(token);
-        ce.setLastName(user.getLName());
-        ce.setFirstName(user.getFName());
-        ce.setEmail(user.getEmail());
-        return ce;
+        return new ConfirmEmail(
+                token,
+                user.getLName(),
+                user.getFName(),
+                user.getEmail()
+        );
     }
 
     public static URI createUri(String userUrl) {
