@@ -55,7 +55,7 @@ public class AdminController implements IAdminController, Serializable {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<Void> submitReg(String userUrl, @Valid UserRegDto payload) {
+    public void submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -66,12 +66,11 @@ public class AdminController implements IAdminController, Serializable {
         this.cs.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
         this.es.submitReg(cf);
-        return new ResponseEntity<>(CREATED);
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<JwtRefreshResponse>
+    public JwtRefreshResponse
     submitAuth(String fingerprint, String address, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
@@ -82,20 +81,19 @@ public class AdminController implements IAdminController, Serializable {
                     fingerprint, address, user
             );
             this.rss.create(rs);
-            var response = new JwtRefreshResponse(
+            return new JwtRefreshResponse(
                     TYPE_HTTP_TOKEN,
                     accessToken,
                     rs.getRefreshToken(),
                     this.jwtTokenProvider.getRefreshExpireTime()
             );
-            return new ResponseEntity<>(response, OK);
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        throw new Unauthorized();
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<JwtRefreshResponse>
+    public JwtRefreshResponse
     submitRefreshSession(String refreshToken, @Valid String fingerprint) {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
             var userId = this.jwtTokenProvider.getUserFromJwt(refreshToken);
@@ -109,16 +107,15 @@ public class AdminController implements IAdminController, Serializable {
                 );
                 this.rss.remove(session.getId());
                 this.rss.create(newSession);
-                var response = new JwtRefreshResponse(
+                return new JwtRefreshResponse(
                         TokenType.TYPE_HTTP_TOKEN,
                         accessToken,
                         newSession.getRefreshToken(),
                         this.jwtTokenProvider.getRefreshExpireTime()
                 );
-                return new ResponseEntity<>(response, CREATED);
             }
         }
-        return new ResponseEntity<>(UNAUTHORIZED);
+        throw new Unauthorized();
     }
 
     private RefreshSession findSession(List<RefreshSession> rss, String fingerprint) {

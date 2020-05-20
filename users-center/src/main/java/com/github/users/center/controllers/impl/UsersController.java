@@ -9,16 +9,17 @@ import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.exceptions.BadRequest;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.PreconditionFailed;
+import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.ConfirmEmail;
 import com.github.users.center.payload.JwtAuthResponse;
 import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
 import com.github.users.center.services.IUserService;
-import com.github.users.center.utils.Logging;
-import com.github.users.center.utils.UsersUtils;
 import com.github.users.center.utils.JwtTokenProvider;
+import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
+import com.github.users.center.utils.UsersUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ import java.util.Objects;
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 import static com.github.users.center.utils.UsersUtils.*;
 import static java.lang.Boolean.TRUE;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.SEE_OTHER;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,8 +59,7 @@ public class UsersController implements IUsersController, Serializable {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<Void>
-    submitReg(String userUrl, @Valid UserRegDto payload) {
+    public void submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -69,7 +70,6 @@ public class UsersController implements IUsersController, Serializable {
         this.cs.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
         this.es.submitReg(cf);
-        return new ResponseEntity<>(CREATED);
     }
 
     @Override
@@ -91,21 +91,20 @@ public class UsersController implements IUsersController, Serializable {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<JwtAuthResponse> submitAuth(@Valid UserAuthDto payload) {
+    public JwtAuthResponse submitAuth(@Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         var user = this.us.readByEmailOrLogin(userName, userName);
         if (this.pe.matches(pass, user.getPass()) && user.isEnable()) {
-            final String token = this.jwtTokenProvider.createUserAccessToken(user);
-            var response = new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
-            return new ResponseEntity<>(response, OK);
+            var token = this.jwtTokenProvider.createUserAccessToken(user);
+            return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
         }
-        return new ResponseEntity<>(UNAUTHORIZED);
+        throw new Unauthorized();
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<Void> processForgotPass(@Valid ForgotPassDto payload) {
+    public void processForgotPass(@Valid ForgotPassDto payload) {
         var user = this.us.readByEmail(payload.getEmail());
         var rt = new PassResetToken(user);
         rt.setNewPass(this.pe.encode(payload.getPass()));
@@ -113,12 +112,11 @@ public class UsersController implements IUsersController, Serializable {
         this.rps.create(rt);
         ConfirmEmail cf = fetchConfirmEmail(rt.getToken(), user);
         this.es.resetPass(cf);
-        return new ResponseEntity<>(OK);
     }
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<Void> resetPass(String token) {
+    public void resetPass(String token) {
         PassResetToken result = this.rps.readByToken(token);
         if (result.isExpired()) {
             throw new PreconditionFailed();
@@ -126,7 +124,6 @@ public class UsersController implements IUsersController, Serializable {
         var user = result.getUser();
         this.us.updatePass(result.getNewPass(), user.getId());
         this.rps.delete(result);
-        return new ResponseEntity<>(OK);
     }
 
 }
