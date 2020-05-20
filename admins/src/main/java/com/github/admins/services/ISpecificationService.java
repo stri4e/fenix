@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(
         name = "products-service",
-        fallback = SpecificationService.class
+        fallback = SpecificationService.class,
+        contextId = "specificationId"
 )
 public interface ISpecificationService {
 

@@ -8,8 +8,6 @@ import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,61 +23,50 @@ import static com.github.admins.utils.TransferObj.toOrderDetail;
 @RequiredArgsConstructor
 public class OrderDetailController implements IOrderDetailController {
 
-    private final IOrderService os;
+    private final IOrderService orderService;
 
-    private final IProductService ps;
+    private final IProductService productService;
 
     @Override
-    public ResponseEntity<List<OrderDetailDto>>
-    ordersByStatus(OrderStatus status) {
-        var orders = this.os.readAllByStatus(status);
-        var ordersDto = orders.stream()
+    public List<OrderDetailDto> ordersByStatus(OrderStatus status) {
+        var orders = this.orderService.readAllByStatus(status);
+        return orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(ordersDto, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<OrderDetailDto> orderById(Long orderId) {
-        var order = this.os.readById(orderId);
-        var products = this.ps.readByIds(order.getProductIds());
-        return new ResponseEntity<>(
-                fromOrderDetailDto(order, products),
-                HttpStatus.OK
-        );
+    public OrderDetailDto orderById(Long orderId) {
+        var order = this.orderService.readById(orderId);
+        var products = this.productService.readByIds(order.getProductIds());
+        return fromOrderDetailDto(order, products);
     }
 
     @Override
-    public ResponseEntity<List<OrderDetailDto>> userHistory(Long userId) {
-        var history = this.os.readByUserId(userId);
-        return new ResponseEntity<>(
-                history.stream()
-                        .map(this::collect)
-                        .collect(Collectors.toList()),
-                HttpStatus.OK
-        );
+    public List<OrderDetailDto> userHistory(Long userId) {
+        var history = this.orderService.readByUserId(userId);
+        return history.stream()
+                .map(this::collect)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ResponseEntity<Void> updateOrder(@Valid OrderDetailDto payload) {
+    public void updateOrder(@Valid OrderDetailDto payload) {
         var productIds = payload.getProducts().stream()
                 .map(ProductDto::getId)
                 .collect(Collectors.toList());
-        this.os.update(toOrderDetail(payload, productIds));
-        return new ResponseEntity<>(HttpStatus.OK);
+        this.orderService.update(toOrderDetail(payload, productIds));
     }
 
     @Override
-    public ResponseEntity<Void>
-    updateOrderStatus(Long orderId, OrderStatus orderStatus) {
-        this.os.update(orderId, orderStatus);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
+        this.orderService.update(orderId, orderStatus);
     }
 
     private OrderDetailDto collect(OrderDetail order) {
         return fromOrderDetailDto(
                 order,
-                this.ps.readByIds(order.getProductIds())
+                this.productService.readByIds(order.getProductIds())
         );
     }
 

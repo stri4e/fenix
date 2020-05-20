@@ -8,8 +8,6 @@ import com.github.products.services.ICommentService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,16 +22,13 @@ public class CommentController implements ICommentController {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<CommentDto>
+    public CommentDto
     addComment(Long productId, CommentDto payload) {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest();
         }
         Comment comment = TransferObj.toComment(payload);
-        Comment result = this.commentService.create(comment);
-        return new ResponseEntity<>(
-                TransferObj.fromComment(result), HttpStatus.CREATED
-        );
+        return TransferObj.fromComment(this.commentService.create(comment));
     }
 
     @Override

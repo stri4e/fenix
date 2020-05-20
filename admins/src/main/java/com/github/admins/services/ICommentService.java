@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(
         name = "products-service",
-        fallback = CommentService.class
+        fallback = CommentService.class,
+        contextId = "commentId"
 )
 public interface ICommentService {
 

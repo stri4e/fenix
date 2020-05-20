@@ -6,8 +6,7 @@ import com.github.admins.payload.Category;
 import com.github.admins.services.ICategoryService;
 import com.github.admins.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,39 +22,33 @@ import static com.github.admins.utils.TransferObj.toCategory;
 @RequiredArgsConstructor
 public class CategoryController implements ICategoryController {
 
-    private final ICategoryService cs;
+    private final ICategoryService categoryService;
 
     @Override
-    public ResponseEntity<CategoryDto> addCategory(@Valid CategoryDto payload) {
+    public CategoryDto create(@Valid CategoryDto payload) {
         Category tc = toCategory(payload);
-        CategoryDto result = fromCategory(this.cs.create(tc));
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return fromCategory(this.categoryService.create(tc));
     }
 
     @Override
-    public ResponseEntity<CategoryDto> getByName(String name) {
-        Category c = this.cs.readByName(name);
-        return new ResponseEntity<>(fromCategory(c), HttpStatus.OK);
+    public Object getCategory(String name) {
+        if (!StringUtils.hasText(name)) {
+            List<Category> categories = this.categoryService.readAll();
+            return categories.stream()
+                    .map(TransferObj::fromCategory)
+                    .collect(Collectors.toList());
+        }
+        Category c = this.categoryService.readByName(name);
+        return fromCategory(c);
     }
 
     @Override
-    public ResponseEntity<List<CategoryDto>> getAllCategory() {
-        List<Category> categories = this.cs.readAll();
-        List<CategoryDto> result = categories.stream()
-                .map(TransferObj::fromCategory)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public void updateCategory(@Valid CategoryDto payload) {
+        this.categoryService.update(toCategory(payload));
     }
 
     @Override
-    public ResponseEntity<Void> updateCategory(@Valid CategoryDto payload) {
-        this.cs.update(toCategory(payload));
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Void> removeCategory(Long id) {
-        this.cs.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void removeCategory(Long id) {
+        this.categoryService.remove(id);
     }
 }

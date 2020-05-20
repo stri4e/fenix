@@ -7,8 +7,6 @@ import com.github.admins.payload.Specification;
 import com.github.admins.services.IProductService;
 import com.github.admins.services.ISpecificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,37 +20,29 @@ import static com.github.admins.utils.TransferObj.toSpecification;
 @RequiredArgsConstructor
 public class SpecificationController implements ISpecificationController {
 
-    private final IProductService ps;
+    private final IProductService productService;
 
-    private final ISpecificationService ss;
+    private final ISpecificationService specificationService;
 
     @Override
-    public ResponseEntity<SpecificationDto>
+    public SpecificationDto
     addSpecification(Long productId, @Valid SpecificationDto payload) {
         Specification ts = toSpecification(payload);
-        Product product = this.ps.readById(productId);
-        Specification spec = this.ss.create(ts);
+        Product product = this.productService.readById(productId);
+        Specification spec = this.specificationService.create(ts);
         product.addSpecification(spec);
-        this.ps.update(product);
-        return new ResponseEntity<>(
-                fromSpecification(spec),
-                HttpStatus.CREATED
-        );
+        this.productService.update(product);
+        return fromSpecification(spec);
     }
 
     @Override
-    public ResponseEntity<SpecificationDto> getById(Long id) {
-        Specification spec = this.ss.readById(id);
-        return new ResponseEntity<>(
-                fromSpecification(spec), HttpStatus.OK
-        );
+    public SpecificationDto getById(Long id) {
+        return fromSpecification(this.specificationService.readById(id));
     }
 
     @Override
-    public ResponseEntity<Void>
-    updateSpecification(SpecificationDto payload) {
-        this.ss.update(toSpecification(payload));
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updateSpecification(SpecificationDto payload) {
+        this.specificationService.update(toSpecification(payload));
     }
 
 }

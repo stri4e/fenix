@@ -1,20 +1,23 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.CommentDto;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 public interface ICommentController {
 
     @PostMapping(path = "/{productId}")
-    ResponseEntity<CommentDto>
-    addComment(@PathVariable Long productId,
-               @RequestBody CommentDto payload);
+    @ResponseStatus(code = HttpStatus.CREATED)
+    CommentDto addComment(@PathVariable Long productId,
+                          @RequestBody CommentDto payload
+    );
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<CommentDto> getComment(@PathVariable Long id);
+    @ResponseStatus(code = HttpStatus.OK)
+    CommentDto getComment(@PathVariable Long id);
 
     @DeleteMapping(path = "/{id}")
-    ResponseEntity<Void> remove(@PathVariable Long id);
+    @ResponseStatus(code = HttpStatus.OK)
+    void remove(@PathVariable Long id);
 
 }

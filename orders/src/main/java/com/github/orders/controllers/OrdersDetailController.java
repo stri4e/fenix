@@ -14,8 +14,6 @@ import com.github.orders.service.IPushOrders;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +35,7 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<Void> createOrder(Long userId, OrderDetailDto payload) {
+    public void createOrder(Long userId, OrderDetailDto payload) {
         Customer customer = TransferObj.toCustomer(payload.getCustomer());
         Customer c = this.customerService.create(customer);
         OrderDetail data = TransferObj.toOrderDetail(
@@ -51,7 +49,6 @@ public class OrdersDetailController implements IOrdersDetailController {
         List<Product> products = this.productService.readByIds(result.getProductIds());
         OrderDetailEntryDto pushData = TransferObj.fromOrderDetailDto(result, products);
         this.pushOrders.pushOrder(pushData);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override

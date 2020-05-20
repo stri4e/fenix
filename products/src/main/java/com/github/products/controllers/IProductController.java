@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,13 +39,15 @@ public interface IProductController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(code = HttpStatus.CREATED)
     Product createProduct(@Valid @RequestBody Product payload);
 
     @GetMapping(
             path = "/v1/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<?> readByParams(
+    @ResponseStatus(code = HttpStatus.OK)
+    Object readByParams(
             @PathVariable(name = "id", required = false) Long id,
             @RequestParam(name = "values", required = false) List<Long> ids
     );
@@ -54,11 +56,13 @@ public interface IProductController {
             path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(code = HttpStatus.OK)
     void update(Product payload);
 
     @PutMapping(
             path = "/v1/edit/{id}/{status}"
     )
+    @ResponseStatus(code = HttpStatus.OK)
     void updateStatus(
             @PathVariable Long id,
             @PathVariable ProductStatus status

@@ -61,7 +61,7 @@ public class ProductController implements IProductController {
 
     @Override
     @Logging(isTime = true, isReturn = false)
-    public ResponseEntity<?> readByParams(Long id, List<Long> ids) {
+    public Object readByParams(Long id, List<Long> ids) {
         if (Objects.nonNull(id)) {
             return new ResponseEntity<>(
                     this.productService.readById(id),

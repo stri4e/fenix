@@ -11,7 +11,8 @@ import java.util.List;
 
 @FeignClient(
         name = "products-service",
-        fallback = ProductService.class
+        fallback = ProductService.class,
+        contextId = "productId"
 )
 public interface IProductService {
 

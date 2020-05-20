@@ -9,8 +9,6 @@ import com.github.admins.services.ICategoryService;
 import com.github.admins.services.IProductService;
 import com.github.admins.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,49 +24,39 @@ import static com.github.admins.utils.TransferObj.toProduct;
 @RequiredArgsConstructor
 public class CustomProductController implements ICustomProductController {
 
-    private final ICategoryService cs;
+    private final ICategoryService categoryService;
 
-    private final IProductService ps;
+    private final IProductService productService;
 
     @Override
-    public ResponseEntity<ProductDto>
-    addProduct(String categoryName, @Valid ProductDto payload) {
-        Category category = this.cs.readByName(categoryName);
+    public ProductDto addProduct(String categoryName, @Valid ProductDto payload) {
+        Category category = this.categoryService.readByName(categoryName);
         Product product = toProduct(payload);
         product.setCategory(category);
-        return new ResponseEntity<>(
-                fromProduct(this.ps.create(product)),
-                HttpStatus.CREATED
-        );
+        return fromProduct(this.productService.create(product));
     }
 
     @Override
-    public ResponseEntity<ProductDto> getById(Long id) {
-        Product p = this.ps.readById(id);
-        return new ResponseEntity<>(fromProduct(p), HttpStatus.OK);
+    public ProductDto getById(Long id) {
+        return fromProduct(this.productService.readById(id));
     }
 
     @Override
-    public ResponseEntity<List<ProductDto>> getAllUnPublish() {
-        List<Product> products = this.ps.readAllUnPublish();
-        List<ProductDto> result = products.stream()
+    public List<ProductDto> getAllUnPublish() {
+        List<Product> products = this.productService.readAllUnPublish();
+        return products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> updateProduct(@Valid ProductDto payload) {
-        Product result = toProduct(payload);
-        this.ps.update(result);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updateProduct(@Valid ProductDto payload) {
+        this.productService.update(toProduct(payload));
     }
 
     @Override
-    public ResponseEntity<Void>
-    updateStatusProduct(Long id, ProductStatus status) {
-        this.ps.updateStatus(id, status);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void updateStatusProduct(Long id, ProductStatus status) {
+        this.productService.updateStatus(id, status);
     }
 
 }

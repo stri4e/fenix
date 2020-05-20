@@ -2,6 +2,7 @@ package com.github.products.controllers;
 
 import com.github.products.dto.CommentDto;
 import com.github.products.entity.Comment;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,8 @@ public interface ICommentController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<CommentDto> addComment(
+    @ResponseStatus(code = HttpStatus.CREATED)
+    CommentDto addComment(
             @PathVariable Long productId,
             @RequestBody CommentDto payload
     );

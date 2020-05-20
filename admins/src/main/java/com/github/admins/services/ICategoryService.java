@@ -10,7 +10,8 @@ import java.util.List;
 
 @FeignClient(
         name = "products-service",
-        fallback = CategoryService.class
+        fallback = CategoryService.class,
+        contextId = "categoryId"
 )
 public interface ICategoryService {
 

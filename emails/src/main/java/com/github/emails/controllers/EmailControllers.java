@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -25,17 +22,17 @@ public class EmailControllers {
     private final ResetPass resetPass;
 
     @PostMapping("/submit/reg")
-    public ResponseEntity<Void> submitReg(@Valid @RequestBody ConfirmEmail payload) {
+    @ResponseStatus(code = HttpStatus.OK)
+    public void submitReg(@Valid @RequestBody ConfirmEmail payload) {
         log.info("Enter: {}", payload);
         this.submitReg.send(payload);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/reset/pass")
-    public ResponseEntity<Void> resetPass(@Valid @RequestBody ConfirmEmail payload) {
+    @ResponseStatus(code = HttpStatus.OK)
+    public void resetPass(@Valid @RequestBody ConfirmEmail payload) {
         log.info("Enter: {}", payload);
         this.resetPass.send(payload);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
