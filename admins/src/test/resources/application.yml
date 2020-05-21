@@ -1,0 +1,12 @@
+eureka:
+  client:
+    enabled: false
+
+ribbon:
+  eureka:
+    enable: false
+  listOfServers: account-service:2222
+
+feign:
+  hystrix:
+    enabled: false
