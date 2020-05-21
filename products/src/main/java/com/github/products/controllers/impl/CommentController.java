@@ -27,7 +27,7 @@ public class CommentController implements ICommentController {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest();
         }
-        Comment comment = TransferObj.toComment(payload);
+        var comment = TransferObj.toComment(payload);
         return TransferObj.fromComment(this.commentService.create(comment));
     }
 

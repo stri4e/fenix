@@ -43,7 +43,7 @@ public class CustomProductController implements ICustomProductController {
 
     @Override
     public List<ProductDto> getAllUnPublish() {
-        List<Product> products = this.productService.readAllUnPublish();
+        var products = this.productService.readAllUnPublish();
         return products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());

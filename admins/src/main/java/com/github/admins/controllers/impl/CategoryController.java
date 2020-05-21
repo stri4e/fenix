@@ -26,20 +26,20 @@ public class CategoryController implements ICategoryController {
 
     @Override
     public CategoryDto create(@Valid CategoryDto payload) {
-        Category tc = toCategory(payload);
+        var tc = toCategory(payload);
         return fromCategory(this.categoryService.create(tc));
     }
 
     @Override
     public Object getCategory(String name) {
         if (!StringUtils.hasText(name)) {
-            List<Category> categories = this.categoryService.readAll();
+            var categories = this.categoryService.readAll();
             return categories.stream()
                     .map(TransferObj::fromCategory)
                     .collect(Collectors.toList());
         }
-        Category c = this.categoryService.readByName(name);
-        return fromCategory(c);
+        var category = this.categoryService.readByName(name);
+        return fromCategory(category);
     }
 
     @Override

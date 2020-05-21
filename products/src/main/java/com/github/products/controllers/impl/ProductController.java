@@ -63,21 +63,12 @@ public class ProductController implements IProductController {
     @Logging(isTime = true, isReturn = false)
     public Object readByParams(Long id, List<Long> ids) {
         if (Objects.nonNull(id)) {
-            return new ResponseEntity<>(
-                    this.productService.readById(id),
-                    HttpStatus.OK
-            );
+            return this.productService.readById(id);
         }
         if (Objects.nonNull(ids)) {
-            return new ResponseEntity<>(
-                    this.productService.readAllByIds(ids),
-                    HttpStatus.OK
-            );
+            return this.productService.readAllByIds(ids);
         }
-        return new ResponseEntity<>(
-                this.productService.readAllUnPublish(),
-                HttpStatus.OK
-        );
+        return this.productService.readAllUnPublish();
     }
 
     @Override
