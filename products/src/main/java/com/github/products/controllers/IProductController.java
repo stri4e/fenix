@@ -43,7 +43,7 @@ public interface IProductController {
     Product createProduct(@Valid @RequestBody Product payload);
 
     @GetMapping(
-            path = "/v1/info/{id}",
+            path = "/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -53,14 +53,14 @@ public interface IProductController {
     );
 
     @PutMapping(
-            path = "/v1/edit",
+            path = "/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     void update(Product payload);
 
     @PutMapping(
-            path = "/v1/edit/{id}/{status}"
+            path = "/edit/{id}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateStatus(

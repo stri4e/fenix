@@ -7,12 +7,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/v1")
 class CommentController(private val commentService: CommentService) {
 
     var log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @PostMapping(
-            "/v1/comments/"
+            "/comments/"
     )
     fun create(@RequestBody comment: Comment): Comment {
         log.info("Enter: {}", comment)
@@ -20,7 +21,7 @@ class CommentController(private val commentService: CommentService) {
     }
 
     @GetMapping(
-            "/v1/comments/info/{id}"
+            "/comments/info/{id}"
     )
     fun readById(@PathVariable id: Long): Comment {
         log.info("Enter: read by id {}", id)
@@ -28,7 +29,7 @@ class CommentController(private val commentService: CommentService) {
     }
 
     @DeleteMapping(
-            "/v1/comments/edit/{id}"
+            "/comments/edit/{id}"
     )
     fun remove(@PathVariable id: Long) {
         log.info("Enter: remove product with id {}", id)
