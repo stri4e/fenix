@@ -1,7 +1,7 @@
-package com.github.server.mocks.admins.controllers
+package com.github.server.mocks.controllers
 
-import com.github.server.mocks.admins.payload.Category
-import com.github.server.mocks.admins.services.impl.CategoryService
+import com.github.server.mocks.payload.Category
+import com.github.server.mocks.services.impl.CategoryService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -16,7 +16,7 @@ class CategoryController(private val categoryService: CategoryService) {
             "/v1/categories/edit"
     )
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody payload:Category): Category {
+    fun create(@RequestBody payload: Category): Category {
         log.info("Enter: {}", payload)
         return this.categoryService.create(payload);
     }

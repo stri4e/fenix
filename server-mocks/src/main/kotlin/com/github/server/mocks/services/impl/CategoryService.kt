@@ -1,7 +1,7 @@
-package com.github.server.mocks.admins.services.impl
+package com.github.server.mocks.services.impl
 
-import com.github.server.mocks.admins.payload.Category
-import com.github.server.mocks.admins.services.ICategoryService
+import com.github.server.mocks.payload.Category
+import com.github.server.mocks.services.ICategoryService
 import com.github.server.mocks.utils.IdsGenerator
 import org.springframework.stereotype.Service
 

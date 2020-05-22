@@ -1,4 +1,4 @@
-package com.github.server.mocks.emails.payload
+package com.github.server.mocks.payload
 
 class ConfirmEmail(
         val token: String,

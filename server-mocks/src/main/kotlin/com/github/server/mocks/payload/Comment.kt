@@ -1,4 +1,4 @@
-package com.github.server.mocks.admins.payload
+package com.github.server.mocks.payload
 
 class Comment(
         var id: Long,

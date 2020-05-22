@@ -1,7 +1,7 @@
-package com.github.server.mocks.admins.services.impl
+package com.github.server.mocks.services.impl
 
-import com.github.server.mocks.admins.payload.Comment
-import com.github.server.mocks.admins.services.ICommentService
+import com.github.server.mocks.payload.Comment
+import com.github.server.mocks.services.ICommentService
 import com.github.server.mocks.utils.IdsGenerator
 import org.springframework.stereotype.Service
 

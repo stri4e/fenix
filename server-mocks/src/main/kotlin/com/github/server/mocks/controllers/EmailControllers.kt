@@ -1,6 +1,6 @@
-package com.github.server.mocks.emails.controllers
+package com.github.server.mocks.controllers
 
-import com.github.server.mocks.emails.payload.ConfirmEmail
+import com.github.server.mocks.payload.ConfirmEmail
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

@@ -1,6 +1,6 @@
-package com.github.server.mocks.admins.services
+package com.github.server.mocks.services
 
-import com.github.server.mocks.admins.payload.Category
+import com.github.server.mocks.payload.Category
 
 interface ICategoryService {
 

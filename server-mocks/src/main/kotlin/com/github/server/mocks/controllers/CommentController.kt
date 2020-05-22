@@ -1,7 +1,7 @@
-package com.github.server.mocks.admins.controllers
+package com.github.server.mocks.controllers
 
-import com.github.server.mocks.admins.payload.Comment
-import com.github.server.mocks.admins.services.impl.CommentService
+import com.github.server.mocks.payload.Comment
+import com.github.server.mocks.services.impl.CommentService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
