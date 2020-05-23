@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    private static final String BASE_PACKAGE = "com.orders.service.controllers";
+    private static final String BASE_PACKAGE = "com.github.orders.controllers";
     private static final String PATHS = "/";
     private static final String TITLE = "Orders-Service";
     private static final String DESCRIPTION = "Orders management REST API";
