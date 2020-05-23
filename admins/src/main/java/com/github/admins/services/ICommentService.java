@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @FeignClient(
         name = "products-service",
         fallback = CommentService.class,
@@ -18,13 +20,13 @@ public interface ICommentService {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    Comment create(@RequestBody Comment c);
+    Optional<Comment> create(@RequestBody Comment c);
 
     @GetMapping(
             path = "/v1/comments/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Comment readById(@PathVariable Long id);
+    Optional<Comment> readById(@PathVariable Long id);
 
     @DeleteMapping(
             path = "/v1/comments/edit/{id}"

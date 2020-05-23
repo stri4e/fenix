@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(
         name = "products-service",
@@ -21,26 +22,26 @@ public interface IProductService {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Product create(@RequestBody Product p);
+    Optional<Product> create(@RequestBody Product p);
 
     @GetMapping(
             path = "/v1/info/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Product readById(@PathVariable Long id);
+    Optional<Product> readById(@PathVariable Long id);
 
     @GetMapping(
             path = "/v1/info",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<Product> readAllUnPublish();
+    Optional<List<Product>> readAllUnPublish();
 
     @GetMapping(
             path = "/v1/info",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<Product> readByIds(@RequestParam List<Long> ids);
+    Optional<List<Product>> readByIds(@RequestParam List<Long> ids);
 
     @PutMapping(
             path = "/v1/edit",

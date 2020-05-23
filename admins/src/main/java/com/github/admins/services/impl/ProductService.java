@@ -5,32 +5,30 @@ import com.github.admins.payload.ProductStatus;
 import com.github.admins.services.IProductService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
 
-    private static final Product EMPTY = new Product();
-
     @Override
-    public Product create(Product p) {
-        return EMPTY;
+    public Optional<Product> create(Product p) {
+        return Optional.empty();
     }
 
     @Override
-    public Product readById(Long id) {
-        return EMPTY;
+    public Optional<Product> readById(Long id) {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> readAllUnPublish() {
-        return Collections.emptyList();
+    public Optional<List<Product>> readAllUnPublish() {
+        return Optional.empty();
     }
 
     @Override
-    public List<Product> readByIds(List<Long> ids) {
-        return Collections.emptyList();
+    public Optional<List<Product>> readByIds(List<Long> ids) {
+        return Optional.empty();
     }
 
     @Override

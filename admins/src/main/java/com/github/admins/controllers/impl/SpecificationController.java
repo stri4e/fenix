@@ -2,6 +2,7 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.ISpecificationController;
 import com.github.admins.dto.SpecificationDto;
+import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.Product;
 import com.github.admins.payload.Specification;
 import com.github.admins.services.IProductService;
@@ -28,8 +29,10 @@ public class SpecificationController implements ISpecificationController {
     public SpecificationDto
     addSpecification(Long productId, @Valid SpecificationDto payload) {
         Specification ts = toSpecification(payload);
-        Product product = this.productService.readById(productId);
-        Specification spec = this.specificationService.create(ts);
+        Product product = this.productService.readById(productId)
+                .orElseThrow(NotFound::new);;
+        Specification spec = this.specificationService.create(ts)
+                .orElseThrow(NotFound::new);;
         product.addSpecification(spec);
         this.productService.update(product);
         return fromSpecification(spec);
@@ -37,7 +40,8 @@ public class SpecificationController implements ISpecificationController {
 
     @Override
     public SpecificationDto getById(Long id) {
-        return fromSpecification(this.specificationService.readById(id));
+        return fromSpecification(this.specificationService.readById(id)
+                .orElseThrow(NotFound::new));
     }
 
     @Override

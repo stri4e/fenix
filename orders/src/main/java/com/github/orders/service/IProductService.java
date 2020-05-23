@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(
         name = "products-service",
@@ -20,6 +21,6 @@ public interface IProductService {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<Product> readByIds(@RequestParam List<Long> ids);
+    Optional<List<Product>> readByIds(@RequestParam List<Long> ids);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(
         name = "products-service",
@@ -20,19 +21,19 @@ public interface ICategoryService {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    Category create(@RequestBody Category c);
+    Optional<Category> create(@RequestBody Category c);
 
     @GetMapping(
             path = "/v1/categories/info/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Category readByName(@PathVariable String name);
+    Optional<Category> readByName(@PathVariable String name);
 
     @GetMapping(
             path = "/v1/categories",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<Category> readAll();
+    Optional<List<Category>> readAll();
 
     @PutMapping(
             path = "/v1/categories/edit"

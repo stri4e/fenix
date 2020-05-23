@@ -2,6 +2,7 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.ICategoryController;
 import com.github.admins.dto.CategoryDto;
+import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.Category;
 import com.github.admins.services.ICategoryService;
 import com.github.admins.utils.TransferObj;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.github.admins.utils.TransferObj.fromCategory;
@@ -27,18 +27,20 @@ public class CategoryController implements ICategoryController {
     @Override
     public CategoryDto create(@Valid CategoryDto payload) {
         var tc = toCategory(payload);
-        return fromCategory(this.categoryService.create(tc));
+        return fromCategory(this.categoryService.create(tc)
+                .orElseThrow(NotFound::new));
     }
 
     @Override
     public Object getCategory(String name) {
         if (!StringUtils.hasText(name)) {
-            var categories = this.categoryService.readAll();
+            var categories = this.categoryService.readAll().orElseThrow(NotFound::new);
             return categories.stream()
                     .map(TransferObj::fromCategory)
                     .collect(Collectors.toList());
         }
-        var category = this.categoryService.readByName(name);
+        var category = this.categoryService.readByName(name)
+                .orElseThrow(NotFound::new);
         return fromCategory(category);
     }
 

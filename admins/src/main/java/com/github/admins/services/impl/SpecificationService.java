@@ -4,19 +4,19 @@ import com.github.admins.payload.Specification;
 import com.github.admins.services.ISpecificationService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class SpecificationService implements ISpecificationService {
 
-    private static final Specification EMPTY = new Specification();
-
     @Override
-    public Specification create(Specification s) {
-        return EMPTY;
+    public Optional<Specification> create(Specification s) {
+        return Optional.empty();
     }
 
     @Override
-    public Specification readById(Long id) {
-        return EMPTY;
+    public Optional<Specification> readById(Long id) {
+        return Optional.empty();
     }
 
     @Override

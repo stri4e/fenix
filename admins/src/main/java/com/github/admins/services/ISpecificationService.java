@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.Optional;
+
 @FeignClient(
         name = "products-service",
         fallback = SpecificationService.class,
@@ -20,13 +22,13 @@ public interface ISpecificationService {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Specification create(Specification s);
+    Optional<Specification> create(Specification s);
 
     @GetMapping(
             path = "/v1/specification/info",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Specification readById(Long id);
+    Optional<Specification> readById(Long id);
 
     @PutMapping(
             path = "/v1/specification/edit",

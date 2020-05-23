@@ -5,27 +5,25 @@ import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService implements IOrderService {
 
-    private static final OrderDetail EMPTY = new OrderDetail();
-
     @Override
-    public List<OrderDetail> readAllByStatus(OrderStatus status) {
-        return Collections.emptyList();
+    public Optional<List<OrderDetail>> readAllByStatus(OrderStatus status) {
+        return Optional.empty();
     }
 
     @Override
-    public OrderDetail readById(Long id) {
-        return EMPTY;
+    public Optional<OrderDetail> readById(Long id) {
+        return Optional.empty();
     }
 
     @Override
-    public List<OrderDetail> readByUserId(Long userId) {
-        return Collections.emptyList();
+    public Optional<List<OrderDetail>> readByUserId(Long userId) {
+        return Optional.empty();
     }
 
     @Override

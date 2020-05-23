@@ -3,6 +3,7 @@ package com.github.admins.controllers.impl;
 import com.github.admins.controllers.IOrderDetailController;
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.ProductDto;
+import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
@@ -29,7 +30,8 @@ public class OrderDetailController implements IOrderDetailController {
 
     @Override
     public List<OrderDetailDto> ordersByStatus(OrderStatus status) {
-        var orders = this.orderService.readAllByStatus(status);
+        var orders = this.orderService.readAllByStatus(status)
+                .orElseThrow(NotFound::new);;
         return orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
@@ -37,14 +39,17 @@ public class OrderDetailController implements IOrderDetailController {
 
     @Override
     public OrderDetailDto orderById(Long orderId) {
-        var order = this.orderService.readById(orderId);
-        var products = this.productService.readByIds(order.getProductIds());
+        var order = this.orderService.readById(orderId)
+                .orElseThrow(NotFound::new);;
+        var products = this.productService.readByIds(order.getProductIds())
+                .orElseThrow(NotFound::new);;
         return fromOrderDetailDto(order, products);
     }
 
     @Override
     public List<OrderDetailDto> userHistory(Long userId) {
-        var history = this.orderService.readByUserId(userId);
+        var history = this.orderService.readByUserId(userId)
+                .orElseThrow(NotFound::new);;
         return history.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
@@ -67,6 +72,7 @@ public class OrderDetailController implements IOrderDetailController {
         return fromOrderDetailDto(
                 order,
                 this.productService.readByIds(order.getProductIds())
+                        .orElseThrow(NotFound::new)
         );
     }
 
