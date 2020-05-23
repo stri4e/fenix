@@ -12,10 +12,11 @@ class Product(
         previewImage: String,
         images: List<String>,
         createDate: Date,
-        val specification: Set<Specification>,
-        val comments: Set<Comment>,
-        val category: Category,
-        val status: ProductStatus
+        specification: Set<Specification>,
+        comments: Set<Comment>,
+        category: Category,
+        status: ProductStatus
+
 ) : ProductItem(
         id,
         name,
@@ -26,10 +27,32 @@ class Product(
         images,
         createDate
 ) {
+
+    constructor(
+            id: Long,
+            name: String,
+            price: BigDecimal,
+            quantity: Int,
+            description: String,
+            previewImage: String,
+            images: List<String>,
+            createDate: Date
+    ) {
+        this.id = id
+        this.name = name
+        this.price = price
+        this.quantity = quantity
+        this.description = description
+        this.previewImage = previewImage
+        this.images = images
+        this.createDate = createDate
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
         if (!super.equals(other)) return false
         return true
     }
+
 }

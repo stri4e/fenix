@@ -2,7 +2,7 @@ package com.github.server.mocks.payload
 
 import java.math.BigDecimal
 
-class OrderDetail(
+class OrderDetailEntry(
         val id: Long,
         val customer: Customer,
         val productIds: List<Product>,
@@ -15,7 +15,7 @@ class OrderDetail(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as OrderDetail
+        other as OrderDetailEntry
 
         if (id != other.id) return false
         if (customer != other.customer) return false

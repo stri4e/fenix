@@ -5,13 +5,13 @@ import java.util.*
 
 open class ProductItem(
         var id: Long,
-        val name: String,
-        val price: BigDecimal,
-        val quantity: Int,
-        val description: String,
-        val previewImage: String,
-        val images: List<String>,
-        val createDate: Date
+        var name: String,
+        var price: BigDecimal,
+        var quantity: Int,
+        var description: String,
+        var previewImage: String,
+        var images: List<String>,
+        var createDate: Date
 ) {
 
     override fun equals(other: Any?): Boolean {

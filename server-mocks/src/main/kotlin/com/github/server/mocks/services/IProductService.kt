@@ -8,7 +8,11 @@ interface IProductService {
 
     fun create(product: Product): Product
 
-    fun readByParams(id: Long, ids: List<Long>): JvmType.Object
+    fun readById(id: Long): Product
+
+    fun readByIds(ids: List<Long>): List<Product>
+
+    fun readAll(): List<Product>
 
     fun update(product: Product)
 

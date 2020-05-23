@@ -5,7 +5,10 @@ import com.github.server.mocks.payload.ProductStatus
 import com.github.server.mocks.services.IProductService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @RestController
@@ -28,9 +31,15 @@ class ProductController(private val productService: IProductService) {
     fun readByParams(
             @PathVariable(name = "id", required = false) id: Long,
             @RequestParam(name = "values", required = false) ids: List<Long>
-    ): JvmType.Object {
+    ): ResponseEntity<*> {
         log.info("Enter: id = {}, ids = {}", id, ids)
-        return this.productService.readByParams(id, ids)
+        if (Objects.nonNull(id)) {
+            return ResponseEntity(this.productService.readById(id), HttpStatus.OK)
+        } else if (Objects.nonNull(ids)) {
+            return ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+        } else {
+            return ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+        }
     }
 
     @PutMapping(
