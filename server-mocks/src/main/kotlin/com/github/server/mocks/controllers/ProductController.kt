@@ -33,12 +33,16 @@ class ProductController(private val productService: IProductService) {
             @RequestParam(name = "values", required = false) ids: List<Long>
     ): ResponseEntity<*> {
         log.info("Enter: id = {}, ids = {}", id, ids)
-        if (Objects.nonNull(id)) {
-            return ResponseEntity(this.productService.readById(id), HttpStatus.OK)
-        } else if (Objects.nonNull(ids)) {
-            return ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
-        } else {
-            return ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+        return when {
+            Objects.nonNull(id) -> {
+                ResponseEntity(this.productService.readById(id), HttpStatus.OK)
+            }
+            Objects.nonNull(ids) -> {
+                ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+            }
+            else -> {
+                ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+            }
         }
     }
 
