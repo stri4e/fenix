@@ -44,6 +44,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.1'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
 	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'

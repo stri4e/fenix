@@ -19,8 +19,6 @@ import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +31,6 @@ import java.util.function.Predicate;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 import static com.github.users.center.utils.UsersUtils.*;
-import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor

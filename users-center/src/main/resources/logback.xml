@@ -11,7 +11,7 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <logger name="com.client.api" level="debug" additivity="false">
+    <logger name="com.github.users.center" level="debug" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 
