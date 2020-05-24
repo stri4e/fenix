@@ -14,6 +14,7 @@ import com.github.orders.service.IProductService;
 import com.github.orders.service.IPushOrders;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     private final IPushOrders pushOrders;
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void createOrder(Long userId, OrderDetailDto payload) {
         Customer customer = TransferObj.toCustomer(payload.getCustomer());
@@ -54,30 +56,35 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetail> readAllByStatus(OrderStatus status) {
         return this.orderService.readByStatus(status);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetail readById(Long id) {
         return this.orderService.readById(id);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetail> readByUserId(Long userId) {
         return this.orderService.readAllUserId(userId);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(OrderDetail payload) {
         this.orderService.update(payload);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(Long productId, OrderStatus status) {
         this.orderService.update(productId, status);

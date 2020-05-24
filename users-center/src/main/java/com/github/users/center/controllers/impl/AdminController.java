@@ -17,6 +17,7 @@ import com.github.users.center.services.IUserService;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,7 @@ public class AdminController implements IAdminController, Serializable {
     private final IEmailService es;
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
@@ -69,6 +71,7 @@ public class AdminController implements IAdminController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
     submitAuth(String fingerprint, String address, @Valid UserAuthDto payload) {
@@ -92,6 +95,7 @@ public class AdminController implements IAdminController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
     submitRefreshSession(String refreshToken, @Valid String fingerprint) {

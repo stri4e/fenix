@@ -1,21 +1,19 @@
-package com.github.orders;
+package com.github.monitoring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
 
 @EnableEurekaClient
+@EnableTurbine
 @EnableHystrixDashboard
-@EnableCircuitBreaker
-@EnableFeignClients
 @SpringBootApplication
-public class OrdersApplication {
+public class MonitoringApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OrdersApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MonitoringApplication.class, args);
+    }
 
 }

@@ -31,24 +31,28 @@ public class CategoryController implements ICategoryController {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Category createCategory(Category payload) {
         return this.categoryService.create(payload);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Category readByName(String name) {
         return this.categoryService.readByName(name);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void updateCategory(Category payload) {
         this.categoryService.update(payload);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void removeCategory(Long id) {
         this.categoryService.remove(id);

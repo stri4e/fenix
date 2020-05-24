@@ -1,0 +1,15 @@
+server:
+  port: 8281
+spring:
+  application:
+    name: monitoring
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+turbine:
+  app-config: admin-service, products-service
+#  aggregator:
+#    cluster-config: ADMIN-SERVICE, PRODUCTS-SERVICE
+  cluster-name-expression: new String("default")

@@ -20,6 +20,7 @@ import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
 import com.github.users.center.utils.UsersUtils;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,7 @@ public class UsersController implements IUsersController, Serializable {
     private final IEmailService es;
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(String userUrl, @Valid UserRegDto payload) {
         if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
@@ -73,6 +75,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public ResponseEntity<Void> confirmAccount(String token) {
         if (StringUtils.isEmpty(token)) {
@@ -90,6 +93,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtAuthResponse submitAuth(@Valid UserAuthDto payload) {
         var userName = payload.getUserName();
@@ -103,6 +107,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void processForgotPass(@Valid ForgotPassDto payload) {
         var user = this.us.readByEmail(payload.getEmail());
@@ -115,6 +120,7 @@ public class UsersController implements IUsersController, Serializable {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void resetPass(String token) {
         PassResetToken result = this.rps.readByToken(token);
