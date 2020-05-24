@@ -32,6 +32,10 @@ bootJar {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
+	implementation 'io.micrometer:micrometer-core:1.5.1'
+	implementation 'io.micrometer:micrometer-registry-prometheus:1.5.1'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
