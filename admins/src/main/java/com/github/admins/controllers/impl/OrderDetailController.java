@@ -8,6 +8,8 @@ import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IProductService;
+import com.github.admins.utils.Logging;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +31,8 @@ public class OrderDetailController implements IOrderDetailController {
     private final IProductService productService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> ordersByStatus(OrderStatus status) {
         var orders = this.orderService.readAllByStatus(status)
                 .orElseThrow(NotFound::new);;
@@ -38,6 +42,8 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public OrderDetailDto orderById(Long orderId) {
         var order = this.orderService.readById(orderId)
                 .orElseThrow(NotFound::new);;
@@ -47,6 +53,8 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> userHistory(Long userId) {
         var history = this.orderService.readByUserId(userId)
                 .orElseThrow(NotFound::new);;
@@ -56,6 +64,8 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateOrder(@Valid OrderDetailDto payload) {
         var productIds = payload.getProducts().stream()
                 .map(ProductDto::getId)
@@ -64,6 +74,8 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
         this.orderService.update(orderId, orderStatus);
     }

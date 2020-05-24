@@ -6,6 +6,7 @@ import com.github.products.entity.Category;
 import com.github.products.services.ICategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class CategoryController implements ICategoryController {
     private final ICategoryService categoryService;
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<CategoryDto> categories() {
         return this.categoryService.read().stream()

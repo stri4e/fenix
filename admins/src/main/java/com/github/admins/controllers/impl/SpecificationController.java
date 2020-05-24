@@ -7,6 +7,8 @@ import com.github.admins.payload.Product;
 import com.github.admins.payload.Specification;
 import com.github.admins.services.IProductService;
 import com.github.admins.services.ISpecificationService;
+import com.github.admins.utils.Logging;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,8 @@ public class SpecificationController implements ISpecificationController {
     private final ISpecificationService specificationService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public SpecificationDto
     addSpecification(Long productId, @Valid SpecificationDto payload) {
         Specification ts = toSpecification(payload);
@@ -39,12 +43,16 @@ public class SpecificationController implements ISpecificationController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public SpecificationDto getById(Long id) {
         return fromSpecification(this.specificationService.readById(id)
                 .orElseThrow(NotFound::new));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateSpecification(SpecificationDto payload) {
         this.specificationService.update(toSpecification(payload));
     }

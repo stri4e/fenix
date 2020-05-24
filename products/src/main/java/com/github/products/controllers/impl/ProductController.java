@@ -7,6 +7,7 @@ import com.github.products.entity.ProductStatus;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +28,7 @@ public class ProductController implements IProductController {
     private final IProductService productService;
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<ProductDto> getProduct(Pageable pageable) {
         Page<Product> products = this.productService.read(pageable);
@@ -39,6 +41,7 @@ public class ProductController implements IProductController {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<ProductDto> getProduct(String category, Pageable pageable) {
         Page<Product> products = this.productService
@@ -52,12 +55,14 @@ public class ProductController implements IProductController {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Product createProduct(@Valid Product payload) {
         return this.productService.create(payload);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Object readByParams(Long id, List<Long> ids) {
         if (Objects.nonNull(id)) {
@@ -70,12 +75,14 @@ public class ProductController implements IProductController {
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(Product payload) {
         this.productService.updateProduct(payload);
     }
 
     @Override
+    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void updateStatus(Long id, ProductStatus status) {
         this.productService.updateStatus(status, id);

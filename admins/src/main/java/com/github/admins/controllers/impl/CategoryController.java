@@ -5,7 +5,9 @@ import com.github.admins.dto.CategoryDto;
 import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.Category;
 import com.github.admins.services.ICategoryService;
+import com.github.admins.utils.Logging;
 import com.github.admins.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ public class CategoryController implements ICategoryController {
     private final ICategoryService categoryService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public CategoryDto create(@Valid CategoryDto payload) {
         var tc = toCategory(payload);
         return fromCategory(this.categoryService.create(tc)
@@ -32,6 +36,8 @@ public class CategoryController implements ICategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Object getCategory(String name) {
         if (!StringUtils.hasText(name)) {
             var categories = this.categoryService.readAll().orElseThrow(NotFound::new);
@@ -45,11 +51,15 @@ public class CategoryController implements ICategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateCategory(@Valid CategoryDto payload) {
         this.categoryService.update(toCategory(payload));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void removeCategory(Long id) {
         this.categoryService.remove(id);
     }
