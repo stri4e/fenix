@@ -1,0 +1,30 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['127.0.0.1:9090']
+  - job_name: 'spring-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['192.168.1.43:8585']
+      labels:
+        name: 'admins'
+    - targets: ['192.168.1.43:8689']
+      labels:
+        name: 'emails'
+    - targets: ['192.168.1.43:8687']
+      labels:
+        name: 'orders'
+    - targets: ['192.168.1.43:8686']
+      labels:
+        name: 'products'
+    - targets: ['192.168.1.43:8587']
+      labels:
+        name: 'users'
+    - targets: ['192.168.1.43:8187']
+      labels:
+        name: 'websocket'
+    # - targets: ['192.168.1.43:8585', '192.168.1.43:8689', '192.168.1.43:8687', '192.168.1.43:8686', '192.168.1.43:8587', '192.168.1.43:8187']      
