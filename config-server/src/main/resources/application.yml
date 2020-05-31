@@ -11,7 +11,7 @@ spring:
     config:
       server:
         git:
-          uri: file://${user.home}/IdeaProjects/shop-v2/config-properties
+          uri: file://${user.home}/config-properties
           searchPaths:
             - '{application}/{profile}'
             - '/global/{profile}'
