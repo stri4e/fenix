@@ -11,6 +11,7 @@
     <file type="web" url="file://$PROJECT_DIR$/orders" />
     <file type="web" url="file://$PROJECT_DIR$/products" />
     <file type="web" url="file://$PROJECT_DIR$/server-mocks" />
+    <file type="web" url="file://$PROJECT_DIR$/statistics" />
     <file type="web" url="file://$PROJECT_DIR$/stub-server" />
     <file type="web" url="file://$PROJECT_DIR$/users-center" />
     <file type="web" url="file://$PROJECT_DIR$/websocket" />
