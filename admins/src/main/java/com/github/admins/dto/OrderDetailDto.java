@@ -37,7 +37,7 @@ public class OrderDetailDto {
     @JsonProperty(
             value = "productsIds"
     )
-    private List<ProductDetailDto> products;
+    private List<ProductDto> products;
 
     @NotNull(
             message = "Order amount is required."

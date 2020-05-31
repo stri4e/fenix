@@ -25,7 +25,7 @@ public class OrderDetailEntry {
 
     @NotEmpty
     @JsonProperty(value = "productIds")
-    private List<ProductDetailDto> productIds;
+    private List<ProductDto> productIds;
 
     @NotNull
     @JsonProperty(value = "amount")

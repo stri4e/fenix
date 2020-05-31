@@ -8,9 +8,11 @@ import com.github.orders.payload.Category;
 import com.github.orders.payload.Comment;
 import com.github.orders.payload.Product;
 import com.github.orders.payload.Specification;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TransferObj {
@@ -56,26 +58,13 @@ public class TransferObj {
         );
     }
 
-    public static ProductDetailDto fromProduct(Product p) {
-        var specifications = p.getSpecification().stream()
-                .map(TransferObj::fromSpecification)
-                .collect(Collectors.toList());
-        var comments = p.getComments().stream()
-                .map(TransferObj::fromComment)
-                .collect(Collectors.toList());
-        var category = fromCategory(p.getCategory());
-        return new ProductDetailDto(
-                p.getId(),
-                p.getName(),
-                p.getPrice(),
-                p.getQuantity(),
-                p.getDescription(),
-                p.getPreviewImage(),
-                p.getImages(),
-                specifications,
-                comments,
-                category
-        );
+    public static ProductDto fromProduct(Product data) {
+        if (Objects.isNull(data)) {
+            return null;
+        }
+        ProductDto p = new ProductDto();
+        BeanUtils.copyProperties(data, p);
+        return p;
     }
 
     public static SpecificationDto fromSpecification(Specification data) {

@@ -68,7 +68,7 @@ public class TransferObj {
                 data.getId(),
                 fromCustomer(data.getCustomer()),
                 products.stream()
-                        .map(TransferObj::toProductDetail)
+                        .map(TransferObj::fromProduct)
                         .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getUserId(),
@@ -104,25 +104,6 @@ public class TransferObj {
                 customer.getCustomerAddress(),
                 customer.getCustomerEmail(),
                 customer.getCustomerPhone()
-        );
-    }
-
-    public static ProductDetailDto toProductDetail(Product p) {
-        return new ProductDetailDto(
-                p.getId(),
-                p.getName(),
-                p.getPrice(),
-                p.getQuantity(),
-                p.getDescription(),
-                p.getPreviewImage(),
-                p.getImages(),
-                p.getSpecification().stream()
-                        .map(TransferObj::fromSpecification)
-                        .collect(Collectors.toList()),
-                p.getComments().stream()
-                        .map(TransferObj::fromComment)
-                        .collect(Collectors.toList()),
-                fromCategory(p.getCategory())
         );
     }
 

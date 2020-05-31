@@ -2,8 +2,10 @@ package com.github.websocket.utils;
 
 import com.github.websocket.dto.*;
 import com.github.websocket.payload.*;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TransferObj {
@@ -11,7 +13,7 @@ public class TransferObj {
     public static OrderDetailEntry
     fromOrderDetail(OrderDetail data, List<Product> products) {
         var productsDto = products.stream()
-                .map(TransferObj::fromProductDetail)
+                .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
         var customer = fromCustomer(data.getCustomer());
         return new OrderDetailEntry(
@@ -34,26 +36,13 @@ public class TransferObj {
         );
     }
 
-    public static ProductDetailDto fromProductDetail(Product p) {
-        var specifications = p.getSpecification().stream()
-                .map(TransferObj::fromSpecification)
-                .collect(Collectors.toList());
-        var comments = p.getComments().stream()
-                .map(TransferObj::fromComment)
-                .collect(Collectors.toList());
-        var category = fromCategory(p.getCategory());
-        return new ProductDetailDto(
-                p.getId(),
-                p.getName(),
-                p.getPrice(),
-                p.getQuantity(),
-                p.getDescription(),
-                p.getPreviewImage(),
-                p.getImages(),
-                specifications,
-                comments,
-                category
-        );
+    public static ProductDto fromProduct(Product data) {
+        if (Objects.isNull(data)) {
+            return null;
+        }
+        ProductDto p = new ProductDto();
+        BeanUtils.copyProperties(data, p);
+        return p;
     }
 
     public static SpecificationDto fromSpecification(Specification data) {
