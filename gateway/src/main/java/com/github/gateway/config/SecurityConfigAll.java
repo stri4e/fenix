@@ -30,7 +30,7 @@ public class SecurityConfigAll {
                 "/swagger-resources/**", "/configuration/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger-resources/**"
         };
-        String[] allowAccess = new String[]{"/users/**", "/admin/**", "/products/**", "/orders/**", "/websocket/**"};
+        String[] allowAccess = new String[]{"/statistics/**","/users/**", "/admin/**", "/products/**", "/orders/**", "/websocket/**"};
         return http.cors().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
