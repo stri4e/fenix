@@ -95,8 +95,7 @@ public class AdminController implements IAdminController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public JwtRefreshResponse
-    submitRefreshSession(@Valid String refreshToken) {
+    public JwtRefreshResponse submitRefreshSession(@Valid String refreshToken) {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
             var userId = this.jwtTokenProvider.getUserFromJwt(refreshToken);
             var fingerprint = this.jwtTokenProvider.getFingerprintFromJwt(refreshToken);
