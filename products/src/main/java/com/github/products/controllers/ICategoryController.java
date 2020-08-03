@@ -26,7 +26,7 @@ public interface ICategoryController {
     Category createCategory(@RequestBody Category payload);
 
     @GetMapping(
-            path = "/info/{name}",
+            path = "/fetch/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)

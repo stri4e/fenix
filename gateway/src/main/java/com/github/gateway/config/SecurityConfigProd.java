@@ -32,7 +32,7 @@ public class SecurityConfigProd {
                 "/products/v1/comments", "/orders/**"
         };
         String[] adminAccess = new String[] {
-                "/admin/**", "**/info/**", "**/edit/**", "/websocket/**"
+                "/admin/**", "/statistics/**", "**/fetch/**", "**/edit/**", "/websocket/**"
         };
         return http.cors().disable()
                 .exceptionHandling()

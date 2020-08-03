@@ -26,7 +26,7 @@ class ProductController(private val productService: IProductService) {
     }
 
     @GetMapping(
-            path = ["/info/{id}"]
+            path = ["/fetch/{id}"]
     )
     fun readByParams(
             @PathVariable(name = "id", required = false) id: Long,

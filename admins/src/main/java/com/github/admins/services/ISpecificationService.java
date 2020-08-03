@@ -25,7 +25,7 @@ public interface ISpecificationService {
     Optional<Specification> create(Specification s);
 
     @GetMapping(
-            path = "/v1/specification/info",
+            path = "/v1/specification/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<Specification> readById(Long id);

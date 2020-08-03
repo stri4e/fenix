@@ -16,7 +16,7 @@ public interface ISpecificationController {
     Specification create(@RequestBody Specification payload);
 
     @GetMapping(
-            path = "/info",
+            path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)

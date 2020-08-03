@@ -15,7 +15,7 @@ import java.util.List;
 public interface IProductService {
 
     @GetMapping(
-            path = "/v1/info",
+            path = "/v1/fetch",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

@@ -16,7 +16,7 @@ import java.util.List;
 public interface IOrderService {
 
     @GetMapping(
-            path = "/v1/info/{status}",
+            path = "/v1/fetch/{status}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

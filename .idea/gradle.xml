@@ -9,6 +9,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/admins" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/admins" />
@@ -113,7 +114,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/server-mocks" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
-        <option name="gradleJvm" value="1.8" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/server-mocks" />
@@ -122,10 +123,12 @@
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/statistics" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
-        <option name="gradleJvm" value="1.8" />
+        <option name="gradleJvm" value="11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/statistics" />
