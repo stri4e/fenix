@@ -3,11 +3,7 @@ package com.github.users.center.utils;
 import com.github.users.center.entity.User;
 import com.github.users.center.payload.ConfirmEmail;
 import com.google.common.collect.Maps;
-import net.sf.uadetector.OperatingSystem;
-import net.sf.uadetector.ReadableDeviceCategory;
-import net.sf.uadetector.ReadableUserAgent;
-import net.sf.uadetector.UserAgentStringParser;
-import net.sf.uadetector.service.UADetectorServiceFactory;
+import eu.bitwalker.useragentutils.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,8 +19,6 @@ public class UsersUtils {
     public static final String ROLE_USER = "ROLE_USER";
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
-
-    private static final UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
 
     public static ConfirmEmail fetchConfirmEmail(String token, User user) {
         return new ConfirmEmail(
@@ -44,16 +38,18 @@ public class UsersUtils {
     }
 
     public static Map<String, Object> information(String location, String userInfo, String firstName) {
-        ReadableUserAgent agent = parser.parse(userInfo);
-        ReadableDeviceCategory device = agent.getDeviceCategory();
+        UserAgent agent = UserAgent.parseUserAgentString(userInfo);
+        Browser browser = agent.getBrowser();
+        Version version = agent.getBrowserVersion();
         OperatingSystem os = agent.getOperatingSystem();
+        DeviceType deviceType = os.getDeviceType();
         Map<String, Object> information = Maps.newHashMap();
         information.put("firstName", firstName);
         information.put("date", new Date());
-        information.put("device", device.getName());
+        information.put("device", deviceType.getName());
         information.put("os_name", os.getName());
-        information.put("browser_name", agent.getName());
-        information.put("browser_version", agent.getVersionNumber());
+        information.put("browser_name", browser.getName());
+        information.put("browser_version", version.getVersion());
         information.put("location", location);
         return information;
     }
