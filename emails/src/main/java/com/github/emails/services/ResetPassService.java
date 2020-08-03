@@ -1,6 +1,6 @@
 package com.github.emails.services;
 
-import com.github.emails.models.ConfirmEmail;
+import com.github.emails.payload.ConfirmEmail;
 import com.github.emails.models.Mail;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
@@ -20,7 +20,7 @@ import static com.github.emails.utils.EmailsModels.createModel;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ResetPass {
+public class ResetPassService {
 
     private static final String
             PASSWORD_RESET_REQUEST = "Password reset request";

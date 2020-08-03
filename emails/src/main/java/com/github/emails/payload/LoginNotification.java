@@ -1,4 +1,4 @@
-package com.github.emails.models;
+package com.github.emails.payload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,27 +7,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ConfirmEmail {
-
-    @NotBlank
-    @JsonProperty(value = "token")
-    private String token;
+public class LoginNotification {
 
     @NotBlank
     @JsonProperty(value = "email")
     private String email;
 
-    @NotBlank
-    @JsonProperty(value = "firstName")
-    private String firstName;
-
-    @NotBlank
-    @JsonProperty(value = "lastName")
-    private String lastName;
+    @NotNull
+    @JsonProperty(value = "information")
+    private Map<String, Object> information;
 
 }
