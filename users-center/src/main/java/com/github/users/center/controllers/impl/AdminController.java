@@ -88,10 +88,8 @@ public class AdminController implements IAdminController, Serializable {
             LoginNotification notification = new LoginNotification(user.getEmail(), information);
             this.emailService.loginNotification(notification);
             return new JwtRefreshResponse(
-                    TYPE_HTTP_TOKEN,
-                    accessToken,
-                    rs.getRefreshToken(),
-                    this.jwtTokenProvider.getRefreshExpireTime()
+                    TYPE_HTTP_TOKEN, accessToken,
+                    rs.getRefreshToken(), this.jwtTokenProvider.getRefreshExpireTime()
             );
         }
         throw new Unauthorized();
