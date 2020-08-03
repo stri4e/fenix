@@ -84,12 +84,20 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public Long getUserFromJwt(final String token) {
+    public Long getUserFromJwt(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(this.refreshKey)
                 .parseClaimsJws(token)
                 .getBody();
         return Long.parseLong(claims.getSubject());
+    }
+
+    public String getFingerprintFromJwt(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(this.refreshKey)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("fingerprint", String.class);
     }
 
     public boolean validateRefreshToken(String authToken) {

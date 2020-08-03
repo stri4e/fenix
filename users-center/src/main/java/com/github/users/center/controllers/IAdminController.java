@@ -36,8 +36,7 @@ public interface IAdminController {
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     JwtRefreshResponse submitRefreshSession(
-            @RequestHeader(name = "Refresh-Token") String refreshToken,
-            @Valid @RequestBody String fingerprint
+            @Valid @RequestBody String refreshToken
     );
 
 }

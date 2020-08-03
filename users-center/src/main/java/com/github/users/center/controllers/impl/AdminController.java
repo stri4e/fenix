@@ -5,6 +5,7 @@ import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.RefreshSession;
+import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.ConfirmEmail;
@@ -39,32 +40,32 @@ public class AdminController implements IAdminController, Serializable {
 
     private final static long serialVersionUID = 5551087240799808634L;
 
-    private final IUserService us;
+    private final IUserService userService;
 
-    private final IConfirmService cs;
+    private final IConfirmService confirmService;
 
-    private final PasswordEncoder pe;
+    private final PasswordEncoder passwordEncoder;
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final IRefreshSessionService rss;
+    private final IRefreshSessionService refreshSessionService;
 
-    private final IEmailService es;
+    private final IEmailService emailService;
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(String userUrl, @Valid UserRegDto payload) {
-        if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
+        if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
         var user = TransferObj.user(payload, ROLE_ADMIN);
-        user.setPass(this.pe.encode(user.getPass()));
-        this.us.create(user);
+        user.setPass(this.passwordEncoder.encode(user.getPass()));
+        this.userService.create(user);
         var ct = new ConfirmToken(userUrl, user);
-        this.cs.create(ct);
+        this.confirmService.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        this.es.submitReg(cf);
+        this.emailService.submitReg(cf);
     }
 
     @Override
@@ -74,13 +75,13 @@ public class AdminController implements IAdminController, Serializable {
     submitAuth(String fingerprint, String address, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
-        var user = this.us.readByEmailOrLogin(userName, userName);
-        if (this.pe.matches(pass, user.getPass()) && user.isEnable()) {
+        var user = this.userService.readByEmailOrLogin(userName, userName);
+        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider.createRefreshSession(
                     fingerprint, address, user
             );
-            this.rss.create(rs);
+            this.refreshSessionService.create(rs);
             return new JwtRefreshResponse(
                     TYPE_HTTP_TOKEN,
                     accessToken,
@@ -95,19 +96,20 @@ public class AdminController implements IAdminController, Serializable {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
-    submitRefreshSession(String refreshToken, @Valid String fingerprint) {
+    submitRefreshSession(@Valid String refreshToken) {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
             var userId = this.jwtTokenProvider.getUserFromJwt(refreshToken);
-            var sessions = this.rss.readAllByUserId(userId);
+            var fingerprint = this.jwtTokenProvider.getFingerprintFromJwt(refreshToken);
+            List<RefreshSession> sessions = this.refreshSessionService.readAllByUserId(userId);
             RefreshSession session = findSession(sessions, fingerprint);
             if (!session.isExpired()) {
-                var user = this.us.readById(userId);
+                User user = this.userService.readById(userId);
                 var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider.createRefreshSession(
                         fingerprint, session.getIp(), user
                 );
-                this.rss.remove(session.getId());
-                this.rss.create(newSession);
+                this.refreshSessionService.remove(session.getId());
+                this.refreshSessionService.create(newSession);
                 return new JwtRefreshResponse(
                         TokenType.TYPE_HTTP_TOKEN,
                         accessToken,
@@ -128,7 +130,7 @@ public class AdminController implements IAdminController, Serializable {
                     .filter(fp)
                     .orElseThrow(Unauthorized::new);
             Predicate<RefreshSession> sp = s -> !s.equals(session);
-            rss.stream().filter(sp).forEach(s -> this.rss.remove(s.getId()));
+            rss.stream().filter(sp).forEach(s -> this.refreshSessionService.remove(s.getId()));
         } else {
             session = rss.stream()
                     .filter(fp)
