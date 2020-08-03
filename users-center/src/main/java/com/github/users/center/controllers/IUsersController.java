@@ -25,7 +25,7 @@ public interface IUsersController {
     @ResponseStatus(code = HttpStatus.OK)
     JwtAuthResponse submitAuth(
             @RequestHeader(name = "Location") String location,
-            @RequestHeader(name = "Device") String device,
+            @RequestHeader(name = "User-Agent") String userInfo,
             @Valid @RequestBody UserAuthDto payload
     );
 

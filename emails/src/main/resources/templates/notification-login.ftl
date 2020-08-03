@@ -25,7 +25,7 @@
     </tr>
     <tr>
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
-            <p>${'Dear ' + firstName + ' ' + lastName}</p>
+            <p>${'Dear ' + firstName}</p>
             <p>
                 You login into your account
             </p>
@@ -34,6 +34,9 @@
             </p>
             <p>${date}</p>
             <p>${device}</p>
+            <p>${os_name}</p>
+            <p>${browser_name}</p>
+            <p>${browser_version}</p>
             <p>${location}</p>
         </td>
     </tr>

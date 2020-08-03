@@ -26,7 +26,7 @@ public interface IAdminController {
     JwtRefreshResponse submitAuth(
             @RequestHeader(name = "ETag") String fingerprint,
             @RequestHeader(name = "Location") String location,
-            @RequestHeader(name = "Device") String device,
+            @RequestHeader(name = "User-Agent") String device,
             @Valid @RequestBody UserAuthDto payload
     );
 
