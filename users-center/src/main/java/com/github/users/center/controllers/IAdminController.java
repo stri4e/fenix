@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -25,8 +26,8 @@ public interface IAdminController {
     @ResponseStatus(code = HttpStatus.OK)
     JwtRefreshResponse submitAuth(
             @RequestHeader(name = "ETag") String fingerprint,
-            @RequestHeader(name = "X-Forwarded-For") String location,
-            @RequestHeader(name = "User-Agent") String device,
+            @ApiIgnore @RequestHeader(name = "X-Forwarded-For") String location,
+            @ApiIgnore @RequestHeader(name = "User-Agent") String device,
             @Valid @RequestBody UserAuthDto payload
     );
 
