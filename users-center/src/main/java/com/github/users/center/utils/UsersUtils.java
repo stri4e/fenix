@@ -3,6 +3,7 @@ package com.github.users.center.utils;
 import com.github.users.center.entity.User;
 import com.github.users.center.payload.ConfirmEmail;
 import com.google.common.collect.Maps;
+import eu.bitwalker.useragentutils.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,12 +37,19 @@ public class UsersUtils {
         return null;
     }
 
-    public static Map<String, Object> information(String location, String device, User user) {
+    public static Map<String, Object> information(String location, String userInfo, String firstName) {
+        UserAgent agent = UserAgent.parseUserAgentString(userInfo);
+        Browser browser = agent.getBrowser();
+        Version version = agent.getBrowserVersion();
+        OperatingSystem os = agent.getOperatingSystem();
+        DeviceType deviceType = os.getDeviceType();
         Map<String, Object> information = Maps.newHashMap();
-        information.put("firstName", user.getFName());
-        information.put("lastName", user.getLName());
+        information.put("firstName", firstName);
         information.put("date", new Date());
-        information.put("device", device);
+        information.put("device", deviceType.getName());
+        information.put("os_name", os.getName());
+        information.put("browser_name", browser.getName());
+        information.put("browser_version", version.getVersion());
         information.put("location", location);
         return information;
     }

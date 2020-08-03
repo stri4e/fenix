@@ -74,7 +74,7 @@ public class AdminController implements IAdminController, Serializable {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
-    submitAuth(String fingerprint, String location, String device, @Valid UserAuthDto payload) {
+    submitAuth(String fingerprint, String location, String userInfo, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         var user = this.userService.readByEmailOrLogin(userName, userName);
@@ -84,7 +84,7 @@ public class AdminController implements IAdminController, Serializable {
                     fingerprint, location, user
             );
             this.refreshSessionService.create(rs);
-            Map<String, Object> information = information(location, device, user);
+            Map<String, Object> information = information(location, userInfo, user.getFName());
             LoginNotification notification = new LoginNotification(user.getEmail(), information);
             this.emailService.loginNotification(notification);
             return new JwtRefreshResponse(

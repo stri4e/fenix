@@ -100,13 +100,13 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public JwtAuthResponse submitAuth(String location, String device, @Valid UserAuthDto payload) {
+    public JwtAuthResponse submitAuth(String location, String userInfo, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         var user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var token = this.jwtTokenProvider.createUserAccessToken(user);
-            Map<String, Object> information = information(location, device, user);
+            Map<String, Object> information = information(location, userInfo, user.getFName());
             LoginNotification notification = new LoginNotification(user.getEmail(), information);
             this.emailService.loginNotification(notification);
             return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
