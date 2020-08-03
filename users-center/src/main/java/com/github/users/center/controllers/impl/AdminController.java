@@ -107,17 +107,22 @@ public class AdminController implements IAdminController, Serializable {
                 RefreshSession newSession = this.jwtTokenProvider.createRefreshSession(
                         fingerprint, session.getIp(), user
                 );
-                this.refreshSessionService.remove(session.getId());
-                this.refreshSessionService.create(newSession);
-                return new JwtRefreshResponse(
-                        TokenType.TYPE_HTTP_TOKEN,
-                        accessToken,
-                        newSession.getRefreshToken(),
-                        this.jwtTokenProvider.getRefreshExpireTime()
-                );
+                return jwtRefreshResponse(session, accessToken, newSession);
             }
         }
         throw new Unauthorized();
+    }
+
+    private JwtRefreshResponse
+    jwtRefreshResponse(RefreshSession session, String accessToken, RefreshSession newSession) {
+        this.refreshSessionService.remove(session.getId());
+        this.refreshSessionService.create(newSession);
+        return new JwtRefreshResponse(
+                TokenType.TYPE_HTTP_TOKEN,
+                accessToken,
+                newSession.getRefreshToken(),
+                this.jwtTokenProvider.getRefreshExpireTime()
+        );
     }
 
     private RefreshSession findSession(List<RefreshSession> rss, String fingerprint) {
