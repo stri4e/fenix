@@ -17,7 +17,7 @@ public interface IAdminController {
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
     void submitReg(
-            @RequestHeader(name = "Client-Address") String userUrl,
+            @RequestHeader(name = "Origin") String userUrl,
             @Valid @RequestBody UserRegDto payload
     );
 
@@ -25,7 +25,7 @@ public interface IAdminController {
     @ResponseStatus(code = HttpStatus.OK)
     JwtRefreshResponse submitAuth(
             @RequestHeader(name = "ETag") String fingerprint,
-            @RequestHeader(name = "Location") String location,
+            @RequestHeader(name = "X-Forwarded-For") String location,
             @RequestHeader(name = "User-Agent") String device,
             @Valid @RequestBody UserAuthDto payload
     );

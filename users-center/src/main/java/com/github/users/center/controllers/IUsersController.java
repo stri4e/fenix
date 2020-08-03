@@ -7,6 +7,7 @@ import com.github.users.center.payload.JwtAuthResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 
@@ -14,7 +15,7 @@ public interface IUsersController {
 
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
-    void submitReg(@RequestHeader(name = "Client-Address") String userUrl,
+    void submitReg(@RequestHeader(name = "Origin") String userUrl,
                    @Valid @RequestBody UserRegDto payload
     );
 
@@ -24,8 +25,8 @@ public interface IUsersController {
     @PostMapping(path = "/auth")
     @ResponseStatus(code = HttpStatus.OK)
     JwtAuthResponse submitAuth(
-            @RequestHeader(name = "Location") String location,
-            @RequestHeader(name = "User-Agent") String userInfo,
+            @ApiIgnore @RequestHeader(name = "X-Forwarded-For") String location,
+            @ApiIgnore @RequestHeader(name = "User-Agent") String userInfo,
             @Valid @RequestBody UserAuthDto payload
     );
 
