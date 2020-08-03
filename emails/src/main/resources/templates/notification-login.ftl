@@ -31,8 +31,7 @@
             </p>
             <p>${date}</p>
             <p>${device}</p>
-            <p>${country}</p>
-            <p>${ip}</p>
+            <p>${location}</p>
         </td>
     </tr>
 </table>
