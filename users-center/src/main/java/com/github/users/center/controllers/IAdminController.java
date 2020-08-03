@@ -25,7 +25,8 @@ public interface IAdminController {
     @ResponseStatus(code = HttpStatus.OK)
     JwtRefreshResponse submitAuth(
             @RequestHeader(name = "ETag") String fingerprint,
-            @RequestHeader(name = "Location") String address,
+            @RequestHeader(name = "Location") String location,
+            @RequestHeader(name = "Device") String device,
             @Valid @RequestBody UserAuthDto payload
     );
 

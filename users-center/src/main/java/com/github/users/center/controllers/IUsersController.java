@@ -23,7 +23,11 @@ public interface IUsersController {
 
     @PostMapping(path = "/auth")
     @ResponseStatus(code = HttpStatus.OK)
-    JwtAuthResponse submitAuth(@Valid @RequestBody UserAuthDto payload);
+    JwtAuthResponse submitAuth(
+            @RequestHeader(name = "Location") String location,
+            @RequestHeader(name = "Device") String device,
+            @Valid @RequestBody UserAuthDto payload
+    );
 
     @PostMapping(path = "/forgot-pass")
     @ResponseStatus(code = HttpStatus.OK)

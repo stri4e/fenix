@@ -1,6 +1,7 @@
 package com.github.users.center.services;
 
 import com.github.users.center.payload.ConfirmEmail;
+import com.github.users.center.payload.LoginNotification;
 import com.github.users.center.services.impl.EmailService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -24,5 +25,11 @@ public interface IEmailService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     void resetPass(@RequestBody ConfirmEmail payload);
+
+    @PostMapping(
+            path = "/v1/login/notification",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    void loginNotification(@RequestBody LoginNotification payload);
 
 }

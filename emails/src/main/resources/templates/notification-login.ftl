@@ -27,12 +27,14 @@
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
             <p>${'Dear ' + firstName + ' ' + lastName}</p>
             <p>
-                You are login into your account
+                You login into your account
+            </p>
+            <p>
+                Login information
             </p>
             <p>${date}</p>
             <p>${device}</p>
-            <p>${country}</p>
-            <p>${ip}</p>
+            <p>${location}</p>
         </td>
     </tr>
 </table>
