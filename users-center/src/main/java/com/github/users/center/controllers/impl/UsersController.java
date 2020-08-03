@@ -46,32 +46,32 @@ public class UsersController implements IUsersController, Serializable {
 
     private static final long serialVersionUID = -8942247909257790435L;
 
-    private final IUserService us;
+    private final IUserService userService;
 
-    private final IConfirmService cs;
+    private final IConfirmService confirmService;
 
-    private final IResetPassService rps;
+    private final IResetPassService resetPassService;
 
-    private final PasswordEncoder pe;
+    private final PasswordEncoder passwordEncoder;
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final IEmailService es;
+    private final IEmailService emailService;
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(String userUrl, @Valid UserRegDto payload) {
-        if (this.us.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
+        if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
         var user = TransferObj.user(payload, ROLE_USER);
-        user.setPass(this.pe.encode(user.getPass()));
-        this.us.create(user);
+        user.setPass(this.passwordEncoder.encode(user.getPass()));
+        this.userService.create(user);
         var ct = new ConfirmToken(userUrl, user);
-        this.cs.create(ct);
+        this.confirmService.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        this.es.submitReg(cf);
+        this.emailService.submitReg(cf);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class UsersController implements IUsersController, Serializable {
         if (StringUtils.isEmpty(token)) {
             throw new BadRequest();
         }
-        ConfirmToken ct = this.cs.readByToken(token);
-        this.us.updateIsEnable(TRUE, ct.getUser().getId());
+        ConfirmToken ct = this.confirmService.readByToken(token);
+        this.userService.updateIsEnable(TRUE, ct.getUser().getId());
         var url = UsersUtils.createUri(ct.getUserUrl());
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
@@ -98,8 +98,8 @@ public class UsersController implements IUsersController, Serializable {
     public JwtAuthResponse submitAuth(@Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
-        var user = this.us.readByEmailOrLogin(userName, userName);
-        if (this.pe.matches(pass, user.getPass()) && user.isEnable()) {
+        var user = this.userService.readByEmailOrLogin(userName, userName);
+        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var token = this.jwtTokenProvider.createUserAccessToken(user);
             return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
         }
@@ -110,26 +110,26 @@ public class UsersController implements IUsersController, Serializable {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void processForgotPass(@Valid ForgotPassDto payload) {
-        var user = this.us.readByEmail(payload.getEmail());
+        var user = this.userService.readByEmail(payload.getEmail());
         var rt = new PassResetToken(user);
-        rt.setNewPass(this.pe.encode(payload.getPass()));
+        rt.setNewPass(this.passwordEncoder.encode(payload.getPass()));
         rt.setExpiryDate(EXPIRATION_TIME);
-        this.rps.create(rt);
+        this.resetPassService.create(rt);
         ConfirmEmail cf = fetchConfirmEmail(rt.getToken(), user);
-        this.es.resetPass(cf);
+        this.emailService.resetPass(cf);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void resetPass(String token) {
-        PassResetToken result = this.rps.readByToken(token);
+        PassResetToken result = this.resetPassService.readByToken(token);
         if (result.isExpired()) {
             throw new PreconditionFailed();
         }
         var user = result.getUser();
-        this.us.updatePass(result.getNewPass(), user.getId());
-        this.rps.delete(result);
+        this.userService.updatePass(result.getNewPass(), user.getId());
+        this.resetPassService.delete(result);
     }
 
 }
