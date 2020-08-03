@@ -11,10 +11,15 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Mail {
+
     private String to;
+
     private String from;
+
     private String subject;
+
     private List<Object> attachments;
+
     private Map<String, Object> model;
 
     public Mail(
@@ -28,4 +33,5 @@ public class Mail {
         this.subject = subject;
         this.model = model;
     }
+
 }

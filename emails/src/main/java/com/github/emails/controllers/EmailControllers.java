@@ -1,13 +1,17 @@
 package com.github.emails.controllers;
 
-import com.github.emails.models.ConfirmEmail;
-import com.github.emails.services.ResetPass;
-import com.github.emails.services.SubmitReg;
+import com.github.emails.payload.ConfirmEmail;
+import com.github.emails.payload.LoginNotification;
+import com.github.emails.services.LoginNotificationService;
+import com.github.emails.services.ResetPassService;
+import com.github.emails.services.SubmitRegService;
+import com.github.emails.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -15,26 +19,33 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/v1")
 @RequiredArgsConstructor
-public class EmailControllers {
+public class EmailControllers implements IEmailController {
 
-    private final SubmitReg submitReg;
+    private final SubmitRegService submitReg;
 
-    private final ResetPass resetPass;
+    private final ResetPassService resetPass;
 
-    @PostMapping("/submit/reg")
+    private final LoginNotificationService loginNotification;
+
+    @Override
     @HystrixCommand
-    @ResponseStatus(code = HttpStatus.OK)
+    @Logging(isTime = true, isReturn = false)
     public void submitReg(@Valid @RequestBody ConfirmEmail payload) {
-        log.info("Enter: {}", payload);
         this.submitReg.send(payload);
     }
 
-    @PostMapping("/reset/pass")
+    @Override
     @HystrixCommand
-    @ResponseStatus(code = HttpStatus.OK)
+    @Logging(isTime = true, isReturn = false)
     public void resetPass(@Valid @RequestBody ConfirmEmail payload) {
-        log.info("Enter: {}", payload);
         this.resetPass.send(payload);
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void loginNotification(@Valid LoginNotification payload) {
+        this.loginNotification.send(payload);
     }
 
 }
