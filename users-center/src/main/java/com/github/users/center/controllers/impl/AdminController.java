@@ -10,6 +10,7 @@ import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.ConfirmEmail;
 import com.github.users.center.payload.JwtRefreshResponse;
+import com.github.users.center.payload.LoginNotification;
 import com.github.users.center.payload.TokenType;
 import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
@@ -72,16 +74,19 @@ public class AdminController implements IAdminController, Serializable {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
-    submitAuth(String fingerprint, String address, @Valid UserAuthDto payload) {
+    submitAuth(String fingerprint, String location, String device, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         var user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider.createRefreshSession(
-                    fingerprint, address, user
+                    fingerprint, location, user
             );
             this.refreshSessionService.create(rs);
+            Map<String, Object> information = information(location, device, user);
+            LoginNotification notification = new LoginNotification(user.getEmail(), information);
+            this.emailService.loginNotification(notification);
             return new JwtRefreshResponse(
                     TYPE_HTTP_TOKEN,
                     accessToken,

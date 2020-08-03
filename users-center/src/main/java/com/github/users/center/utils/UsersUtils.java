@@ -2,9 +2,12 @@ package com.github.users.center.utils;
 
 import com.github.users.center.entity.User;
 import com.github.users.center.payload.ConfirmEmail;
+import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
+import java.util.Map;
 
 public class UsersUtils {
 
@@ -31,6 +34,16 @@ public class UsersUtils {
         } catch (URISyntaxException ignore) {
         }
         return null;
+    }
+
+    public static Map<String, Object> information(String location, String device, User user) {
+        Map<String, Object> information = Maps.newHashMap();
+        information.put("firstName", user.getFName());
+        information.put("lastName", user.getLName());
+        information.put("date", new Date());
+        information.put("device", device);
+        information.put("location", location);
+        return information;
     }
 
 }

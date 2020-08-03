@@ -6,12 +6,14 @@ import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.PassResetToken;
+import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.BadRequest;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.PreconditionFailed;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.ConfirmEmail;
 import com.github.users.center.payload.JwtAuthResponse;
+import com.github.users.center.payload.LoginNotification;
 import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
@@ -20,6 +22,7 @@ import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
 import com.github.users.center.utils.UsersUtils;
+import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
@@ -95,12 +100,15 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public JwtAuthResponse submitAuth(@Valid UserAuthDto payload) {
+    public JwtAuthResponse submitAuth(String location, String device, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         var user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var token = this.jwtTokenProvider.createUserAccessToken(user);
+            Map<String, Object> information = information(location, device, user);
+            LoginNotification notification = new LoginNotification(user.getEmail(), information);
+            this.emailService.loginNotification(notification);
             return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
         }
         throw new Unauthorized();

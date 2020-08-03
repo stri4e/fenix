@@ -61,11 +61,11 @@ public class JwtTokenProvider {
     }
 
     public RefreshSession
-    createRefreshSession(String fingerprint, String address, User user) {
+    createRefreshSession(String fingerprint, String location, User user) {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
         var token = createRefreshToken(fingerprint, expire, user);
-        return new RefreshSession(user.getId(), token, fingerprint, address, expire, now);
+        return new RefreshSession(user.getId(), token, fingerprint, location, expire, now);
     }
 
     public String createRefreshToken(String fingerprint, Date expire, User user) {
