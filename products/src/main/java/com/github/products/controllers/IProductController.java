@@ -43,7 +43,7 @@ public interface IProductController {
     Product createProduct(@Valid @RequestBody Product payload);
 
     @GetMapping(
-            path = "/info/{id}",
+            path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)

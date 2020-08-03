@@ -16,7 +16,7 @@ class SpecificationController(private val specificationService: ISpecificationSe
     }
 
     @GetMapping(
-            "/info"
+            "/fetch"
     )
     fun readById(id: Long): Specification {
         return this.specificationService.readById(id)

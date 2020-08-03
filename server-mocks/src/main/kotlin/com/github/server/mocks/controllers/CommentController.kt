@@ -21,7 +21,7 @@ class CommentController(private val commentService: CommentService) {
     }
 
     @GetMapping(
-            "/comments/info/{id}"
+            "/comments/fetch/{id}"
     )
     fun readById(@PathVariable id: Long): Comment {
         log.info("Enter: read by id {}", id)

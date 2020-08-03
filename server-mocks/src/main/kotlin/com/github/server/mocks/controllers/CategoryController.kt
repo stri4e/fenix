@@ -22,7 +22,7 @@ class CategoryController(private val categoryService: CategoryService) {
     }
 
     @GetMapping(
-            "/v1/categories/info/{name}"
+            "/v1/categories/fetch/{name}"
     )
     @ResponseStatus(HttpStatus.OK)
     fun readByName(@PathVariable name: String): Category {
