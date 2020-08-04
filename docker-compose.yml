@@ -1,7 +1,0 @@
-version: '3'
-services:
-  discovery:
-    container_name: discovery
-    build: ./discovery
-    ports:
-      - "3001:3001"
