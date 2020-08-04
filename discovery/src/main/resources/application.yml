@@ -2,7 +2,7 @@ spring:
   application:
     name: discovery-service
 server:
-  port: 3000
+  port: 3001
 eureka:
   client:
     register-with-eureka: false
