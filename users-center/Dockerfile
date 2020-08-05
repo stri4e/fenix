@@ -1,6 +1,11 @@
 FROM openjdk:11-jre-slim
-COPY build/libs/*.jar /app/discovery.jar
+RUN apt-get update
+RUN apt install -y netcat
+COPY build/libs/*.jar /app/users-center.jar
 EXPOSE 8587
 ENV JAVA_OPTS="-Xdebug"
 RUN sh -c 'touch /app.jar'
-ENTRYPOINT [ "sh", "-c", "java  $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/discovery.jar" ]
+ENTRYPOINT [ "sh", "-c", "java  $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/users-center.jar" ]
+COPY /users-center-entrypoint.sh /users-center-entrypoint.sh
+RUN chmod +x /users-center-entrypoint.sh
+ENTRYPOINT ["users-center-entrypoint.sh"]
