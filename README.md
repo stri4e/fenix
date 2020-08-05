@@ -17,3 +17,8 @@ Prometheus in docker:
     - docker pull prom/prometheus
     - docker run -d --name=prometheus -p 9090:9090 -v <PATH_TO_prometheus.yml_FILE>:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
 Prometheus url: http://localhost:9090/
+
+
+docker-compose -f docker-compose.default.yml down --rmi all
+docker-compose -f docker-compose.default.yml up
+docker-compose -f docker-compose.default.yml ps
