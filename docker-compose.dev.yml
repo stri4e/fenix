@@ -8,7 +8,8 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_MULTIPLE_DATABASES: orders_dev.db,products_dev.db,users_dev.db
+    volumes:
+      - ./schema-dev.sql:/docker-entrypoint-initdb.d/schema-dev.sql
   discovery:
     container_name: discovery
     build: ./discovery
@@ -24,7 +25,9 @@ services:
     depends_on:
       - discovery
     environment:
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SPRING_PROFILES_ACTIVE=default"
+    volumes:
+      - /users/config-properties:/config
   gateway:
     container_name: gateway
     build: ./gateway
