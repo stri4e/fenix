@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_MULTIPLE_DATABASES: orders_default.db,products_default.db,users_default.db
+      POSTGRES_DB: products_default.db
   discovery:
     container_name: discovery
     build: ./discovery
@@ -21,12 +21,12 @@ services:
     build: ./config-server
     ports:
       - "8888:8888"
-    volumes:
-    - /home/hellcrow/config-properties:/tmp
     depends_on:
       - discovery
     environment:
       - "SPRING_PROFILES_ACTIVE=default"
+    volumes:
+      - /users/config-properties:/config
   gateway:
     container_name: gateway
     build: ./gateway
@@ -90,6 +90,7 @@ services:
       - discovery
       - config-server
       - gateway
+      - postgresdb
     environment:
       - "SPRING_PROFILES_ACTIVE=default"
   users-center:
