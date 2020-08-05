@@ -11,8 +11,7 @@ import java.util.List;
 public interface ICategoryController {
 
     @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     List<CategoryDto> categories();

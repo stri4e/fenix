@@ -1,10 +1,2 @@
 server:
   port: 8587
-spring:
-  application:
-    name: users-center
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: config-server
