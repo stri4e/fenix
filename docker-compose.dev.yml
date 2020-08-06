@@ -50,7 +50,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-    entrypoint: ./addmins-entrypoint.sh config-server 8888 java -jar /app/admins.jar
+    entrypoint: ./admins-entrypoint.sh config-server 8888 java -jar /app/admins.jar
   emails:
     container_name: emails
     build: ./emails
@@ -86,7 +86,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-    entrypoint: ./orders-service-entrypoint.sh config-server 8888 java -jar /app/orders-service.jar
+    entrypoint: ./orders-entrypoint.sh config-server 8888 java -jar /app/orders-service.jar
   products-service:
     container_name: products-service
     build: ./products
@@ -98,7 +98,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-    entrypoint: ./products-service-entrypoint.sh config-server 8888 java -jar /app/products-service.jar
+    entrypoint: ./products-entrypoint.sh config-server 8888 java -jar /app/products-service.jar
   users-center:
     container_name: users-center
     build: ./users-center

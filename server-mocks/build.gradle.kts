@@ -49,6 +49,6 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "1.11"
+		jvmTarget = JavaVersion.VERSION_11.toString()
 	}
 }

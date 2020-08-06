@@ -3,30 +3,12 @@ package com.github.server.mocks.payload
 import java.math.BigDecimal
 import java.util.*
 
-class Product(
-        id: Long,
-        name: String,
-        price: BigDecimal,
-        quantity: Int,
-        description: String,
-        previewImage: String,
-        images: List<String>,
-        createDate: Date,
-        specification: Set<Specification>,
-        comments: Set<Comment>,
-        category: Category,
-        status: ProductStatus
+class Product : ProductItem {
 
-) : ProductItem(
-        id,
-        name,
-        price,
-        quantity,
-        description,
-        previewImage,
-        images,
-        createDate
-) {
+    var specification: Set<Specification>? = null
+    var comments: Set<Comment>? = null
+    var category: Category? = null
+    var status: ProductStatus? = null
 
     constructor(
             id: Long,
@@ -36,17 +18,29 @@ class Product(
             description: String,
             previewImage: String,
             images: List<String>,
-            createDate: Date
-    ) {
-        this.id = id
-        this.name = name
-        this.price = price
-        this.quantity = quantity
-        this.description = description
-        this.previewImage = previewImage
-        this.images = images
-        this.createDate = createDate
+            createDate: Date,
+            specification: Set<Specification>?,
+            comments: Set<Comment>?,
+            category: Category?,
+            status: ProductStatus?
+    ) : super(id, name, price, quantity, description, previewImage, images, createDate) {
+        this.specification = specification
+        this.comments = comments
+        this.category = category
+        this.status = status
     }
+
+    constructor(
+            id: Long,
+            name: String,
+            price: BigDecimal,
+            quantity: Int,
+            description: String,
+            previewImage: String,
+            images: List<String>,
+            createDate: Date,
+            nothing: Nothing?
+    ) : super(id, name, price, quantity, description, previewImage, images, createDate)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

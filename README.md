@@ -22,3 +22,18 @@ Prometheus url: http://localhost:9090/
 docker-compose -f docker-compose.default.yml down --rmi all
 docker-compose -f docker-compose.default.yml up
 docker-compose -f docker-compose.default.yml ps
+
+Start docker-compose with default or test profile:
+    default:
+        docker-compose -f docker-compose.default.yml up -d
+        docker-compose -f docker-compose.default.yml up -d server-mocks
+        docker-compose -f docker-compose.default.yml up -d postgresdb
+    test:
+        docker-compose -f docker-compose.test.yml up -d
+        docker-compose -f docker-compose.test.yml up -d server-mocks
+        docker-compose -f docker-compose.test.yml up -d postgresdb
+Stop docker-compose with profile default or test    
+    default:
+        docker-compose -f docker-compose.default.yml down --rmi all
+    test:
+        docker-compose -f docker-compose.test.yml down --rmi all     
