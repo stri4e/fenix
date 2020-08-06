@@ -72,6 +72,8 @@ services:
       - discovery
       - config-server
       - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
     entrypoint: ./monitoring-entrypoint.sh config-server 8888 java -jar /app/monitoring.jar
   orders-service:
     container_name: orders-service
