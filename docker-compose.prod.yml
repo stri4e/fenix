@@ -14,7 +14,7 @@ services:
     container_name: discovery
     build: ./discovery
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
   config-server:
