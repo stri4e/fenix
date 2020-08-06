@@ -7,7 +7,6 @@ import com.github.server.mocks.utils.IdsGenerator
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @Service
 class ProductService(private val idsGenerator: IdsGenerator): IProductService {
@@ -20,7 +19,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
             "This is good product.",
             "img",
             listOf("1", "2", "3"),
-            Date(1590226815636)
+            Date(1590226815636),
+            null
     );
 
     val productsMocks: List<Product> = listOf(
@@ -32,7 +32,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "This is good product.",
                     "img",
                     listOf("1", "2", "3"),
-                    Date(1590226815636)
+                    Date(1590226815636),
+                    null
             ),
             Product(
                     idsGenerator.getId(),
@@ -42,7 +43,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "This is good product.",
                     "img",
                     listOf("1", "2", "3"),
-                    Date(1590226815636)
+                    Date(1590226815636),
+                    null
             ),
             Product(
                     idsGenerator.getId(),
@@ -52,7 +54,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "This is good product.",
                     "img",
                     listOf("1", "2", "3"),
-                    Date(1590226815636)
+                    Date(1590226815636),
+                    null
             ),
             Product(
                     idsGenerator.getId(),
@@ -62,7 +65,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "This is good product.",
                     "img",
                     listOf("1", "2", "3"),
-                    Date(1590226815636)
+                    Date(1590226815636),
+                    null
             ),
             Product(
                     idsGenerator.getId(),
@@ -72,7 +76,8 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "This is good product.",
                     "img",
                     listOf("1", "2", "3"),
-                    Date(1590226815636)
+                    Date(1590226815636),
+                    null
             )
     )
 

@@ -5,7 +5,7 @@ import com.github.server.mocks.services.ISpecificationService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/specification")
 class SpecificationController(private val specificationService: ISpecificationService) {
 
     @PostMapping(
