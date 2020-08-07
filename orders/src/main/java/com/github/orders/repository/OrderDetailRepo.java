@@ -13,12 +13,15 @@ import java.util.Optional;
 
 @Repository
 public interface OrderDetailRepo extends CrudRepository<OrderDetail, Long> {
+
     Optional<OrderDetail> findByUserId(Long userId);
+
     List<OrderDetail> findByStatus(OrderStatus status);
+
     List<OrderDetail> findAllByUserId(Long userId);
 
     @Modifying
-    @Query(value = "UPDATE OrderDetail o SET status =:status WHERE o.id =:id")
+    @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.id =:id")
     void updateOrderByStatus(
             @Param(value = "id") Long id,
             @Param(value = "status") OrderStatus status

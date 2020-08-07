@@ -37,21 +37,10 @@ class ProductController(private val productService: IProductService) {
             path = ["/fetch/{id}"]
     )
     fun readByParams(
-            @PathVariable(name = "id", required = false) id: Long,
-            @RequestParam(name = "values", required = false) ids: List<Long>?
+            @PathVariable(name = "id", required = false) id: Long
     ): ResponseEntity<*> {
-        log.info("Enter: id = {}, ids = {}", id, ids)
-        return when {
-            Objects.nonNull(id) -> {
-                ResponseEntity(this.productService.readById(id), HttpStatus.OK)
-            }
-            Objects.nonNull(ids) -> {
-                ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
-            }
-            else -> {
-                ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
-            }
-        }
+        log.info("Enter: id = {}", id)
+        return ResponseEntity(this.productService.readById(id), HttpStatus.OK)
     }
 
     @GetMapping(
