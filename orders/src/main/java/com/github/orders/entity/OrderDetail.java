@@ -44,18 +44,21 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "customer_id",
             nullable = false
     )
     private Customer customer;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> productIds;
 
     @Column(
             name = "amount",
+            precision = 8,
+            scale = 3,
+            columnDefinition="DECIMAL(8, 3)",
             nullable = false
     )
     private BigDecimal amount;
@@ -66,10 +69,7 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long userId;
 
-    @Column(
-            name = "status",
-            nullable = false
-    )
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

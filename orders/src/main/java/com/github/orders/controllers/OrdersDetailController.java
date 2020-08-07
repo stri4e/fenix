@@ -79,8 +79,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(Long productId, OrderStatus status) {
-        this.orderService.update(productId, status);
+    public void update(Long orderId, OrderStatus status) {
+        this.orderService.update(orderId, status);
     }
 
 }

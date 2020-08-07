@@ -21,7 +21,6 @@ public interface IOrdersDetailController {
 
     @GetMapping(
             path = "/fetch/{status}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<OrderDetail> readAllByStatus(@PathVariable OrderStatus status);
@@ -33,13 +32,15 @@ public interface IOrdersDetailController {
     OrderDetail readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/edit/"
+            path = "/edit"
     )
     void update(@RequestBody OrderDetail o);
 
     @PutMapping(
-            path = "/edit/{productId}/{orderStatus}"
+            path = "/edit/{orderId}/{orderStatus}"
     )
-    void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);
+    void update(
+            @PathVariable(name = "orderId") Long orderId,
+            @PathVariable(name = "orderStatus") OrderStatus orderStatus);
 
 }

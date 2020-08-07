@@ -18,7 +18,6 @@ public interface IProductService {
 
     @GetMapping(
             path = "/v1/fetch",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<Product>> readByIds(@RequestParam List<Long> ids);
