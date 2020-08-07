@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.github.admins.utils.TransferObj.fromProduct;
@@ -34,19 +35,20 @@ public class CustomProductController implements ICustomProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto addProduct(String categoryName, @Valid ProductDto payload) {
+    public ProductDto save(String categoryName, @Valid ProductDto payload) {
         Category category = this.categoryService.readByName(categoryName)
                 .orElseThrow(NotFound::new);
         Product product = toProduct(payload);
         product.setCategory(category);
-        return fromProduct(this.productService.create(product)
+        Optional<Product> p = this.productService.create(product);
+        return fromProduct(p
                 .orElseThrow(NotFound::new));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto getById(Long id) {
+    public ProductDto findById(Long id) {
         return fromProduct(this.productService.readById(id)
                 .orElseThrow(NotFound::new));
     }
@@ -54,9 +56,9 @@ public class CustomProductController implements ICustomProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<ProductDto> getAllUnPublish() {
+    public List<ProductDto> findAllUnPublish() {
         var products = this.productService.readAllUnPublish()
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         return products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
@@ -72,7 +74,7 @@ public class CustomProductController implements ICustomProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateStatusProduct(Long id, ProductStatus status) {
+    public void changeStatusProduct(Long id, ProductStatus status) {
         this.productService.updateStatus(id, status);
     }
 

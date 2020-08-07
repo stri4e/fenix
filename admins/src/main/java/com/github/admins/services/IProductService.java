@@ -31,14 +31,13 @@ public interface IProductService {
     Optional<Product> readById(@PathVariable Long id);
 
     @GetMapping(
-            path = "/v1/fetch",
+            path = "/v1/fetch/un-publish",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<Product>> readAllUnPublish();
 
     @GetMapping(
             path = "/v1/fetch",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<Product>> readByIds(@RequestParam List<Long> ids);
@@ -49,7 +48,7 @@ public interface IProductService {
     )
     void update(Product p);
 
-    @PutMapping(
+    @DeleteMapping(
             path = "/v1/edit/{id}/{status}"
     )
     void updateStatus(

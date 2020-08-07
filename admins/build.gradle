@@ -63,10 +63,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation group: 'junit', name: 'junit', version: '4.12'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.0-M1'
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'
 	testImplementation group: 'org.powermock', name: 'powermock-core', version: '2.0.5'
 	testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.5'

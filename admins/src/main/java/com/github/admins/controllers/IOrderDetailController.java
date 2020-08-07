@@ -25,13 +25,6 @@ public interface IOrderDetailController {
     @ResponseStatus(code = HttpStatus.OK)
     OrderDetailDto orderById(@PathVariable Long orderId);
 
-    @GetMapping(
-            path = "/history/{userId}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> userHistory(@PathVariable Long userId);
-
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -39,8 +32,7 @@ public interface IOrderDetailController {
     void updateOrder(@Valid @RequestBody OrderDetailDto payload);
 
     @PutMapping(
-            path = "/status/{orderId}/{orderStatus}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/status/{orderId}/{orderStatus}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateOrderStatus(@PathVariable Long orderId,

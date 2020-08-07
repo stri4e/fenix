@@ -34,4 +34,8 @@ public class CommentDto {
     @JsonProperty(value = "description")
     private String description;
 
+    public CommentDto(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

@@ -1,7 +1,8 @@
 spring:
+  zipkin:
+    enabled: false
   application:
     name: admin-service
   cloud:
     config:
-      uri: http://localhost:8888
-      fail-fast: true
+      enabled: false

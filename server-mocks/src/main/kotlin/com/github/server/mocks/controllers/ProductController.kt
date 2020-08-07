@@ -20,9 +20,17 @@ class ProductController(private val productService: IProductService) {
     @PostMapping(
             path = ["/edit"]
     )
-    fun create(product: Product): Product {
+    fun create(@RequestBody product: Product): Product {
         log.info("Enter: {}", product)
         return this.productService.create(product)
+    }
+
+    @GetMapping(
+            path = ["/fetch/un-publish"]
+    )
+    fun readUnpublish(): ResponseEntity<*> {
+        log.info("Enter: find all un-publish")
+        return ResponseEntity(this.productService.readAll(), HttpStatus.OK)
     }
 
     @GetMapping(
@@ -30,7 +38,7 @@ class ProductController(private val productService: IProductService) {
     )
     fun readByParams(
             @PathVariable(name = "id", required = false) id: Long,
-            @RequestParam(name = "values", required = false) ids: List<Long>
+            @RequestParam(name = "values", required = false) ids: List<Long>?
     ): ResponseEntity<*> {
         log.info("Enter: id = {}, ids = {}", id, ids)
         return when {
@@ -46,6 +54,16 @@ class ProductController(private val productService: IProductService) {
         }
     }
 
+    @GetMapping(
+            path = ["/fetch"]
+    )
+    fun readByParams(
+            @RequestParam(name = "values", required = false) ids: List<Long>?
+    ): ResponseEntity<*> {
+        log.info("Enter: ids = {}", ids)
+        return ResponseEntity(this.productService.readByIds(ids), HttpStatus.OK)
+    }
+
     @PutMapping(
             path = ["/edit"]
     )
@@ -54,7 +72,7 @@ class ProductController(private val productService: IProductService) {
         this.productService.update(product)
     }
 
-    @PutMapping(
+    @DeleteMapping(
             path = ["/edit/{id}/{status}"]
     )
     fun updateStatus(

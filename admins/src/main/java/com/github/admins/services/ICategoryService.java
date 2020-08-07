@@ -24,10 +24,10 @@ public interface ICategoryService {
     Optional<Category> create(@RequestBody Category c);
 
     @GetMapping(
-            path = "/v1/categories/fetch/{name}",
+            path = "/v1/categories/fetch/{categoryName}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Category> readByName(@PathVariable String name);
+    Optional<Category> readByName(@PathVariable String categoryName);
 
     @GetMapping(
             path = "/v1/categories",
@@ -43,6 +43,6 @@ public interface ICategoryService {
     @DeleteMapping(
             path = "/v1/categories/edit/{id}"
     )
-    void remove(@PathVariable Long id);
+    void delete(@PathVariable Long id);
 
 }

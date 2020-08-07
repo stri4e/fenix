@@ -16,16 +16,16 @@ class CategoryService(
     }
 
     override fun readByName(name: String): Category {
-        return Category(idsGenerator.getId(), "phone")
+        return Category(idsGenerator.getId(), "Phone")
     }
 
     override fun readAll(): List<Category> {
         return listOf(
-                Category(idsGenerator.getId(), "phone"),
-                Category(idsGenerator.getId(), "computer"),
-                Category(idsGenerator.getId(), "soft"),
-                Category(idsGenerator.getId(), "instruments"),
-                Category(idsGenerator.getId(), "sport")
+                Category(idsGenerator.getId(), "Phone"),
+                Category(idsGenerator.getId(), "Computer"),
+                Category(idsGenerator.getId(), "Soft"),
+                Category(idsGenerator.getId(), "Instruments"),
+                Category(idsGenerator.getId(), "Sport")
         )
     }
 

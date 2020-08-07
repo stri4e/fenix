@@ -31,6 +31,6 @@ public interface ICommentService {
     @DeleteMapping(
             path = "/v1/comments/edit/{id}"
     )
-    void remove(@PathVariable Long id);
+    void delete(@PathVariable Long id);
 
 }

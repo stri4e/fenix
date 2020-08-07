@@ -5,7 +5,7 @@ eureka:
 ribbon:
   eureka:
     enable: false
-  listOfServers: account-service:2222
+  listOfServers: http://localhost:2222
 
 feign:
   hystrix:

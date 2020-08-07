@@ -34,4 +34,8 @@ public class SpecificationDto {
     @JsonProperty(value = "description")
     private String description;
 
+    public SpecificationDto(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

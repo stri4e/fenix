@@ -20,31 +20,25 @@ public interface IOrdersDetailController {
     );
 
     @GetMapping(
-            path = "/v1/fetch/{status}",
+            path = "/fetch/{status}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<OrderDetail> readAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
-            path = "/v1/fetch/",
+            path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    OrderDetail readById(@RequestParam Long id);
-
-    @GetMapping(
-            path = "/v1/fetch/{userId}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    List<OrderDetail> readByUserId(@PathVariable Long userId);
+    OrderDetail readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/v1/edit/"
+            path = "/edit/"
     )
     void update(@RequestBody OrderDetail o);
 
     @PutMapping(
-            path = "/v1/edit/{productId}/{orderStatus}"
+            path = "/edit/{productId}/{orderStatus}"
     )
     void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);
 

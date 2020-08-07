@@ -8,16 +8,16 @@ public interface ICommentController {
 
     @PostMapping(path = "/{productId}")
     @ResponseStatus(code = HttpStatus.CREATED)
-    CommentDto addComment(@PathVariable Long productId,
-                          @RequestBody CommentDto payload
+    CommentDto save(@PathVariable Long productId,
+                    @RequestBody CommentDto payload
     );
 
     @GetMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    CommentDto getComment(@PathVariable Long id);
+    CommentDto findById(@PathVariable Long id);
 
     @DeleteMapping(path = "/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable Long id);
 
 }

@@ -4,6 +4,7 @@ import com.github.server.mocks.payload.Comment
 import com.github.server.mocks.services.impl.CommentService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -31,6 +32,7 @@ class CommentController(private val commentService: CommentService) {
     @DeleteMapping(
             "/comments/edit/{id}"
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun remove(@PathVariable id: Long) {
         log.info("Enter: remove product with id {}", id)
     }

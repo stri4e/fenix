@@ -11,18 +11,18 @@ public interface ICategoryController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    CategoryDto create(@Valid @RequestBody CategoryDto payload);
+    CategoryDto save(@Valid @RequestBody CategoryDto payload);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    Object getCategory(@RequestParam(required = false) String name);
+    Object findByName(@RequestParam(required = false) String name);
 
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
     void updateCategory(@Valid @RequestBody CategoryDto payload);
 
     @DeleteMapping(path = "/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void removeCategory(@PathVariable Long id);
 
 }

@@ -22,5 +22,4 @@ public class Comment {
     @NotBlank
     @JsonProperty(value = "comment")
     private String comment;
-
 }
