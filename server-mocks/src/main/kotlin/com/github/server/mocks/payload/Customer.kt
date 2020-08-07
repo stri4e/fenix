@@ -4,6 +4,7 @@ class Customer(
         val id: Long,
         val customerName: String,
         val customerAddress: String,
+        val customerEmail: String,
         val customerPhone: String
 ) {
 
@@ -16,6 +17,7 @@ class Customer(
         if (id != other.id) return false
         if (customerName != other.customerName) return false
         if (customerAddress != other.customerAddress) return false
+        if (customerEmail != other.customerEmail) return false
         if (customerPhone != other.customerPhone) return false
 
         return true
@@ -25,11 +27,13 @@ class Customer(
         var result = id.hashCode()
         result = 31 * result + customerName.hashCode()
         result = 31 * result + customerAddress.hashCode()
+        result = 31 * result + customerEmail.hashCode()
         result = 31 * result + customerPhone.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "Customer(id=$id, customerName='$customerName', customerAddress='$customerAddress', customerPhone='$customerPhone')"
+        return "Customer(id=$id, customerName='$customerName', customerAddress='$customerAddress', customerEmail='$customerEmail', customerPhone='$customerPhone')"
     }
+
 }

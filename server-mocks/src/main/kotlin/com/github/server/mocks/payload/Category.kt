@@ -1,9 +1,16 @@
 package com.github.server.mocks.payload
 
-class Category (
-       var id : Long,
-       var name: String
-) {
+class Category {
+
+    var id: Long? = null
+    var name: String? = null
+
+    constructor()
+
+    constructor(id: Long?, name: String?) {
+        this.id = id
+        this.name = name
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

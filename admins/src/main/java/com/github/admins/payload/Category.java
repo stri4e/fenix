@@ -21,5 +21,4 @@ public class Category implements Serializable, Cloneable {
     @NotBlank
     @JsonProperty(value = "name")
     private String name;
-
 }

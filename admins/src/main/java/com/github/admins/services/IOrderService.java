@@ -17,31 +17,24 @@ import java.util.Optional;
 public interface IOrderService {
 
     @GetMapping(
-            path = "/v1/fetch/{status}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+            path = "/v1/details/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<OrderDetail>> readAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
-            path = "/v1/fetch/",
+            path = "/v1/details/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<OrderDetail> readById(@RequestParam Long id);
-
-    @GetMapping(
-            path = "/v1/fetch/{userId}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Optional<List<OrderDetail>> readByUserId(@PathVariable Long userId);
+    Optional<OrderDetail> readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/v1/edit/"
+            path = "/v1/details/edit/"
     )
     void update(@RequestBody OrderDetail o);
 
     @PutMapping(
-            path = "/v1/edit/{productId}/{orderStatus}"
+            path = "/v1/details/edit/{productId}/{orderStatus}"
     )
     void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);
 

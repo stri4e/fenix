@@ -16,16 +16,16 @@ class SpecificationController(private val specificationService: ISpecificationSe
     }
 
     @GetMapping(
-            "/fetch"
+            "/fetch/{id}"
     )
-    fun readById(id: Long): Specification {
+    fun readById(@PathVariable id: Long): Specification {
         return this.specificationService.readById(id)
     }
 
     @PutMapping(
             "/edit"
     )
-    fun update(specification: Specification) {
+    fun update(@RequestBody specification: Specification) {
         this.specificationService.update(specification)
     }
 

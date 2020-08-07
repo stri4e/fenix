@@ -35,7 +35,7 @@ public class OrderDetailController implements IOrderDetailController {
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> ordersByStatus(OrderStatus status) {
         var orders = this.orderService.readAllByStatus(status)
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         return orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
@@ -46,21 +46,10 @@ public class OrderDetailController implements IOrderDetailController {
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto orderById(Long orderId) {
         var order = this.orderService.readById(orderId)
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         var products = this.productService.readByIds(order.getProductIds())
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         return fromOrderDetailDto(order, products);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> userHistory(Long userId) {
-        var history = this.orderService.readByUserId(userId)
-                .orElseThrow(NotFound::new);;
-        return history.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
     }
 
     @Override

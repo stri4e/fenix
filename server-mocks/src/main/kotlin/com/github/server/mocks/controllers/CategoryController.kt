@@ -50,7 +50,7 @@ class CategoryController(private val categoryService: CategoryService) {
     @DeleteMapping(
             "/v1/categories/edit/{id}"
     )
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun remove(@PathVariable id: Long) {
         log.info("Enter: remove category.")
     }

@@ -12,6 +12,10 @@ class IdsGenerator {
         return increment.incrementAndGet()
     }
 
+    fun getFirstInitId(): Long {
+        return increment.getAndIncrement()
+    }
+
     fun clear() {
         increment.set(0)
     }

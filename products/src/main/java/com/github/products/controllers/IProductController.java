@@ -59,7 +59,7 @@ public interface IProductController {
     @ResponseStatus(code = HttpStatus.OK)
     void update(Product payload);
 
-    @PutMapping(
+    @DeleteMapping(
             path = "/edit/{id}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)

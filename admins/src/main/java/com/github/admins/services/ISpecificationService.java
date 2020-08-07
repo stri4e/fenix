@@ -5,6 +5,7 @@ import com.github.admins.services.impl.SpecificationService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -25,10 +26,10 @@ public interface ISpecificationService {
     Optional<Specification> create(Specification s);
 
     @GetMapping(
-            path = "/v1/specification/fetch",
+            path = "/v1/specification/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Specification> readById(Long id);
+    Optional<Specification> readById(@PathVariable Long id);
 
     @PutMapping(
             path = "/v1/specification/edit",

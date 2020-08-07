@@ -16,11 +16,11 @@ public interface ISpecificationController {
     Specification create(@RequestBody Specification payload);
 
     @GetMapping(
-            path = "/fetch",
+            path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Specification readById(Long id);
+    Specification readById(@PathVariable Long id);
 
     @PutMapping(
             path = "/edit",

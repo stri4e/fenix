@@ -59,6 +59,7 @@ public class UsersControllerIT {
     private URL submitRegUrl;
 
     private URL submitAuthUrl;
+
     private URL processForgotPassUrl;
 
     private String submitRegHeaderName;

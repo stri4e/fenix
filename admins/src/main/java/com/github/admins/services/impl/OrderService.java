@@ -22,11 +22,6 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Optional<List<OrderDetail>> readByUserId(Long userId) {
-        return Optional.empty();
-    }
-
-    @Override
     public void update(OrderDetail o) {
 
     }

@@ -31,7 +31,7 @@ public class SpecificationController implements ISpecificationController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public SpecificationDto
-    addSpecification(Long productId, @Valid SpecificationDto payload) {
+    save(Long productId, @Valid SpecificationDto payload) {
         Specification ts = toSpecification(payload);
         Product product = this.productService.readById(productId)
                 .orElseThrow(NotFound::new);;
@@ -45,7 +45,7 @@ public class SpecificationController implements ISpecificationController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public SpecificationDto getById(Long id) {
+    public SpecificationDto findById(Long id) {
         return fromSpecification(this.specificationService.readById(id)
                 .orElseThrow(NotFound::new));
     }

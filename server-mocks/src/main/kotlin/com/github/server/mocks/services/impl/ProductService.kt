@@ -1,5 +1,6 @@
 package com.github.server.mocks.services.impl
 
+import com.github.server.mocks.payload.Category
 import com.github.server.mocks.payload.Product
 import com.github.server.mocks.payload.ProductStatus
 import com.github.server.mocks.services.IProductService
@@ -7,12 +8,13 @@ import com.github.server.mocks.utils.IdsGenerator
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.util.*
+import kotlin.collections.HashSet
 
 @Service
 class ProductService(private val idsGenerator: IdsGenerator): IProductService {
 
     val productMock: Product = Product(
-            idsGenerator.getId(),
+            1,
             "Nokia",
             BigDecimal("12.2"),
             25,
@@ -20,12 +22,15 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
             "img",
             listOf("1", "2", "3"),
             Date(1590226815636),
-            null
+            HashSet(),
+            HashSet(),
+            Category(),
+            ProductStatus.used
     );
 
     val productsMocks: List<Product> = listOf(
             Product(
-                    idsGenerator.getId(),
+                    1,
                     "Nokia",
                     BigDecimal("12.2"),
                     25,
@@ -33,10 +38,13 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "img",
                     listOf("1", "2", "3"),
                     Date(1590226815636),
-                    null
+                    HashSet(),
+                    HashSet(),
+                    Category(),
+                    ProductStatus.used
             ),
             Product(
-                    idsGenerator.getId(),
+                    2,
                     "IPhone",
                     BigDecimal("100.2"),
                     100,
@@ -44,10 +52,13 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "img",
                     listOf("1", "2", "3"),
                     Date(1590226815636),
-                    null
+                    HashSet(),
+                    HashSet(),
+                    Category(),
+                    ProductStatus.used
             ),
             Product(
-                    idsGenerator.getId(),
+                    3,
                     "Sumsung",
                     BigDecimal("50.2"),
                     500,
@@ -55,10 +66,13 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "img",
                     listOf("1", "2", "3"),
                     Date(1590226815636),
-                    null
+                    HashSet(),
+                    HashSet(),
+                    Category(),
+                    ProductStatus.used
             ),
             Product(
-                    idsGenerator.getId(),
+                    4,
                     "Xiaomi",
                     BigDecimal("14.2"),
                     100,
@@ -66,10 +80,13 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "img",
                     listOf("1", "2", "3"),
                     Date(1590226815636),
-                    null
+                    HashSet(),
+                    HashSet(),
+                    Category(),
+                    ProductStatus.used
             ),
             Product(
-                    idsGenerator.getId(),
+                    5,
                     "Huawei",
                     BigDecimal("24.2"),
                     560,
@@ -77,7 +94,10 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
                     "img",
                     listOf("1", "2", "3"),
                     Date(1590226815636),
-                    null
+                    HashSet(),
+                    HashSet(),
+                    Category(),
+                    ProductStatus.used
             )
     )
 
@@ -89,7 +109,7 @@ class ProductService(private val idsGenerator: IdsGenerator): IProductService {
         return productMock
     }
 
-    override fun readByIds(ids: List<Long>): List<Product> {
+    override fun readByIds(ids: List<Long>?): List<Product> {
         return productsMocks
     }
 

@@ -3,7 +3,6 @@ package com.github.admins.controllers.impl;
 import com.github.admins.controllers.ICategoryController;
 import com.github.admins.dto.CategoryDto;
 import com.github.admins.exceptions.NotFound;
-import com.github.admins.payload.Category;
 import com.github.admins.services.ICategoryService;
 import com.github.admins.utils.Logging;
 import com.github.admins.utils.TransferObj;
@@ -29,7 +28,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public CategoryDto create(@Valid CategoryDto payload) {
+    public CategoryDto save(@Valid CategoryDto payload) {
         var tc = toCategory(payload);
         return fromCategory(this.categoryService.create(tc)
                 .orElseThrow(NotFound::new));
@@ -38,7 +37,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Object getCategory(String name) {
+    public Object findByName(String name) {
         if (!StringUtils.hasText(name)) {
             var categories = this.categoryService.readAll().orElseThrow(NotFound::new);
             return categories.stream()
@@ -61,6 +60,6 @@ public class CategoryController implements ICategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void removeCategory(Long id) {
-        this.categoryService.remove(id);
+        this.categoryService.delete(id);
     }
 }

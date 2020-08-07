@@ -29,7 +29,7 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto
-    addComment(Long productId, CommentDto payload) {
+    save(Long productId, CommentDto payload) {
         Comment tc = toComment(payload);
         Product product = this.productService.readById(productId)
                 .orElseThrow(NotFound::new);
@@ -43,14 +43,15 @@ public class CommentController implements ICommentController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public CommentDto getComment(Long id) {
-        return fromComment(this.commentService.readById(id).orElseThrow(NotFound::new));
+    public CommentDto findById(Long id) {
+        return fromComment(this.commentService.readById(id)
+                .orElseThrow(NotFound::new));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        this.commentService.remove(id);
+        this.commentService.delete(id);
     }
 }

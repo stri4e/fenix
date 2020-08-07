@@ -12,18 +12,22 @@ public interface ISpecificationController {
     @PostMapping(
             path = "/{productId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseStatus(code = HttpStatus.CREATED)
-    SpecificationDto addSpecification(@PathVariable Long productId,
-                     @Valid @RequestBody SpecificationDto payload);
+    SpecificationDto save(@PathVariable Long productId,
+                          @Valid @RequestBody SpecificationDto payload);
 
     @GetMapping(path = "{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseStatus(code = HttpStatus.OK)
-    SpecificationDto getById(@PathVariable Long id);
+    SpecificationDto findById(@PathVariable Long id);
 
-    @PutMapping(path = "/",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
     void updateSpecification(@RequestBody SpecificationDto payload);
 
 }

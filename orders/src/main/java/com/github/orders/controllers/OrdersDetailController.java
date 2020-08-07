@@ -24,7 +24,7 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v1/details")
 public class OrdersDetailController implements IOrdersDetailController {
 
     private final ICustomerService customerService;
@@ -67,13 +67,6 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Logging(isTime = true, isReturn = false)
     public OrderDetail readById(Long id) {
         return this.orderService.readById(id);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public List<OrderDetail> readByUserId(Long userId) {
-        return this.orderService.readAllUserId(userId);
     }
 
     @Override

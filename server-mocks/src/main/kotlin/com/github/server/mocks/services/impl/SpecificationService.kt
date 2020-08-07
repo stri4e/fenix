@@ -6,10 +6,10 @@ import com.github.server.mocks.utils.IdsGenerator
 import org.springframework.stereotype.Service
 
 @Service
-class SpecificationService(private val idsGenerator: IdsGenerator): ISpecificationService {
+class SpecificationService: ISpecificationService {
 
     var mock: Specification = Specification(
-            idsGenerator.getId(),
+            1,
             "Phone",
             "This is phone spec."
     );

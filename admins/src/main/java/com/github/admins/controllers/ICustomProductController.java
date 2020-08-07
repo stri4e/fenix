@@ -12,25 +12,25 @@ import java.util.List;
 public interface ICustomProductController {
 
     @PostMapping(
-            path = "/{category}",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+            path = "/{categoryName}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto addProduct(@PathVariable String category,
-               @Valid @RequestBody ProductDto payload
+    ProductDto save(@PathVariable String categoryName,
+                    @Valid @RequestBody ProductDto payload
     );
 
     @GetMapping(
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    ProductDto getById(@PathVariable Long id);
+    ProductDto findById(@PathVariable Long id);
 
     @GetMapping(
             path = "/un-publish",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    List<ProductDto> getAllUnPublish();
+    List<ProductDto> findAllUnPublish();
 
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -41,8 +41,8 @@ public interface ICustomProductController {
 
     @DeleteMapping(
             path = "/{id}/{status}")
-    @ResponseStatus(code = HttpStatus.OK)
-    void updateStatusProduct(
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    void changeStatusProduct(
             @PathVariable Long id,
             @PathVariable ProductStatus status
     );

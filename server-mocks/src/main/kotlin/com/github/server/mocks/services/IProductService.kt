@@ -10,7 +10,7 @@ interface IProductService {
 
     fun readById(id: Long): Product
 
-    fun readByIds(ids: List<Long>): List<Product>
+    fun readByIds(ids: List<Long>?): List<Product>
 
     fun readAll(): List<Product>
 
