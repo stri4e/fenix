@@ -1,9 +1,12 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.CommentDto;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,7 +30,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class CommentControllerTest {
+public class CommentControllerTest extends CommentTestBase {
 
     @LocalServerPort
     private int port;
@@ -36,6 +39,18 @@ public class CommentControllerTest {
     private TestRestTemplate restTemplate;
 
     private String commentUrl;
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -47,6 +62,7 @@ public class CommentControllerTest {
 
     @Test
     public void save() {
+        create();
         CommentDto payload = CommentControllerMocks.commentDto();
         CommentDto exp = CommentControllerMocks.expCommentDto();
         String url = String.format("%s%s", this.commentUrl, "/1");
@@ -57,7 +73,8 @@ public class CommentControllerTest {
     }
 
     @Test
-    public void comment() {
+    public void findById() {
+        readById();
         CommentDto exp = CommentControllerMocks.expCommentDto();
         String url = String.format("%s%s", this.commentUrl, "/1");
         ResponseEntity<CommentDto> response = this.restTemplate.getForEntity(
@@ -70,6 +87,7 @@ public class CommentControllerTest {
 
     @Test
     public void remove() {
+        delete();
         String url = String.format("%s%s", this.commentUrl, "/1");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.DELETE, null, Void.class

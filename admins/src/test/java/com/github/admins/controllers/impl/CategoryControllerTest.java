@@ -2,9 +2,12 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.CategoryDto;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -32,7 +35,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class CategoryControllerTest {
+public class CategoryControllerTest extends CategoryTestBase {
 
     @LocalServerPort
     private int port;
@@ -42,6 +45,18 @@ public class CategoryControllerTest {
 
     private String categoryUrl;
 
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
+
     @Before
     public void setUp() throws MalformedURLException {
         String url = String.format("%s%d%s", LOCALHOST, port, "/v1/category");
@@ -50,6 +65,7 @@ public class CategoryControllerTest {
 
     @Test
     public void createStatusCreated() {
+        create();
         CategoryDto exp = CategoryControllerMocks.categoryDto();
         CategoryDto payload = CategoryControllerMocks.categoryDtoWithoutId();
         ResponseEntity<CategoryDto> response = this.restTemplate
@@ -68,7 +84,8 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void categoryStatusOk() {
+    public void findByNameStatusOk() {
+        readByName();
         CategoryDto exp = CategoryControllerMocks.categoryDto();
         String url = String.format("%s%s", this.categoryUrl, "?name=Phone");
         ResponseEntity<CategoryDto> response = this.restTemplate.getForEntity(url, CategoryDto.class);
@@ -78,12 +95,14 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void categoriesStatusOk() {
+    public void findAllStatusOk() {
+        readAll();
         List<CategoryDto> exp = CategoryControllerMocks.CATEGORIES_DTO;
         ResponseEntity<List<CategoryDto>> response = this.restTemplate.exchange(
                 this.categoryUrl,
                 HttpMethod.GET, null,
-                new ParameterizedTypeReference<>() {}
+                new ParameterizedTypeReference<>() {
+                }
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<CategoryDto> act = response.getBody();
@@ -92,6 +111,7 @@ public class CategoryControllerTest {
 
     @Test
     public void updateCategory() {
+        update();
         CategoryDto payload = CategoryControllerMocks.categoryDto();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.categoryUrl, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
@@ -101,6 +121,7 @@ public class CategoryControllerTest {
 
     @Test
     public void removeCategory() {
+        delete();
         String url = String.format("%s%s", this.categoryUrl, "/1");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.DELETE, null, Void.class

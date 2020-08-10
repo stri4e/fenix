@@ -26,4 +26,8 @@ public class Specification implements Serializable, Cloneable {
     @JsonProperty(value = "description")
     private String description;
 
+    public Specification(@NotBlank String name, @NotBlank String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

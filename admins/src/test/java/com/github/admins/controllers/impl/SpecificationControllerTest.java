@@ -1,10 +1,12 @@
 package com.github.admins.controllers.impl;
 
-import com.github.admins.dto.CommentDto;
 import com.github.admins.dto.SpecificationDto;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -29,7 +31,7 @@ import static org.junit.Assert.assertEquals;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class SpecificationControllerTest {
+public class SpecificationControllerTest extends SpecificationTestBase {
 
     @LocalServerPort
     private int port;
@@ -38,6 +40,18 @@ public class SpecificationControllerTest {
     private TestRestTemplate restTemplate;
 
     private String specificationUrl;
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -49,6 +63,7 @@ public class SpecificationControllerTest {
 
     @Test
     public void save() {
+        create();
         String url = String.format("%s%s", this.specificationUrl, "/1");
         SpecificationDto exp = SpecificationControllerMocks.expSpec();
         SpecificationDto payload = SpecificationControllerMocks.payload();
@@ -60,6 +75,7 @@ public class SpecificationControllerTest {
 
     @Test
     public void findById() {
+        readById();
         String url = String.format("%s%s", this.specificationUrl, "/1");
         SpecificationDto exp = SpecificationControllerMocks.expSpec();
         ResponseEntity<SpecificationDto> response = this.restTemplate
@@ -70,6 +86,7 @@ public class SpecificationControllerTest {
 
     @Test
     public void updateSpecification() {
+        update();
         SpecificationDto payload = SpecificationControllerMocks.payloadWithId();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.specificationUrl, HttpMethod.PUT,

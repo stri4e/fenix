@@ -2,9 +2,12 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.ProductDto;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -31,7 +34,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class CustomProductControllerTest {
+public class CustomProductControllerTest extends CustomProductTestBase {
 
     @LocalServerPort
     private int port;
@@ -40,6 +43,18 @@ public class CustomProductControllerTest {
     private TestRestTemplate restTemplate;
 
     private String productUrl;
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -51,6 +66,7 @@ public class CustomProductControllerTest {
 
     @Test
     public void save() {
+        create();
         String url = String.format("%s%s", this.productUrl, "/Phone");
         ProductDto exp = CustomProductControllerMocks.productDto();
         ProductDto payload = CustomProductControllerMocks.productDtoWithoutId();
@@ -63,6 +79,7 @@ public class CustomProductControllerTest {
 
     @Test
     public void findById() {
+        readById();
         ProductDto exp = CustomProductControllerMocks.productDto();
         String url = String.format("%s%s", this.productUrl, "/1");
         ResponseEntity<ProductDto> response = this.restTemplate
@@ -74,6 +91,7 @@ public class CustomProductControllerTest {
 
     @Test
     public void findAllUnPublish() {
+        readAllUnpublish();
         String url = String.format("%s%s", this.productUrl, "/un-publish");
         List<ProductDto> exp = CustomProductControllerMocks.PRODUCTS;
         ResponseEntity<List<ProductDto>> response = this.restTemplate.exchange(
@@ -87,6 +105,7 @@ public class CustomProductControllerTest {
 
     @Test
     public void updateProduct() {
+        update();
         ProductDto payload = CustomProductControllerMocks.getProductDtoForUpdate();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.productUrl, HttpMethod.PUT, new HttpEntity<>(payload),
@@ -97,6 +116,7 @@ public class CustomProductControllerTest {
 
     @Test
     public void changeStatusProduct() {
+        changeStatus();
         String url = String.format("%s%s", this.productUrl, "/1/used");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.DELETE, null,

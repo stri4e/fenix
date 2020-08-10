@@ -24,7 +24,7 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/details")
+@RequestMapping(path = "/v1")
 public class OrdersDetailController implements IOrdersDetailController {
 
     private final ICustomerService customerService;

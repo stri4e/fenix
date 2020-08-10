@@ -1,12 +1,13 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.dto.ProductDto;
-import com.github.admins.dto.SpecificationDto;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -33,7 +34,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class OrderDetailControllerTest {
+public class OrderDetailControllerTest extends OrderDetailTestBase {
 
     @LocalServerPort
     private int port;
@@ -42,6 +43,18 @@ public class OrderDetailControllerTest {
     private TestRestTemplate restTemplate;
 
     private String orderUrl;
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -52,9 +65,10 @@ public class OrderDetailControllerTest {
     }
 
     @Test
-    public void ordersByStatusOpen() {
+    public void findByStatusOpen() {
+        statusOpen();
         String url = String.format("%s%s", this.orderUrl, "/all/open");
-        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_OPEN;
+        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_DTO_OPEN_DTO;
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {}
@@ -65,9 +79,10 @@ public class OrderDetailControllerTest {
     }
 
     @Test
-    public void ordersByStatusClose() {
+    public void findByStatusClose() {
+        statusClose();
         String url = String.format("%s%s", this.orderUrl, "/all/close");
-        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_CLOSE;
+        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_CLOSE_DTO;
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {}
@@ -78,9 +93,10 @@ public class OrderDetailControllerTest {
     }
 
     @Test
-    public void ordersByStatusHandling() {
+    public void findByStatusHandling() {
+        statusHandling();
         String url = String.format("%s%s", this.orderUrl, "/all/handling");
-        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_HANDLING;
+        List<OrderDetailDto> exp = OrderDetailControllerMocks.ORDERS_DTO_HANDLING;
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {}
@@ -91,7 +107,8 @@ public class OrderDetailControllerTest {
     }
 
     @Test
-    public void orderById() {
+    public void findById() {
+        findOrderById();
         OrderDetailDto exp = OrderDetailControllerMocks.orderDetailDto();
         String url = String.format("%s%s", this.orderUrl, "/2");
         ResponseEntity<OrderDetailDto> response = this.restTemplate
@@ -103,6 +120,7 @@ public class OrderDetailControllerTest {
 
     @Test
     public void updateOrder() {
+        update();
         OrderDetailDto payload = OrderDetailControllerMocks.orderDetailDto();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.orderUrl, HttpMethod.PUT,
@@ -113,6 +131,7 @@ public class OrderDetailControllerTest {
 
     @Test
     public void updateOrderStatus() {
+        updateStatus();
         String url = String.format("%s%s", this.orderUrl, "/status/1/open");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.PUT, null, Void.class

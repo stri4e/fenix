@@ -6,9 +6,11 @@ import com.github.admins.dto.ProductDto;
 import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
+import com.github.admins.payload.Product;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IProductService;
 import com.github.admins.utils.Logging;
+import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +35,7 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> ordersByStatus(OrderStatus status) {
+    public List<OrderDetailDto> findByStatus(OrderStatus status) {
         var orders = this.orderService.readAllByStatus(status)
                 .orElseThrow(NotFound::new);
         return orders.stream()
@@ -44,7 +46,7 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public OrderDetailDto orderById(Long orderId) {
+    public OrderDetailDto findById(Long orderId) {
         var order = this.orderService.readById(orderId)
                 .orElseThrow(NotFound::new);
         var products = this.productService.readByIds(order.getProductIds())
@@ -70,10 +72,11 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     private OrderDetailDto collect(OrderDetail order) {
+        List<Product> pr = this.productService.readByIds(order.getProductIds())
+                .orElseThrow(NotFound::new);
         return fromOrderDetailDto(
                 order,
-                this.productService.readByIds(order.getProductIds())
-                        .orElseThrow(NotFound::new)
+                pr
         );
     }
 

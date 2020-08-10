@@ -62,6 +62,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
+
+	testImplementation group: 'org.mock-server', name: 'mockserver-netty', version: '5.11.1'
+
 	testImplementation group: 'junit', name: 'junit', version: '4.12'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'

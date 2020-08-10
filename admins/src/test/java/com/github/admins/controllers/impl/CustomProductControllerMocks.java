@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CustomProductControllerMocks {
@@ -25,6 +24,10 @@ public class CustomProductControllerMocks {
     public static final String PRODUCT_DESCRIPTION_FOR_UPDATE = "This is update product.";
 
     public static final String PRODUCT_PREVIEW_IMAGE = "img";
+
+    public static Long CATEGORY_ID = 1L;
+
+    public static String CATEGORY_NAME = "Phone";
 
     public static final List<String> IMAGES = new ArrayList<>() {{
         add("1");
@@ -80,7 +83,53 @@ public class CustomProductControllerMocks {
         )
     );
 
-    public static String CATEGORY_NAME = "Phone";
+    public static final List<Product> PRODUCTS_UN_PUBLISH = Lists.newArrayList(
+            new Product(
+                    1L,
+                    "Nokia",
+                    new BigDecimal("12.2"),
+                    25,
+                    "This is good product.",
+                    "img",
+                    IMAGES
+            ),
+            new Product(
+                    2L,
+                    "IPhone",
+                    new BigDecimal("100.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    IMAGES
+            ),
+            new Product(
+                    3L,
+                    "Sumsung",
+                    new BigDecimal("50.2"),
+                    500,
+                    "This is good product.",
+                    "img",
+                    IMAGES
+            ),
+            new Product(
+                    4L,
+                    "Xiaomi",
+                    new BigDecimal("14.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    IMAGES
+            ),
+            new Product(
+                    5L,
+                    "Huawei",
+                    new BigDecimal("24.2"),
+                    560,
+                    "This is good product.",
+                    "img",
+                    IMAGES
+            )
+    );
 
     public static ProductDto productDtoWithoutId() {
         ProductDto p = new ProductDto();
@@ -115,6 +164,47 @@ public class CustomProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         return p;
+    }
+
+    public static Product requestProductForUpdate() {
+        Product p = new Product();
+        p.setId(PRODUCT_ID);
+        p.setName(PRODUCT_NAME);
+        p.setPrice(PRODUCT_PRICE);
+        p.setQuantity(PRODUCT_QUANTITY);
+        p.setDescription(PRODUCT_DESCRIPTION_FOR_UPDATE);
+        p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
+        p.setImages(IMAGES);
+        return p;
+    }
+
+    public static Product requestProductPayload() {
+        Product p = new Product();
+        p.setName(PRODUCT_NAME);
+        p.setPrice(PRODUCT_PRICE);
+        p.setQuantity(PRODUCT_QUANTITY);
+        p.setDescription(PRODUCT_DESCRIPTION);
+        p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
+        p.setImages(IMAGES);
+        p.setCategory(categoryResponsePayload());
+        return p;
+    }
+
+    public static Product responseProductPayload() {
+        Product p = new Product();
+        p.setId(PRODUCT_ID);
+        p.setName(PRODUCT_NAME);
+        p.setPrice(PRODUCT_PRICE);
+        p.setQuantity(PRODUCT_QUANTITY);
+        p.setDescription(PRODUCT_DESCRIPTION);
+        p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
+        p.setImages(IMAGES);
+        p.setCategory(categoryResponsePayload());
+        return p;
+    }
+
+    public static Category categoryResponsePayload() {
+        return new Category(CATEGORY_ID, CATEGORY_NAME);
     }
 
 }
