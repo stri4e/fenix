@@ -14,7 +14,7 @@ public interface IOrdersDetailController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    void createOrder(
+    void save(
             @RequestAttribute(name = "userId") Long userId,
             @RequestBody @Valid OrderDetailDto payload
     );
@@ -23,7 +23,7 @@ public interface IOrdersDetailController {
             path = "/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<OrderDetail> readAllByStatus(@PathVariable OrderStatus status);
+    List<OrderDetail> findAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
             path = "/fetch",

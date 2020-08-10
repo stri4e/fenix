@@ -47,4 +47,16 @@ public abstract class Item implements Serializable, Cloneable {
     @JsonProperty(value = "createDate")
     private Date createDate;
 
+    public Item(Long id, @NotBlank String name,
+                @NotNull BigDecimal price, @NotNull Integer quantity,
+                @NotBlank String description, @NotBlank String previewImage,
+                @NotEmpty List<String> images) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.previewImage = previewImage;
+        this.images = images;
+    }
 }

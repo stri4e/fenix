@@ -5,9 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -33,4 +36,10 @@ public class Product extends Item implements Serializable, Cloneable {
     @JsonProperty(value = "status")
     private ProductStatus status;
 
+    public Product(Long id, @NotBlank String name,
+                   @NotNull BigDecimal price, @NotNull Integer quantity,
+                   @NotBlank String description, @NotBlank String previewImage,
+                   @NotEmpty List<String> images) {
+        super(id, name, price, quantity, description, previewImage, images);
+    }
 }

@@ -13,11 +13,6 @@ spring:
     generate-ddl: false
     database-platform: H2
     show-sql: true
-logging:
-  level:
-    root: WARN
-    com.github.orders: DEBUG
-    org.springframework.web: INFO
 
 eureka:
   client:
