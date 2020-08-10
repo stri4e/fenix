@@ -16,14 +16,14 @@ public interface IOrderDetailController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> ordersByStatus(@PathVariable OrderStatus status);
+    List<OrderDetailDto> findByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
             path = "{orderId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    OrderDetailDto orderById(@PathVariable Long orderId);
+    OrderDetailDto findById(@PathVariable Long orderId);
 
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE

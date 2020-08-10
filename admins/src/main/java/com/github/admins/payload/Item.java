@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,5 +46,20 @@ public abstract class Item implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "createDate")
     private Date createDate;
+
+    public Item() {
+    }
+
+    public Item(Long id, @NotBlank String name, @NotNull BigDecimal price,
+                @NotNull Integer quantity, @NotBlank String description,
+                @NotBlank String previewImage, @NotEmpty List<String> images) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.previewImage = previewImage;
+        this.images = images;
+    }
 
 }

@@ -22,4 +22,9 @@ public class Comment {
     @NotBlank
     @JsonProperty(value = "comment")
     private String comment;
+
+    public Comment(@NotBlank String name, @NotBlank String comment) {
+        this.name = name;
+        this.comment = comment;
+    }
 }

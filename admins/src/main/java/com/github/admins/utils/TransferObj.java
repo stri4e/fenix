@@ -80,9 +80,10 @@ public class TransferObj {
     toOrderDetail(OrderDetailDto data, List<Long> productIds) {
         return new OrderDetail(
                 data.getId(),
-                productIds,
                 toCustomer(data.getCustomer()),
+                productIds,
                 data.getAmount(),
+                data.getUserId(),
                 data.getStatus()
         );
     }

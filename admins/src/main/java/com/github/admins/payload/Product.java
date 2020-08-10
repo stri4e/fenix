@@ -5,10 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -41,4 +43,13 @@ public class Product extends Item implements Serializable, Cloneable {
         }
     }
 
+    public Product() {
+    }
+
+    public Product(Long id, @NotBlank String name,
+                   @NotNull BigDecimal price, @NotNull Integer quantity,
+                   @NotBlank String description, @NotBlank String previewImage,
+                   @NotEmpty List<String> images) {
+        super(id, name, price, quantity, description, previewImage, images);
+    }
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ICommentService {
 
     @PostMapping(
-            path = "/v1/comments/",
+            path = "/v1/comments",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )

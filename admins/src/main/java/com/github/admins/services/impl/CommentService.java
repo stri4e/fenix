@@ -9,8 +9,6 @@ import java.util.Optional;
 @Service
 public class CommentService implements ICommentService {
 
-    private static final Comment EMPTY = new Comment();
-
     @Override
     public Optional<Comment> create(Comment c) {
         return Optional.empty();
