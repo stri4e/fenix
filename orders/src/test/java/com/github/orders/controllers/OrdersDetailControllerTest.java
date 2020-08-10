@@ -7,9 +7,12 @@ import com.github.orders.repository.CustomerRepo;
 import com.github.orders.repository.OrderDetailRepo;
 import org.assertj.core.util.Lists;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -24,9 +27,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.github.orders.OrdersConstant.LOCALHOST;
 import static org.junit.Assert.assertEquals;
@@ -39,7 +40,7 @@ import static org.junit.Assert.assertThat;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class OrdersDetailControllerTest {
+public class OrdersDetailControllerTest extends OrdersDetailTestBase {
 
     @LocalServerPort
     private int port;
@@ -55,16 +56,29 @@ public class OrdersDetailControllerTest {
 
     private String orderUrl;
 
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
+
     @Before
     public void setUp() throws Exception {
         String url = String.format(
-                "%s%d%s", LOCALHOST, port, "/v1/details"
+                "%s%d%s", LOCALHOST, port, "/v1"
         );
         this.orderUrl = new URL(url).toString();
     }
 
     @Test
-    public void createOrder() {
+    public void save() {
+        saveOrder();
         OrderDetailDto payload = OrdersDetailControllerMocks.payload();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.orderUrl, HttpMethod.POST, new HttpEntity<>(payload), Void.class
@@ -73,7 +87,7 @@ public class OrdersDetailControllerTest {
     }
 
     @Test
-    public void readAllByStatus() {
+    public void findAllByStatus() {
         List<OrderDetail> exp = Lists.newArrayList(OrdersDetailControllerMocks.expOrder());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
@@ -89,7 +103,7 @@ public class OrdersDetailControllerTest {
     }
 
     @Test
-    public void readById() {
+    public void findById() {
         OrderDetail exp = OrdersDetailControllerMocks.expOrder();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();

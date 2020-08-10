@@ -2,10 +2,13 @@ package com.github.orders.controllers;
 
 import com.github.orders.dto.CustomerDto;
 import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.dto.OrderDetailEntryDto;
+import com.github.orders.dto.ProductDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import org.assertj.core.util.Lists;
+import com.github.orders.payload.Product;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -68,6 +71,77 @@ public class OrdersDetailControllerMocks {
 
     public static OrderDetail orderDetailForUpdate() {
         return new OrderDetail(customer(), PRODUCT_IDS, BigDecimal.ONE, USER_ID, OrderStatus.open);
+    }
+
+    public static final List<Product> PRODUCTS = com.google.common.collect.Lists.newArrayList(
+            new Product(
+                    1L,
+                    "Nokia",
+                    new BigDecimal("12.2"),
+                    25,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            ),
+            new Product(
+                    2L,
+                    "IPhone",
+                    new BigDecimal("100.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            ),
+            new Product(
+                    3L,
+                    "Sumsung",
+                    new BigDecimal("50.2"),
+                    500,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            )
+    );
+
+    public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
+            new ProductDto(
+                    1L,
+                    "Nokia",
+                    new BigDecimal("12.2"),
+                    25,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            ),
+            new ProductDto(
+                    2L,
+                    "IPhone",
+                    new BigDecimal("100.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            ),
+            new ProductDto(
+                    3L,
+                    "Sumsung",
+                    new BigDecimal("50.2"),
+                    500,
+                    "This is good product.",
+                    "img",
+                    Lists.newArrayList("1", "2", "3")
+            )
+    );
+
+    public static OrderDetailEntryDto orderDetailEntryDto() {
+        return new OrderDetailEntryDto(
+                ORDER_ID,
+                customerDto(),
+                PRODUCTS_DTO,
+                AMOUNT,
+                USER_ID,
+                OrderStatus.open
+        );
     }
 
 }

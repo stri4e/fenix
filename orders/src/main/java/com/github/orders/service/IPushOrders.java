@@ -15,8 +15,7 @@ public interface IPushOrders {
 
     @PostMapping(
             path = "/v1/push",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     void pushOrder(@RequestBody OrderDetailEntryDto payload);
 

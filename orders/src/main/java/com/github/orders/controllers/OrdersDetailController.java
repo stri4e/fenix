@@ -38,7 +38,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void createOrder(Long userId, OrderDetailDto payload) {
+    public void save(Long userId, OrderDetailDto payload) {
         Customer customer = TransferObj.toCustomer(payload.getCustomer());
         Customer c = this.customerService.create(customer);
         OrderDetail data = TransferObj.toOrderDetail(
@@ -58,7 +58,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetail> readAllByStatus(OrderStatus status) {
+    public List<OrderDetail> findAllByStatus(OrderStatus status) {
         return this.orderService.readByStatus(status);
     }
 
