@@ -12,6 +12,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="server-mocks" target="11" />
       <module name="statistics" target="11" />
       <module name="statistics.main" target="11" />
       <module name="statistics.test" target="11" />
