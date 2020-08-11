@@ -5,28 +5,33 @@ import com.github.users.center.dto.ForgotPassDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
+import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.User;
 import com.github.users.center.payload.JwtAuthResponse;
 import com.github.users.center.repository.ConfirmTokenRepo;
+import com.github.users.center.repository.PassResetRepo;
 import com.github.users.center.services.IUserService;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +42,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class UsersControllerIT {
+public class UsersControllerTest extends UsersTestBase {
 
     private static final String LOCALHOST = "http://localhost:";
 
@@ -54,6 +59,9 @@ public class UsersControllerIT {
     private IUserService userService;
 
     @Autowired
+    private PassResetRepo passResetRepo;
+
+    @Autowired
     private ConfirmTokenRepo confirmTokenRepo;
 
     private URL submitRegUrl;
@@ -62,17 +70,37 @@ public class UsersControllerIT {
 
     private URL processForgotPassUrl;
 
+    private URL submitResetPassUrl;
+
     private String submitRegHeaderName;
 
     private String submitRegHeader;
+
+    private MultiValueMap<String, String> authHeaders;
+
+    private static ClientAndServer mockServer;
+
+    @BeforeClass
+    public static void startServer() {
+        mockServer = ClientAndServer.startClientAndServer(2222);
+    }
+
+    @AfterClass
+    public static void downServer() {
+        mockServer.stop();
+    }
 
     @Before
     public void setUp() throws MalformedURLException {
         this.submitRegUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/reg"));
         this.submitAuthUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/auth"));
         this.processForgotPassUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/forgot-pass"));
-        this.submitRegHeaderName = "Client-Address";
+        this.submitResetPassUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/reset-pass"));
+        this.submitRegHeaderName = "Origin";
         this.submitRegHeader = String.format("%s%d", LOCALHOST, port);
+        this.authHeaders = new LinkedMultiValueMap<>();
+        this.authHeaders.add("X-Forwarded-For", "http://localhost:8080");
+        this.authHeaders.add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0");
     }
 
     //=================================================
@@ -81,6 +109,7 @@ public class UsersControllerIT {
 
     @Test
     public void submitReg() {
+        registrationEmail();
         User expUser = ControllersMocks.userExp();
         UserRegDto payload = ControllersMocks.userRegDto();
         HttpHeaders headers = new HttpHeaders();
@@ -104,6 +133,7 @@ public class UsersControllerIT {
 
     @Test
     public void submitRegConflict() {
+        loginNotification();
         User user = ControllersMocks.user();
         UserRegDto payload = ControllersMocks.userRegDto();
         this.userService.create(user);
@@ -132,6 +162,7 @@ public class UsersControllerIT {
 
     @Test
     public void confirmAccount() throws MalformedURLException {
+        registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
         HttpHeaders headers = new HttpHeaders();
         headers.set(this.submitRegHeaderName, this.submitRegHeader);
@@ -154,6 +185,7 @@ public class UsersControllerIT {
 
     @Test
     public void confirmAccountTokenEmpty() throws MalformedURLException {
+        registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
         HttpHeaders headers = new HttpHeaders();
         headers.set(this.submitRegHeaderName, this.submitRegHeader);
@@ -179,22 +211,29 @@ public class UsersControllerIT {
 
     @Test
     public void submitAuth() {
+        loginNotification();
         UserAuthDto payload = ControllersMocks.userAuthDto();
         User userForAuth = ControllersMocks.userForAuth();
         this.userService.create(userForAuth);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
+        HttpEntity<UserAuthDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<JwtAuthResponse> result = this.restTemplate
-                .postForEntity(this.submitAuthUrl.toString(), payload, JwtAuthResponse.class);
+                .postForEntity(this.submitAuthUrl.toString(), entity, JwtAuthResponse.class);
         JwtAuthResponse act = result.getBody();
         assertNotNull(act);
     }
 
     @Test
     public void submitAuthUnauthorized() {
+        loginNotification();
         UserAuthDto payload = ControllersMocks.userAuthDtoNotValid();
         User userForAuth = ControllersMocks.userForAuth();
         this.userService.create(userForAuth);
+        this.userService.create(userForAuth);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
+        HttpEntity<UserAuthDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<JwtAuthResponse> result = this.restTemplate
-                .postForEntity(this.submitAuthUrl.toString(), payload, JwtAuthResponse.class);
+                .postForEntity(this.submitAuthUrl.toString(), entity, JwtAuthResponse.class);
         assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
     }
 
@@ -204,12 +243,51 @@ public class UsersControllerIT {
 
     @Test
     public void processForgotPass() {
+        procResetPass();
         ForgotPassDto payload = ControllersMocks.forgotPassDto();
         User userForAuth = ControllersMocks.userForAuth();
         this.userService.create(userForAuth);
         ResponseEntity<Void> result = this.restTemplate
                 .postForEntity(this.processForgotPassUrl.toString(), payload, Void.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    //=================================================
+    //================= RESET PASSWORD ================
+    //=================================================
+
+    @Test
+    public void resetPass() {
+        User user = ControllersMocks.user();
+        PassResetToken pr = ControllersMocks.passResetToken();
+        pr.setExpiryDate(10);
+        pr.setNewPass("new_password");
+        this.userService.create(user);
+        PassResetToken passReset = this.passResetRepo.save(pr);
+        String url = String.format(
+                "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
+        );
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
+        );
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    public void resetPassPreConditionFailed() {
+        User user = ControllersMocks.user();
+        PassResetToken pr = ControllersMocks.passResetToken();
+        pr.setExpiryDate(1);
+        pr.setExpireTime(new Date(1597128681L));
+        this.userService.create(user);
+        PassResetToken passReset = this.passResetRepo.save(pr);
+        String url = String.format(
+                "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
+        );
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
+        );
+        assertEquals(HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
     }
 
 }

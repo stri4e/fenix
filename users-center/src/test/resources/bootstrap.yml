@@ -1,0 +1,8 @@
+spring:
+  zipkin:
+    enabled: false
+  application:
+    name: users-center
+  cloud:
+    config:
+      enabled: false
