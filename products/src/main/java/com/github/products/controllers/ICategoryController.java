@@ -14,7 +14,7 @@ public interface ICategoryController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<CategoryDto> categories();
+    List<CategoryDto> findAllCategories();
 
     @PostMapping(
             path = "/edit",
@@ -22,14 +22,14 @@ public interface ICategoryController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Category createCategory(@RequestBody Category payload);
+    Category saveCategory(@RequestBody Category payload);
 
     @GetMapping(
             path = "/fetch/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Category readByName(@PathVariable String name);
+    Category findByName(@PathVariable String name);
 
     @PutMapping(
             path = "/edit"

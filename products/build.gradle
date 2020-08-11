@@ -55,9 +55,8 @@ dependencies {
 	implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.8.2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation group: 'junit', name: 'junit', version: '4.12'
 	testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
 	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'

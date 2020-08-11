@@ -24,7 +24,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<CategoryDto> categories() {
+    public List<CategoryDto> findAllCategories() {
         return this.categoryService.read().stream()
                 .map(TransferObj::fromCategory)
                 .collect(Collectors.toList());
@@ -33,14 +33,14 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Category createCategory(Category payload) {
+    public Category saveCategory(Category payload) {
         return this.categoryService.create(payload);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Category readByName(String name) {
+    public Category findByName(String name) {
         return this.categoryService.readByName(name);
     }
 

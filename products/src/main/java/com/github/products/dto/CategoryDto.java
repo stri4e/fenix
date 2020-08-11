@@ -30,4 +30,7 @@ public class CategoryDto {
     @NotBlank(message = "Category name is required")
     private String name;
 
+    public CategoryDto(@NotBlank(message = "Category name is required") String name) {
+        this.name = name;
+    }
 }
