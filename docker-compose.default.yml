@@ -10,8 +10,3 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./schema-default.sql:/docker-entrypoint-initdb.d/schema-default.sql
-  server-mocks:
-    container_name: server-mocks
-    build: ./server-mocks
-    ports:
-      - "2222:2222"

@@ -13,6 +13,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="server-mocks" target="11" />
+      <module name="server-mocks.main" target="11" />
+      <module name="server-mocks.test" target="11" />
       <module name="statistics" target="11" />
       <module name="statistics.main" target="11" />
       <module name="statistics.test" target="11" />
