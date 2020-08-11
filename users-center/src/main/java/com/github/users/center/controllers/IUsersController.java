@@ -35,7 +35,7 @@ public interface IUsersController {
     void processForgotPass(@Valid @RequestBody ForgotPassDto payload);
 
     @DeleteMapping(path = "/reset-pass")
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void resetPass(@RequestParam String token);
 
 }

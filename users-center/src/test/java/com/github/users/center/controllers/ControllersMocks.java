@@ -3,6 +3,7 @@ package com.github.users.center.controllers;
 import com.github.users.center.dto.ForgotPassDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
+import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.Role;
 import com.github.users.center.entity.User;
 
@@ -149,6 +150,10 @@ public class ControllersMocks {
 
     public static ForgotPassDto forgotPassDto() {
         return new ForgotPassDto(EMAIL, NEW_PASS, NEW_PASS);
+    }
+
+    public static PassResetToken passResetToken() {
+        return new PassResetToken(user());
     }
 
 }
