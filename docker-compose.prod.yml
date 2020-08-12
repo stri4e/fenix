@@ -124,3 +124,14 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     entrypoint: ./websocket-entrypoint.sh config-server 8888 java -jar /app/websocket.jar
+  statistics:
+    container_name: statistics
+    build: ./statistics
+    ports:
+      - "8787:8787"
+    depends_on:
+      - postgresdb
+      - discovery
+    environment:
+      - "ENVIRONMENT=prod"
+    entrypoint: ./statistics-entrypoint.sh postgresdb 5432 ./statistics

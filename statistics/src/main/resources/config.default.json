@@ -1,6 +1,6 @@
 {
   "IsLoggerFile": false,
-  "ServerPort": "8080",
+  "ServerPort": "8787",
   "DatabaseConfig": {
     "DatabaseHost": "localhost",
     "DatabasePort": 5432,
@@ -19,9 +19,9 @@
     "App": "statistics",
     "IPAddr": "127.0.0.1",
     "VipAddress": "statistics",
-    "HomePageUrl": "http://127.0.0.1:8080/",
-    "StatusPageUrl": "http://127.0.0.1:8080/info",
-    "HealthCheckUrl": "http://127.0.0.1:8080/health",
+    "HomePageUrl": "http://127.0.0.1:8787/",
+    "StatusPageUrl": "http://127.0.0.1:8787/info",
+    "HealthCheckUrl": "http://127.0.0.1:8787/health",
     "EnableEureka": false
   },
   "LoggerLvl": "debug, info, error",
