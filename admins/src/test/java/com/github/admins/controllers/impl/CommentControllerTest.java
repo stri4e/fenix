@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.URL;
 
 import static com.github.admins.AdminsConstant.LOCALHOST;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -58,18 +58,6 @@ public class CommentControllerTest extends CommentTestBase {
                 "%s%d%s", LOCALHOST, port, "/v1/comment"
         );
         this.commentUrl = new URL(url).toString();
-    }
-
-    @Test
-    public void save() {
-        create();
-        CommentDto payload = CommentControllerMocks.commentDto();
-        CommentDto exp = CommentControllerMocks.expCommentDto();
-        String url = String.format("%s%s", this.commentUrl, "/1");
-        ResponseEntity<CommentDto> response = this.restTemplate
-                .postForEntity(url, payload, CommentDto.class);
-        CommentDto act = response.getBody();
-        assertEquals(exp, act);
     }
 
     @Test

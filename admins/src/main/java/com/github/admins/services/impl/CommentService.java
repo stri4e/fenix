@@ -10,11 +10,6 @@ import java.util.Optional;
 public class CommentService implements ICommentService {
 
     @Override
-    public Optional<Comment> create(Comment c) {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<Comment> readById(Long id) {
         return Optional.empty();
     }

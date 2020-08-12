@@ -6,12 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 public interface ICommentController {
 
-    @PostMapping(path = "/{productId}")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    CommentDto save(@PathVariable Long productId,
-                    @RequestBody CommentDto payload
-    );
-
     @GetMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     CommentDto findById(@PathVariable Long id);

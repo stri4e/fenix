@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,7 @@ public class CommentDto {
     @JsonProperty(value = "id")
     private Long id;
 
+    @NotBlank(message = "Comment name is required.")
     @ApiModelProperty(
             value = "Comment name",
             example = "Alex"
@@ -27,6 +30,7 @@ public class CommentDto {
     @JsonProperty(value = "name")
     private String name;
 
+    @NotBlank(message = "Comment description is required.")
     @ApiModelProperty(
             value = "Comment description",
             example = "This is supper phone."
@@ -34,4 +38,8 @@ public class CommentDto {
     @JsonProperty(value = "description")
     private String description;
 
+    public CommentDto(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

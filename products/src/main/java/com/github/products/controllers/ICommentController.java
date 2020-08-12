@@ -15,7 +15,7 @@ public interface ICommentController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    CommentDto addComment(
+    CommentDto saveComment(
             @PathVariable Long productId,
             @RequestBody CommentDto payload
     );
@@ -24,11 +24,12 @@ public interface ICommentController {
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Comment readById(@PathVariable Long id);
+    Comment findById(@PathVariable Long id);
 
     @DeleteMapping(
             path = "/edit/{id}"
     )
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable Long id);
 
 }
