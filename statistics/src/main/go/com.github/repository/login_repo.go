@@ -13,7 +13,7 @@ func NewLoginRepo(database *gorm.DB) *LoginRepo {
 	return &LoginRepo{database: database}
 }
 
-func (repo *LoginRepo) FindByAccountId(accountId uint) (*entity.Login, error)  {
+func (repo *LoginRepo) FindByAccountId(accountId uint) (*entity.Login, error) {
 	var login *entity.Login
 	err := repo.database.
 		Preload("product").

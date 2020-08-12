@@ -12,6 +12,6 @@ cp -r src/main/resources build/src/main
 
 echo "Add configs folder."
 
-go build -o build/statistics src/main/go/main.go
+go build -o build/statistics src/main/go/com.github/main.go
 
-echo "Build Golang app finis."
+echo "Build Golang app finish."
