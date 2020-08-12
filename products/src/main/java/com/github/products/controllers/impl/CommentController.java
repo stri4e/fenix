@@ -3,8 +3,10 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.ICommentController;
 import com.github.products.dto.CommentDto;
 import com.github.products.entity.Comment;
+import com.github.products.entity.Product;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.services.ICommentService;
+import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -14,12 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
+import static com.github.products.utils.TransferObj.fromComment;
+import static com.github.products.utils.TransferObj.toComment;
+
 @RestController()
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/comments/")
 public class CommentController implements ICommentController {
 
     private final ICommentService commentService;
+
+    private final IProductService productService;
 
     @Override
     @HystrixCommand
@@ -29,8 +36,12 @@ public class CommentController implements ICommentController {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest();
         }
-        var comment = TransferObj.toComment(payload);
-        return TransferObj.fromComment(this.commentService.create(comment));
+        Comment tc = toComment(payload);
+        Product product = this.productService.readById(productId);
+        Comment comment = this.commentService.create(tc);
+        product.addComment(comment);
+        this.productService.updateProduct(product);
+        return fromComment(comment);
     }
 
     @Override

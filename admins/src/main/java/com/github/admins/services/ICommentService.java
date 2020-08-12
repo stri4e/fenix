@@ -15,13 +15,6 @@ import java.util.Optional;
 )
 public interface ICommentService {
 
-    @PostMapping(
-            path = "/v1/comments",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    Optional<Comment> create(@RequestBody Comment c);
-
     @GetMapping(
             path = "/v1/comments/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE

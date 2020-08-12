@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -65,5 +66,11 @@ public class Product extends Item implements Serializable, Cloneable {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
+
+    public void addComment(Comment c) {
+        if (Objects.nonNull(c)) {
+            this.comments.add(c);
+        }
+    }
 
 }
