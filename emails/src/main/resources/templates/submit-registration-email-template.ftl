@@ -26,7 +26,7 @@
             <p>${'Dear ' + firstName + ' ' + lastName}</p>
             <p>
                 You've confirmation account.
-                <a href="${confirmAccountUrl}">confirm your account</a>
+                <a href="${redirectUrl}">confirm your account</a>
             </p>
             <p>Thanks</p>
         </td>

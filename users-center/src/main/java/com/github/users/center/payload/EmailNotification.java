@@ -64,7 +64,7 @@ public class EmailNotification {
         Map<String, Object> information = new HashMap<>();
         information.put("firstName", fName);
         information.put("lastName", lName);
-        information.put("confirmAccountUrl", url);
+        information.put("redirectUrl", url);
         return new EmailNotification(email, information);
     }
 

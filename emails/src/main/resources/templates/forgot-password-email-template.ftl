@@ -27,7 +27,7 @@
             <p>${'Dear ' + firstName + ' ' + lastName}</p>
             <p>
                 You've requested a password reset.
-                <a href="${resetUrl}">reset your password</a>
+                <a href="${redirectUrl}">reset your password</a>
             </p>
             <p>Thanks</p>
         </td>
