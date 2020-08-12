@@ -15,7 +15,7 @@ public interface IUsersController {
 
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
-    void submitReg(@RequestHeader(name = "Origin") String userUrl,
+    void submitReg(@RequestHeader(name = "Origin") String clientUrl,
                    @Valid @RequestBody UserRegDto payload
     );
 

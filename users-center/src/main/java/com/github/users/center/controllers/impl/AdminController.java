@@ -57,14 +57,14 @@ public class AdminController implements IAdminController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String userUrl, @Valid UserRegDto payload) {
+    public void submitReg(String clientUrl, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
         var user = TransferObj.user(payload, ROLE_ADMIN);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
-        var ct = new ConfirmToken(userUrl, user);
+        var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
         ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
         this.emailService.submitReg(cf);

@@ -54,10 +54,10 @@ public class ConfirmToken implements Serializable, Cloneable {
     private Date createDate;
 
     @Column(
-            name = "user_url",
+            name = "client_url",
             nullable = false
     )
-    private String userUrl;
+    private String clientUrl;
 
     @OneToOne(
             targetEntity = User.class,
@@ -72,11 +72,11 @@ public class ConfirmToken implements Serializable, Cloneable {
     public ConfirmToken() {
     }
 
-    public ConfirmToken(String userUrl, User user) {
+    public ConfirmToken(String clientUrl, User user) {
         this.user = user;
         this.createDate = new Date();
         this.token = UUID.randomUUID().toString();
-        this.userUrl = userUrl;
+        this.clientUrl = clientUrl;
     }
 
 }
