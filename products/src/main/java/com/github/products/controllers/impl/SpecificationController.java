@@ -19,14 +19,14 @@ public class SpecificationController implements ISpecificationController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Specification create(Specification payload) {
+    public Specification save(Specification payload) {
         return this.specificationService.create(payload);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Specification readById(Long id) {
+    public Specification findById(Long id) {
         return this.specificationService.readById(id);
     }
 

@@ -21,7 +21,7 @@ import static com.github.products.utils.TransferObj.toComment;
 
 @RestController()
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/comments/")
+@RequestMapping(path = "/v1/comments")
 public class CommentController implements ICommentController {
 
     private final ICommentService commentService;
@@ -32,7 +32,7 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto
-    addComment(Long productId, CommentDto payload) {
+    saveComment(Long productId, CommentDto payload) {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest();
         }
@@ -47,7 +47,7 @@ public class CommentController implements ICommentController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Comment readById(Long id) {
+    public Comment findById(Long id) {
         return this.commentService.readById(id);
     }
 

@@ -13,20 +13,20 @@ public interface ISpecificationController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Specification create(@RequestBody Specification payload);
+    Specification save(@RequestBody Specification payload);
 
     @GetMapping(
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Specification readById(@PathVariable Long id);
+    Specification findById(@PathVariable Long id);
 
     @PutMapping(
             path = "/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(Specification payload);
+    void update(@RequestBody Specification payload);
 
 }
