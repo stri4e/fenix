@@ -16,4 +16,4 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-/src/main/go/docs/
+/src/main/go/com.github/docs/
