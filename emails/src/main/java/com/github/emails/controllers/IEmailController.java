@@ -1,7 +1,6 @@
 package com.github.emails.controllers;
 
-import com.github.emails.payload.ConfirmEmail;
-import com.github.emails.payload.LoginNotification;
+import com.github.emails.payload.EmailNotification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,20 +16,20 @@ public interface IEmailController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void submitReg(@Valid @RequestBody ConfirmEmail payload);
+    void submitReg(@Valid @RequestBody EmailNotification payload);
 
     @PostMapping(
             path = "/reset/pass",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void resetPass(@Valid @RequestBody ConfirmEmail payload);
+    void resetPass(@Valid @RequestBody EmailNotification payload);
 
     @PostMapping(
             path = "/login/notification",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void loginNotification(@Valid @RequestBody LoginNotification payload);
+    void loginNotification(@Valid @RequestBody EmailNotification payload);
 
 }

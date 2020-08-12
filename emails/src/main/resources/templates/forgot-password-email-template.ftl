@@ -15,6 +15,7 @@
     </style>
 </head>
 <body style="margin: 0; padding: 0;">
+
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
     <tr>
         <td align="center" bgcolor="#eaeaea" style="padding: 40px 0 30px 0;">
@@ -25,15 +26,10 @@
         <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
             <p>${'Dear ' + firstName + ' ' + lastName}</p>
             <p>
-                You've confirmation account.
-                <a href="${confirmAccountUrl}">confirm your account</a>
+                You've requested a password reset.
+                <a href="${resetUrl}">reset your password</a>
             </p>
             <p>Thanks</p>
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="#eaeaea" style="padding: 30px 30px 30px 30px;">
-            <p>${signature}</p>
         </td>
     </tr>
 </table>

@@ -15,7 +15,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class LoginNotification {
+public class EmailNotification {
 
     @NotBlank
     @JsonProperty(value = "email")
