@@ -88,7 +88,7 @@ public class UsersController implements IUsersController, Serializable {
         }
         ConfirmToken ct = this.confirmService.readByToken(token);
         this.userService.updateIsEnable(TRUE, ct.getUser().getId());
-        var url = UsersUtils.createUri(ct.getUserUrl());
+        var url = UsersUtils.createUri(ct.getClientUrl());
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
         }
