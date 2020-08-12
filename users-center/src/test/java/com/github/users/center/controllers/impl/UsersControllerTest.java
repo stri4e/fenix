@@ -101,6 +101,8 @@ public class UsersControllerTest extends UsersTestBase {
         this.authHeaders = new LinkedMultiValueMap<>();
         this.authHeaders.add("X-Forwarded-For", "http://localhost:8080");
         this.authHeaders.add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0");
+        this.authHeaders.add("Origin", "http://localhost:8080");
+        this.authHeaders.add("X-Forwarded-Prefix", "/users");
     }
 
     //=================================================
@@ -112,8 +114,7 @@ public class UsersControllerTest extends UsersTestBase {
         registrationEmail();
         User expUser = ControllersMocks.userExp();
         UserRegDto payload = ControllersMocks.userRegDto();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(this.submitRegHeaderName, this.submitRegHeader);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserRegDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<Void> result = this.restTemplate
                 .postForEntity(this.submitRegUrl.toString(), entity, Void.class);
@@ -137,8 +138,7 @@ public class UsersControllerTest extends UsersTestBase {
         User user = ControllersMocks.user();
         UserRegDto payload = ControllersMocks.userRegDto();
         this.userService.create(user);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(this.submitRegHeaderName, this.submitRegHeader);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserRegDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<Void> result = this.restTemplate
                 .postForEntity(this.submitRegUrl.toString(), entity, Void.class);
@@ -164,8 +164,7 @@ public class UsersControllerTest extends UsersTestBase {
     public void confirmAccount() throws MalformedURLException {
         registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(this.submitRegHeaderName, this.submitRegHeader);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserRegDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<Void> result = this.restTemplate
                 .postForEntity(this.submitRegUrl.toString(), entity, Void.class);
@@ -187,8 +186,7 @@ public class UsersControllerTest extends UsersTestBase {
     public void confirmAccountTokenEmpty() throws MalformedURLException {
         registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(this.submitRegHeaderName, this.submitRegHeader);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserRegDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<Void> result = this.restTemplate
                 .postForEntity(this.submitRegUrl.toString(), entity, Void.class);
@@ -247,8 +245,10 @@ public class UsersControllerTest extends UsersTestBase {
         ForgotPassDto payload = ControllersMocks.forgotPassDto();
         User userForAuth = ControllersMocks.userForAuth();
         this.userService.create(userForAuth);
+        HttpHeaders headers = new HttpHeaders(this.authHeaders);
+        HttpEntity<ForgotPassDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<Void> result = this.restTemplate
-                .postForEntity(this.processForgotPassUrl.toString(), payload, Void.class);
+                .postForEntity(this.processForgotPassUrl.toString(), entity, Void.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 

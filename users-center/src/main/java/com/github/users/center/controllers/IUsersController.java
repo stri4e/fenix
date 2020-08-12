@@ -15,7 +15,8 @@ public interface IUsersController {
 
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
-    void submitReg(@RequestHeader(name = "Origin") String clientUrl,
+    void submitReg(@ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
+                   @ApiIgnore @RequestHeader(name = "X-Forwarded-Prefix") String prefix,
                    @Valid @RequestBody UserRegDto payload
     );
 
@@ -32,7 +33,11 @@ public interface IUsersController {
 
     @PostMapping(path = "/forgot-pass")
     @ResponseStatus(code = HttpStatus.OK)
-    void processForgotPass(@Valid @RequestBody ForgotPassDto payload);
+    void processForgotPass(
+            @ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
+            @ApiIgnore @RequestHeader(name = "X-Forwarded-Prefix") String prefix,
+            @Valid @RequestBody ForgotPassDto payload
+    );
 
     @DeleteMapping(path = "/reset-pass")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)

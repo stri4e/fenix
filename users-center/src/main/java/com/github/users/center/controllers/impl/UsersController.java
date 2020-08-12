@@ -11,9 +11,8 @@ import com.github.users.center.exceptions.BadRequest;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.PreconditionFailed;
 import com.github.users.center.exceptions.Unauthorized;
-import com.github.users.center.payload.ConfirmEmail;
+import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.payload.JwtAuthResponse;
-import com.github.users.center.payload.LoginNotification;
 import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
@@ -22,7 +21,6 @@ import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
 import com.github.users.center.utils.UsersUtils;
-import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -34,12 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
-import static com.github.users.center.utils.UsersUtils.*;
+import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
+import static com.github.users.center.utils.UsersUtils.ROLE_USER;
 import static java.lang.Boolean.TRUE;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.SEE_OTHER;
@@ -66,17 +63,20 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, @Valid UserRegDto payload) {
+    public void submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
-        var user = TransferObj.user(payload, ROLE_USER);
+        User user = TransferObj.user(payload, ROLE_USER);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
-        ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        this.emailService.submitReg(cf);
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
+        );
+        this.emailService.submitReg(notification);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UsersController implements IUsersController, Serializable {
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
         }
-        var headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setLocation(url);
         return new ResponseEntity<>(headers, SEE_OTHER);
     }
@@ -103,11 +103,12 @@ public class UsersController implements IUsersController, Serializable {
     public JwtAuthResponse submitAuth(String location, String userInfo, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
-        var user = this.userService.readByEmailOrLogin(userName, userName);
+        User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var token = this.jwtTokenProvider.createUserAccessToken(user);
-            Map<String, Object> information = information(location, userInfo, user.getFName());
-            LoginNotification notification = new LoginNotification(user.getEmail(), information);
+            EmailNotification notification = EmailNotification.loginNotify(
+                    user.getEmail(), location, userInfo, user.getFName()
+            );
             this.emailService.loginNotification(notification);
             return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
         }
@@ -117,14 +118,17 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void processForgotPass(@Valid ForgotPassDto payload) {
-        var user = this.userService.readByEmail(payload.getEmail());
-        var rt = new PassResetToken(user);
+    public void processForgotPass(String clientUrl, String prefix, @Valid ForgotPassDto payload) {
+        User user = this.userService.readByEmail(payload.getEmail());
+        PassResetToken rt = new PassResetToken(user);
         rt.setNewPass(this.passwordEncoder.encode(payload.getPass()));
         rt.setExpiryDate(EXPIRATION_TIME);
         this.resetPassService.create(rt);
-        ConfirmEmail cf = fetchConfirmEmail(rt.getToken(), user);
-        this.emailService.resetPass(cf);
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/reset-pass", rt.getToken()
+        );
+        this.emailService.resetPass(notification);
     }
 
     @Override
@@ -135,7 +139,7 @@ public class UsersController implements IUsersController, Serializable {
         if (result.isExpired()) {
             throw new PreconditionFailed();
         }
-        var user = result.getUser();
+        User user = result.getUser();
         this.userService.updatePass(result.getNewPass(), user.getId());
         this.resetPassService.delete(result);
     }
