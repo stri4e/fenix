@@ -107,7 +107,7 @@ public class RepositoryMocks {
         c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setUserUrl(LOCALHOST_AUTH_FRONT);
+        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 
@@ -116,7 +116,7 @@ public class RepositoryMocks {
         c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setUserUrl(LOCALHOST_AUTH_FRONT);
+        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 

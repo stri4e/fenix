@@ -18,7 +18,8 @@ public interface IAdminController {
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
     void submitReg(
-            @RequestHeader(name = "Origin") String clientUrl,
+            @ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
+            @ApiIgnore @RequestHeader(name = "X-Forwarded-Prefix") String prefix,
             @Valid @RequestBody UserRegDto payload
     );
 

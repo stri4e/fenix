@@ -8,9 +8,8 @@ import com.github.users.center.entity.RefreshSession;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.Unauthorized;
-import com.github.users.center.payload.ConfirmEmail;
+import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.payload.JwtRefreshResponse;
-import com.github.users.center.payload.LoginNotification;
 import com.github.users.center.payload.TokenType;
 import com.github.users.center.services.IConfirmService;
 import com.github.users.center.services.IEmailService;
@@ -29,11 +28,11 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
-import static com.github.users.center.utils.UsersUtils.*;
+import static com.github.users.center.utils.UsersUtils.MAX_REFRESH_SESSION;
+import static com.github.users.center.utils.UsersUtils.ROLE_ADMIN;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,7 +56,7 @@ public class AdminController implements IAdminController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, @Valid UserRegDto payload) {
+    public void submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -66,8 +65,11 @@ public class AdminController implements IAdminController, Serializable {
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
-        ConfirmEmail cf = fetchConfirmEmail(ct.getToken(), user);
-        this.emailService.submitReg(cf);
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
+        );
+        this.emailService.submitReg(notification);
     }
 
     @Override
@@ -84,8 +86,9 @@ public class AdminController implements IAdminController, Serializable {
                     fingerprint, location, user
             );
             this.refreshSessionService.create(rs);
-            Map<String, Object> information = information(location, userInfo, user.getFName());
-            LoginNotification notification = new LoginNotification(user.getEmail(), information);
+            EmailNotification notification = EmailNotification.loginNotify(
+                    user.getEmail(), location, userInfo, user.getFName()
+            );
             this.emailService.loginNotification(notification);
             return new JwtRefreshResponse(
                     TYPE_HTTP_TOKEN, accessToken,
