@@ -1,8 +1,8 @@
 {
   "IsLoggerFile": false,
-  "ServerPort": "8080",
+  "ServerPort": "8787",
   "DatabaseConfig": {
-    "DatabaseHost": "localhost",
+    "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,
     "DatabaseUser": "user",
     "DatabasePassword": "password",
@@ -19,10 +19,10 @@
     "App": "statistics",
     "IPAddr": "127.0.0.1",
     "VipAddress": "statistics",
-    "HomePageUrl": "http://127.0.0.1:8080/",
-    "StatusPageUrl": "http://127.0.0.1:8080/info",
-    "HealthCheckUrl": "http://127.0.0.1:8080/health",
-    "EnableEureka": false
+    "HomePageUrl": "http://127.0.0.1:8787/",
+    "StatusPageUrl": "http://127.0.0.1:8787/info",
+    "HealthCheckUrl": "http://127.0.0.1:8787/health",
+    "EnableEureka": true
   },
   "LoggerLvl": "debug",
   "IsSwaggerEnable": false
