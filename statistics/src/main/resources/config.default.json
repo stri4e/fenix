@@ -1,0 +1,29 @@
+{
+  "IsLoggerFile": false,
+  "ServerPort": "8080",
+  "DatabaseConfig": {
+    "DatabaseHost": "localhost",
+    "DatabasePort": 5432,
+    "DatabaseUser": "user",
+    "DatabasePassword": "password",
+    "DatabaseName": "statistics_default.db",
+    "DdlAuto": "create",
+    "MaxIdleConns": 10,
+    "MaxOpenConns": 100
+  },
+  "EurekaConfig": {
+    "EurekaUrl": "http://localhost:3000/eureka",
+    "InstanceId": "statistics-golang",
+    "HostName": "127.0.0.1",
+    "SecurePort": 8443,
+    "App": "statistics",
+    "IPAddr": "127.0.0.1",
+    "VipAddress": "statistics",
+    "HomePageUrl": "http://127.0.0.1:8080/",
+    "StatusPageUrl": "http://127.0.0.1:8080/info",
+    "HealthCheckUrl": "http://127.0.0.1:8080/health",
+    "EnableEureka": false
+  },
+  "LoggerLvl": "debug, info, error",
+  "IsSwaggerEnable": true
+}
