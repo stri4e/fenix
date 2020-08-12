@@ -34,7 +34,7 @@ public class EmailControllers implements IEmailController {
             LOGIN_NOTIFICATION_REQUEST = "Login notification.";
 
     private static final String
-            LOGIN_TEMPLATE_NAME = "login-notification-email.ftl";
+            LOGIN_TEMPLATE_NAME = "login-notification-email-template.ftl";
 
     private final EmailService emailService;
 
