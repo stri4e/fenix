@@ -40,14 +40,14 @@ public interface IProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Product createProduct(@Valid @RequestBody Product payload);
+    Product save(@Valid @RequestBody Product payload);
 
     @GetMapping(
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Object readByParams(
+    Object findByParams(
             @PathVariable(name = "id", required = false) Long id,
             @RequestParam(name = "values", required = false) List<Long> ids
     );
@@ -57,7 +57,7 @@ public interface IProductController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(Product payload);
+    void update(@RequestBody Product payload);
 
     @DeleteMapping(
             path = "/edit/{id}/{status}"

@@ -20,7 +20,7 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     Page<Product> findAllByCategoryName(String name, Pageable pageable);
 
     @Modifying
-    @Query(value = "update Product p set p.status = :status where p.id = :id")
+    @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")
     void updateStatus(
             @Param(value = "status") ProductStatus status,
             @Param(value = "id") Long id);

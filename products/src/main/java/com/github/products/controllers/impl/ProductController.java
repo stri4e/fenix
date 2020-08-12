@@ -57,14 +57,14 @@ public class ProductController implements IProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Product createProduct(@Valid Product payload) {
+    public Product save(@Valid Product payload) {
         return this.productService.create(payload);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Object readByParams(Long id, List<Long> ids) {
+    public Object findByParams(Long id, List<Long> ids) {
         if (Objects.nonNull(id)) {
             return this.productService.readById(id);
         }
