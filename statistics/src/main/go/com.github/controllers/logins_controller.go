@@ -23,12 +23,12 @@ func NewLoginsController(service *services.LoginService) *LoginsController {
 // @Param accountId path integer true "Account ID"
 // @Success 200 {object} dto.LoginDto
 // @Router /v1/logins/{accountId} [get]
-func (controller *LoginsController) GetByAccountId(accountId uint) (*dto.LoginDto, error) {
+func (controller *LoginsController) GetByAccountId(accountId uint) ([]*dto.LoginDto, error) {
 	login, err := controller.service.ReadByAccountId(accountId)
 	if err != nil {
 		return nil, err
 	}
-	return utils.FromLogin(login), nil
+	return utils.FromLoginArray(login), nil
 }
 
 // CreateLogin godoc

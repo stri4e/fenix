@@ -35,7 +35,6 @@ func createTables(connection *gorm.DB) error {
 		&entity.ViewedProduct{},
 		&entity.ViewedImage{},
 		&entity.View{},
-		&entity.Account{},
 		&entity.Customer{},
 	).Error
 	if err == nil {
@@ -47,7 +46,6 @@ func createTables(connection *gorm.DB) error {
 			&entity.ViewedProduct{},
 			&entity.ViewedImage{},
 			&entity.View{},
-			&entity.Account{},
 			&entity.Customer{},
 		).Error
 	}
@@ -63,7 +61,6 @@ func updateTables(connection *gorm.DB) error {
 		&entity.ViewedProduct{},
 		&entity.ViewedImage{},
 		&entity.View{},
-		&entity.Account{},
 		&entity.Customer{},
 	).Error
 	return err
