@@ -12,16 +12,16 @@
     "MaxOpenConns": 100
   },
   "EurekaConfig": {
-    "EurekaUrl": "http://localhost:3000/eureka",
+    "EurekaUrl": "http://discovery:3000/eureka",
     "InstanceId": "statistics-golang",
     "HostName": "127.0.0.1",
     "SecurePort": 8443,
     "App": "statistics",
-    "IPAddr": "127.0.0.1",
+    "IPAddr": "statistics",
     "VipAddress": "statistics",
-    "HomePageUrl": "http://127.0.0.1:8787/",
-    "StatusPageUrl": "http://127.0.0.1:8787/info",
-    "HealthCheckUrl": "http://127.0.0.1:8787/health",
+    "HomePageUrl": "http://statistics:8787/",
+    "StatusPageUrl": "http://statistics:8787/info",
+    "HealthCheckUrl": "http://statistics:8787/health",
     "EnableEureka": true
   },
   "LoggerLvl": "debug",
