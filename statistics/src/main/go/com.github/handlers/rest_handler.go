@@ -34,10 +34,10 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/purchases", handler.purchaseHandler.CreatePurchase).
 		Methods("POST")
 	router.
-		HandleFunc("/v1/logins/{accountId}", handler.loginHandler.GetByAccountId).
+		HandleFunc("/v1/logins/fetch/{accountId}", handler.loginHandler.GetByAccountId).
 		Methods("GET")
 	router.
-		HandleFunc("/v1/logins", handler.loginHandler.CreateLogin).
+		HandleFunc("/v1/logins/edit", handler.loginHandler.CreateLogin).
 		Methods("POST")
 	router.
 		HandleFunc("/v1/views/{accountId}", handler.viewsHandler.GetByAccountId).

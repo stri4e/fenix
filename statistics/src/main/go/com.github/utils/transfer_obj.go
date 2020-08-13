@@ -20,6 +20,8 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 		CreatedAt: data.CreatedAt,
 		Customer:  FromCustomer(data.Customer),
 		Products:  products,
+		Amount:    data.Amount,
+		Status:    data.Status,
 	}
 }
 
@@ -133,6 +135,8 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 		CreatedAt: data.CreatedAt,
 		Customer:  ToCustomer(data.Customer),
 		Products:  products,
+		Amount:    data.Amount,
+		Status:    data.Status,
 	}
 }
 
