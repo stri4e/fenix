@@ -29,22 +29,22 @@ func (handler *RestHandler) Handler() http.Handler {
 	router := mux.NewRouter()
 	router.
 		HandleFunc("/v1/purchases/{accountId}", handler.purchaseHandler.GetByAccountId).
-		Methods("GET")
+		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/purchases", handler.purchaseHandler.CreatePurchase).
-		Methods("POST")
+		Methods(http.MethodPost)
 	router.
-		HandleFunc("/v1/logins/{accountId}", handler.loginHandler.GetByAccountId).
-		Methods("GET")
+		HandleFunc("/v1/logins/fetch/{accountId}", handler.loginHandler.GetByAccountId).
+		Methods(http.MethodGet)
 	router.
-		HandleFunc("/v1/logins", handler.loginHandler.CreateLogin).
-		Methods("POST")
+		HandleFunc("/v1/logins/edit", handler.loginHandler.CreateLogin).
+		Methods(http.MethodPost)
 	router.
 		HandleFunc("/v1/views/{accountId}", handler.viewsHandler.GetByAccountId).
-		Methods("GET")
+		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/views", handler.viewsHandler.CreateViews).
-		Methods("POST")
+		Methods(http.MethodPost)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}

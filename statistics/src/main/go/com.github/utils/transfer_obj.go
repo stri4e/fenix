@@ -20,6 +20,8 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 		CreatedAt: data.CreatedAt,
 		Customer:  FromCustomer(data.Customer),
 		Products:  products,
+		Amount:    data.Amount,
+		Status:    data.Status,
 	}
 }
 
@@ -133,6 +135,8 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 		CreatedAt: data.CreatedAt,
 		Customer:  ToCustomer(data.Customer),
 		Products:  products,
+		Amount:    data.Amount,
+		Status:    data.Status,
 	}
 }
 
@@ -159,7 +163,7 @@ func ToLogin(data *dto.LoginDto) *entity.Login {
 	}
 }
 
-func ToView(data *dto.ViewDto) *entity.View {
+func ToView(accountId uint, data *dto.ViewDto) *entity.View {
 	array := data.Products
 	var products []*entity.ViewedProduct
 	for _, product := range array {
@@ -168,8 +172,8 @@ func ToView(data *dto.ViewDto) *entity.View {
 	return &entity.View{
 		Id:        data.Id,
 		CreatedAt: data.CreatedAt,
-		AccountId: data.AccountId,
 		Products:  products,
+		AccountId: accountId,
 	}
 }
 
@@ -211,28 +215,4 @@ func ToViewedImages(data []string) []*entity.ViewedImage {
 		images = append(images, &entity.ViewedImage{Img: i})
 	}
 	return images
-}
-
-func ToPurchasesArray(data []*dto.PurchaseDto) []*entity.Purchase {
-	var purchases []*entity.Purchase
-	for _, purchase := range data {
-		purchases = append(purchases, ToPurchase(purchase))
-	}
-	return purchases
-}
-
-func ToLoginsArray(data []*dto.LoginDto) []*entity.Login {
-	var logins []*entity.Login
-	for _, login := range data {
-		logins = append(logins, ToLogin(login))
-	}
-	return logins
-}
-
-func ToViewsArray(data []*dto.ViewDto) []*entity.View {
-	var views []*entity.View
-	for _, view := range data {
-		views = append(views, ToView(view))
-	}
-	return views
 }

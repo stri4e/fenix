@@ -10,7 +10,8 @@ DEPENDENCY INJECTIONS GOLANG LIB:
     - go get 'go.uber.org/dig@v1'
 CONFIG GOLANG LIB:
     - go get github.com/tkanos/gonfig
-
+JWT GOLANG LIB:
+    - go get github.com/dgrijalva/jwt-go
 SWAGGER GOLANG LIBS:
     - go get -u github.com/swaggo/swag/cmd/swag
     - go get -u github.com/swaggo/http-swagger

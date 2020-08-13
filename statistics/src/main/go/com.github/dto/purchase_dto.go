@@ -12,4 +12,6 @@ type PurchaseDto struct {
 	CreatedAt time.Time     `json:"createAt" example:"2019-11-09T21:21:46+00:00"`
 	Customer  *CustomerDto  `json:"customer"`
 	Products  []*ProductDto `json:"products"`
+	Amount    float64       `json:"amount"`
+	Status    string        `json:"status"`
 }
