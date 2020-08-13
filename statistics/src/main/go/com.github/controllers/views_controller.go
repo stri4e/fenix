@@ -40,8 +40,9 @@ func (controller *ViewsController) GetByAccountId(accountId uint) ([]*dto.ViewDt
 // @Param view body dto.ViewDto true "Create view"
 // @Success 200 {object} dto.ViewDto
 // @Router /v1/views [post]
-func (controller *ViewsController) CreateView(payload *dto.ViewDto) (*dto.ViewDto, error) {
-	views := utils.ToView(payload)
+// @Param Authorization header string true "Bearer"
+func (controller *ViewsController) CreateView(accountId uint, payload *dto.ViewDto) (*dto.ViewDto, error) {
+	views := utils.ToView(accountId, payload)
 	result, err := controller.service.CreateView(views)
 	if err != nil {
 		return nil, err

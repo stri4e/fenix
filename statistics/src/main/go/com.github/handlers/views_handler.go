@@ -4,6 +4,7 @@ import (
 	"../controllers"
 	"../dto"
 	log "../logger"
+	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -36,9 +37,15 @@ func (handler *ViewsHandler) GetByAccountId(w http.ResponseWriter, r *http.Reque
 }
 
 func (handler *ViewsHandler) CreateViews(w http.ResponseWriter, r *http.Request) {
+	tokenHeader := r.Header.Get("Authorization")
+	if tokenHeader == "" {
+		http.Error(w, "", http.StatusForbidden)
+		return
+	}
+	subject, err := utils.GetSubject(tokenHeader)
 	var payload dto.ViewDto
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	view, err := handler.controller.CreateView(&payload)
+	err = json.NewDecoder(r.Body).Decode(&payload)
+	view, err := handler.controller.CreateView(subject, &payload)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
