@@ -13,7 +13,7 @@ func NewLoginService(repo *repository.LoginRepo) *LoginService {
 	return &LoginService{repo: repo}
 }
 
-func (service *LoginService) ReadByAccountId(accountId uint) (*entity.Login, error) {
+func (service *LoginService) ReadByAccountId(accountId uint) ([]*entity.Login, error) {
 	return service.repo.FindByAccountId(accountId)
 }
 

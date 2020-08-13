@@ -9,7 +9,6 @@ import (
 )
 
 type RestHandler struct {
-	accountHandler  *AccountsHandler
 	purchaseHandler *PurchasesHandler
 	loginHandler    *LoginHandler
 	viewsHandler    *ViewsHandler
@@ -17,10 +16,9 @@ type RestHandler struct {
 }
 
 func NewRestHandler(
-	accountHandler *AccountsHandler, purchaseHandler *PurchasesHandler,
-	loginHandler *LoginHandler, viewsHandler *ViewsHandler, config *config.Config) *RestHandler {
+	purchaseHandler *PurchasesHandler, loginHandler *LoginHandler,
+	viewsHandler *ViewsHandler, config *config.Config) *RestHandler {
 	return &RestHandler{
-		accountHandler:  accountHandler,
 		purchaseHandler: purchaseHandler,
 		loginHandler:    loginHandler,
 		viewsHandler:    viewsHandler,
@@ -29,12 +27,6 @@ func NewRestHandler(
 
 func (handler *RestHandler) Handler() http.Handler {
 	router := mux.NewRouter()
-	router.
-		HandleFunc("/v1/accounts/{userId}", handler.accountHandler.GetByUserId).
-		Methods("GET")
-	router.
-		HandleFunc("/v1/accounts", handler.accountHandler.CreateAccount).
-		Methods("POST")
 	router.
 		HandleFunc("/v1/purchases/{accountId}", handler.purchaseHandler.GetByAccountId).
 		Methods("GET")

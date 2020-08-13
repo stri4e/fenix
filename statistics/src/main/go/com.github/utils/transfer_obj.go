@@ -9,19 +9,6 @@ import (
 // ================= CONVERT FROM ENTITY =====================
 // ===========================================================
 
-func FromAccount(data *entity.Account) *dto.AccountDto {
-	purchases := FromPurchaseArray(data.Purchases)
-	logins := FromLoginArray(data.Logins)
-	views := FromViewsArray(data.Views)
-	return &dto.AccountDto{
-		Id:        data.Id,
-		CreatedAt: data.CreatedAt,
-		Purchases: purchases,
-		Logins:    logins,
-		Views:     views,
-	}
-}
-
 func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 	array := data.Products
 	var products []*dto.ProductDto
@@ -132,20 +119,6 @@ func FromLoginArray(data []*entity.Login) []*dto.LoginDto {
 // ===========================================================
 // ================= CONVERT TO ENTITY =======================
 // ===========================================================
-
-func ToAccount(data *dto.AccountDto) *entity.Account {
-	purchases := ToPurchasesArray(data.Purchases)
-	logins := ToLoginsArray(data.Logins)
-	views := ToViewsArray(data.Views)
-	return &entity.Account{
-		Id:        data.Id,
-		CreatedAt: data.CreatedAt,
-		UserId:    data.UserId,
-		Purchases: purchases,
-		Logins:    logins,
-		Views:     views,
-	}
-}
 
 func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 	array := data.Products
