@@ -39,7 +39,6 @@ func FromLogin(data *entity.Login) *dto.LoginDto {
 	return &dto.LoginDto{
 		Id:        data.ID,
 		CreatedAt: data.CreatedAt,
-		Ip:        data.Ip,
 		Device:    data.Device,
 		Location:  data.Location,
 	}
@@ -150,7 +149,6 @@ func ToCustomer(data *dto.CustomerDto) *entity.Customer {
 func ToLogin(data *dto.LoginDto) *entity.Login {
 	return &entity.Login{
 		UserId:    data.UserId,
-		Ip:        data.Ip,
 		Device:    data.Device,
 		Location:  data.Location,
 	}

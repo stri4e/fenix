@@ -1,9 +1,11 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IAdminController;
+import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
+import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.RefreshSession;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
@@ -11,10 +13,7 @@ import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.payload.JwtRefreshResponse;
 import com.github.users.center.payload.TokenType;
-import com.github.users.center.services.IConfirmService;
-import com.github.users.center.services.IEmailService;
-import com.github.users.center.services.IRefreshSessionService;
-import com.github.users.center.services.IUserService;
+import com.github.users.center.services.*;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
@@ -28,6 +27,7 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
@@ -53,6 +53,8 @@ public class AdminController implements IAdminController, Serializable {
 
     private final IEmailService emailService;
 
+    private final ILoginsService loginsService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -65,31 +67,24 @@ public class AdminController implements IAdminController, Serializable {
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
-        EmailNotification notification = EmailNotification.userChangeNotify(
-                user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
-        );
-        this.emailService.submitReg(notification);
+        CompletableFuture.runAsync(() -> registration(user, clientUrl, prefix, ct));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
-    submitAuth(String fingerprint, String location, String userInfo, @Valid UserAuthDto payload) {
+    submitAuth(String fingerprint, String location, String device, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
-        var user = this.userService.readByEmailOrLogin(userName, userName);
+        User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider.createRefreshSession(
                     fingerprint, location, user
             );
             this.refreshSessionService.create(rs);
-            EmailNotification notification = EmailNotification.loginNotify(
-                    user.getEmail(), location, userInfo, user.getFName()
-            );
-            this.emailService.loginNotification(notification);
+            CompletableFuture.runAsync(() -> logins(user, location, device));
             return new JwtRefreshResponse(
                     TYPE_HTTP_TOKEN, accessToken,
                     rs.getRefreshToken(), this.jwtTokenProvider.getRefreshExpireTime()
@@ -142,12 +137,26 @@ public class AdminController implements IAdminController, Serializable {
             Predicate<RefreshSession> sp = s -> !s.equals(session);
             rss.stream().filter(sp).forEach(s -> this.refreshSessionService.remove(s.getId()));
         } else {
-            session = rss.stream()
-                    .filter(fp)
-                    .findFirst()
-                    .orElseThrow(Unauthorized::new);
+            session = rss.stream().filter(fp).findFirst().orElseThrow(Unauthorized::new);
         }
         return session;
+    }
+
+    private void registration(User user, String clientUrl, String prefix, ConfirmToken ct) {
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
+        );
+        this.emailService.submitReg(notification);
+    }
+
+    private void logins(User user, String location, String device) {
+        EmailNotification notification = EmailNotification.loginNotify(
+                user.getEmail(), location, device, user.getFName()
+        );
+        this.emailService.loginNotification(notification);
+        LoginDto login = new LoginDto(user.getId(), device, location);
+        this.loginsService.createLogin(login);
     }
 
 }

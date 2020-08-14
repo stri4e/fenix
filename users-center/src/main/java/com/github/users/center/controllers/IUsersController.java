@@ -27,7 +27,7 @@ public interface IUsersController {
     @ResponseStatus(code = HttpStatus.OK)
     JwtAuthResponse submitAuth(
             @ApiIgnore @RequestHeader(name = "X-Forwarded-For") String location,
-            @ApiIgnore @RequestHeader(name = "User-Agent") String userInfo,
+            @ApiIgnore @RequestHeader(name = "User-Agent") String device,
             @Valid @RequestBody UserAuthDto payload
     );
 
