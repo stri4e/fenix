@@ -1,6 +1,6 @@
 package com.github.websocket.restart;
 
-import com.github.websocket.dto.OrderDetailEntry;
+import com.github.websocket.dto.OrderDto;
 import com.github.websocket.payload.OrderDetail;
 import com.github.websocket.payload.OrderStatus;
 import com.github.websocket.payload.Product;
@@ -48,7 +48,7 @@ public class StartUp implements ApplicationRunner {
         try {
             Cache cache = this.cacheManager.getCache(CacheNames.orders.name());
             List<OrderDetail> orders = this.orderService.readAllByStatus(OrderStatus.open);
-            List<OrderDetailEntry> result = orders.stream()
+            List<OrderDto> result = orders.stream()
                     .map(this::collect).collect(Collectors.toList());
             if (Objects.nonNull(cache)) {
                 cache.evictIfPresent(OrderStatus.open);
@@ -57,7 +57,7 @@ public class StartUp implements ApplicationRunner {
         } catch (Throwable ignore) {}
     }
 
-    private OrderDetailEntry collect(OrderDetail order) {
+    private OrderDto collect(OrderDetail order) {
         List<Product> products = this.productService
                 .readByIds(order.getProductIds());
         return fromOrderDetail(order, products);

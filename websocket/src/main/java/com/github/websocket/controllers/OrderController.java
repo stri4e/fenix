@@ -1,6 +1,6 @@
 package com.github.websocket.controllers;
 
-import com.github.websocket.dto.OrderDetailEntry;
+import com.github.websocket.dto.OrderDto;
 import com.github.websocket.utils.Topics;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class OrderController {
     @PostMapping
     @HystrixCommand
     @ResponseStatus(HttpStatus.OK)
-    public void pushOrder(@RequestBody OrderDetailEntry payload) {
+    public void pushOrder(@RequestBody OrderDto payload) {
         this.sendingOperations.convertAndSend(Topics.orders.getUrl(), payload);
     }
 
