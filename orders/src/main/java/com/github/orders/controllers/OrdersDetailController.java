@@ -39,16 +39,10 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void save(Long userId, OrderDetailDto payload) {
-        Customer customer = TransferObj.toCustomer(payload.getCustomer());
-        Customer c = this.customerService.create(customer);
-        OrderDetail data = TransferObj.toOrderDetail(
-                c, payload.getProductsIds(),
-                payload.getAmount(), userId, payload.getStatus()
-        );
+        Customer c = TransferObj.toCustomer(payload.getCustomer());
+        Customer customer = this.customerService.create(c);
+        OrderDetail data = TransferObj.toOrderDetail(customer, payload, userId);
         OrderDetail result = this.orderService.crete(data);
-        if (Objects.isNull(result)) {
-            throw new BadRequest();
-        }
         List<Product> products = this.productService.readByIds(result.getProductIds())
                 .orElseThrow(NotFound::new);
         OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);

@@ -32,10 +32,6 @@ public class OrderDto {
     private BigDecimal amount;
 
     @NotNull
-    @JsonProperty(value = "userId")
-    private Long userId;
-
-    @NotNull
     @JsonProperty(value = "status")
     private OrderStatus status;
 

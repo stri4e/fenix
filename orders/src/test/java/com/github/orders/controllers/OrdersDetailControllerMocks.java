@@ -139,7 +139,6 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 PRODUCTS_DTO,
                 AMOUNT,
-                USER_ID,
                 OrderStatus.open
         );
     }
