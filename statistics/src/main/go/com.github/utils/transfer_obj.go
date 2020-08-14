@@ -129,7 +129,6 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 	return &entity.Purchase{
 		UserId:    data.UserId,
 		OrderId:   data.OrderId,
-		CreatedAt: data.CreatedAt,
 		Customer:  ToCustomer(data.Customer),
 		Products:  products,
 		Amount:    data.Amount,
