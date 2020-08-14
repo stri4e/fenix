@@ -1,11 +1,12 @@
 package entity
 
 import (
+	"github.com/jinzhu/gorm"
 	"time"
 )
 
 type Purchase struct {
-	Id        uint               `gorm:"column:id"`
+	gorm.Model
 	UserId    uint               `gorm:"column:user_id"`
 	OrderId   uint               `gorm:"column:order_id"`
 	CreatedAt time.Time          `gorm:"column:created_at"`

@@ -27,9 +27,10 @@ public class TransferObj {
     }
 
     public static OrderDetail toOrderDetail(
-            Customer c, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
-        return new OrderDetail(c, productIds, amount, userId, status);
+            Customer c, OrderDetailDto data, Long userId) {
+        return new OrderDetail(
+                c, data.getProductsIds(),
+                data.getAmount(), userId, data.getStatus());
     }
 
     public static OrderDto
@@ -43,7 +44,6 @@ public class TransferObj {
                 customer,
                 productsDto,
                 data.getAmount(),
-                data.getUserId(),
                 data.getStatus()
         );
     }

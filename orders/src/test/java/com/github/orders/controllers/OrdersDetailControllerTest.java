@@ -103,7 +103,7 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     }
 
     @Test
-    public void findById() {
+    public void findByOrderId() {
         OrderDetail exp = OrdersDetailControllerMocks.expOrder();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
