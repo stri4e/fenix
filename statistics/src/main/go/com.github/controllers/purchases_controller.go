@@ -56,7 +56,7 @@ func (controller *PurchasesController) FindPurchase(userId uint) ([]*dto.Purchas
 // @Produce  json
 // @Param purchase body dto.PurchaseDto true "Create purchase"
 // @Success 200 {object} dto.PurchaseDto
-// @Router /v1/purchases [post]
+// @Router /v1/purchases/edit [post]
 func (controller *PurchasesController) CreatePurchase(payload *dto.PurchaseDto) (*dto.PurchaseDto, error) {
 	purchase := utils.ToPurchase(payload)
 	result, err := controller.purchaseService.CreatePurchase(purchase)
