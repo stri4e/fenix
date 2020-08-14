@@ -22,8 +22,25 @@ func NewViewsController(service *services.ViewService) *ViewsController {
 // @Produce  json
 // @Param userId path integer true "User ID"
 // @Success 200 {object} dto.ViewDto
-// @Router /v1/views/{userId} [get]
+// @Router /v1/views/fetch/{userId} [get]
 func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, error) {
+	views, err := controller.service.ReadByUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromViewsArray(views), nil
+}
+
+// FindViews godoc
+// @Summary Get details of user views
+// @Description Get details of user views
+// @Tags views
+// @Accept  json
+// @Produce  json
+// @Param Authorization header string true "Bearer"
+// @Success 200 {object} dto.ViewDto
+// @Router /v1/views [get]
+func (controller *ViewsController) FindViews(userId uint) ([]*dto.ViewDto, error) {
 	views, err := controller.service.ReadByUserId(userId)
 	if err != nil {
 		return nil, err

@@ -22,12 +22,32 @@ func NewViewsHandler(controller *controllers.ViewsController) *ViewsHandler {
 func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	result := vars["userId"]
-	accountId, err := strconv.ParseUint(result, 10, 64)
+	userId, err := strconv.ParseUint(result, 10, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	views, err := handler.controller.FindByUserId(uint(accountId))
+	views, err := handler.controller.FindByUserId(uint(userId))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	log.Debug("Enter: read all views information by account id")
+	ResponseSender(w, views, http.StatusOK)
+}
+
+func (handler *ViewsHandler) FindViews(w http.ResponseWriter, r *http.Request) {
+	tokenHeader := r.Header.Get("Authorization")
+	if tokenHeader == "" {
+		http.Error(w, "", http.StatusForbidden)
+		return
+	}
+	userId, err := utils.GetSubject(tokenHeader)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	views, err := handler.controller.FindViews(userId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

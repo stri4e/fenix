@@ -23,6 +23,19 @@ func (repo ViewRepo) FindByUserId(userId uint) ([]*entity.View, error) {
 	err := repo.database.
 		Preload(ViewProductColumn).
 		Preload(ViewProductImagesColumn).
+		Order("created_at").
+		Where("user_id = ?", userId).
+		Find(&views).Error
+	return views, err
+}
+
+func (repo ViewRepo) FindViews(userId uint) ([]*entity.View, error) {
+	var views []*entity.View
+	err := repo.database.
+		Preload(ViewProductColumn).
+		Preload(ViewProductImagesColumn).
+		Order("created_at").
+		Limit(20).
 		Where("user_id = ?", userId).
 		Find(&views).Error
 	return views, err

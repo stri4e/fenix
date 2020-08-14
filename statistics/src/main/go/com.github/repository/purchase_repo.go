@@ -25,6 +25,7 @@ func (repo *PurchaseRepo) FindByUserId(userId uint) ([]*entity.Purchase, error) 
 		Preload(ProductColumn).
 		Preload(CustomerColumn).
 		Preload(ProductsImagesColumn).
+		Order("created_at").
 		Where("user_id = ?", userId).
 		Find(&data).Error
 	return data, err

@@ -4,6 +4,7 @@ import (
 	"../controllers"
 	"../dto"
 	log "../logger"
+	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -27,6 +28,26 @@ func (handler *PurchasesHandler) FindByUserId(w http.ResponseWriter, r *http.Req
 		return
 	}
 	purchase, err := handler.controller.FindByUserId(uint(accountId))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	log.Debug("Enter: read all purchase information by account id")
+	ResponseSender(w, purchase, http.StatusOK)
+}
+
+func (handler *PurchasesHandler) FindPurchase(w http.ResponseWriter, r *http.Request) {
+	tokenHeader := r.Header.Get("Authorization")
+	if tokenHeader == "" {
+		http.Error(w, "", http.StatusForbidden)
+		return
+	}
+	userId, err := utils.GetSubject(tokenHeader)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	purchase, err := handler.controller.FindPurchase(userId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

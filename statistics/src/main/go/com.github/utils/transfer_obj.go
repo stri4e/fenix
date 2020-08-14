@@ -28,8 +28,6 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 func FromCustomer(data *entity.Customer) *dto.CustomerDto {
 	return &dto.CustomerDto{
 		Id:              data.Id,
-		PurchaseId:      data.PurchaseId,
-		CreatedAt:       data.CreatedAt,
 		CustomerName:    data.CustomerName,
 		CustomerAddress: data.CustomerAddress,
 		CustomerEmail:   data.CustomerEmail,
@@ -144,7 +142,6 @@ func ToCustomer(data *dto.CustomerDto) *entity.Customer {
 	return &entity.Customer{
 		Id:              data.Id,
 		PurchaseId:      data.PurchaseId,
-		CreatedAt:       data.CreatedAt,
 		CustomerName:    data.CustomerName,
 		CustomerAddress: data.CustomerAddress,
 		CustomerEmail:   data.CustomerEmail,
@@ -170,10 +167,9 @@ func ToView(userId uint, data *dto.ViewDto) *entity.View {
 		products = append(products, ToViewedProduct(product))
 	}
 	return &entity.View{
-		Id:        data.Id,
-		CreatedAt: data.CreatedAt,
-		Products:  products,
-		UserId:    userId,
+		Id:       data.Id,
+		Products: products,
+		UserId:   userId,
 	}
 }
 
