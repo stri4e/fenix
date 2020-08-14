@@ -17,6 +17,10 @@ func (service *PurchaseService) ReadByUserId(userId uint) ([]*entity.Purchase, e
 	return service.repo.FindByUserId(userId)
 }
 
+func (service *PurchaseService) ReadBetweenTime(start string, end string) ([]*entity.Purchase, error) {
+	return service.repo.FindBetweenTime(start, end)
+}
+
 func (service *PurchaseService) ReadUserId(orderId uint) (uint, error) {
 	return service.repo.FindUserId(orderId)
 }

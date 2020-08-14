@@ -31,6 +31,10 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/purchases/fetch/{userId}", handler.purchaseHandler.FindByUserId).
 		Methods(http.MethodGet)
 	router.
+		HandleFunc("/v1/purchases/fetch", handler.purchaseHandler.FindBetweenTime).
+		Queries("start", "{start}", "end", "{end}").
+		Methods(http.MethodGet)
+	router.
 		HandleFunc("/v1/purchases", handler.purchaseHandler.FindPurchases).
 		Methods(http.MethodGet)
 	router.
@@ -43,10 +47,18 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/logins/fetch/{userId}", handler.loginHandler.FindByUserId).
 		Methods(http.MethodGet)
 	router.
+		HandleFunc("/v1/logins/fetch", handler.loginHandler.FindBetweenTime).
+		Queries("start", "{start}", "end", "{end}").
+		Methods(http.MethodGet)
+	router.
 		HandleFunc("/v1/logins/edit", handler.loginHandler.CreateLogin).
 		Methods(http.MethodPost)
 	router.
 		HandleFunc("/v1/views/fetch/{userId}", handler.viewsHandler.FindByUserId).
+		Methods(http.MethodGet)
+	router.
+		HandleFunc("/v1/views/fetch", handler.viewsHandler.FindBetweenTime).
+		Queries("start", "{start}", "end", "{end}").
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/views", handler.viewsHandler.FindViews).

@@ -31,6 +31,18 @@ func (repo *PurchaseRepo) FindByUserId(userId uint) ([]*entity.Purchase, error) 
 	return data, err
 }
 
+func (repo *PurchaseRepo) FindBetweenTime(start string, end string) ([]*entity.Purchase, error) {
+	var data []*entity.Purchase
+	err := repo.database.
+		Preload(ProductColumn).
+		Preload(CustomerColumn).
+		Preload(ProductsImagesColumn).
+		Order("created_at").
+		Where("created_at BETWEEN ? AND ?", start, end).
+		Find(&data).Error
+	return data, err
+}
+
 func (repo *PurchaseRepo) FindUserId(orderId uint) (uint, error) {
 	var userID uint
 	err := repo.database.

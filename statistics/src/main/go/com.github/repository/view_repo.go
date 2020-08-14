@@ -29,6 +29,17 @@ func (repo ViewRepo) FindByUserId(userId uint) ([]*entity.View, error) {
 	return views, err
 }
 
+func (repo ViewRepo) FindBetweenTime(start string, end string) ([]*entity.View, error) {
+	var views []*entity.View
+	err := repo.database.
+		Preload(ViewProductColumn).
+		Preload(ViewProductImagesColumn).
+		Order("created_at").
+		Where("create_at BETWEEN ? AND ?", start, end).
+		Find(&views).Error
+	return views, err
+}
+
 func (repo ViewRepo) FindViews(userId uint) ([]*entity.View, error) {
 	var views []*entity.View
 	err := repo.database.

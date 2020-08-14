@@ -36,6 +36,22 @@ func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 	ResponseSender(w, views, http.StatusOK)
 }
 
+func (handler *ViewsHandler) FindBetweenTime(w http.ResponseWriter, r *http.Request) {
+	start := r.FormValue("start")
+	end := r.FormValue("end")
+	if start == "" && end == "" {
+		http.Error(w, "Required params is empty!", http.StatusBadRequest)
+		return
+	}
+	views, err := handler.controller.FindBetweenTime(start, end)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	log.Debug("Enter: read all views information between ", start, end)
+	ResponseSender(w, views, http.StatusOK)
+}
+
 func (handler *ViewsHandler) FindViews(w http.ResponseWriter, r *http.Request) {
 	tokenHeader := r.Header.Get("Authorization")
 	if tokenHeader == "" {

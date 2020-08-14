@@ -21,6 +21,15 @@ func (repo *LoginRepo) FindByUserId(userId uint) ([]*entity.Login, error) {
 	return login, err
 }
 
+func (repo *LoginRepo) FindBetweenTime(start string, end string) ([]*entity.Login, error) {
+	var login []*entity.Login
+	err := repo.database.
+		Order("create_at").
+		Where("create_at BETWEEN ? AND ?", start, end).
+		Find(&login).Error
+	return login, err
+}
+
 func (repo *LoginRepo) Save(login *entity.Login) (*entity.Login, error) {
 	tx := repo.database.Begin()
 	err := tx.Save(&login).Error

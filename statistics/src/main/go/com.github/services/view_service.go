@@ -17,6 +17,10 @@ func (service ViewService) ReadByUserId(userId uint) ([]*entity.View, error) {
 	return service.repo.FindByUserId(userId)
 }
 
+func (service ViewService) ReadBetweenTime(start string, end string) ([]*entity.View, error) {
+	return service.repo.FindBetweenTime(start, end)
+}
+
 func (service ViewService) CreateView(data *entity.View) (*entity.View, error) {
 	return service.repo.Save(data)
 }
