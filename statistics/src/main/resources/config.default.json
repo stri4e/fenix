@@ -7,7 +7,7 @@
     "DatabaseUser": "user",
     "DatabasePassword": "password",
     "DatabaseName": "statistics_default.db",
-    "DdlAuto": "create",
+    "DdlAuto": "none",
     "MaxIdleConns": 10,
     "MaxOpenConns": 100
   },

@@ -36,6 +36,22 @@ func (handler *PurchasesHandler) FindByUserId(w http.ResponseWriter, r *http.Req
 	ResponseSender(w, purchase, http.StatusOK)
 }
 
+func (handler *PurchasesHandler) FindBetweenTime(w http.ResponseWriter, r *http.Request) {
+	start := r.FormValue("start")
+	end := r.FormValue("end")
+	if start == "" && end == "" {
+		http.Error(w, "Required params is empty!", http.StatusBadRequest)
+		return
+	}
+	purchase, err := handler.controller.FindBetweenTime(start, end)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+	log.Debug("Enter: read all purchase information by account id")
+	ResponseSender(w, purchase, http.StatusOK)
+}
+
 func (handler *PurchasesHandler) FindPurchases(w http.ResponseWriter, r *http.Request) {
 	tokenHeader := r.Header.Get("Authorization")
 	if tokenHeader == "" {

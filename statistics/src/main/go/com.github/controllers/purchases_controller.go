@@ -31,6 +31,24 @@ func (controller *PurchasesController) FindByUserId(userId uint) ([]*dto.Purchas
 	return utils.FromPurchaseArray(purchases), nil
 }
 
+// FindBetweenTime godoc
+// @Summary Get details of user purchases
+// @Description Get details of user purchases
+// @Tags purchases
+// @Accept  json
+// @Produce  json
+// @Param start query string false "name search by start"
+// @Param end query string false "name search by end"
+// @Success 200 {object} dto.PurchaseDto
+// @Router /v1/purchases/fetch [get]
+func (controller *PurchasesController) FindBetweenTime(start string, end string) ([]*dto.PurchaseDto, error) {
+	purchases, err := controller.purchaseService.ReadBetweenTime(start, end)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromPurchaseArray(purchases), nil
+}
+
 // FindByUserId godoc
 // @Summary Get details of user purchases
 // @Description Get details of user purchases

@@ -31,6 +31,10 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/purchases/fetch/{userId}", handler.purchaseHandler.FindByUserId).
 		Methods(http.MethodGet)
 	router.
+		HandleFunc("/v1/purchases/fetch", handler.purchaseHandler.FindBetweenTime).
+		Queries("start", "{start}", "end", "{end}").
+		Methods(http.MethodGet)
+	router.
 		HandleFunc("/v1/purchases", handler.purchaseHandler.FindPurchases).
 		Methods(http.MethodGet)
 	router.
