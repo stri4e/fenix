@@ -5,10 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-const (
-	LoginProductColumn        = "Products"
-)
-
 type LoginRepo struct {
 	database *gorm.DB
 }
@@ -17,10 +13,10 @@ func NewLoginRepo(database *gorm.DB) *LoginRepo {
 	return &LoginRepo{database: database}
 }
 
-func (repo *LoginRepo) FindByAccountId(accountId uint) ([]*entity.Login, error) {
+func (repo *LoginRepo) FindByUserId(userId uint) ([]*entity.Login, error) {
 	var login []*entity.Login
 	err := repo.database.
-		Where("account_id = ?", accountId).
+		Where("user_id = ?", userId).
 		Find(&login).Error
 	return login, err
 }

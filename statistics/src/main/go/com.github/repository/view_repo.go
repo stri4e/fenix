@@ -18,12 +18,12 @@ func NewViewRepo(database *gorm.DB) *ViewRepo {
 	return &ViewRepo{database: database}
 }
 
-func (repo ViewRepo) FindByAccountId(accountId uint) ([]*entity.View, error) {
+func (repo ViewRepo) FindByUserId(userId uint) ([]*entity.View, error) {
 	var views []*entity.View
 	err := repo.database.
 		Preload(ViewProductColumn).
 		Preload(ViewProductImagesColumn).
-		Where("account_id = ?", accountId).
+		Where("user_id = ?", userId).
 		Find(&views).Error
 	return views, err
 }

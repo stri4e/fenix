@@ -14,17 +14,17 @@ func NewPurchasesController(purchaseService *services.PurchaseService) *Purchase
 	return &PurchasesController{purchaseService: purchaseService}
 }
 
-// GetByAccountId godoc
+// FindByUserId godoc
 // @Summary Get details of user purchases
 // @Description Get details of user purchases
 // @Tags purchases
 // @Accept  json
 // @Produce  json
-// @Param accountId path integer true "Account ID"
+// @Param userId path integer true "User ID"
 // @Success 200 {object} dto.PurchaseDto
-// @Router /v1/purchase/{accountId} [get]
-func (controller *PurchasesController) GetByAccountId(accountId uint) ([]*dto.PurchaseDto, error) {
-	purchases, err := controller.purchaseService.ReadByAccountId(accountId)
+// @Router /v1/purchase/{userId} [get]
+func (controller *PurchasesController) FindByUserId(userId uint) ([]*dto.PurchaseDto, error) {
+	purchases, err := controller.purchaseService.ReadByUserId(userId)
 	if err != nil {
 		return nil, err
 	}

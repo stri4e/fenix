@@ -14,17 +14,17 @@ func NewViewsController(service *services.ViewService) *ViewsController {
 	return &ViewsController{service: service}
 }
 
-// GetByAccountId godoc
+// FindByUserId godoc
 // @Summary Get details of user views
 // @Description Get details of user views
 // @Tags views
 // @Accept  json
 // @Produce  json
-// @Param accountId path integer true "Account ID"
+// @Param userId path integer true "User ID"
 // @Success 200 {object} dto.ViewDto
-// @Router /v1/views/{accountId} [get]
-func (controller *ViewsController) GetByAccountId(accountId uint) ([]*dto.ViewDto, error) {
-	views, err := controller.service.ReadByAccountId(accountId)
+// @Router /v1/views/{userId} [get]
+func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, error) {
+	views, err := controller.service.ReadByUserId(userId)
 	if err != nil {
 		return nil, err
 	}
@@ -41,8 +41,8 @@ func (controller *ViewsController) GetByAccountId(accountId uint) ([]*dto.ViewDt
 // @Success 200 {object} dto.ViewDto
 // @Router /v1/views [post]
 // @Param Authorization header string true "Bearer"
-func (controller *ViewsController) CreateView(accountId uint, payload *dto.ViewDto) (*dto.ViewDto, error) {
-	views := utils.ToView(accountId, payload)
+func (controller *ViewsController) CreateView(userId uint, payload *dto.ViewDto) (*dto.ViewDto, error) {
+	views := utils.ToView(userId, payload)
 	result, err := controller.service.CreateView(views)
 	if err != nil {
 		return nil, err

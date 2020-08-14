@@ -7,7 +7,7 @@ import (
 type View struct {
 	Id        uint             `gorm:"column:id"`
 	CreatedAt time.Time        `gorm:"column:created_at"`
-	AccountId uint             `gorm:"column:account_id"`
+	UserId    uint             `gorm:"column:user_id"`
 	Products  []*ViewedProduct `gorm:"foreignkey:PurchaseId"`
 }
 

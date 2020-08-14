@@ -18,15 +18,15 @@ func NewPurchasesHandler(controller *controllers.PurchasesController) *Purchases
 	return &PurchasesHandler{controller: controller}
 }
 
-func (handler *PurchasesHandler) GetByAccountId(w http.ResponseWriter, r *http.Request) {
+func (handler *PurchasesHandler) FindByUserId(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	result := vars["accountId"]
+	result := vars["userId"]
 	accountId, err := strconv.ParseUint(result, 10, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	purchase, err := handler.controller.GetByAccountId(uint(accountId))
+	purchase, err := handler.controller.FindByUserId(uint(accountId))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

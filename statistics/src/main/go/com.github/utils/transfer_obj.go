@@ -130,7 +130,7 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 	}
 	return &entity.Purchase{
 		Id:        data.Id,
-		AccountId: data.AccountId,
+		UserId:    data.UserId,
 		OrderId:   data.OrderId,
 		CreatedAt: data.CreatedAt,
 		Customer:  ToCustomer(data.Customer),
@@ -156,14 +156,14 @@ func ToLogin(data *dto.LoginDto) *entity.Login {
 	return &entity.Login{
 		Id:        data.Id,
 		CreatedAt: data.CreatedAt,
-		AccountId: data.AccountId,
+		UserId:    data.UserId,
 		Ip:        data.Ip,
 		Device:    data.Device,
 		Location:  data.Location,
 	}
 }
 
-func ToView(accountId uint, data *dto.ViewDto) *entity.View {
+func ToView(userId uint, data *dto.ViewDto) *entity.View {
 	array := data.Products
 	var products []*entity.ViewedProduct
 	for _, product := range array {
@@ -173,7 +173,7 @@ func ToView(accountId uint, data *dto.ViewDto) *entity.View {
 		Id:        data.Id,
 		CreatedAt: data.CreatedAt,
 		Products:  products,
-		AccountId: accountId,
+		UserId:    userId,
 	}
 }
 
