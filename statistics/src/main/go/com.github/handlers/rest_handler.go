@@ -34,7 +34,7 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/purchases", handler.purchaseHandler.FindPurchases).
 		Methods(http.MethodGet)
 	router.
-		HandleFunc("/v1/purchases/{orderId}", handler.purchaseHandler.FindPurchasesByOrderId).
+		HandleFunc("/v1/purchases/fetch/{orderId}", handler.purchaseHandler.FindPurchasesByOrderId).
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/purchases/edit", handler.purchaseHandler.CreatePurchase).
