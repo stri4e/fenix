@@ -39,8 +39,29 @@ func (controller *PurchasesController) FindByUserId(userId uint) ([]*dto.Purchas
 // @Produce  json
 // @Param Authorization header string true "Bearer"
 // @Success 200 {object} dto.PurchaseDto
-// @Router /v1/purchase [get]
-func (controller *PurchasesController) FindPurchase(userId uint) ([]*dto.PurchaseDto, error) {
+// @Router /v1/purchases [get]
+func (controller *PurchasesController) FindPurchases(userId uint) ([]*dto.PurchaseDto, error) {
+	purchases, err := controller.purchaseService.ReadByUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromPurchaseArray(purchases), nil
+}
+
+// FindPurchasesByOrderId godoc
+// @Summary Get details of user purchases
+// @Description Get details of user purchases
+// @Tags purchases
+// @Accept  json
+// @Produce  json
+// @Param orderId path integer true "Order ID"
+// @Success 200 {object} dto.PurchaseDto
+// @Router /v1/purchases/{orderId} [get]
+func (controller *PurchasesController) FindPurchasesByOrderId(orderId uint) ([]*dto.PurchaseDto, error) {
+	userId, err := controller.purchaseService.ReadUserId(orderId)
+	if err != nil {
+		return nil, err
+	}
 	purchases, err := controller.purchaseService.ReadByUserId(userId)
 	if err != nil {
 		return nil, err

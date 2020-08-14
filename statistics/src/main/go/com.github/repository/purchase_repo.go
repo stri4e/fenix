@@ -31,6 +31,16 @@ func (repo *PurchaseRepo) FindByUserId(userId uint) ([]*entity.Purchase, error) 
 	return data, err
 }
 
+func (repo *PurchaseRepo) FindUserId(orderId uint) (uint, error) {
+	var userID uint
+	err := repo.database.
+		Table("purchase").
+		Order("created_at").
+		Where("order_id = ?", orderId).
+		Select("user_id").Row().Scan(&userID)
+	return userID, err
+}
+
 func (repo *PurchaseRepo) Save(purchase *entity.Purchase) (*entity.Purchase, error) {
 	tx := repo.database.Begin()
 	err := tx.Save(&purchase).Error

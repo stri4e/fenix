@@ -17,6 +17,10 @@ func (service *PurchaseService) ReadByUserId(userId uint) ([]*entity.Purchase, e
 	return service.repo.FindByUserId(userId)
 }
 
+func (service *PurchaseService) ReadUserId(orderId uint) (uint, error) {
+	return service.repo.FindUserId(orderId)
+}
+
 func (service *PurchaseService) CreatePurchase(purchase *entity.Purchase) (*entity.Purchase, error) {
 	return service.repo.Save(purchase)
 }
