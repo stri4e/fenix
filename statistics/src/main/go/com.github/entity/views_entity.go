@@ -1,12 +1,11 @@
 package entity
 
 import (
-	"time"
+	"github.com/jinzhu/gorm"
 )
 
 type View struct {
-	Id        uint             `gorm:"column:id"`
-	CreatedAt time.Time        `gorm:"column:created_at"`
+	gorm.Model
 	UserId    uint             `gorm:"column:user_id"`
 	Products  []*ViewedProduct `gorm:"foreignkey:PurchaseId"`
 }

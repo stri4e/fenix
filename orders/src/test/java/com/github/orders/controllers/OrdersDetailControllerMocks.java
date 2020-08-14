@@ -1,9 +1,6 @@
 package com.github.orders.controllers;
 
-import com.github.orders.dto.CustomerDto;
-import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDto;
-import com.github.orders.dto.ProductDto;
+import com.github.orders.dto.*;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
@@ -141,6 +138,10 @@ public class OrdersDetailControllerMocks {
                 AMOUNT,
                 OrderStatus.open
         );
+    }
+
+    public static PurchaseDto purchaseDto() {
+        return new PurchaseDto(USER_ID, orderDetailEntryDto());
     }
 
 }

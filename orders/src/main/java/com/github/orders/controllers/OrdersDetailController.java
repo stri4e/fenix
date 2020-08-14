@@ -2,15 +2,13 @@ package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
+import com.github.orders.dto.PurchaseDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.payload.Product;
-import com.github.orders.service.ICustomerService;
-import com.github.orders.service.IOrderDetailService;
-import com.github.orders.service.IProductService;
-import com.github.orders.service.IPushOrders;
+import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -33,6 +31,8 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IPushOrders pushOrders;
 
+    private final IPurchaseService purchaseService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -45,6 +45,8 @@ public class OrdersDetailController implements IOrdersDetailController {
                 .orElseThrow(NotFound::new);
         OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);
         this.pushOrders.pushOrder(pushData);
+        PurchaseDto purchase = new PurchaseDto(userId, pushData);
+        this.purchaseService.createPurchase(purchase);
     }
 
     @Override

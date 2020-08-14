@@ -16,7 +16,7 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 		products = append(products, FromProduct(product))
 	}
 	return &dto.PurchaseDto{
-		Id:        data.Id,
+		Id:        data.ID,
 		CreatedAt: data.CreatedAt,
 		Customer:  FromCustomer(data.Customer),
 		Products:  products,
@@ -37,7 +37,7 @@ func FromCustomer(data *entity.Customer) *dto.CustomerDto {
 
 func FromLogin(data *entity.Login) *dto.LoginDto {
 	return &dto.LoginDto{
-		Id:        data.Id,
+		Id:        data.ID,
 		CreatedAt: data.CreatedAt,
 		Ip:        data.Ip,
 		Device:    data.Device,
@@ -52,7 +52,7 @@ func FromView(data *entity.View) *dto.ViewDto {
 		products = append(products, FromViewedProduct(product))
 	}
 	return &dto.ViewDto{
-		Id:        data.Id,
+		Id:        data.Model.ID,
 		CreatedAt: data.CreatedAt,
 		Products:  products,
 	}
@@ -127,7 +127,6 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 		products = append(products, ToProduct(product))
 	}
 	return &entity.Purchase{
-		Id:        data.Id,
 		UserId:    data.UserId,
 		OrderId:   data.OrderId,
 		CreatedAt: data.CreatedAt,
@@ -151,8 +150,6 @@ func ToCustomer(data *dto.CustomerDto) *entity.Customer {
 
 func ToLogin(data *dto.LoginDto) *entity.Login {
 	return &entity.Login{
-		Id:        data.Id,
-		CreatedAt: data.CreatedAt,
 		UserId:    data.UserId,
 		Ip:        data.Ip,
 		Device:    data.Device,
@@ -167,7 +164,6 @@ func ToView(userId uint, data *dto.ViewDto) *entity.View {
 		products = append(products, ToViewedProduct(product))
 	}
 	return &entity.View{
-		Id:       data.Id,
 		Products: products,
 		UserId:   userId,
 	}

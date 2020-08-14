@@ -1,12 +1,9 @@
 package entity
 
-import (
-	"time"
-)
+import "github.com/jinzhu/gorm"
 
 type Login struct {
-	Id        uint      `gorm:"column:id"`
-	CreatedAt time.Time `gorm:"column:created_at"`
+	gorm.Model
 	UserId    int64     `gorm:"column:user_id"`
 	Ip        string    `gorm:"column:ip"`
 	Device    string    `gorm:"column:device"`
