@@ -31,7 +31,7 @@ func (controller *LoginsController) FindByUserId(userId uint) ([]*dto.LoginDto, 
 	return utils.FromLoginArray(login), nil
 }
 
-// FindByUserId godoc
+// FindBetweenTime godoc
 // @Summary Get details of user logins
 // @Description Get details of user logins
 // @Tags logins

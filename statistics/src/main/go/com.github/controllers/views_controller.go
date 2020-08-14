@@ -31,7 +31,7 @@ func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, er
 	return utils.FromViewsArray(views), nil
 }
 
-// FindByUserId godoc
+// FindBetweenTime godoc
 // @Summary Get details of user views
 // @Description Get details of user views
 // @Tags views
