@@ -5,7 +5,6 @@ import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.payload.Product;
 import com.github.orders.service.ICustomerService;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,7 +57,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public OrderDetail readById(Long id) {
+    public OrderDetail findByOrderId(Long id) {
         return this.orderService.readById(id);
     }
 
