@@ -28,19 +28,25 @@ func NewRestHandler(
 func (handler *RestHandler) Handler() http.Handler {
 	router := mux.NewRouter()
 	router.
-		HandleFunc("/v1/purchases/{accountId}", handler.purchaseHandler.GetByAccountId).
+		HandleFunc("/v1/purchases/fetch/{userId}", handler.purchaseHandler.FindByUserId).
+		Methods(http.MethodGet)
+	router.
+		HandleFunc("/v1/purchases", handler.purchaseHandler.FindPurchase).
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/purchases", handler.purchaseHandler.CreatePurchase).
 		Methods(http.MethodPost)
 	router.
-		HandleFunc("/v1/logins/fetch/{accountId}", handler.loginHandler.GetByAccountId).
+		HandleFunc("/v1/logins/fetch/{userId}", handler.loginHandler.FindByUserId).
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/logins/edit", handler.loginHandler.CreateLogin).
 		Methods(http.MethodPost)
 	router.
-		HandleFunc("/v1/views/{accountId}", handler.viewsHandler.GetByAccountId).
+		HandleFunc("/v1/views/fetch/{userId}", handler.viewsHandler.FindByUserId).
+		Methods(http.MethodGet)
+	router.
+		HandleFunc("/v1/views", handler.viewsHandler.FindViews).
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/views", handler.viewsHandler.CreateViews).

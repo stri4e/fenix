@@ -13,8 +13,8 @@ func NewPurchaseService(repo *repository.PurchaseRepo) *PurchaseService {
 	return &PurchaseService{repo: repo}
 }
 
-func (service *PurchaseService) ReadByAccountId(accountId uint) ([]*entity.Purchase, error) {
-	return service.repo.FindByAccountId(accountId)
+func (service *PurchaseService) ReadByUserId(userId uint) ([]*entity.Purchase, error) {
+	return service.repo.FindByUserId(userId)
 }
 
 func (service *PurchaseService) CreatePurchase(purchase *entity.Purchase) (*entity.Purchase, error) {

@@ -14,17 +14,17 @@ func NewLoginsController(service *services.LoginService) *LoginsController {
 	return &LoginsController{service: service}
 }
 
-// GetByAccountId godoc
+// FindByUserId godoc
 // @Summary Get details of user logins
 // @Description Get details of user logins
 // @Tags logins
 // @Accept  json
 // @Produce  json
-// @Param accountId path integer true "Account ID"
+// @Param userId path integer true "User ID"
 // @Success 200 {object} dto.LoginDto
-// @Router /v1/logins/{accountId} [get]
-func (controller *LoginsController) GetByAccountId(accountId uint) ([]*dto.LoginDto, error) {
-	login, err := controller.service.ReadByAccountId(accountId)
+// @Router /v1/logins/fetch/{userId} [get]
+func (controller *LoginsController) FindByUserId(userId uint) ([]*dto.LoginDto, error) {
+	login, err := controller.service.ReadByUserId(userId)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (controller *LoginsController) GetByAccountId(accountId uint) ([]*dto.Login
 // @Produce  json
 // @Param account body dto.LoginDto true "Create login"
 // @Success 200 {object} dto.LoginDto
-// @Router /v1/logins [post]
+// @Router /v1/logins/edit [post]
 func (controller *LoginsController) CreateLogin(payload *dto.LoginDto) (*dto.LoginDto, error) {
 	login := utils.ToLogin(payload)
 	data, err := controller.service.CreateLogin(login)

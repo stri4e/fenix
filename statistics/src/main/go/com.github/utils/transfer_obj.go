@@ -28,8 +28,6 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 func FromCustomer(data *entity.Customer) *dto.CustomerDto {
 	return &dto.CustomerDto{
 		Id:              data.Id,
-		PurchaseId:      data.PurchaseId,
-		CreatedAt:       data.CreatedAt,
 		CustomerName:    data.CustomerName,
 		CustomerAddress: data.CustomerAddress,
 		CustomerEmail:   data.CustomerEmail,
@@ -130,7 +128,7 @@ func ToPurchase(data *dto.PurchaseDto) *entity.Purchase {
 	}
 	return &entity.Purchase{
 		Id:        data.Id,
-		AccountId: data.AccountId,
+		UserId:    data.UserId,
 		OrderId:   data.OrderId,
 		CreatedAt: data.CreatedAt,
 		Customer:  ToCustomer(data.Customer),
@@ -144,7 +142,6 @@ func ToCustomer(data *dto.CustomerDto) *entity.Customer {
 	return &entity.Customer{
 		Id:              data.Id,
 		PurchaseId:      data.PurchaseId,
-		CreatedAt:       data.CreatedAt,
 		CustomerName:    data.CustomerName,
 		CustomerAddress: data.CustomerAddress,
 		CustomerEmail:   data.CustomerEmail,
@@ -156,24 +153,23 @@ func ToLogin(data *dto.LoginDto) *entity.Login {
 	return &entity.Login{
 		Id:        data.Id,
 		CreatedAt: data.CreatedAt,
-		AccountId: data.AccountId,
+		UserId:    data.UserId,
 		Ip:        data.Ip,
 		Device:    data.Device,
 		Location:  data.Location,
 	}
 }
 
-func ToView(accountId uint, data *dto.ViewDto) *entity.View {
+func ToView(userId uint, data *dto.ViewDto) *entity.View {
 	array := data.Products
 	var products []*entity.ViewedProduct
 	for _, product := range array {
 		products = append(products, ToViewedProduct(product))
 	}
 	return &entity.View{
-		Id:        data.Id,
-		CreatedAt: data.CreatedAt,
-		Products:  products,
-		AccountId: accountId,
+		Id:       data.Id,
+		Products: products,
+		UserId:   userId,
 	}
 }
 

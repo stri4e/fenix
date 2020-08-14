@@ -19,13 +19,14 @@ func NewPurchaseRepo(database *gorm.DB) *PurchaseRepo {
 	return &PurchaseRepo{database: database}
 }
 
-func (repo *PurchaseRepo) FindByAccountId(accountId uint) ([]*entity.Purchase, error) {
+func (repo *PurchaseRepo) FindByUserId(userId uint) ([]*entity.Purchase, error) {
 	var data []*entity.Purchase
 	err := repo.database.
 		Preload(ProductColumn).
 		Preload(CustomerColumn).
 		Preload(ProductsImagesColumn).
-		Where("account_id = ?", accountId).
+		Order("created_at").
+		Where("user_id = ?", userId).
 		Find(&data).Error
 	return data, err
 }
