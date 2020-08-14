@@ -34,15 +34,15 @@ public class JwtTokenProvider {
     @Value("${app.refresh.key}")
     private String refreshKey;
 
-    public String createUserAccessToken(User user) {
-        return createAccessToken(user, this.userExpireTime);
+    public String userAccessToken(User user) {
+        return accessToken(user, this.userExpireTime);
     }
 
-    public String createAdminAccessToken(User user) {
-        return createAccessToken(user, this.adminExpireTime);
+    public String adminAccessToken(User user) {
+        return accessToken(user, this.adminExpireTime);
     }
 
-    private String createAccessToken(User user, int expireTime) {
+    private String accessToken(User user, int expireTime) {
         if (Objects.nonNull(user)) {
             var now = new Date();
             var date = new Date(now.getTime() + expireTime);
@@ -61,14 +61,14 @@ public class JwtTokenProvider {
     }
 
     public RefreshSession
-    createRefreshSession(String fingerprint, String location, User user) {
+    refreshSession(String fingerprint, String location, User user) {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
-        var token = createRefreshToken(fingerprint, expire, user);
+        var token = refreshToken(fingerprint, expire, user);
         return new RefreshSession(user.getId(), token, fingerprint, location, expire, now);
     }
 
-    public String createRefreshToken(String fingerprint, Date expire, User user) {
+    public String refreshToken(String fingerprint, Date expire, User user) {
         if (Objects.nonNull(user)) {
             return Jwts.builder()
                     .setSubject(user.getId().toString())
@@ -84,7 +84,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public Long getUserFromJwt(String token) {
+    public Long fetchUser(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(this.refreshKey)
                 .parseClaimsJws(token)
@@ -92,7 +92,7 @@ public class JwtTokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
-    public String getFingerprintFromJwt(String token) {
+    public String fetchFingerprint(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(this.refreshKey)
                 .parseClaimsJws(token)
@@ -118,7 +118,4 @@ public class JwtTokenProvider {
         return false;
     }
 
-    public int getRefreshExpireTime() {
-        return this.refreshExpireTime;
-    }
 }

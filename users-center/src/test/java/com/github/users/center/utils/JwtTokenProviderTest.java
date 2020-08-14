@@ -23,14 +23,14 @@ public class JwtTokenProviderTest {
     public void createUserAccessToken() {
         Long exp = 1L;
         var user = UtilsMocks.userExp();
-        String token = this.jwtTokenProvider.createUserAccessToken(user);
+        String token = this.jwtTokenProvider.userAccessToken(user);
         Long act = TestUtils.parserToken(token);
         assertEquals(exp, act);
     }
 
     @Test
     public void createUserAccessTokenFailed() {
-        String token = this.jwtTokenProvider.createUserAccessToken(null);
+        String token = this.jwtTokenProvider.userAccessToken(null);
         assertNull(token);
     }
 
@@ -38,14 +38,14 @@ public class JwtTokenProviderTest {
     public void createAdminAccessToken() {
         Long exp = 1L;
         var user = UtilsMocks.userExp();
-        String token = this.jwtTokenProvider.createAdminAccessToken(user);
+        String token = this.jwtTokenProvider.adminAccessToken(user);
         Long act = TestUtils.parserToken(token);
         assertEquals(exp, act);
     }
 
     @Test
     public void createAdminAccessTokenFailed() {
-        String token = this.jwtTokenProvider.createAdminAccessToken(null);
+        String token = this.jwtTokenProvider.adminAccessToken(null);
         assertNull(token);
     }
 

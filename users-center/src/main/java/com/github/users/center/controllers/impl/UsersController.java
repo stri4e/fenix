@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
 import static com.github.users.center.utils.UsersUtils.ROLE_USER;
 import static java.lang.Boolean.TRUE;
@@ -64,7 +64,8 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
+    public void
+    submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -85,7 +86,7 @@ public class UsersController implements IUsersController, Serializable {
         }
         ConfirmToken ct = this.confirmService.readByToken(token);
         this.userService.updateIsEnable(TRUE, ct.getUser().getId());
-        var url = UsersUtils.createUri(ct.getClientUrl());
+        URI url = UsersUtils.createUri(ct.getClientUrl());
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
         }
@@ -97,14 +98,15 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public JwtAuthResponse submitAuth(String location, String device, @Valid UserAuthDto payload) {
+    public JwtAuthResponse
+    submitAuth(String location, String device, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
-            var token = this.jwtTokenProvider.createUserAccessToken(user);
+            var token = this.jwtTokenProvider.userAccessToken(user);
             CompletableFuture.runAsync(() -> logins(user, location, device));
-            return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
+            return new JwtAuthResponse(token);
         }
         throw new Unauthorized();
     }
@@ -112,7 +114,8 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void processForgotPass(String clientUrl, String prefix, @Valid ForgotPassDto payload) {
+    public void
+    processForgotPass(String clientUrl, String prefix, @Valid ForgotPassDto payload) {
         User user = this.userService.readByEmail(payload.getEmail());
         PassResetToken rt = new PassResetToken(user);
         rt.setNewPass(this.passwordEncoder.encode(payload.getPass()));
@@ -125,13 +128,13 @@ public class UsersController implements IUsersController, Serializable {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void resetPass(String token) {
-        PassResetToken result = this.resetPassService.readByToken(token);
-        if (result.isExpired()) {
+        PassResetToken prt = this.resetPassService.readByToken(token);
+        if (prt.isExpired()) {
             throw new PreconditionFailed();
         }
-        User user = result.getUser();
-        this.userService.updatePass(result.getNewPass(), user.getId());
-        this.resetPassService.delete(result);
+        User user = prt.getUser();
+        this.userService.updatePass(prt.getNewPass(), user.getId());
+        this.resetPassService.delete(prt);
     }
 
     private void registration(User user, String clientUrl, String prefix, ConfirmToken ct) {

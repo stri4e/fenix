@@ -5,14 +5,12 @@ import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
-import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.RefreshSession;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.payload.JwtRefreshResponse;
-import com.github.users.center.payload.TokenType;
 import com.github.users.center.services.*;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
@@ -30,7 +28,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
-import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 import static com.github.users.center.utils.UsersUtils.MAX_REFRESH_SESSION;
 import static com.github.users.center.utils.UsersUtils.ROLE_ADMIN;
 
@@ -79,16 +76,11 @@ public class AdminController implements IAdminController, Serializable {
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
-            var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
-            RefreshSession rs = this.jwtTokenProvider.createRefreshSession(
-                    fingerprint, location, user
-            );
-            this.refreshSessionService.create(rs);
+            var accessToken = this.jwtTokenProvider.adminAccessToken(user);
+            RefreshSession rs = this.jwtTokenProvider.refreshSession(fingerprint, location, user);
+            RefreshSession session = this.refreshSessionService.create(rs);
             CompletableFuture.runAsync(() -> logins(user, location, device));
-            return new JwtRefreshResponse(
-                    TYPE_HTTP_TOKEN, accessToken,
-                    rs.getRefreshToken(), this.jwtTokenProvider.getRefreshExpireTime()
-            );
+            return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();
     }
@@ -98,16 +90,15 @@ public class AdminController implements IAdminController, Serializable {
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse submitRefreshSession(@Valid String refreshToken) {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
-            var userId = this.jwtTokenProvider.getUserFromJwt(refreshToken);
-            var fingerprint = this.jwtTokenProvider.getFingerprintFromJwt(refreshToken);
+            var userId = this.jwtTokenProvider.fetchUser(refreshToken);
+            var fingerprint = this.jwtTokenProvider.fetchFingerprint(refreshToken);
             List<RefreshSession> sessions = this.refreshSessionService.readAllByUserId(userId);
             RefreshSession session = findSession(sessions, fingerprint);
             if (!session.isExpired()) {
                 User user = this.userService.readById(userId);
-                var accessToken = this.jwtTokenProvider.createAdminAccessToken(user);
-                RefreshSession newSession = this.jwtTokenProvider.createRefreshSession(
-                        fingerprint, session.getIp(), user
-                );
+                var accessToken = this.jwtTokenProvider.adminAccessToken(user);
+                RefreshSession newSession = this.jwtTokenProvider
+                        .refreshSession(fingerprint, session.getIp(), user);
                 return jwtRefreshResponse(session, accessToken, newSession);
             }
         }
@@ -119,10 +110,9 @@ public class AdminController implements IAdminController, Serializable {
         this.refreshSessionService.remove(session.getId());
         this.refreshSessionService.create(newSession);
         return new JwtRefreshResponse(
-                TokenType.TYPE_HTTP_TOKEN,
                 accessToken,
                 newSession.getRefreshToken(),
-                this.jwtTokenProvider.getRefreshExpireTime()
+                newSession.expireIn()
         );
     }
 

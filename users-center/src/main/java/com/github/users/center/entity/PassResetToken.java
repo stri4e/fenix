@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
+
 @Data
 @Entity
 @NamedQueries(value = {
