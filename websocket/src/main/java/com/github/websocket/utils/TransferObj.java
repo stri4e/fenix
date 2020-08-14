@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static OrderDetailEntry
+    public static OrderDto
     fromOrderDetail(OrderDetail data, List<Product> products) {
         var productsDto = products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
         var customer = fromCustomer(data.getCustomer());
-        return new OrderDetailEntry(
+        return new OrderDto(
                 data.getId(),
                 customer,
                 productsDto,

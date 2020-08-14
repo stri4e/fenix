@@ -1,7 +1,7 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDetailEntryDto;
+import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
@@ -51,7 +51,7 @@ public class OrdersDetailController implements IOrdersDetailController {
         }
         List<Product> products = this.productService.readByIds(result.getProductIds())
                 .orElseThrow(NotFound::new);
-        OrderDetailEntryDto pushData = TransferObj.fromOrderDetailDto(result, products);
+        OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);
         this.pushOrders.pushOrder(pushData);
     }
 

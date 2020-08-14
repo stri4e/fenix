@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailEntry {
+public class OrderDto {
 
     @JsonProperty(value = "id")
     private Long id;

@@ -2,7 +2,7 @@ package com.github.orders.controllers;
 
 import com.github.orders.dto.CustomerDto;
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDetailEntryDto;
+import com.github.orders.dto.OrderDto;
 import com.github.orders.dto.ProductDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
@@ -133,8 +133,8 @@ public class OrdersDetailControllerMocks {
             )
     );
 
-    public static OrderDetailEntryDto orderDetailEntryDto() {
-        return new OrderDetailEntryDto(
+    public static OrderDto orderDetailEntryDto() {
+        return new OrderDto(
                 ORDER_ID,
                 customerDto(),
                 PRODUCTS_DTO,

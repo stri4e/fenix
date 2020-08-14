@@ -32,13 +32,13 @@ public class TransferObj {
         return new OrderDetail(c, productIds, amount, userId, status);
     }
 
-    public static OrderDetailEntryDto
+    public static OrderDto
     fromOrderDetailDto(OrderDetail data, List<Product> products) {
         var customer = fromCustomer(data.getCustomer());
         var productsDto = products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
-        return new OrderDetailEntryDto(
+        return new OrderDto(
                 data.getId(),
                 customer,
                 productsDto,
