@@ -31,6 +31,24 @@ func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, er
 	return utils.FromViewsArray(views), nil
 }
 
+// FindByUserId godoc
+// @Summary Get details of user views
+// @Description Get details of user views
+// @Tags views
+// @Accept  json
+// @Produce  json
+// @Param start query string false "name search by start"
+// @Param end query string false "name search by end"
+// @Success 200 {object} dto.ViewDto
+// @Router /v1/views/fetch [get]
+func (controller *ViewsController) FindBetweenTime(start string, end string) ([]*dto.ViewDto, error) {
+	views, err := controller.service.ReadBetweenTime(start, end)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromViewsArray(views), nil
+}
+
 // FindViews godoc
 // @Summary Get details of user views
 // @Description Get details of user views

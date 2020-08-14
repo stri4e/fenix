@@ -48,7 +48,7 @@ func (handler *PurchasesHandler) FindBetweenTime(w http.ResponseWriter, r *http.
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	log.Debug("Enter: read all purchase information by account id")
+	log.Debug("Enter: read all purchase information between", start, end)
 	ResponseSender(w, purchase, http.StatusOK)
 }
 

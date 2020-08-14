@@ -31,6 +31,24 @@ func (controller *LoginsController) FindByUserId(userId uint) ([]*dto.LoginDto, 
 	return utils.FromLoginArray(login), nil
 }
 
+// FindByUserId godoc
+// @Summary Get details of user logins
+// @Description Get details of user logins
+// @Tags logins
+// @Accept  json
+// @Produce  json
+// @Param start query string false "name search by start"
+// @Param end query string false "name search by end"
+// @Success 200 {object} dto.LoginDto
+// @Router /v1/logins/fetch [get]
+func (controller *LoginsController) FindBetweenTime(start string, end string) ([]*dto.LoginDto, error) {
+	login, err := controller.service.ReadBetweenTime(start, end)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromLoginArray(login), nil
+}
+
 // CreateLogin godoc
 // @Summary Create a new login
 // @Description Create a new login

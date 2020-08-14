@@ -35,6 +35,22 @@ func (handler *LoginHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 	ResponseSender(w, login, http.StatusOK)
 }
 
+func (handler *LoginHandler) FindBetweenTime(w http.ResponseWriter, r *http.Request) {
+	start := r.FormValue("start")
+	end := r.FormValue("end")
+	if start == "" && end == "" {
+		http.Error(w, "Required params is empty!", http.StatusBadRequest)
+		return
+	}
+	login, err := handler.controller.FindBetweenTime(start, end)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Debug("Enter: read all account information between", start, end)
+	ResponseSender(w, login, http.StatusOK)
+}
+
 func (handler *LoginHandler) CreateLogin(w http.ResponseWriter, r *http.Request) {
 	var payload dto.LoginDto
 	err := json.NewDecoder(r.Body).Decode(&payload)
