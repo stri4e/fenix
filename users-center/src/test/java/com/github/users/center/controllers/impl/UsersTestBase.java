@@ -40,6 +40,15 @@ public class UsersTestBase {
                 HttpResponse.response()
                         .withStatusCode(HttpStatus.CREATED.value())
         );
+        this.client.when(
+                HttpRequest.request()
+                        .withMethod(RequestMethod.POST.name())
+                        .withPath("/v1/logins/edit"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(HttpStatus.CREATED.value())
+        );
     }
 
     public void procResetPass() {

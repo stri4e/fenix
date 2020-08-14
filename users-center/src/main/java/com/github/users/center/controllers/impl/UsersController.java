@@ -2,6 +2,7 @@ package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IUsersController;
 import com.github.users.center.dto.ForgotPassDto;
+import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
@@ -13,10 +14,7 @@ import com.github.users.center.exceptions.PreconditionFailed;
 import com.github.users.center.exceptions.Unauthorized;
 import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.payload.JwtAuthResponse;
-import com.github.users.center.services.IConfirmService;
-import com.github.users.center.services.IEmailService;
-import com.github.users.center.services.IResetPassService;
-import com.github.users.center.services.IUserService;
+import com.github.users.center.services.*;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
 import com.github.users.center.utils.TransferObj;
@@ -32,9 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
-import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
 import static com.github.users.center.utils.UsersUtils.ROLE_USER;
 import static java.lang.Boolean.TRUE;
@@ -60,10 +59,13 @@ public class UsersController implements IUsersController, Serializable {
 
     private final IEmailService emailService;
 
+    private final ILoginsService loginsService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
+    public void
+    submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -72,11 +74,7 @@ public class UsersController implements IUsersController, Serializable {
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
-        EmailNotification notification = EmailNotification.userChangeNotify(
-                user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
-        );
-        this.emailService.submitReg(notification);
+        CompletableFuture.runAsync(() -> this.registration(user, clientUrl, prefix, ct));
     }
 
     @Override
@@ -88,7 +86,7 @@ public class UsersController implements IUsersController, Serializable {
         }
         ConfirmToken ct = this.confirmService.readByToken(token);
         this.userService.updateIsEnable(TRUE, ct.getUser().getId());
-        var url = UsersUtils.createUri(ct.getClientUrl());
+        URI url = UsersUtils.createUri(ct.getClientUrl());
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
         }
@@ -100,17 +98,15 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public JwtAuthResponse submitAuth(String location, String userInfo, @Valid UserAuthDto payload) {
+    public JwtAuthResponse
+    submitAuth(String location, String device, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
-            var token = this.jwtTokenProvider.createUserAccessToken(user);
-            EmailNotification notification = EmailNotification.loginNotify(
-                    user.getEmail(), location, userInfo, user.getFName()
-            );
-            this.emailService.loginNotification(notification);
-            return new JwtAuthResponse(TYPE_HTTP_TOKEN, token);
+            var token = this.jwtTokenProvider.userAccessToken(user);
+            CompletableFuture.runAsync(() -> logins(user, location, device));
+            return new JwtAuthResponse(token);
         }
         throw new Unauthorized();
     }
@@ -118,30 +114,52 @@ public class UsersController implements IUsersController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void processForgotPass(String clientUrl, String prefix, @Valid ForgotPassDto payload) {
+    public void
+    processForgotPass(String clientUrl, String prefix, @Valid ForgotPassDto payload) {
         User user = this.userService.readByEmail(payload.getEmail());
         PassResetToken rt = new PassResetToken(user);
         rt.setNewPass(this.passwordEncoder.encode(payload.getPass()));
         rt.setExpiryDate(EXPIRATION_TIME);
         this.resetPassService.create(rt);
-        EmailNotification notification = EmailNotification.userChangeNotify(
-                user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, prefix, "/v1/reset-pass", rt.getToken()
-        );
-        this.emailService.resetPass(notification);
+        CompletableFuture.runAsync(() -> this.forgotPass(user, clientUrl, prefix, rt));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void resetPass(String token) {
-        PassResetToken result = this.resetPassService.readByToken(token);
-        if (result.isExpired()) {
+        PassResetToken prt = this.resetPassService.readByToken(token);
+        if (prt.isExpired()) {
             throw new PreconditionFailed();
         }
-        User user = result.getUser();
-        this.userService.updatePass(result.getNewPass(), user.getId());
-        this.resetPassService.delete(result);
+        User user = prt.getUser();
+        this.userService.updatePass(prt.getNewPass(), user.getId());
+        this.resetPassService.delete(prt);
+    }
+
+    private void registration(User user, String clientUrl, String prefix, ConfirmToken ct) {
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
+        );
+        this.emailService.submitReg(notification);
+    }
+
+    private void logins(User user, String location, String device) {
+        EmailNotification notification = EmailNotification.loginNotify(
+                user.getEmail(), location, device, user.getFName()
+        );
+        this.emailService.loginNotification(notification);
+        LoginDto login = new LoginDto(user.getId(), device, location);
+        this.loginsService.createLogin(login);
+    }
+
+    private void forgotPass(User user, String clientUrl, String prefix, PassResetToken rt) {
+        EmailNotification notification = EmailNotification.userChangeNotify(
+                user.getEmail(), user.getFName(), user.getLName(),
+                clientUrl, prefix, "/v1/reset-pass", rt.getToken()
+        );
+        this.emailService.resetPass(notification);
     }
 
 }

@@ -83,4 +83,8 @@ public class RefreshSession implements Serializable, Cloneable {
         return new Date().after(this.expireIn);
     }
 
+    public long expireIn() {
+        return this.expireIn.getTime();
+    }
+
 }
