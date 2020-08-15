@@ -55,11 +55,11 @@ func NewConfig() *Config {
 	profile = utils.Ternary(profile == "", ProfileDefault, profile).(string)
 	switch profile {
 	case ProfileDev:
-		err = gonfig.GetConf("src/main/resources/config.development.json", &config)
+		err = gonfig.GetConf("src/main/resources/config.dev.json", &config)
 	case ProfileProd:
-		err = gonfig.GetConf("src/main/resources/config.production.json", &config)
+		err = gonfig.GetConf("src/main/resources/config.prod.json", &config)
 	case ProfileTest:
-		err = gonfig.GetConf("src/main/resources/config.production.json", &config)
+		err = gonfig.GetConf("src/main/resources/config.test.json", &config)
 	case ProfileDefault:
 		err = gonfig.GetConf("src/main/resources/config.default.json", &config)
 	}
