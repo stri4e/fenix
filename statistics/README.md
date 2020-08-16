@@ -31,3 +31,6 @@ Build application:
      go build -o /home/basedir/statistics/statistics
 OR
     ./build-golang-app-script.sh
+
+Swagger url:
+    http://localhost:8787/swagger/index.html
