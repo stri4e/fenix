@@ -1,6 +1,6 @@
 Eureka server url: http://localhost:3000/
 
-Swagger http://localhost:8081/swagger-ui.html#/
+Swagger http://localhost:8081/swagger-ui/index.html
         http://127.0.0.1:8081/products/swagger-ui.html#/
 Turbine: http://localhost:8281/hystrix
 
