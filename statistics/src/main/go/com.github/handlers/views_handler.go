@@ -79,7 +79,7 @@ func (handler *ViewsHandler) CreateViews(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	userId, err := utils.GetSubject(tokenHeader)
-	var payload dto.ViewDto
+	var payload dto.ProductDto
 	err = json.NewDecoder(r.Body).Decode(&payload)
 	view, err := handler.controller.CreateView(userId, &payload)
 	if err != nil {

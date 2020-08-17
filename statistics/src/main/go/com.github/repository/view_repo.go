@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	ViewProductColumn       = "Products"
-	ViewProductImagesColumn = "Products.Images"
+	ViewProductColumn       = "Product"
+	ViewProductImagesColumn = "Product.Images"
 )
 
 type ViewRepo struct {

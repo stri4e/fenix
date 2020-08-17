@@ -45,15 +45,10 @@ func FromLogin(data *entity.Login) *dto.LoginDto {
 }
 
 func FromView(data *entity.View) *dto.ViewDto {
-	array := data.Products
-	var products []*dto.ProductDto
-	for _, product := range array {
-		products = append(products, FromViewedProduct(product))
-	}
 	return &dto.ViewDto{
 		Id:        data.Model.ID,
 		CreatedAt: data.CreatedAt,
-		Products:  products,
+		Product:   FromViewedProduct(data.Product),
 	}
 }
 
@@ -81,7 +76,7 @@ func FromViewedProduct(data *entity.ViewedProduct) *dto.ProductDto {
 		images = append(images, i.Img)
 	}
 	return &dto.ProductDto{
-		Id:           data.Id,
+		Id:           data.ProductId,
 		Name:         data.Name,
 		Price:        data.Price,
 		Quantity:     data.Quantity,
@@ -93,8 +88,8 @@ func FromViewedProduct(data *entity.ViewedProduct) *dto.ProductDto {
 
 func FromViewsArray(data []*entity.View) []*dto.ViewDto {
 	var views []*dto.ViewDto
-	for _, purchase := range data {
-		views = append(views, FromView(purchase))
+	for _, view := range data {
+		views = append(views, FromView(view))
 	}
 	return views
 }
@@ -109,8 +104,8 @@ func FromPurchaseArray(data []*entity.Purchase) []*dto.PurchaseDto {
 
 func FromLoginArray(data []*entity.Login) []*dto.LoginDto {
 	var logins []*dto.LoginDto
-	for _, purchase := range data {
-		logins = append(logins, FromLogin(purchase))
+	for _, login := range data {
+		logins = append(logins, FromLogin(login))
 	}
 	return logins
 }
@@ -153,15 +148,10 @@ func ToLogin(data *dto.LoginDto) *entity.Login {
 	}
 }
 
-func ToView(userId uint, data *dto.ViewDto) *entity.View {
-	array := data.Products
-	var products []*entity.ViewedProduct
-	for _, product := range array {
-		products = append(products, ToViewedProduct(product))
-	}
+func ToView(userId uint, data *dto.ProductDto) *entity.View {
 	return &entity.View{
-		Products: products,
-		UserId:   userId,
+		Product: ToViewedProduct(data),
+		UserId:  userId,
 	}
 }
 
@@ -178,6 +168,7 @@ func ToProduct(data *dto.ProductDto) *entity.PurchaseProduct {
 
 func ToViewedProduct(data *dto.ProductDto) *entity.ViewedProduct {
 	return &entity.ViewedProduct{
+		ProductId:    data.Id,
 		Name:         data.Name,
 		Price:        data.Price,
 		Quantity:     data.Quantity,
