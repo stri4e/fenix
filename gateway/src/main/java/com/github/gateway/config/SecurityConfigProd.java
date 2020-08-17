@@ -35,7 +35,7 @@ public class SecurityConfigProd {
                 "/admin/**", "/users/v1/admins/reg", "/statistics/**", "**/fetch/**", "**/edit/**", "/websocket/**"
         };
         String [] managerAccess = new String[] {
-                "/orders/v1/handling"
+                "/orders/v1/handling", "/websocket/**"
         };
         return http.cors().disable()
                 .exceptionHandling()
