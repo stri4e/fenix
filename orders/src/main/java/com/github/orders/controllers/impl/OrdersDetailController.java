@@ -1,5 +1,6 @@
-package com.github.orders.controllers;
+package com.github.orders.controllers.impl;
 
+import com.github.orders.controllers.IOrdersDetailController;
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
 import com.github.orders.dto.PurchaseDto;

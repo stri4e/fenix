@@ -73,6 +73,15 @@ public class OrderDetail implements Serializable, Cloneable {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Manager.class
+    )
+    @JoinColumn(
+            name = "order_id"
+    )
+    private Manager manager;
+
     public OrderDetail(
             Customer customer, List<Long> productIds,
             BigDecimal amount, Long userId, OrderStatus status) {
