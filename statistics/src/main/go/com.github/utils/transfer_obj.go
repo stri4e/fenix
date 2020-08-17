@@ -76,7 +76,7 @@ func FromViewedProduct(data *entity.ViewedProduct) *dto.ProductDto {
 		images = append(images, i.Img)
 	}
 	return &dto.ProductDto{
-		Id:           data.Id,
+		Id:           data.ProductId,
 		Name:         data.Name,
 		Price:        data.Price,
 		Quantity:     data.Quantity,
@@ -168,6 +168,7 @@ func ToProduct(data *dto.ProductDto) *entity.PurchaseProduct {
 
 func ToViewedProduct(data *dto.ProductDto) *entity.ViewedProduct {
 	return &entity.ViewedProduct{
+		ProductId:    data.Id,
 		Name:         data.Name,
 		Price:        data.Price,
 		Quantity:     data.Quantity,

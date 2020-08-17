@@ -72,7 +72,7 @@ func (controller *ViewsController) FindViews(userId uint) ([]*dto.ViewDto, error
 // @Tags views
 // @Accept  json
 // @Produce  json
-// @Param view body dto.ViewDto true "Create view"
+// @Param view body dto.ProductDto true "Create view"
 // @Success 200 {object} dto.ViewDto
 // @Router /v1/views [post]
 // @Param Authorization header string true "Bearer"
