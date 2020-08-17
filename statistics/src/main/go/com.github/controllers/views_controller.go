@@ -76,7 +76,7 @@ func (controller *ViewsController) FindViews(userId uint) ([]*dto.ViewDto, error
 // @Success 200 {object} dto.ViewDto
 // @Router /v1/views [post]
 // @Param Authorization header string true "Bearer"
-func (controller *ViewsController) CreateView(userId uint, payload *dto.ViewDto) (*dto.ViewDto, error) {
+func (controller *ViewsController) CreateView(userId uint, payload *dto.ProductDto) (*dto.ViewDto, error) {
 	views := utils.ToView(userId, payload)
 	result, err := controller.service.CreateView(views)
 	if err != nil {
