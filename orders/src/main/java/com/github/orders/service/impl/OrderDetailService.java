@@ -57,6 +57,11 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
+    public List<OrderDetail> readByStatusAndManagerId(OrderStatus status, Long managerId) {
+        return this.orderRepo.findAllByStatusAndManager_MangerId(status, managerId);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "order", key = "#id"),
             evict = @CacheEvict(value = "orders", allEntries = true)

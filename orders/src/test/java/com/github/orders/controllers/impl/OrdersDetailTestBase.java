@@ -1,4 +1,4 @@
-package com.github.orders.controllers;
+package com.github.orders.controllers.impl;
 
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.Times;

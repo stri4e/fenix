@@ -1,4 +1,4 @@
-package com.github.orders.controllers;
+package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.*;
 import com.github.orders.entity.Customer;
