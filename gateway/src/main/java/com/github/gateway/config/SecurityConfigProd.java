@@ -34,9 +34,6 @@ public class SecurityConfigProd {
         String[] adminAccess = new String[] {
                 "/admin/**", "/users/v1/admins/reg", "/statistics/**", "**/fetch/**", "**/edit/**", "/websocket/**"
         };
-        String [] managerAccess = new String[] {
-                "/orders/v1/handling", "/websocket/**"
-        };
         return http.cors().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
@@ -51,7 +48,6 @@ public class SecurityConfigProd {
                 .pathMatchers(allowAccess).permitAll()
                 .pathMatchers(userAccess).hasRole("USER")
                 .pathMatchers(adminAccess).hasRole("ADMIN")
-                .pathMatchers(managerAccess).hasRole("ROLE_MANAGER")
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyExchange().authenticated()
                 .and()
