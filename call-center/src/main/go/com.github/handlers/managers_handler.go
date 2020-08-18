@@ -8,15 +8,15 @@ import (
 	"net/http"
 )
 
-type ManagersHandler struct {
+type ItemsHandler struct {
 	controller *controllers.ItemsController
 }
 
-func NewManagersHandler(controller *controllers.ItemsController) *ManagersHandler {
-	return &ManagersHandler{controller: controller}
+func NewItemsHandler(controller *controllers.ItemsController) *ItemsHandler {
+	return &ItemsHandler{controller: controller}
 }
 
-func (handler *ManagersHandler) SaveOrUpdateManagerOrders(w http.ResponseWriter, r *http.Request) {
+func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
 	var payload dto.ItemDto
 	err := json.NewDecoder(r.Body).Decode(&payload)
 	err = handler.controller.SaveItem(1, "Vasia", "Pupkin", &payload)

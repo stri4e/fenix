@@ -12,7 +12,7 @@ type ItemsController struct {
 	itemService    *services.ItemService
 }
 
-func NewManagersController(managerService *services.ManagersService, itemService *services.ItemService) *ItemsController {
+func NewItemsController(managerService *services.ManagersService, itemService *services.ItemService) *ItemsController {
 	return &ItemsController{managerService: managerService, itemService: itemService}
 }
 

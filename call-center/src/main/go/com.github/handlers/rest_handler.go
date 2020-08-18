@@ -6,17 +6,17 @@ import (
 )
 
 type RestHandler struct {
-	ordersHandler *ManagersHandler
+	ordersHandler *ItemsHandler
 }
 
-func NewRestHandler(ordersHandler *ManagersHandler) *RestHandler {
+func NewRestHandler(ordersHandler *ItemsHandler) *RestHandler {
 	return &RestHandler{ordersHandler: ordersHandler}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
 	router := mux.NewRouter()
 	router.
-		HandleFunc("/v1", handler.ordersHandler.SaveOrUpdateManagerOrders).
+		HandleFunc("/v1", handler.ordersHandler.SaveItem).
 		Methods(http.MethodPost)
 	http.Handle("/", router)
 	return router
