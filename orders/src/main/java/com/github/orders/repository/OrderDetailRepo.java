@@ -20,8 +20,6 @@ public interface OrderDetailRepo extends CrudRepository<OrderDetail, Long> {
 
     List<OrderDetail> findAllByUserId(Long userId);
 
-    List<OrderDetail> findAllByStatusAndManager_MangerId(OrderStatus status, Long managerId);
-
     @Modifying
     @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.id =:id")
     void updateOrderByStatus(
