@@ -1,7 +1,6 @@
-package dto
+package payload
 
-// ProductDto swagger:model
-type ProductDto struct {
+type Product struct {
 	Id           uint     `json:"id" example:"1"`
 	Name         string   `json:"name" example:"Phone"`
 	Price        float64  `json:"price" example:"1.11"`

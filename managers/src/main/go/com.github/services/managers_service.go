@@ -16,3 +16,7 @@ func NewManagersService(repo *repository.ManagersRepository) *ManagersService {
 func (service *ManagersService) FirstOrCreateManager(manager *entity.Manager) (*entity.Manager, error) {
 	return service.repo.FirstOrCreateManager(manager)
 }
+
+func (service *ManagersService) Find(managerId uint, status string) (*entity.Manager, error) {
+	return service.repo.Find(managerId, status)
+}

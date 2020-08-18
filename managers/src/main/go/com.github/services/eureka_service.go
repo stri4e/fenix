@@ -9,22 +9,22 @@ import (
 )
 
 type EurekaService struct {
-	config *config.Config
+	config     *config.Config
+	connection *fargo.EurekaConnection
 }
 
-func NewEurekaService(config *config.Config) *EurekaService {
-	return &EurekaService{config: config}
+func NewEurekaService(config *config.Config, connection *fargo.EurekaConnection) *EurekaService {
+	return &EurekaService{config: config, connection: connection}
 }
 
 func (service *EurekaService) Run() {
 	instance := service.createInstance()
-	connection := fargo.NewConn(service.config.EurekaConfig.EurekaUrl)
-	err := connection.DeregisterInstance(&instance)
-	err = connection.RegisterInstance(&instance)
+	err := service.connection.DeregisterInstance(&instance)
+	err = service.connection.RegisterInstance(&instance)
 	if err != nil {
 		panic("Can not connect to eureka.")
 	} else {
-		HeartBeat(connection, &instance)
+		HeartBeat(service.connection, &instance)
 	}
 }
 
@@ -49,7 +49,7 @@ func (service *EurekaService) createInstance() fargo.Instance {
 	}
 }
 
-func HeartBeat(ec fargo.EurekaConnection, i *fargo.Instance) {
+func HeartBeat(ec *fargo.EurekaConnection, i *fargo.Instance) {
 	ticker := time.Tick(time.Duration(30*1000) * time.Millisecond)
 	for {
 		select {

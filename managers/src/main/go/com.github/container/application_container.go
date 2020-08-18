@@ -15,6 +15,7 @@ import (
 func BuildContainer() *dig.Container {
 	container := dig.New()
 	err := container.Provide(config.NewConfig)
+	err = container.Provide(config.ConnectEureka)
 	err = container.Provide(config.ConnectDatabase)
 	err = container.Provide(migration.NewDataBaseMigration)
 	err = container.Provide(logger.NewLogger)
@@ -25,6 +26,8 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewEurekaService)
 	err = container.Provide(services.NewManagersService)
 	err = container.Provide(services.NewItemService)
+	err = container.Provide(services.NewProductService)
+	err = container.Provide(services.NewOrderService)
 
 	err = container.Provide(controllers.NewItemsController)
 
