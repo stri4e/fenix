@@ -1,6 +1,9 @@
 package handlers
 
-import "net/http"
+import (
+	"github.com/gorilla/mux"
+	"net/http"
+)
 
 type RestHandler struct {
 	ordersHandler *ManagersHandler
@@ -11,5 +14,10 @@ func NewRestHandler(ordersHandler *ManagersHandler) *RestHandler {
 }
 
 func (handler *RestHandler) Handler() http.Handler {
-	return nil
+	router := mux.NewRouter()
+	router.
+		HandleFunc("/v1", handler.ordersHandler.SaveOrUpdateManagerOrders).
+		Methods(http.MethodPost)
+	http.Handle("/", router)
+	return router
 }

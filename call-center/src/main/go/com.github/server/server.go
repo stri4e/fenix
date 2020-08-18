@@ -4,19 +4,32 @@ import (
 	"../config"
 	"../handlers"
 	"../logger"
+	"../migration"
 	"../services"
 	"net/http"
 )
 
 type Server struct {
-	config        *config.Config
-	logger        *logger.Logger
-	eurekaService *services.EurekaService
-	handler       *handlers.RestHandler
+	config            *config.Config
+	logger            *logger.Logger
+	eurekaService     *services.EurekaService
+	handler           *handlers.RestHandler
+	dataBaseContainer *migration.DataBaseMigration
 }
 
-func NewServer(config *config.Config, logger *logger.Logger, eurekaService *services.EurekaService, handler *handlers.RestHandler) *Server {
-	return &Server{config: config, logger: logger, eurekaService: eurekaService, handler: handler}
+func NewServer(
+	config *config.Config,
+	logger *logger.Logger,
+	eurekaService *services.EurekaService,
+	handler *handlers.RestHandler,
+	dataBaseContainer *migration.DataBaseMigration) *Server {
+	return &Server{
+		config:            config,
+		logger:            logger,
+		eurekaService:     eurekaService,
+		handler:           handler,
+		dataBaseContainer: dataBaseContainer,
+	}
 }
 
 func (server *Server) Run() {
@@ -24,10 +37,12 @@ func (server *Server) Run() {
 		Addr:    ":" + server.config.ServerPort,
 		Handler: server.handler.Handler(),
 	}
+	server.logger.InitLogger()
+	err := server.dataBaseContainer.RunBuildDataBase()
 	if server.config.EurekaConfig.EnableEureka {
 		go server.eurekaService.Run()
 	}
-	err := httpServer.ListenAndServe()
+	err = httpServer.ListenAndServe()
 	if err != nil {
 		logger.Error("Server crashed!")
 	}

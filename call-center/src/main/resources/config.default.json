@@ -7,7 +7,7 @@
     "DatabaseUser": "user",
     "DatabasePassword": "password",
     "DatabaseName": "managers_default.db",
-    "DdlAuto": "none",
+    "DdlAuto": "create",
     "MaxIdleConns": 10,
     "MaxOpenConns": 100
   },

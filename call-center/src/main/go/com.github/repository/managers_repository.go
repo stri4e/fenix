@@ -1,11 +1,24 @@
 package repository
 
-import "github.com/jinzhu/gorm"
+import (
+	"../entity"
+	"github.com/jinzhu/gorm"
+)
 
 type ManagersRepository struct {
-	database *gorm.DB
+	db *gorm.DB
 }
 
-func NewManagersRepository(database *gorm.DB) *ManagersRepository {
-	return &ManagersRepository{database: database}
+func NewManagersRepository(db *gorm.DB) *ManagersRepository {
+	return &ManagersRepository{db: db}
+}
+
+func (repo *ManagersRepository) FirstOrCreateManager(manager *entity.Manager) (*entity.Manager, error) {
+	tx := repo.db.Begin()
+	err := tx.FirstOrCreate(&manager).Error
+	if err != nil {
+		tx.Begin()
+	}
+	tx.Commit()
+	return manager, err
 }
