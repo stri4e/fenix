@@ -1,0 +1,29 @@
+{
+  "IsLoggerFile": false,
+  "ServerPort": "8887",
+  "DatabaseConfig": {
+    "DatabaseHost": "localhost",
+    "DatabasePort": 5432,
+    "DatabaseUser": "user",
+    "DatabasePassword": "password",
+    "DatabaseName": "managers_default.db",
+    "DdlAuto": "create",
+    "MaxIdleConns": 10,
+    "MaxOpenConns": 100
+  },
+  "EurekaConfig": {
+    "EurekaUrl": "http://discovery:3000/eureka",
+    "InstanceId": "managers-golang",
+    "HostName": "127.0.0.1",
+    "SecurePort": 8444,
+    "App": "managers",
+    "IPAddr": "managers",
+    "VipAddress": "managers",
+    "HomePageUrl": "http://managers:8887/",
+    "StatusPageUrl": "http://managers:8887/info",
+    "HealthCheckUrl": "http://managers:8887/health",
+    "EnableEureka": true
+  },
+  "LoggerLvl": "debug",
+  "IsSwaggerEnable": false
+}
