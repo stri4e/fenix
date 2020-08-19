@@ -20,7 +20,7 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodPost)
 	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindItemsByStatus).
 		Methods(http.MethodGet)
-	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatus).
+	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusItem).
 		Methods(http.MethodPut)
 	http.Handle("/", router)
 	return router

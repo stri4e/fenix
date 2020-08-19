@@ -4,6 +4,7 @@ import (
 	"../controllers"
 	"../dto"
 	log "../logger"
+	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -19,10 +20,24 @@ func NewItemsHandler(controller *controllers.ItemsController) *ItemsHandler {
 }
 
 func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
+	tokenHeader := r.Header.Get("Authorization")
+	if tokenHeader == "" {
+		http.Error(w, "", http.StatusForbidden)
+		return
+	}
+	token, err := utils.GetToken(tokenHeader)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	managerId, err := strconv.ParseUint(token.Subject, 10, 64)
 	var payload dto.ItemDto
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	//todo add parsing token
-	err = handler.controller.SaveItem(2, "Kolia", "Zubkin", &payload)
+	err = json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = handler.controller.SaveItem(uint(managerId), token.FirstName, token.LastName, &payload)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -34,7 +49,13 @@ func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
 func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	status := vars["status"]
-	payload, err := handler.controller.FindItems(1, status)
+	tokenHeader := r.Header.Get("Authorization")
+	if tokenHeader == "" {
+		http.Error(w, "", http.StatusForbidden)
+		return
+	}
+	managerId, err := utils.GetSubject(tokenHeader)
+	payload, err := handler.controller.FindItems(managerId, status)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -43,7 +64,7 @@ func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Re
 	ResponseSender(w, payload, http.StatusOK)
 }
 
-func (handler *ItemsHandler) UpdateStatus(w http.ResponseWriter, r *http.Request) {
+func (handler *ItemsHandler) UpdateStatusItem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	result := vars["orderId"]
 	status := vars["status"]
