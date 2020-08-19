@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,8 +61,12 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public OrderDetail findByOrderId(Long id) {
-        return this.orderService.readById(id);
+    public Object findByParams(Long id, List<Long> ids) {
+        if (Objects.nonNull(id)) {
+            return this.orderService.readById(id);
+        } else {
+            return this.orderService.readByIds(ids);
+        }
     }
 
     @Override

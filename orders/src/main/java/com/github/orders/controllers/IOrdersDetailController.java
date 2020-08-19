@@ -29,7 +29,8 @@ public interface IOrdersDetailController {
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    OrderDetail findByOrderId(@RequestParam(name = "orderId") Long orderId);
+    Object findByParams(@RequestParam(name = "orderId") Long orderId,
+                        @RequestParam(name = "ids") List<Long> ids);
 
     @PutMapping(
             path = "/edit"

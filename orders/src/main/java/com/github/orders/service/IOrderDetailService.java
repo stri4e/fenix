@@ -17,6 +17,8 @@ public interface IOrderDetailService {
 
     List<OrderDetail> readByStatus(OrderStatus status);
 
+    List<OrderDetail> readByIds(List<Long> ids);
+
     void update(Long id, OrderStatus status);
 
     void update(OrderDetail o);
