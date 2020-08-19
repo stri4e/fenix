@@ -19,21 +19,36 @@ import reactor.core.publisher.Mono;
 @Profile(value = "prod")
 public class SecurityConfigProd {
 
+    private static final String[] ALLOW_ACCESS = new String[] {
+            "/users/**",
+            "/products/**"
+    };
+
+    private static final String[] USER_ACCESS  = new String[] {
+            "/products/v1/comments",
+            "/orders/**"
+    };
+
+    private static final String[] MANAGER_ACCESS  = new String[] {
+            "/managers/**"
+    };
+
+    private static final String[] ADMIN_ACCESS = new String[] {
+            "/admin/**",
+            "/users/v1/admins/reg",
+            "/users/v1/managers/reg",
+            "/statistics/**",
+            "**/fetch/**",
+            "**/edit/**",
+            "/websocket/**"
+    };
+
     private final AuthenticationManager authenticationManager;
 
     private final SecurityContextRepository securityContextRepository;
 
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-        String[] allowAccess = new String[] {
-                "/users/**", "/products/**"
-        };
-        String[] userAccess  = new String[] {
-                "/products/v1/comments", "/orders/**"
-        };
-        String[] adminAccess = new String[] {
-                "/admin/**", "/users/v1/admins/reg", "/statistics/**", "**/fetch/**", "**/edit/**", "/websocket/**"
-        };
         return http.cors().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
@@ -45,9 +60,10 @@ public class SecurityConfigProd {
                 .authenticationManager(this.authenticationManager)
                 .securityContextRepository(this.securityContextRepository)
                 .authorizeExchange()
-                .pathMatchers(allowAccess).permitAll()
-                .pathMatchers(userAccess).hasRole("USER")
-                .pathMatchers(adminAccess).hasRole("ADMIN")
+                .pathMatchers(ALLOW_ACCESS).permitAll()
+                .pathMatchers(USER_ACCESS).hasRole("USER")
+                .pathMatchers(ADMIN_ACCESS).hasRole("ADMIN")
+                .pathMatchers(MANAGER_ACCESS).hasRole("MANAGER")
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyExchange().authenticated()
                 .and()

@@ -28,6 +28,9 @@ public class JwtTokenProvider {
     @Value("${app.admin.expire.time}")
     private int adminExpireTime;
 
+    @Value("${app.manager.expire.time}")
+    private int managerExpireTime;
+
     @Value("${app.refresh.expire.time}")
     private int refreshExpireTime;
 
@@ -40,6 +43,10 @@ public class JwtTokenProvider {
 
     public String adminAccessToken(User user) {
         return accessToken(user, this.adminExpireTime);
+    }
+
+    public String managerAccessToken(User user) {
+        return accessToken(user, this.managerExpireTime);
     }
 
     private String accessToken(User user, int expireTime) {
@@ -63,21 +70,21 @@ public class JwtTokenProvider {
     }
 
     public RefreshSession
-    refreshSession(String fingerprint, String location, User user) {
+    refreshSession(String fingerprint, String location, User user, String scope) {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
-        var token = refreshToken(fingerprint, expire, user);
+        var token = refreshToken(fingerprint, expire, user, scope);
         return new RefreshSession(user.getId(), token, fingerprint, location, expire, now);
     }
 
-    public String refreshToken(String fingerprint, Date expire, User user) {
+    private String refreshToken(String fingerprint, Date expire, User user, String scope) {
         if (Objects.nonNull(user)) {
             return Jwts.builder()
                     .setSubject(user.getId().toString())
                     .claim("fingerprint", fingerprint)
                     .claim("firstName", user.getFName())
                     .claim("lastName", user.getLName())
-                    .claim("scope", "self groups/admins")
+                    .claim("scope", scope)
                     .setIssuedAt(new Date())
                     .setExpiration(expire)
                     .signWith(SignatureAlgorithm.HS512, this.refreshKey)

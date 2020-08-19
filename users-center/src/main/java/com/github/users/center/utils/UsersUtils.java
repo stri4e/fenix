@@ -13,6 +13,12 @@ public class UsersUtils {
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
+    public static final String ROLE_MANAGER = "ROLE_MANAGER";
+
+    public static final String MANAGER_SCOPE = "self groups/managers";
+
+    public static final String ADMIN_SCOPE = "self groups/managers";
+
     public static URI createUri(String userUrl) {
         try {
             return new URI(userUrl);
