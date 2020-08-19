@@ -52,6 +52,8 @@ public class JwtTokenProvider {
             return Jwts.builder()
                     .setSubject(user.getId().toString())
                     .claim(AUTHORITIES, authorities)
+                    .claim("firstName", user.getFName())
+                    .claim("lastName", user.getLName())
                     .setIssuedAt(new Date())
                     .setExpiration(date)
                     .signWith(SignatureAlgorithm.HS512, this.userSecretKey)

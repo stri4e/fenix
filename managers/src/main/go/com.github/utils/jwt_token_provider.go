@@ -7,15 +7,15 @@ import (
 	"strconv"
 )
 
-func GetToken(data string) (*models.TokenClaims, error) {
+func GetToken(data string) *models.TokenClaims {
 	var jwtToken models.JwtToken
 	err := json.Unmarshal([]byte(data), &jwtToken)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 	claims := &models.TokenClaims{}
 	_, err = jwt.ParseWithClaims(jwtToken.AccessToken, claims, key)
-	return claims, err
+	return claims
 }
 
 func GetSubject(data string) (uint, error) {

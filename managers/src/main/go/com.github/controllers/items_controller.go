@@ -36,11 +36,17 @@ func NewItemsController(
 // @Produce  json
 // @Param item body dto.ItemDto true "Save item"
 // @Success 201
+// @Failure 400
+// @Failure 403
 // @Router /v1 [post]
 // @Param Authorization header string true "Bearer"
 func (controller *ItemsController) SaveItem(mangerId uint, firstName string, lastName string, payload *dto.ItemDto) error {
 	manager, err := controller.managerService.FirstOrCreateManager(
 		&entity.Manager{ManagerId: mangerId, FirstName: firstName, LastName: lastName})
+	if err != nil {
+		return err
+	}
+	err = controller.orderService.UpdateOrder(payload.OrderId, Handling)
 	if err != nil {
 		return err
 	}
@@ -50,7 +56,6 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 		if err != nil {
 			return err
 		}
-		err = controller.orderService.UpdateOrder(item.OrderId, Handling)
 	}
 	return err
 }
@@ -63,6 +68,8 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 // @Produce  json
 // @Param status path string true "Order Status"
 // @Success 200 {object} dto.OrderDto
+// @Failure 400
+// @Failure 403
 // @Router /v1/{status} [get]
 func (controller *ItemsController) FindItems(managerId uint, status string) (*[]dto.OrderDto, error) {
 	manager, err := controller.managerService.Find(managerId, status)
@@ -89,6 +96,8 @@ func (controller *ItemsController) FindItems(managerId uint, status string) (*[]
 // @Param orderId path integer true "Order ID"
 // @Param status path string true "Order Status"
 // @Success 200
+// @Failure 403
+// @Failure 404
 // @Router /v1/{orderId}/{status} [put]
 func (controller *ItemsController) UpdateStatusItem(orderId uint, status string) error {
 	var err error

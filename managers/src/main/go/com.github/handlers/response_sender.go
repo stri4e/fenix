@@ -2,6 +2,7 @@ package handlers
 
 import (
 	log "../logger"
+	"../models"
 	"encoding/json"
 	"net/http"
 )
@@ -19,4 +20,10 @@ func ResponseSender(w http.ResponseWriter, payload interface{}, status int) {
 	if err != nil {
 		log.Error("Enter: ", code, err)
 	}
+}
+
+func ErrorSender(w http.ResponseWriter, code int, message string) {
+	e := models.Error{Code: code, Message: message}
+	err, _ := json.Marshal(e)
+	http.Error(w, string(err), code)
 }

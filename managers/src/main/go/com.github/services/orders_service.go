@@ -3,6 +3,7 @@ package services
 import (
 	"../dto"
 	"../utils"
+	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
 	"net/http"
@@ -65,5 +66,9 @@ func (service *OrderService) getInstances() ([]*fargo.Instance, error) {
 	if err != nil {
 		return nil, err
 	}
-	return apps["ORDERS-SERVICE"].Instances, nil
+	result := apps["ORDERS-SERVICE"]
+	if result == nil {
+		return nil, errors.New("instance not found")
+	}
+	return result.Instances, nil
 }
