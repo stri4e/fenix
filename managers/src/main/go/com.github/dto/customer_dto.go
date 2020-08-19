@@ -1,6 +1,6 @@
-package payload
+package dto
 
-type Customer struct {
+type CustomerDto struct {
 	Id              uint   `json:"id" example:"1"`
 	PurchaseId      uint   `json:"purchaseId,omitempty" example:"11"`
 	CustomerName    string `json:"customerName"`

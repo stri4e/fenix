@@ -49,6 +49,9 @@ func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
 func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	status := vars["status"]
+	if utils.IsBlank(status) {
+		http.Error(w, "Request path is required.", http.StatusBadRequest)
+	}
 	tokenHeader := r.Header.Get("Authorization")
 	if tokenHeader == "" {
 		http.Error(w, "", http.StatusForbidden)
@@ -66,9 +69,12 @@ func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Re
 
 func (handler *ItemsHandler) UpdateStatusItem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	result := vars["orderId"]
+	orderIdStr := vars["orderId"]
 	status := vars["status"]
-	orderId, err := strconv.ParseUint(result, 10, 64)
+	if utils.IsBlank(orderIdStr) || utils.IsBlank(status) {
+		http.Error(w, "Request paths is required.", http.StatusBadRequest)
+	}
+	orderId, err := strconv.ParseUint(orderIdStr, 10, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

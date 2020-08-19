@@ -1,7 +1,7 @@
 package services
 
 import (
-	"../payload"
+	"../dto"
 	"../utils"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
@@ -16,10 +16,10 @@ func NewOrderService(eureka *EurekaService) *OrderService {
 	return &OrderService{eureka: eureka}
 }
 
-func (service *OrderService) GetOrders(orders []uint) (*[]payload.Order, error) {
+func (service *OrderService) GetOrders(orders []uint) (*[]dto.OrderDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new([]payload.Order)
+		result := new([]dto.OrderDto)
 		client := sling.New()
 		for _, id := range orders {
 			client.QueryStruct(&utils.Ids{Ids: id})
@@ -36,6 +36,28 @@ func (service *OrderService) GetOrders(orders []uint) (*[]payload.Order, error) 
 		}
 	}
 	return nil, err
+}
+
+func (service *OrderService) UpdateOrder(orderId uint, status string) error {
+	instances, err := service.getInstances()
+	if err == nil {
+		client := sling.New()
+		for _, instance := range instances {
+			resp, err := client.Put(instance.HomePageUrl).
+				Path("/v1/edit/").
+				Path(string(orderId)).
+				Path("/").
+				Path(status).
+				Receive(nil, nil)
+			if err != nil {
+				return err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return nil
+			}
+		}
+	}
+	return err
 }
 
 func (service *OrderService) getInstances() ([]*fargo.Instance, error) {

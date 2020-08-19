@@ -3,9 +3,14 @@ package controllers
 import (
 	"../dto"
 	"../entity"
-	"../payload"
 	"../services"
 	"../utils"
+)
+
+const (
+	Handling = "handling"
+	Close    = "close"
+	Open     = "open"
 )
 
 type ItemsController struct {
@@ -32,11 +37,15 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 	if manager != nil {
 		item := utils.ToItem(mangerId, payload)
 		item, err = controller.itemService.CreateItem(item)
+		if err != nil {
+			return err
+		}
+		err = controller.orderService.UpdateOrder(item.OrderId, Handling)
 	}
 	return err
 }
 
-func (controller *ItemsController) FindItems(managerId uint, status string) (*[]payload.Order, error) {
+func (controller *ItemsController) FindItems(managerId uint, status string) (*[]dto.OrderDto, error) {
 	manager, err := controller.managerService.Find(managerId, status)
 	if err != nil {
 		return nil, err
@@ -53,5 +62,15 @@ func (controller *ItemsController) FindItems(managerId uint, status string) (*[]
 }
 
 func (controller *ItemsController) UpdateStatusItem(orderId uint, status string) error {
+	var err error
+	switch status {
+	case Open:
+		err = controller.orderService.UpdateOrder(orderId, Handling)
+	case Close:
+		err = controller.orderService.UpdateOrder(orderId, Close)
+	}
+	if err != nil {
+		return err
+	}
 	return controller.itemService.UpdateStatus(orderId, status)
 }

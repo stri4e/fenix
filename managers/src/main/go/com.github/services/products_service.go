@@ -1,7 +1,7 @@
 package services
 
 import (
-	"../payload"
+	"../dto"
 	"../utils"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
@@ -16,10 +16,10 @@ func NewProductService(eureka *EurekaService) *ProductService {
 	return &ProductService{eureka: eureka}
 }
 
-func (service *ProductService) GetProducts(products []uint) (*[]payload.Product, error) {
+func (service *ProductService) GetProducts(products []uint) (*[]dto.ProductDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new([]payload.Product)
+		result := new([]dto.ProductDto)
 		client := sling.New()
 		for _, id := range products {
 			client.QueryStruct(&utils.Ids{Ids: id})
