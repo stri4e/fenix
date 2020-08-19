@@ -16,3 +16,7 @@ func NewItemService(repository *repository.ItemRepository) *ItemService {
 func (service *ItemService) CreateItem(item *entity.Item) (*entity.Item, error) {
 	return service.repository.SaveItem(item)
 }
+
+func (service *ItemService) UpdateStatus(orderId uint, status string) error {
+	return service.repository.UpdateStatus(orderId, status)
+}

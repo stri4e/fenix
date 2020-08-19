@@ -6,3 +6,7 @@ func Ternary(statement bool, a, b interface{}) interface{} {
 	}
 	return b
 }
+
+type Ids struct {
+	Ids uint `url:"ids,omitempty"`
+}

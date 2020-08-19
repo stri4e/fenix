@@ -15,7 +15,8 @@ func NewManagersRepository(db *gorm.DB) *ManagersRepository {
 
 func (repo *ManagersRepository) FirstOrCreateManager(manager *entity.Manager) (*entity.Manager, error) {
 	tx := repo.db.Begin()
-	err := tx.FirstOrCreate(&manager).Error
+	err := tx.Where("manager_id = ?", manager.ManagerId).
+		FirstOrCreate(&manager).Error
 	if err != nil {
 		tx.Begin()
 	}

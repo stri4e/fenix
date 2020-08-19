@@ -2,7 +2,10 @@ package services
 
 import (
 	"../payload"
+	"../utils"
 	"github.com/dghubble/sling"
+	"github.com/hudl/fargo"
+	"net/http"
 )
 
 type ProductService struct {
@@ -14,16 +17,31 @@ func NewProductService(eureka *EurekaService) *ProductService {
 }
 
 func (service *ProductService) GetProducts(products []uint) (*[]payload.Product, error) {
-	apps, err := service.eureka.connection.GetApps()
-	instance := apps["PRODUCTS-SERVICE"].Instances[0]
-	result := new([]payload.Product)
-	client := sling.New().Get(instance.HomePageUrl + "/v1/fetch")
-	for _, id := range products {
-		client.QueryStruct(&ids{Ids: id})
+	instances, err := service.getInstances()
+	if err == nil {
+		result := new([]payload.Product)
+		client := sling.New()
+		for _, id := range products {
+			client.QueryStruct(&utils.Ids{Ids: id})
+		}
+		for _, instance := range instances {
+			client := client.Get(instance.HomePageUrl).Path("/v1/fetch")
+			resp, err := client.ReceiveSuccess(result)
+			if err != nil {
+				return nil, err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return result, nil
+			}
+		}
 	}
-	_, err = client.ReceiveSuccess(result)
+	return nil, err
+}
+
+func (service *ProductService) getInstances() ([]*fargo.Instance, error) {
+	apps, err := service.eureka.connection.GetApps()
 	if err != nil {
 		return nil, err
 	}
-	return result, nil
+	return apps["PRODUCTS-SERVICE"].Instances, nil
 }

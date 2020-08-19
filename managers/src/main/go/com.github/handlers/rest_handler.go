@@ -18,6 +18,10 @@ func (handler *RestHandler) Handler() http.Handler {
 	router.
 		HandleFunc("/v1", handler.ordersHandler.SaveItem).
 		Methods(http.MethodPost)
+	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindItemsByStatus).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatus).
+		Methods(http.MethodPut)
 	http.Handle("/", router)
 	return router
 }
