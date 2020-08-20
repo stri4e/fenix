@@ -6,6 +6,7 @@ import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.OrderDetailRepo;
 import com.github.orders.service.IOrderDetailService;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,11 @@ public class OrderDetailService implements IOrderDetailService {
     @Cacheable(value = "orders", key = "#status", unless = "#result.size() == 0")
     public List<OrderDetail> readByStatus(OrderStatus status) {
         return this.orderRepo.findByStatus(status);
+    }
+
+    @Override
+    public List<OrderDetail> readByIds(List<Long> ids) {
+        return Lists.newArrayList(this.orderRepo.findAllById(ids));
     }
 
     @Override

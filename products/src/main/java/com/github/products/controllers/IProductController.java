@@ -43,13 +43,13 @@ public interface IProductController {
     Product save(@Valid @RequestBody Product payload);
 
     @GetMapping(
-            path = "/fetch/{id}",
+            path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     Object findByParams(
-            @PathVariable(name = "id", required = false) Long id,
-            @RequestParam(name = "values", required = false) List<Long> ids
+            @RequestParam(name = "id", required = false) Long id,
+            @RequestParam(name = "ids", required = false) List<Long> ids
     );
 
     @PutMapping(

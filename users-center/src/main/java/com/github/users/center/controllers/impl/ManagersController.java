@@ -1,6 +1,6 @@
 package com.github.users.center.controllers.impl;
 
-import com.github.users.center.controllers.IAdminController;
+import com.github.users.center.controllers.IManagersController;
 import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -32,10 +31,10 @@ import static com.github.users.center.utils.UsersUtils.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/admins")
-public class AdminController implements IAdminController, Serializable {
+@RequestMapping(path = "/v1/managers")
+public class ManagersController implements IManagersController {
 
-    private final static long serialVersionUID = 5551087240799808634L;
+    private final static long serialVersionUID = 1799369425842156063L;
 
     private final IUserService userService;
 
@@ -58,7 +57,7 @@ public class AdminController implements IAdminController, Serializable {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
-        var user = TransferObj.user(payload, ROLE_ADMIN);
+        var user = TransferObj.user(payload, ROLE_MANAGER);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
@@ -75,9 +74,9 @@ public class AdminController implements IAdminController, Serializable {
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
-            var accessToken = this.jwtTokenProvider.adminAccessToken(user);
+            var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
-                    .refreshSession(fingerprint, location, user, ADMIN_SCOPE);
+                    .refreshSession(fingerprint, location, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
             CompletableFuture.runAsync(() -> logins(user, location, device));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
@@ -96,9 +95,9 @@ public class AdminController implements IAdminController, Serializable {
             RefreshSession session = findSession(sessions, fingerprint);
             if (!session.isExpired()) {
                 User user = this.userService.readById(userId);
-                var accessToken = this.jwtTokenProvider.adminAccessToken(user);
+                var accessToken = this.jwtTokenProvider.managerAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider
-                        .refreshSession(fingerprint, session.getIp(), user, ADMIN_SCOPE);
+                        .refreshSession(fingerprint, session.getIp(), user, MANAGER_SCOPE);
                 return jwtRefreshResponse(session, accessToken, newSession);
             }
         }

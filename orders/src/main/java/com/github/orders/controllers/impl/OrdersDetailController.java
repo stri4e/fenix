@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,8 +62,15 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public OrderDetail findByOrderId(Long id) {
-        return this.orderService.readById(id);
+    public Object findByParams(Long id, List<Long> ids) {
+        if (Objects.nonNull(id)) {
+            return this.orderService.readById(id);
+        } else {
+            List<OrderDetail> orders = this.orderService.readByIds(ids);
+            return orders.stream()
+                    .map(this::collect)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -76,6 +85,15 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Logging(isTime = true, isReturn = false)
     public void update(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
+    }
+
+    private OrderDto collect(OrderDetail order) {
+        List<Product> pr = this.productService.readByIds(order.getProductIds())
+                .orElseThrow(NotFound::new);
+        return TransferObj.fromOrderDetailDto(
+                order,
+                pr
+        );
     }
 
 }
