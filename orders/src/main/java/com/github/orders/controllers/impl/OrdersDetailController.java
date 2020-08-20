@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,7 +66,10 @@ public class OrdersDetailController implements IOrdersDetailController {
         if (Objects.nonNull(id)) {
             return this.orderService.readById(id);
         } else {
-            return this.orderService.readByIds(ids);
+            List<OrderDetail> orders = this.orderService.readByIds(ids);
+            return orders.stream()
+                    .map(this::collect)
+                    .collect(Collectors.toList());
         }
     }
 
@@ -81,6 +85,15 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Logging(isTime = true, isReturn = false)
     public void update(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
+    }
+
+    private OrderDto collect(OrderDetail order) {
+        List<Product> pr = this.productService.readByIds(order.getProductIds())
+                .orElseThrow(NotFound::new);
+        return TransferObj.fromOrderDetailDto(
+                order,
+                pr
+        );
     }
 
 }
