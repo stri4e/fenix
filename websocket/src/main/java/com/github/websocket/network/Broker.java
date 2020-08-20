@@ -17,7 +17,7 @@ public class Broker {
 
     @Logging
     public void sendOrder(Object payload) {
-        String sessionId = this.pool.getSession();
+        var sessionId = this.pool.getSession();
         SimpMessageHeaderAccessor headerAccessor =
                 SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
         headerAccessor.setSessionId(sessionId);

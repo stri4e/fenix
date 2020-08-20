@@ -20,7 +20,7 @@ public class ConnectionPool {
     }
 
     public String getSession() {
-        String elem = this.session.poll();
+        var elem = this.session.poll();
         if (StringUtils.hasText(elem)) {
             this.session.offer(elem);
         }
