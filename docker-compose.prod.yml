@@ -135,3 +135,14 @@ services:
     environment:
       - "ENVIRONMENT=prod"
     entrypoint: ./statistics-entrypoint.sh postgresdb 5432 discovery 3000 statistics
+  managers:
+    container_name: managers
+    build: ./managers
+    ports:
+      - "8887:8887"
+    depends_on:
+      - postgresdb
+      - discovery
+    environment:
+      - "ENVIRONMENT=prod"
+    entrypoint: ./managers-entrypoint.sh postgresdb 5432 discovery 3000 managers

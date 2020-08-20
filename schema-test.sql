@@ -9,3 +9,6 @@ CREATE DATABASE "users_test.db";
 
 DROP DATABASE IF EXISTS "statistics_test.db";
 CREATE DATABASE "statistics_test.db";
+
+DROP DATABASE IF EXISTS "managers_test.db";
+CREATE DATABASE "managers_test.db";
