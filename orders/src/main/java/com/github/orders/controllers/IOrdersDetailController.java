@@ -23,22 +23,27 @@ public interface IOrdersDetailController {
             path = "/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(code = HttpStatus.OK)
     List<OrderDetail> findAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    OrderDetail findByOrderId(@RequestParam(name = "orderId") Long orderId);
+    @ResponseStatus(code = HttpStatus.OK)
+    Object findByParams(@RequestParam(name = "orderId") Long orderId,
+                        @RequestParam(name = "ids") List<Long> ids);
 
     @PutMapping(
             path = "/edit"
     )
+    @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody OrderDetail o);
 
     @PutMapping(
             path = "/edit/{orderId}/{orderStatus}"
     )
+    @ResponseStatus(code = HttpStatus.OK)
     void update(
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
