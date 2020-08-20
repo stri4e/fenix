@@ -1,6 +1,8 @@
 package com.github.websocket.controllers;
 
 import com.github.websocket.dto.OrderDto;
+import com.github.websocket.network.Broker;
+import com.github.websocket.utils.Logging;
 import com.github.websocket.utils.Topics;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final SimpMessageSendingOperations sendingOperations;
+    private final Broker broker;
 
     @PostMapping
     @HystrixCommand
     @ResponseStatus(HttpStatus.OK)
+    @Logging(isTime = true, isReturn = false)
     public void pushOrder(@RequestBody OrderDto payload) {
-        this.sendingOperations.convertAndSend(Topics.orders.getUrl(), payload);
+        this.broker.sendOrder(payload);
     }
 
 }

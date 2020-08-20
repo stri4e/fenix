@@ -9,3 +9,6 @@ CREATE DATABASE "users_default.db";
 
 DROP DATABASE IF EXISTS "statistics_default.db";
 CREATE DATABASE "statistics_default.db";
+
+DROP DATABASE IF EXISTS "managers_default.db";
+CREATE DATABASE "managers_default.db";
