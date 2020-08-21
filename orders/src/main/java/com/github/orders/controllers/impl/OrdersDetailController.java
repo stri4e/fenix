@@ -55,8 +55,11 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetail> findAllByStatus(OrderStatus status) {
-        return this.orderService.readByStatus(status);
+    public List<OrderDto> findAllByStatus(OrderStatus status) {
+        List<OrderDetail> orders = this.orderService.readByStatus(status);
+        return orders.stream()
+                .map(this::collect)
+                .collect(Collectors.toList());
     }
 
     @Override

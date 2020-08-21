@@ -68,6 +68,22 @@ func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Re
 	ResponseSender(w, payload, http.StatusOK)
 }
 
+func (handler *ItemsHandler) FindItemsAllByStatus(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	status := vars["status"]
+	if utils.IsBlank(status) {
+		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
+		return
+	}
+	payload, err := handler.controller.FindAllItems(status)
+	if err != nil {
+		ErrorSender(w, http.StatusBadRequest, "Items not found")
+		return
+	}
+	log.Debug("Enter: find orders information")
+	ResponseSender(w, payload, http.StatusOK)
+}
+
 func (handler *ItemsHandler) UpdateStatusItem(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	orderIdStr := vars["orderId"]

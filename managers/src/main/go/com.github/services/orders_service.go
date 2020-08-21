@@ -39,6 +39,27 @@ func (service *OrderService) GetOrders(orders []uint) (*[]dto.OrderDto, error) {
 	return nil, err
 }
 
+func (service *OrderService) GetOrdersByStatus(status string) (*[]dto.OrderDto, error) {
+	instances, err := service.getInstances()
+	if err == nil {
+		result := new([]dto.OrderDto)
+		client := sling.New()
+		for _, instance := range instances {
+			client := client.Get(instance.HomePageUrl).
+				Path("/v1/fetch").
+				Path(status)
+			resp, err := client.ReceiveSuccess(result)
+			if err != nil {
+				return nil, err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return result, nil
+			}
+		}
+	}
+	return nil, err
+}
+
 func (service *OrderService) UpdateOrder(orderId uint, status string) error {
 	instances, err := service.getInstances()
 	if err == nil {

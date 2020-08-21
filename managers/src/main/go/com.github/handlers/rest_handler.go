@@ -23,6 +23,8 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodPost)
 	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindItemsByStatus).
 		Methods(http.MethodGet)
+	router.HandleFunc("/v1/all/{status}", handler.ordersHandler.FindItemsAllByStatus).
+		Methods(http.MethodGet)
 	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusItem).
 		Methods(http.MethodPut)
 	if handler.config.IsSwaggerEnable {
