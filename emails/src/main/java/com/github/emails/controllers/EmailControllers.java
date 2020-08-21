@@ -4,7 +4,6 @@ import com.github.emails.models.Mail;
 import com.github.emails.payload.EmailNotification;
 import com.github.emails.services.EmailService;
 import com.github.emails.utils.Logging;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +38,6 @@ public class EmailControllers implements IEmailController {
     private final EmailService emailService;
 
     @Override
-    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(@Valid EmailNotification payload) {
         Mail mail = new Mail(
@@ -50,7 +48,6 @@ public class EmailControllers implements IEmailController {
     }
 
     @Override
-    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void resetPass(@Valid EmailNotification payload) {
         Mail mail = new Mail(
@@ -61,7 +58,6 @@ public class EmailControllers implements IEmailController {
     }
 
     @Override
-    @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void loginNotification(@Valid EmailNotification payload) {
         Mail mail = new Mail(

@@ -1,5 +1,6 @@
 package com.github.admins.services.impl;
 
+import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public class OrderService implements IOrderService {
 
     @Override
-    public Optional<List<OrderDetail>> readAllByStatus(OrderStatus status) {
+    public Optional<List<OrderDetailDto>> readAllByStatus(OrderStatus status) {
         return Optional.empty();
     }
 

@@ -37,3 +37,11 @@ Stop docker-compose with profile default or test
         docker-compose -f docker-compose.default.yml down --rmi all
     test:
         docker-compose -f docker-compose.test.yml down --rmi all     
+
+
+
+./run.sh start docker-compose.dev.yml admins
+./run.sh stop docker-compose.dev.yml admins
+
+./run.sh start_all docker-compose.dev.yml
+./run.sh stop_all docker-compose.dev.yml
