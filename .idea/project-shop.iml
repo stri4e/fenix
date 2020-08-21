@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/statistics/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/statistics/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/statistics/src/main/go" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/managers/build" />
       <excludeFolder url="file://$MODULE_DIR$/statistics/build" />
     </content>
     <orderEntry type="inheritedJdk" />

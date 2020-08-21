@@ -25,7 +25,7 @@ function build_all_services() {
 }
 
 function build_service() {
-  service="$2"
+  service="$1"
   printf "RUN CLEAN AND BUILD SERVICE: %s\n" $service
   cd $service
   if [ -f gradlew ]; then
