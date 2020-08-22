@@ -87,6 +87,25 @@ func (controller *ItemsController) FindItems(managerId uint, status string) (*[]
 	return orders, nil
 }
 
+// FindItems godoc
+// @Summary Get a all orders by status
+// @Description Get a all orders by status
+// @Tags items
+// @Accept  json
+// @Produce  json
+// @Param status path string true "Order Status"
+// @Success 200 {object} dto.OrderDto
+// @Failure 400
+// @Failure 403
+// @Router /v1/all/{status} [get]
+func (controller *ItemsController) FindAllItems(status string) (*[]dto.OrderDto, error) {
+	orders, err := controller.orderService.GetOrdersByStatus(status)
+	if err != nil {
+		return nil, err
+	}
+	return orders, nil
+}
+
 // UpdateStatusItem godoc
 // @Summary Update order by status
 // @Description Update order by status

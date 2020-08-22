@@ -1,5 +1,6 @@
 package com.github.admins.services;
 
+import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.impl.OrderService;
@@ -20,7 +21,7 @@ public interface IOrderService {
             path = "/v1/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<OrderDetail>> readAllByStatus(@PathVariable OrderStatus status);
+    Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
             path = "/v1/fetch",

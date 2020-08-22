@@ -10,7 +10,6 @@ import com.github.admins.payload.Product;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IProductService;
 import com.github.admins.utils.Logging;
-import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +35,8 @@ public class OrderDetailController implements IOrderDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> findByStatus(OrderStatus status) {
-        var orders = this.orderService.readAllByStatus(status)
+        return this.orderService.readAllByStatus(status)
                 .orElseThrow(NotFound::new);
-        return orders.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
     }
 
     @Override
