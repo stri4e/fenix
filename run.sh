@@ -1,12 +1,10 @@
 #!/bin/bash
 
 function build_all_services() {
-  if [ -f settings ]; then
+  if [ -f build-settings ]; then
 
-    services=()
-    while read line; do
-      services+=("$line")
-    done < settings
+    cat build-settings
+    services=$(jq -r '.services[]' build-settings)
 
     for service in ${services[*]}
       do
@@ -25,7 +23,7 @@ function build_all_services() {
 }
 
 function build_service() {
-  service="$2"
+  service="$1"
   printf "RUN CLEAN AND BUILD SERVICE: %s\n" $service
   cd $service
   if [ -f gradlew ]; then
