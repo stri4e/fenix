@@ -2,11 +2,11 @@
   "IsLoggerFile": false,
   "ServerPort": "8887",
   "DatabaseConfig": {
-    "DatabaseHost": "localhost",
+    "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,
     "DatabaseUser": "user",
     "DatabasePassword": "password",
-    "DatabaseName": "managers_default.db",
+    "DatabaseName": "managers_prod.db",
     "DdlAuto": "create",
     "MaxIdleConns": 10,
     "MaxOpenConns": 100
