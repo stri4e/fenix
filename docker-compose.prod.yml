@@ -27,7 +27,7 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     volumes:
-      - /home/$USER/config-properties:/config
+      - /$USER/config-properties:/config
   gateway:
     container_name: gateway
     build: ./gateway

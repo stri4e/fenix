@@ -27,7 +27,7 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
     volumes:
-      - /home/hellcrow/config-properties:/config
+      - /$USER/config-properties:/config
   gateway:
     container_name: gateway
     build: ./gateway
