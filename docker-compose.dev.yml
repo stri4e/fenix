@@ -27,7 +27,7 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
     volumes:
-      - /$USER/config-properties:/config
+      - /root/config-properties:/config
   gateway:
     container_name: gateway
     build: ./gateway
