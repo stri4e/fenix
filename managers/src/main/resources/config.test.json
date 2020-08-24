@@ -6,7 +6,7 @@
     "DatabasePort": 5432,
     "DatabaseUser": "user",
     "DatabasePassword": "password",
-    "DatabaseName": "managers_default.db",
+    "DatabaseName": "managers_test.db",
     "DdlAuto": "create",
     "MaxIdleConns": 10,
     "MaxOpenConns": 100

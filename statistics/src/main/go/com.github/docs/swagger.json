@@ -1,0 +1,567 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample service for managing statistics",
+        "title": "Statistics API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8787",
+    "basePath": "/",
+    "paths": {
+        "/v1/logins/edit": {
+            "post": {
+                "description": "Create a new login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "logins"
+                ],
+                "summary": "Create a new login",
+                "parameters": [
+                    {
+                        "description": "Create login",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/logins/fetch": {
+            "get": {
+                "description": "Get details of user logins",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "logins"
+                ],
+                "summary": "Get details of user logins",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name search by start",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "name search by end",
+                        "name": "end",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/logins/fetch/{userId}": {
+            "get": {
+                "description": "Get details of user logins",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "logins"
+                ],
+                "summary": "Get details of user logins",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchase/fetch/{userId}": {
+            "get": {
+                "description": "Get details of user purchases",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Get details of user purchases",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchases": {
+            "get": {
+                "description": "Get details of user purchases",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Get details of user purchases",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchases/edit": {
+            "post": {
+                "description": "Create a new purchases",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Create a new purchases",
+                "parameters": [
+                    {
+                        "description": "Create purchase",
+                        "name": "purchase",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchases/fetch": {
+            "get": {
+                "description": "Get details of user purchases",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Get details of user purchases",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name search by start",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "name search by end",
+                        "name": "end",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/purchases/{orderId}": {
+            "get": {
+                "description": "Get details of user purchases",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Get details of user purchases",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PurchaseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/views": {
+            "get": {
+                "description": "Get details of user views",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "views"
+                ],
+                "summary": "Get details of user views",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ViewDto"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new views",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "views"
+                ],
+                "summary": "Create a new views",
+                "parameters": [
+                    {
+                        "description": "Create view",
+                        "name": "view",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Bearer",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ViewDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/views/fetch": {
+            "get": {
+                "description": "Get details of user views",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "views"
+                ],
+                "summary": "Get details of user views",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name search by start",
+                        "name": "start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "name search by end",
+                        "name": "end",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ViewDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/views/fetch/{userId}": {
+            "get": {
+                "description": "Get details of user views",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "views"
+                ],
+                "summary": "Get details of user views",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ViewDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.CustomerDto": {
+            "type": "object",
+            "properties": {
+                "customerAddress": {
+                    "type": "string"
+                },
+                "customerEmail": {
+                    "type": "string"
+                },
+                "customerName": {
+                    "type": "string"
+                },
+                "customerPhone": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "purchaseId": {
+                    "type": "integer",
+                    "example": 11
+                }
+            }
+        },
+        "dto.LoginDto": {
+            "type": "object",
+            "properties": {
+                "createAt": {
+                    "type": "string",
+                    "example": "2019-11-09T21:21:46+00:00"
+                },
+                "device": {
+                    "type": "string",
+                    "example": "phone"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "location": {
+                    "type": "string",
+                    "example": "192.168.1.1"
+                },
+                "userId": {
+                    "type": "integer",
+                    "example": 12
+                }
+            }
+        },
+        "dto.ProductDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "This is phone"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Phone"
+                },
+                "previewImage": {
+                    "type": "string",
+                    "example": "image"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 1.11
+                },
+                "quantity": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "dto.PurchaseDto": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "createAt": {
+                    "type": "string",
+                    "example": "2019-11-09T21:21:46+00:00"
+                },
+                "customer": {
+                    "$ref": "#/definitions/dto.CustomerDto"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "orderId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ProductDto"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dto.ViewDto": {
+            "type": "object",
+            "properties": {
+                "createAt": {
+                    "type": "string",
+                    "example": "2019-11-09T21:21:46+00:00"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "product": {
+                    "$ref": "#/definitions/dto.ProductDto"
+                }
+            }
+        }
+    }
+}
