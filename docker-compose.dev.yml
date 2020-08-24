@@ -20,8 +20,6 @@ services:
     container_name: prometheus
     ports:
       - 9090:9090
-    depends_on:
-      - storage
     volumes:
       - /root/config-properties/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
   grafana:
