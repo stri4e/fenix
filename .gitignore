@@ -5,7 +5,7 @@
 /statistics/.idea/dataSources.local.xml
 /managers/.idea/dataSources.xml
 /statistics/.idea/dataSources.xml
-/managers/src/main/go/com.github/docs/docs.go
+#/managers/src/main/go/com.github/docs/docs.go
 /statistics/.idea/dataSources/e808c2fc-edd7-4d27-814e-c2874318457d.xml
 /.gradle/6.3/fileHashes/fileHashes.lock
 /.gradle/6.3/gc.properties
@@ -47,10 +47,11 @@
 /statistics/.idea/dataSources/e808c2fc-edd7-4d27-814e-c2874318457d/storage_v2/_src_/database/statistics_default.db.508Vfg/schema/public.abK9xQ.meta
 /statistics/.idea/statistics.iml
 /statistics/.idea/dataSources/e808c2fc-edd7-4d27-814e-c2874318457d/storage_v2/_src_/database/statistics_default.db.508Vfg.meta
-/managers/src/main/go/com.github/docs/swagger.json
-/managers/src/main/go/com.github/docs/swagger.yaml
+#/managers/src/main/go/com.github/docs/swagger.json
+#/managers/src/main/go/com.github/docs/swagger.yaml
 /managers/.idea/vcs.xml
 /statistics/.idea/vcs.xml
 /statistics/.idea/webResources.xml
 /managers/.idea/workspace.xml
 /statistics/.idea/workspace.xml
+/managers/build/
