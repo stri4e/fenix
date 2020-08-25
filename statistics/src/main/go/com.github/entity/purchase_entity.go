@@ -12,9 +12,9 @@ type Purchase struct {
 	Products []*PurchaseProduct `gorm:"foreignkey:PurchaseId"`
 	Amount   float64            `gorm:"column:amount"`
 	Status   string             `gorm:"column:status"`
-	Manager  *Manager            `gorm:"foreignkey:PurchaseId"`
+	Manager  *Manager           `gorm:"foreignkey:PurchaseId"`
 }
 
 func (purchase *Purchase) TableName() string {
-	return "purchase"
+	return "purchases"
 }

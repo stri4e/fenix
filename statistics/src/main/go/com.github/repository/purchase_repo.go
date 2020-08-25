@@ -64,12 +64,24 @@ func (repo *PurchaseRepo) Save(purchase *entity.Purchase) (*entity.Purchase, err
 	return purchase, nil
 }
 
-func(repo *PurchaseRepo) UpdatePurchase(orderId uint, status string, manager *entity.Manager) error {
+func (repo *PurchaseRepo) UpdatePurchase(orderId uint, status string, manager *entity.Manager) error {
 	tx := repo.database.Begin()
-	err := tx.Table("purchase").
-		Where("order_id = ?", orderId).
-		Update(entity.Purchase{Manager: manager, Status: status}).Error
+	purchase := new(entity.Purchase)
+	err := tx.
+		Preload(ProductColumn).
+		Preload(CustomerColumn).
+		Preload(ProductsImagesColumn).
+		Preload("Manager").
+		Take(&purchase, "order_id = ?", orderId).Error
 	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	purchase.Manager = manager
+	purchase.Status = status
+	err = tx.Save(&purchase).Error
+	if err != nil {
+		tx.Rollback()
 		return err
 	}
 	tx.Commit()

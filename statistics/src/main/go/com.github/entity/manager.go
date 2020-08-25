@@ -9,3 +9,7 @@ type Manager struct {
 	FirstName  string `gorm:"column:first_name"`
 	LastName   string `gorm:"column:last_name"`
 }
+
+func (purchase *Manager) TableName() string {
+	return "managers"
+}
