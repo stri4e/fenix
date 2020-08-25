@@ -28,3 +28,7 @@ func (service *PurchaseService) ReadUserId(orderId uint) (uint, error) {
 func (service *PurchaseService) CreatePurchase(purchase *entity.Purchase) (*entity.Purchase, error) {
 	return service.repo.Save(purchase)
 }
+
+func (service *PurchaseService) UpdatePurchase(orderId uint, status string, manager *entity.Manager) error {
+	return service.repo.UpdatePurchase(orderId, status, manager)
+}

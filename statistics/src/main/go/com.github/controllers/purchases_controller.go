@@ -74,7 +74,7 @@ func (controller *PurchasesController) FindPurchases(userId uint) ([]*dto.Purcha
 // @Produce  json
 // @Param orderId path integer true "Order ID"
 // @Success 200 {object} dto.PurchaseDto
-// @Router /v1/purchases/{orderId} [get]
+// @Router /v1/purchases/fetch/{orderId} [get]
 func (controller *PurchasesController) FindPurchasesByOrderId(orderId uint) ([]*dto.PurchaseDto, error) {
 	userId, err := controller.purchaseService.ReadUserId(orderId)
 	if err != nil {
@@ -103,4 +103,20 @@ func (controller *PurchasesController) CreatePurchase(payload *dto.PurchaseDto) 
 		return nil, err
 	}
 	return utils.FromPurchase(result), err
+}
+
+// UpdatePurchase godoc
+// @Summary Update purchase by status
+// @Description Update purchase by status
+// @Tags purchases
+// @Param orderId path integer true "Order ID"
+// @Param status path string true "Order Status"
+// @Param purchase body dto.ManagerDto true "Update purchase"
+// @Success 200
+// @Failure 403
+// @Failure 404
+// @Router /v1/purchases/edit/{orderId}/{status} [put]
+func (controller *PurchasesController) UpdatePurchase(orderId uint, status string, payload *dto.ManagerDto) error {
+	manager := utils.ToManager(payload)
+	return controller.purchaseService.UpdatePurchase(orderId, status, manager)
 }

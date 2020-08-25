@@ -193,3 +193,11 @@ func ToViewedImages(data []string) []*entity.ViewedImage {
 	}
 	return images
 }
+
+func ToManager(data *dto.ManagerDto) *entity.Manager {
+	return &entity.Manager{
+		ManagerId: data.ManagerId,
+		FirstName: data.FirstName,
+		LastName:  data.LastName,
+	}
+}

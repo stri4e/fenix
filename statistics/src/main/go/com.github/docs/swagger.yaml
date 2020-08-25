@@ -35,6 +35,18 @@ definitions:
         example: 12
         type: integer
     type: object
+  dto.ManagerDto:
+    properties:
+      firstName:
+        example: Michal
+        type: string
+      lastName:
+        example: Mackonagen
+        type: string
+      managerId:
+        example: 1
+        type: integer
+    type: object
   dto.ProductDto:
     properties:
       description:
@@ -72,6 +84,8 @@ definitions:
       id:
         example: 1
         type: integer
+      manager:
+        $ref: '#/definitions/dto.ManagerDto'
       orderId:
         example: 1
         type: integer
@@ -216,27 +230,6 @@ paths:
       summary: Get details of user purchases
       tags:
       - purchases
-  /v1/purchases/{orderId}:
-    get:
-      consumes:
-      - application/json
-      description: Get details of user purchases
-      parameters:
-      - description: Order ID
-        in: path
-        name: orderId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Get details of user purchases
-      tags:
-      - purchases
   /v1/purchases/edit:
     post:
       consumes:
@@ -259,6 +252,33 @@ paths:
       summary: Create a new purchases
       tags:
       - purchases
+  /v1/purchases/edit/{orderId}/{status}:
+    put:
+      description: Update purchase by status
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      - description: Order Status
+        in: path
+        name: status
+        required: true
+        type: string
+      - description: Update purchase
+        in: body
+        name: purchase
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ManagerDto'
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update purchase by status
+      tags:
+      - purchases
   /v1/purchases/fetch:
     get:
       consumes:
@@ -273,6 +293,27 @@ paths:
         in: query
         name: end
         type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.PurchaseDto'
+      summary: Get details of user purchases
+      tags:
+      - purchases
+  /v1/purchases/fetch/{orderId}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user purchases
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
