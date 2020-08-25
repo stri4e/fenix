@@ -14,4 +14,5 @@ type PurchaseDto struct {
 	Products  []*ProductDto `json:"products"`
 	Amount    float64       `json:"amount"`
 	Status    string        `json:"status"`
+	Manager   *ManagerDto	`json:"manager,omitempty"`
 }

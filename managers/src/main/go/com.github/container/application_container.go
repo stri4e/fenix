@@ -28,6 +28,7 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewItemService)
 	err = container.Provide(services.NewProductService)
 	err = container.Provide(services.NewOrderService)
+	err = container.Provide(services.NewPurchaseService)
 
 	err = container.Provide(controllers.NewItemsController)
 

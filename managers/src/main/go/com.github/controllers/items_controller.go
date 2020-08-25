@@ -14,18 +14,23 @@ const (
 )
 
 type ItemsController struct {
-	managerService *services.ManagersService
-	itemService    *services.ItemService
-	orderService   *services.OrderService
+	managerService  *services.ManagersService
+	itemService     *services.ItemService
+	orderService    *services.OrderService
+	purchaseService *services.PurchaseService
 }
 
 func NewItemsController(
-	managerService *services.ManagersService, itemService *services.ItemService,
-	orderService *services.OrderService) *ItemsController {
+	managerService *services.ManagersService,
+	itemService *services.ItemService,
+	orderService *services.OrderService,
+	purchaseService *services.PurchaseService) *ItemsController {
 	return &ItemsController{
-		managerService: managerService,
-		itemService:    itemService,
-		orderService:   orderService}
+		managerService:  managerService,
+		itemService:     itemService,
+		orderService:    orderService,
+		purchaseService: purchaseService,
+	}
 }
 
 // SaveItem godoc
@@ -47,6 +52,7 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 		return err
 	}
 	err = controller.orderService.UpdateOrder(payload.OrderId, Handling)
+	err = controller.purchaseService.UpdatePurchase(payload.OrderId, Handling, utils.FromManager(manager))
 	if err != nil {
 		return err
 	}

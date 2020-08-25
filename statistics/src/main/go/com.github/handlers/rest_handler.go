@@ -44,6 +44,9 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/purchases/edit", handler.purchaseHandler.CreatePurchase).
 		Methods(http.MethodPost)
 	router.
+		HandleFunc("/v1/purchases/edit/{orderId}/{status}", handler.purchaseHandler.UpdateStatusPurchase).
+		Methods(http.MethodPut)
+	router.
 		HandleFunc("/v1/logins/fetch/{userId}", handler.loginHandler.FindByUserId).
 		Methods(http.MethodGet)
 	router.

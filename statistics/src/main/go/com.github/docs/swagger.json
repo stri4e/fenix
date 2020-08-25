@@ -215,6 +215,45 @@
                 }
             }
         },
+        "/v1/purchases/edit/{orderId}/{status}": {
+            "put": {
+                "description": "Update purchase by status",
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Update purchase by status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order Status",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update purchase",
+                        "name": "purchase",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ManagerDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
         "/v1/purchases/fetch": {
             "get": {
                 "description": "Get details of user purchases",
@@ -252,7 +291,7 @@
                 }
             }
         },
-        "/v1/purchases/{orderId}": {
+        "/v1/purchases/fetch/{orderId}": {
             "get": {
                 "description": "Get details of user purchases",
                 "consumes": [
@@ -476,6 +515,23 @@
                 }
             }
         },
+        "dto.ManagerDto": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string",
+                    "example": "Michal"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Mackonagen"
+                },
+                "managerId": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "dto.ProductDto": {
             "type": "object",
             "properties": {
@@ -527,6 +583,9 @@
                 "id": {
                     "type": "integer",
                     "example": 1
+                },
+                "manager": {
+                    "$ref": "#/definitions/dto.ManagerDto"
                 },
                 "orderId": {
                     "type": "integer",
