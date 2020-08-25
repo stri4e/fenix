@@ -22,6 +22,7 @@ func FromPurchase(data *entity.Purchase) *dto.PurchaseDto {
 		Products:  products,
 		Amount:    data.Amount,
 		Status:    data.Status,
+		Manager:   FromManager(data.Manager),
 	}
 }
 
@@ -84,6 +85,10 @@ func FromViewedProduct(data *entity.ViewedProduct) *dto.ProductDto {
 		PreviewImage: data.PreviewImage,
 		Images:       images,
 	}
+}
+
+func FromManager(data *entity.Manager) *dto.ManagerDto {
+	return &dto.ManagerDto{FirstName: data.FirstName, LastName: data.LastName}
 }
 
 func FromViewsArray(data []*entity.View) []*dto.ViewDto {
@@ -192,4 +197,12 @@ func ToViewedImages(data []string) []*entity.ViewedImage {
 		images = append(images, &entity.ViewedImage{Img: i})
 	}
 	return images
+}
+
+func ToManager(data *dto.ManagerDto) *entity.Manager {
+	return &entity.Manager{
+		ManagerId: data.ManagerId,
+		FirstName: data.FirstName,
+		LastName:  data.LastName,
+	}
 }

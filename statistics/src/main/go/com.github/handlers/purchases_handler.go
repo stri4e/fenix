@@ -118,7 +118,13 @@ func (handler *PurchasesHandler) UpdateStatusPurchase(w http.ResponseWriter, r *
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	err = handler.controller.UpdatePurchase(uint(orderId), status)
+	var payload dto.ManagerDto
+	err = json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = handler.controller.UpdatePurchase(uint(orderId), status, &payload)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

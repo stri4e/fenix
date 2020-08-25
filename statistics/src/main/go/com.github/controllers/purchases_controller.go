@@ -111,10 +111,12 @@ func (controller *PurchasesController) CreatePurchase(payload *dto.PurchaseDto) 
 // @Tags purchases
 // @Param orderId path integer true "Order ID"
 // @Param status path string true "Order Status"
+// @Param purchase body dto.ManagerDto true "Update purchase"
 // @Success 200
 // @Failure 403
 // @Failure 404
 // @Router /v1/{orderId}/{status} [put]
-func (controller *PurchasesController) UpdatePurchase(orderId uint, status string) error {
-	return controller.purchaseService.UpdatePurchase(orderId, status)
+func (controller *PurchasesController) UpdatePurchase(orderId uint, status string, payload *dto.ManagerDto) error {
+	manager := utils.ToManager(payload)
+	return controller.purchaseService.UpdatePurchase(orderId, status, manager)
 }
