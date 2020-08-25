@@ -104,3 +104,25 @@ func (handler *PurchasesHandler) CreatePurchase(w http.ResponseWriter, r *http.R
 	log.Debug("Enter: create new purchase by account id success")
 	ResponseSender(w, purchase, http.StatusCreated)
 }
+
+func (handler *PurchasesHandler) UpdateStatusPurchase(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	orderIdStr := vars["orderId"]
+	status := vars["status"]
+	if utils.IsBlank(orderIdStr) || utils.IsBlank(status) {
+		http.Error(w, "", http.StatusBadRequest)
+		return
+	}
+	orderId, err := strconv.ParseUint(orderIdStr, 10, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err = handler.controller.UpdatePurchase(uint(orderId), status)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Debug("Enter: update orders information")
+	ResponseSender(w, "", http.StatusOK)
+}

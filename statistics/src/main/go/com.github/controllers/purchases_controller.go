@@ -104,3 +104,17 @@ func (controller *PurchasesController) CreatePurchase(payload *dto.PurchaseDto) 
 	}
 	return utils.FromPurchase(result), err
 }
+
+// UpdatePurchase godoc
+// @Summary Update purchase by status
+// @Description Update purchase by status
+// @Tags purchases
+// @Param orderId path integer true "Order ID"
+// @Param status path string true "Order Status"
+// @Success 200
+// @Failure 403
+// @Failure 404
+// @Router /v1/{orderId}/{status} [put]
+func (controller *PurchasesController) UpdatePurchase(orderId uint, status string) error {
+	return controller.purchaseService.UpdatePurchase(orderId, status)
+}

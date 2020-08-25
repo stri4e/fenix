@@ -63,3 +63,15 @@ func (repo *PurchaseRepo) Save(purchase *entity.Purchase) (*entity.Purchase, err
 	tx.Commit()
 	return purchase, nil
 }
+
+func(repo *PurchaseRepo) UpdatePurchase(orderId uint, status string) error {
+	tx := repo.database.Begin()
+	err := tx.Table("purchase").
+		Where("order_id = ?", orderId).
+		Update("status", status).Error
+	if err != nil {
+		return err
+	}
+	tx.Commit()
+	return nil
+}
