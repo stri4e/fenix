@@ -266,12 +266,6 @@ paths:
         name: status
         required: true
         type: string
-      - description: Update purchase
-        in: body
-        name: purchase
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ManagerDto'
       responses:
         "200": {}
         "403": {}
@@ -322,6 +316,33 @@ paths:
           schema:
             $ref: '#/definitions/dto.PurchaseDto'
       summary: Get details of user purchases
+      tags:
+      - purchases
+  /v1/purchases/manager/edit/{orderId}/{status}:
+    post:
+      description: Update purchase by status
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      - description: Order Status
+        in: path
+        name: status
+        required: true
+        type: string
+      - description: Create manager purchase
+        in: body
+        name: purchase
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ManagerDto'
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update purchase by status
       tags:
       - purchases
   /v1/views:
