@@ -105,18 +105,32 @@ func (controller *PurchasesController) CreatePurchase(payload *dto.PurchaseDto) 
 	return utils.FromPurchase(result), err
 }
 
-// UpdatePurchase godoc
+// CreateManagerPurchase godoc
 // @Summary Update purchase by status
 // @Description Update purchase by status
 // @Tags purchases
 // @Param orderId path integer true "Order ID"
 // @Param status path string true "Order Status"
-// @Param purchase body dto.ManagerDto true "Update purchase"
+// @Param purchase body dto.ManagerDto true "Create manager purchase"
+// @Success 200
+// @Failure 403
+// @Failure 404
+// @Router /v1/purchases/manager/edit/{orderId}/{status} [post]
+func (controller *PurchasesController) CreateManagerPurchase(orderId uint, status string, payload *dto.ManagerDto) error {
+	manager := utils.ToManager(payload)
+	return controller.purchaseService.CreateManagerPurchase(orderId, status, manager)
+}
+
+// UpdateStatusPurchase godoc
+// @Summary Update purchase by status
+// @Description Update purchase by status
+// @Tags purchases
+// @Param orderId path integer true "Order ID"
+// @Param status path string true "Order Status"
 // @Success 200
 // @Failure 403
 // @Failure 404
 // @Router /v1/purchases/edit/{orderId}/{status} [put]
-func (controller *PurchasesController) UpdatePurchase(orderId uint, status string, payload *dto.ManagerDto) error {
-	manager := utils.ToManager(payload)
-	return controller.purchaseService.UpdatePurchase(orderId, status, manager)
+func (controller *PurchasesController) UpdateStatusPurchase(orderId uint, status string) error {
+	return controller.purchaseService.UpdateStatusPurchase(orderId, status)
 }

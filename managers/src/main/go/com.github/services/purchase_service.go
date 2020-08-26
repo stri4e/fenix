@@ -16,15 +16,35 @@ func NewPurchaseService(eureka *EurekaService) *PurchaseService {
 	return &PurchaseService{eureka: eureka}
 }
 
-func (service *PurchaseService) UpdatePurchase(orderId uint, status string, manager *dto.ManagerDto) error {
+func (service *PurchaseService) CreateManagerPurchase(orderId uint, status string, manager *dto.ManagerDto) error {
 	instances, err := service.getInstances()
 	if err == nil {
-		client := sling.New().Path("/v1/purchases/edit").
+		client := sling.New().Path("/v1/purchases/manager/edit").
 			Path(string(orderId)).
 			Path(status).
 			BodyJSON(manager)
 		for _, instance := range instances {
-			client := client.Put(instance.HomePageUrl)
+			client := client.Post(instance.HomePageUrl)
+			resp, err := client.ReceiveSuccess(nil)
+			if err != nil {
+				return err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return nil
+			}
+		}
+	}
+	return nil
+}
+
+func (service *PurchaseService) UpdateStatusPurchase(orderId uint, status string) error {
+	instances, err := service.getInstances()
+	if err == nil {
+		client := sling.New().Path("/v1/purchases/edit").
+			Path(string(orderId)).
+			Path(status)
+		for _, instance := range instances {
+			client := client.Post(instance.HomePageUrl)
 			resp, err := client.ReceiveSuccess(nil)
 			if err != nil {
 				return err

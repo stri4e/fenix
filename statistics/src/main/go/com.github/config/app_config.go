@@ -15,6 +15,8 @@ const (
 )
 
 type Config struct {
+	ApplicationName string
+	ZipkinUrl       string
 	IsLoggerFile    bool
 	ServerPort      string
 	DatabaseConfig  DatabaseConfig

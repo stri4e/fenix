@@ -1,4 +1,6 @@
 {
+  "ApplicationName": "managers",
+  "ZipkinUrl": "http://zipkin:9411/api/v2/spans",
   "IsLoggerFile": false,
   "ServerPort": "8887",
   "DatabaseConfig": {

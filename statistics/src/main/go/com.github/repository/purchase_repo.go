@@ -8,6 +8,7 @@ import (
 const (
 	ProductColumn        = "Products"
 	CustomerColumn       = "Customer"
+	ManagerColumn        = "Manager"
 	ProductsImagesColumn = "Products.Images"
 )
 
@@ -64,14 +65,14 @@ func (repo *PurchaseRepo) Save(purchase *entity.Purchase) (*entity.Purchase, err
 	return purchase, nil
 }
 
-func (repo *PurchaseRepo) UpdatePurchase(orderId uint, status string, manager *entity.Manager) error {
+func (repo *PurchaseRepo) CreateManagerPurchase(orderId uint, status string, manager *entity.Manager) error {
 	tx := repo.database.Begin()
 	purchase := new(entity.Purchase)
 	err := tx.
 		Preload(ProductColumn).
 		Preload(CustomerColumn).
 		Preload(ProductsImagesColumn).
-		Preload("Manager").
+		Preload(ManagerColumn).
 		Take(&purchase, "order_id = ?", orderId).Error
 	if err != nil {
 		tx.Rollback()
@@ -80,6 +81,19 @@ func (repo *PurchaseRepo) UpdatePurchase(orderId uint, status string, manager *e
 	purchase.Manager = manager
 	purchase.Status = status
 	err = tx.Save(&purchase).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return nil
+}
+
+func (repo *PurchaseRepo) UpdateStatusPurchase(orderId uint, status string) error {
+	tx := repo.database.Begin()
+	err := tx.Table("purchases").
+		Where("order_id = ?", orderId).
+		Update("status", status).Error
 	if err != nil {
 		tx.Rollback()
 		return err

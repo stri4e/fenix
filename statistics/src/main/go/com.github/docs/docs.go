@@ -251,15 +251,6 @@ var doc = `{
                         "name": "status",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "description": "Update purchase",
-                        "name": "purchase",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ManagerDto"
-                        }
                     }
                 ],
                 "responses": {
@@ -335,6 +326,45 @@ var doc = `{
                             "$ref": "#/definitions/dto.PurchaseDto"
                         }
                     }
+                }
+            }
+        },
+        "/v1/purchases/manager/edit/{orderId}/{status}": {
+            "post": {
+                "description": "Update purchase by status",
+                "tags": [
+                    "purchases"
+                ],
+                "summary": "Update purchase by status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order Status",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create manager purchase",
+                        "name": "purchase",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ManagerDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
                 }
             }
         },
