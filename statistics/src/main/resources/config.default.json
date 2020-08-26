@@ -1,4 +1,6 @@
 {
+  "ApplicationName": "statistics",
+  "ZipkinUrl": "http://localhost:9411/api/v2/spans",
   "IsLoggerFile": false,
   "ServerPort": "8787",
   "DatabaseConfig": {
