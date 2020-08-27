@@ -3,14 +3,9 @@ package handlers
 import (
 	"../config"
 	"github.com/gorilla/mux"
-	"github.com/openzipkin/zipkin-go"
-	zipkinhttp "github.com/openzipkin/zipkin-go/middleware/http"
-	"github.com/openzipkin/zipkin-go/model"
-	httpreporter "github.com/openzipkin/zipkin-go/reporter/http"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
-	"log"
 	"net/http"
-	"strconv"
 )
 
 type RestHandler struct {
@@ -18,24 +13,25 @@ type RestHandler struct {
 	loginHandler    *LoginHandler
 	viewsHandler    *ViewsHandler
 	config          *config.Config
+	tracer          *Tracer
 }
 
 func NewRestHandler(
-	purchaseHandler *PurchasesHandler, loginHandler *LoginHandler,
-	viewsHandler *ViewsHandler, config *config.Config) *RestHandler {
+	purchaseHandler *PurchasesHandler,
+	loginHandler *LoginHandler,
+	viewsHandler *ViewsHandler,
+	config *config.Config,
+	tracer *Tracer) *RestHandler {
 	return &RestHandler{
 		purchaseHandler: purchaseHandler,
 		loginHandler:    loginHandler,
 		viewsHandler:    viewsHandler,
-		config:          config}
+		config:          config,
+		tracer:          tracer,
+	}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
-	tracer, err := handler.newTracer()
-	if err != nil {
-		log.Fatal(err)
-	}
-	serverMiddleware := zipkinhttp.NewServerMiddleware(tracer, zipkinhttp.SpanName("request"))
 	router := mux.NewRouter()
 	router.
 		HandleFunc("/v1/purchases/fetch/{userId}", handler.purchaseHandler.FindByUserId).
@@ -83,29 +79,14 @@ func (handler *RestHandler) Handler() http.Handler {
 		HandleFunc("/v1/views", handler.viewsHandler.CreateViews).
 		Methods(http.MethodPost)
 
+	router.Handle("/metrics", promhttp.Handler())
+
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
-	router.Use(serverMiddleware)
+	zipkinMiddleware := handler.tracer.CreateMiddleware()
+	router.Use(zipkinMiddleware)
+	router.Use(prometheusMiddleware)
 	http.Handle("/", router)
 	return router
-}
-
-func (handler *RestHandler) newTracer() (*zipkin.Tracer, error) {
-	reporter := httpreporter.NewReporter(handler.config.ZipkinUrl)
-	port, _ := strconv.ParseUint(handler.config.ServerPort, 10, 64)
-	localEndpoint := &model.Endpoint{ServiceName: handler.config.ApplicationName, Port: uint16(port)}
-	sampler, err := zipkin.NewCountingSampler(1)
-	if err != nil {
-		return nil, err
-	}
-	t, err := zipkin.NewTracer(
-		reporter,
-		zipkin.WithSampler(sampler),
-		zipkin.WithLocalEndpoint(localEndpoint),
-	)
-	if err != nil {
-		return nil, err
-	}
-	return t, err
 }
