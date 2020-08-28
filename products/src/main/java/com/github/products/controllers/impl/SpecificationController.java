@@ -19,7 +19,7 @@ public class SpecificationController implements ISpecificationController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Specification save(Specification payload) {
+    public Specification saveSpecification(Specification payload) {
         return this.specificationService.create(payload);
     }
 
@@ -33,7 +33,7 @@ public class SpecificationController implements ISpecificationController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(Specification payload) {
+    public void updateSpecification(Specification payload) {
         this.specificationService.update(payload);
     }
 

@@ -54,7 +54,7 @@ public class CommentController implements ICommentController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void remove(Long id) {
+    public void removeComment(Long id) {
         this.commentService.remove(id);
     }
 

@@ -16,8 +16,8 @@ public interface ICustomProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto save(@PathVariable String categoryName,
-                    @Valid @RequestBody ProductDto payload
+    ProductDto saveProduct(@PathVariable String categoryName,
+                           @Valid @RequestBody ProductDto payload
     );
 
     @GetMapping(

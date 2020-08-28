@@ -30,6 +30,6 @@ public interface ICommentController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void remove(@PathVariable Long id);
+    void removeComment(@PathVariable Long id);
 
 }

@@ -57,7 +57,7 @@ public class ProductController implements IProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Product save(@Valid Product payload) {
+    public Product saveProduct(@Valid Product payload) {
         return this.productService.create(payload);
     }
 
@@ -77,14 +77,14 @@ public class ProductController implements IProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(Product payload) {
+    public void updateProduct(Product payload) {
         this.productService.updateProduct(payload);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateStatus(Long id, ProductStatus status) {
+    public void updateStatusProduct(Long id, ProductStatus status) {
         this.productService.updateStatus(status, id);
     }
 

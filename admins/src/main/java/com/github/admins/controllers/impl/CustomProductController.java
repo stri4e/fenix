@@ -35,7 +35,7 @@ public class CustomProductController implements ICustomProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto save(String categoryName, @Valid ProductDto payload) {
+    public ProductDto saveProduct(String categoryName, @Valid ProductDto payload) {
         Category category = this.categoryService.readByName(categoryName)
                 .orElseThrow(NotFound::new);
         Product product = toProduct(payload);
