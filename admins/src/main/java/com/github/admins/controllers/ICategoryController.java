@@ -11,7 +11,7 @@ public interface ICategoryController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    CategoryDto save(@Valid @RequestBody CategoryDto payload);
+    CategoryDto saveCategory(@Valid @RequestBody CategoryDto payload);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)

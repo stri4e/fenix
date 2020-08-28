@@ -15,7 +15,7 @@ public interface IOrdersDetailController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    void save(
+    void saveOrders(
             @RequestAttribute(name = "userId") Long userId,
             @RequestBody @Valid OrderDetailDto payload
     );
@@ -39,13 +39,13 @@ public interface IOrdersDetailController {
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody OrderDetail o);
+    void updateOrder(@RequestBody OrderDetail o);
 
     @PutMapping(
             path = "/edit/{orderId}/{orderStatus}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(
+    void updateOderStatus(
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
 

@@ -40,7 +40,7 @@ public interface IProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Product save(@Valid @RequestBody Product payload);
+    Product saveProduct(@Valid @RequestBody Product payload);
 
     @GetMapping(
             path = "/fetch",
@@ -57,13 +57,13 @@ public interface IProductController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody Product payload);
+    void updateProduct(@RequestBody Product payload);
 
     @DeleteMapping(
             path = "/edit/{id}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateStatus(
+    void updateStatusProduct(
             @PathVariable Long id,
             @PathVariable ProductStatus status
     );
