@@ -39,7 +39,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void save(Long userId, OrderDetailDto payload) {
+    public void saveOrders(Long userId, OrderDetailDto payload) {
         Customer c = TransferObj.toCustomer(payload.getCustomer());
         Customer customer = this.customerService.create(c);
         OrderDetail data = TransferObj.toOrderDetail(customer, payload, userId);
@@ -79,14 +79,14 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(OrderDetail payload) {
+    public void updateOrder(OrderDetail payload) {
         this.orderService.update(payload);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(Long orderId, OrderStatus status) {
+    public void updateOderStatus(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
     }
 

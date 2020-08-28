@@ -28,7 +28,7 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public CategoryDto save(@Valid CategoryDto payload) {
+    public CategoryDto saveCategory(@Valid CategoryDto payload) {
         var tc = toCategory(payload);
         return fromCategory(this.categoryService.create(tc)
                 .orElseThrow(NotFound::new));

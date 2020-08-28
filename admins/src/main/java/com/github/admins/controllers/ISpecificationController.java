@@ -15,8 +15,8 @@ public interface ISpecificationController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    SpecificationDto save(@PathVariable Long productId,
-                          @Valid @RequestBody SpecificationDto payload);
+    SpecificationDto saveSpecification(@PathVariable Long productId,
+                                       @Valid @RequestBody SpecificationDto payload);
 
     @GetMapping(path = "{id}",
             produces = MediaType.APPLICATION_JSON_VALUE

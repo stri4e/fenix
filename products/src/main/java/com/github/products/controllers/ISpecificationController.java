@@ -13,7 +13,7 @@ public interface ISpecificationController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Specification save(@RequestBody Specification payload);
+    Specification saveSpecification(@RequestBody Specification payload);
 
     @GetMapping(
             path = "/fetch/{id}",
@@ -27,6 +27,6 @@ public interface ISpecificationController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody Specification payload);
+    void updateSpecification(@RequestBody Specification payload);
 
 }
