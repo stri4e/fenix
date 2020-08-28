@@ -4,9 +4,12 @@ import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,6 +18,15 @@ public interface IOrdersDetailController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
     void saveOrders(
             @RequestAttribute(name = "userId") Long userId,
             @RequestBody @Valid OrderDetailDto payload

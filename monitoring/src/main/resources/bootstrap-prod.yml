@@ -5,3 +5,31 @@ spring:
     config:
       uri: http://config-server:8888
       fail-fast: true
+info:
+  app:
+    encoding: UTF-8
+    java:
+      source: 1.11
+      target: 1.11
+management:
+  endpoint:
+    loggers:
+      enabled: true
+      cache:
+        time-to-live: 0ms
+    metrics:
+      enabled: true
+    export:
+      prometheus:
+        enabled: true
+    health:
+      show-details: always
+    prometeus:
+      enabled: true
+  endpoints:
+    jmx:
+      exposure:
+        include: all
+    web:
+      exposure:
+        include: "*"
