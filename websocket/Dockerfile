@@ -4,7 +4,7 @@ RUN apt install -y netcat
 COPY build/libs/*.jar /app/websocket.jar
 EXPOSE 8187
 ENV JAVA_OPTS="-Xdebug"
-RUN sh -c 'touch /app.jar'
+RUN sh -c 'touch /app/websocket.jar'
 ENTRYPOINT [ "sh", "-c", "java  $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/websocket.jar" ]
 COPY /websocket-entrypoint.sh /websocket-entrypoint.sh
 RUN chmod +x /websocket-entrypoint.sh
