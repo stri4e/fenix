@@ -62,8 +62,7 @@ services:
       - config-server
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "-XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx512m -Xms256m"
-    entrypoint: ./gateway-entrypoint.sh config-server 8888 java ava and docker-compose-wait-jar /app/gateway.jar
+    entrypoint: ./gateway-entrypoint.sh config-server 8888 java -XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx512m -Xms256m -jar /app/gateway.jar
   admins:
     container_name: admins
     build: ./admins
