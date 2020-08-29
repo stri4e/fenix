@@ -39,7 +39,7 @@ services:
       - "3000:3000"
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx256m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx256m -Xms128m"
   config-server:
     container_name: config-server
     build: ./config-server
@@ -49,7 +49,7 @@ services:
       - discovery
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx256m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx256m -Xms128m"
     volumes:
       - /root/config-properties:/config
   gateway:
@@ -62,7 +62,7 @@ services:
       - config-server
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./gateway-entrypoint.sh config-server 8888 java -jar /app/gateway.jar
   admins:
     container_name: admins
@@ -75,7 +75,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./admins-entrypoint.sh config-server 8888 java -jar /app/admins.jar
   emails:
     container_name: emails
@@ -88,7 +88,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx256m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx256m -Xms128m"
     entrypoint: ./emails-entrypoint.sh config-server 8888 java -jar /app/emails.jar
   monitoring:
     container_name: monitoring
@@ -101,7 +101,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx256m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx256m -Xms128m"
     entrypoint: ./monitoring-entrypoint.sh config-server 8888 java -jar /app/monitoring.jar
   orders-service:
     container_name: orders-service
@@ -114,7 +114,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./orders-entrypoint.sh config-server 8888 java -jar /app/orders.jar
   products-service:
     container_name: products-service
@@ -127,7 +127,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./products-entrypoint.sh config-server 8888 java -jar /app/products.jar
   users-center:
     container_name: users-center
@@ -140,7 +140,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./users-center-entrypoint.sh config-server 8888  java -jar /app/users-center.jar
   websocket:
     container_name: websocket
@@ -154,7 +154,7 @@ services:
       - orders-service
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-Xmx512m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx512m -Xms128m"
     entrypoint: ./websocket-entrypoint.sh config-server 8888 java -jar /app/websocket.jar
   statistics:
     container_name: statistics
