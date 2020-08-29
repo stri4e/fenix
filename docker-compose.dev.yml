@@ -62,7 +62,7 @@ services:
       - config-server
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx512m -Xms256m"
+      - JAVA_OPTS="-XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx512m -Xms256m"
     entrypoint: ./gateway-entrypoint.sh config-server 8888 java -jar /app/gateway.jar
   admins:
     container_name: admins
