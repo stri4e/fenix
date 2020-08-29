@@ -88,7 +88,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-      - "JAVA_OPTS=-XX:+UseParallelGC -Xmx256m -Xms128m"
+      - "JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx256m -Xms128m"
     entrypoint: ./emails-entrypoint.sh config-server 8888 java -jar /app/emails.jar
   monitoring:
     container_name: monitoring
