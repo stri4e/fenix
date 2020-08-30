@@ -36,7 +36,7 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
 
   elasticsearch:
-    image: elasticsearch:7.9.0
+    image: elasticsearch:7.7.0
     container_name: elasticsearch
     ports:
       - "9200:9200"
@@ -45,23 +45,23 @@ services:
       - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
       - "discovery.type=single-node"
 
-  logstash:
-    image: logstash:7.9.0
-    container_name: logstash
-    volumes:
-      - /root/config-properties/logstash:/etc/logstash/conf.d
+  kibana:
+    image: kibana:7.7.0
+    container_name: kibana
     ports:
-      - "9999:9999"
+      - "5601:5601"
     links:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
 
-  kibana:
-    image: kibana:7.9.0
-    container_name: kibana
+  logstash:
+    image: logstash:7.7.0
+    container_name: logstash
+    volumes:
+      - /root/config-properties/logstash:/usr/share/logstash/pipeline/
     ports:
-      - "5601:5601"
+      - "9999:9999"
     links:
       - elasticsearch:elasticsearch
     depends_on:
