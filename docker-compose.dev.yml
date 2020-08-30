@@ -52,7 +52,6 @@ services:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
-    mem_limit: 256m
   logstash:
     image: logstash:7.9.0
     container_name: logstash
