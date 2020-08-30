@@ -48,8 +48,6 @@ services:
   logstash:
     image: logstash:7.9.0
     container_name: logstash
-    entrypoint:
-      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
     volumes:
       - /root/config-properties/logstash:/etc/logstash/conf.d
     ports:
