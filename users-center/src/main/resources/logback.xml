@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %yellow([%thread]) %highlight(%-5level) %cyan(%logger{36}) - %msg%n</Pattern>
-        </layout>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProperty scope="context" name="app_name" source="spring.application.name"/>
+    <springProperty scope="context" name="app_port" source="server.port"/>
+    <springProperty scope="local" name="logstash_host" source="logstash.host"/>
+    <springProperty scope="local" name="logstash_port" source="logstash.port"/>
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <remoteHost>${logstash_host}</remoteHost>
+        <port>${logstash_port}</port>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
-
-    <logger name="org.springframework" level="error" additivity="false">
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <logger name="com.github.users.center" level="debug" additivity="false">
-        <appender-ref ref="STDOUT" />
-    </logger>
-
-    <root level="error">
-        <appender-ref ref="STDOUT" />
+    <root level="INFO">
+        <appender-ref ref="logstash"/>
     </root>
-
 </configuration>
