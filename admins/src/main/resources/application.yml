@@ -1,2 +1,5 @@
 server:
   port: 8585
+logstash:
+  host: logstash
+  port: 9999
