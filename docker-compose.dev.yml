@@ -46,8 +46,6 @@ services:
   kibana:
     image: kibana:7.9.0
     container_name: kibana
-    environment:
-      - "NODE_OPTIONS=--max-old-space-size=12288"
     ports:
       - "5601:5601"
     links:
