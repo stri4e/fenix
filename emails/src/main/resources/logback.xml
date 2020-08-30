@@ -5,13 +5,15 @@
     <springProperty scope="context" name="app_port" source="server.port"/>
     <springProperty scope="local" name="logstash_host" source="logstash.host"/>
     <springProperty scope="local" name="logstash_port" source="logstash.port"/>
-    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <param name="Encoding" value="UTF-8"/>
-        <remoteHost>${logstash_host}</remoteHost>
-        <port>${logstash_port}</port>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
-    <root level="INFO">
-        <appender-ref ref="logstash"/>
-    </root>
+    <springProfile name="dev,prod">
+        <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <param name="Encoding" value="UTF-8"/>
+            <remoteHost>${logstash_host}</remoteHost>
+            <port>${logstash_port}</port>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="logstash"/>
+        </root>
+    </springProfile>
 </configuration>
