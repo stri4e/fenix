@@ -3,7 +3,6 @@ RUN apt-get update
 RUN apt install -y netcat
 COPY build/libs/*.jar /app/admins.jar
 EXPOSE 8585
-ENV JAVA_OPTS="-Xdebug"
 RUN sh -c 'touch /app/admins.jar'
 ENTRYPOINT [ "sh", "-c", "java  $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/admins.jar" ]
 COPY /admins-entrypoint.sh /admins-entrypoint.sh
