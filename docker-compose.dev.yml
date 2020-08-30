@@ -34,7 +34,6 @@ services:
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-
   elasticsearch:
     image: elasticsearch:7.7.0
     container_name: elasticsearch
@@ -44,7 +43,6 @@ services:
     environment:
       - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
       - "discovery.type=single-node"
-
   kibana:
     image: kibana:7.7.0
     container_name: kibana
@@ -54,10 +52,11 @@ services:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
-
   logstash:
     image: logstash:7.7.0
     container_name: logstash
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
     volumes:
       - /root/config-properties/logstash:/usr/share/logstash/pipeline/
     ports:
@@ -66,7 +65,6 @@ services:
       - elasticsearch:elasticsearch
     depends_on:
       - elasticsearch
-
   discovery:
     container_name: discovery
     build: ./discovery
