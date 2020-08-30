@@ -29,6 +29,9 @@ services:
       - "3001:3000"
     depends_on:
       - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - /root/config-properties/grafana/provisioning/:/etc/grafana/provisioning/
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
