@@ -10,6 +10,26 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./schema-dev.sql:/docker-entrypoint-initdb.d/schema-dev.sql
+  pgbackups:
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    volumes:
+      - /root/pgbackups:/backups
+    links:
+      - postgresdb
+    depends_on:
+      - postgresdb
+    environment:
+      - "POSTGRES_HOST=postgresdb"
+      - "POSTGRES_DB=products_dev.db,orders_dev.db,users_dev.db,statistics_dev.db,managers_dev.db"
+      - "POSTGRES_USER=user"
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs"
+      - "SCHEDULE=@every 0h10m00s"
+      - "BACKUP_KEEP_DAYS=7"
+      - "BACKUP_KEEP_WEEKS=4"
+      - "BACKUP_KEEP_MONTHS=6"
+      - "HEALTHCHECK_PORT=80"
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
