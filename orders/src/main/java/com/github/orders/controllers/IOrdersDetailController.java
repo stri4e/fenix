@@ -28,7 +28,7 @@ public interface IOrdersDetailController {
             )
     )
     void saveOrders(
-            @RequestAttribute(name = "userId") Long userId,
+            @ApiIgnore @RequestAttribute(name = "userId") Long userId,
             @RequestBody @Valid OrderDetailDto payload
     );
 
