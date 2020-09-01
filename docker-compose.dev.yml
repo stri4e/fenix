@@ -13,13 +13,13 @@ services:
   pgbackups:
     image: prodrigestivill/postgres-backup-local
     restart: always
-    user: postgres:postgres
+    user: postgresdb:postgresdb
     volumes:
       - /var/opt/pgbackups:/backups
     links:
-      - postgres
+      - postgresdb
     depends_on:
-      - postgres
+      - postgresdb
     environment:
       - "BACKUP_DIR=/root"
       - "POSTGRES_HOST=postgresdb"
