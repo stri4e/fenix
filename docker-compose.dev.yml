@@ -25,7 +25,7 @@ services:
       - "POSTGRES_USER=user"
       - "POSTGRES_PASSWORD=password"
       - "POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs"
-      - "SCHEDULE=@every 0h10m00s"
+      - "SCHEDULE=@every 0h30m00s"
       - "BACKUP_KEEP_DAYS=7"
       - "BACKUP_KEEP_WEEKS=4"
       - "BACKUP_KEEP_MONTHS=6"
