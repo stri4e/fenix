@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public interface IPurchaseService {
 
     @PostMapping(
-            path = "/v1/purchases/edit",
+            path = "/v1/orders/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
-    void createPurchase(@RequestBody PurchaseDto payload);
+    void createPurchase(@RequestBody Long orderId);
 
 }

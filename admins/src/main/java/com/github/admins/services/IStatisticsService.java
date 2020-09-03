@@ -1,6 +1,7 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.LoginDto;
+import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.PurchaseDto;
 import com.github.admins.dto.ViewDto;
 import com.github.admins.services.impl.StatisticsService;
@@ -22,7 +23,7 @@ public interface IStatisticsService {
             path = "/v1/purchases/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<PurchaseDto> findPurchases(@RequestParam String start, @RequestParam String end);
+    List<OrderDetailDto> findPurchases(@RequestParam String start, @RequestParam String end);
 
     @GetMapping(
             path = "/v1/logins/fetch",

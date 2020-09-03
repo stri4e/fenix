@@ -48,8 +48,7 @@ public class OrdersDetailController implements IOrdersDetailController {
                 .orElseThrow(NotFound::new);
         OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);
         this.pushOrders.pushOrder(pushData);
-        PurchaseDto purchase = new PurchaseDto(userId, pushData);
-        this.purchaseService.createPurchase(purchase);
+        this.purchaseService.createPurchase(result.getId());
     }
 
     @Override

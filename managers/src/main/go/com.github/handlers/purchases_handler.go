@@ -11,15 +11,15 @@ import (
 	"strconv"
 )
 
-type ItemsHandler struct {
-	controller *controllers.ItemsController
+type PurchasesHandler struct {
+	controller *controllers.PurchasesController
 }
 
-func NewItemsHandler(controller *controllers.ItemsController) *ItemsHandler {
-	return &ItemsHandler{controller: controller}
+func NewPurchasesHandler(controller *controllers.PurchasesController) *PurchasesHandler {
+	return &PurchasesHandler{controller: controller}
 }
 
-func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
+func (handler *PurchasesHandler) SavePurchase(w http.ResponseWriter, r *http.Request) {
 	tokenHeader := r.Header.Get("Authorization")
 	if tokenHeader == "" {
 		ErrorSender(w, http.StatusForbidden, "Authorization token not fount.")
@@ -31,13 +31,13 @@ func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	managerId, err := strconv.ParseUint(token.Subject, 10, 64)
-	var payload dto.ItemDto
+	var payload dto.PurchaseDto
 	err = json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
 		ErrorSender(w, http.StatusBadRequest, "Can't deserialize Payload.")
 		return
 	}
-	err = handler.controller.SaveItem(uint(managerId), token.FirstName, token.LastName, &payload)
+	err = handler.controller.SavePurchases(uint(managerId), token.FirstName, token.LastName, &payload)
 	if err != nil {
 		ErrorSender(w, http.StatusBadRequest, "Can't save items.")
 		return
@@ -46,7 +46,7 @@ func (handler *ItemsHandler) SaveItem(w http.ResponseWriter, r *http.Request) {
 	ResponseSender(w, "", http.StatusCreated)
 }
 
-func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Request) {
+func (handler *PurchasesHandler) FindPurchasesByStatus(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	status := vars["status"]
 	if utils.IsBlank(status) {
@@ -61,30 +61,30 @@ func (handler *ItemsHandler) FindItemsByStatus(w http.ResponseWriter, r *http.Re
 	managerId, err := utils.GetSubject(tokenHeader)
 	payload, err := handler.controller.FindItems(managerId, status)
 	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Items not found")
+		ErrorSender(w, http.StatusBadRequest, "Purchases not found")
 		return
 	}
 	log.Debug("Enter: find orders information")
 	ResponseSender(w, payload, http.StatusOK)
 }
 
-func (handler *ItemsHandler) FindItemsAllByStatus(w http.ResponseWriter, r *http.Request) {
+func (handler *PurchasesHandler) FindPurchasesAllByStatus(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	status := vars["status"]
 	if utils.IsBlank(status) {
 		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
 		return
 	}
-	payload, err := handler.controller.FindAllItems(status)
+	payload, err := handler.controller.FindAllPurchases(status)
 	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Items not found")
+		ErrorSender(w, http.StatusBadRequest, "Purchases not found")
 		return
 	}
 	log.Debug("Enter: find orders information")
 	ResponseSender(w, payload, http.StatusOK)
 }
 
-func (handler *ItemsHandler) UpdateStatusItem(w http.ResponseWriter, r *http.Request) {
+func (handler *PurchasesHandler) UpdateStatusPurchase(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	orderIdStr := vars["orderId"]
 	status := vars["status"]
@@ -97,7 +97,7 @@ func (handler *ItemsHandler) UpdateStatusItem(w http.ResponseWriter, r *http.Req
 		ErrorSender(w, http.StatusBadRequest, "Order id is not number.")
 		return
 	}
-	err = handler.controller.UpdateStatusItem(uint(orderId), status)
+	err = handler.controller.UpdateStatusPurchase(uint(orderId), status)
 	if err != nil {
 		ErrorSender(w, http.StatusBadRequest, "Can't update order.")
 		return

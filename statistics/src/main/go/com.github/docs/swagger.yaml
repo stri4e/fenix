@@ -1,14 +1,30 @@
 basePath: /
 definitions:
+  dto.CommentDto:
+    properties:
+      description:
+        example: This is comment description
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: comment author
+        type: string
+    type: object
   dto.CustomerDto:
     properties:
       customerAddress:
+        example: Brodvey
         type: string
       customerEmail:
+        example: julvern@gmail.com
         type: string
       customerName:
+        example: Julvern
         type: string
       customerPhone:
+        example: "+780466869"
         type: string
       id:
         example: 1
@@ -35,20 +51,33 @@ definitions:
         example: 12
         type: integer
     type: object
-  dto.ManagerDto:
+  dto.OrderDto:
     properties:
-      firstName:
-        example: Michal
-        type: string
-      lastName:
-        example: Mackonagen
-        type: string
-      managerId:
+      amount:
+        example: 1.99
+        type: number
+      customer:
+        $ref: '#/definitions/dto.CustomerDto'
+      id:
         example: 1
         type: integer
+      product:
+        items:
+          $ref: '#/definitions/dto.ProductDto'
+        type: array
+      status:
+        example: status
+        type: string
     type: object
   dto.ProductDto:
     properties:
+      category:
+        example: phone
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/dto.CommentDto'
+        type: array
       description:
         example: This is phone
         type: string
@@ -71,44 +100,22 @@ definitions:
       quantity:
         example: 10
         type: integer
-    type: object
-  dto.PurchaseDto:
-    properties:
-      amount:
-        type: number
-      createAt:
-        example: "2019-11-09T21:21:46+00:00"
-        type: string
-      customer:
-        $ref: '#/definitions/dto.CustomerDto'
-      id:
-        example: 1
-        type: integer
-      manager:
-        $ref: '#/definitions/dto.ManagerDto'
-      orderId:
-        example: 1
-        type: integer
-      products:
+      specifications:
         items:
-          $ref: '#/definitions/dto.ProductDto'
+          $ref: '#/definitions/dto.SpecificationDto'
         type: array
-      status:
-        type: string
-      userId:
-        example: 1
-        type: integer
     type: object
-  dto.ViewDto:
+  dto.SpecificationDto:
     properties:
-      createAt:
-        example: "2019-11-09T21:21:46+00:00"
+      description:
+        example: This is specification description
         type: string
       id:
         example: 1
         type: integer
-      product:
-        $ref: '#/definitions/dto.ProductDto'
+      name:
+        example: specificationName
+        type: string
     type: object
 host: localhost:8787
 info:
@@ -188,33 +195,18 @@ paths:
       summary: Get details of user logins
       tags:
       - logins
-  /v1/purchase/fetch/{userId}:
-    get:
+  /v1/orders:
+    post:
       consumes:
       - application/json
-      description: Get details of user purchases
+      description: Create a new views
       parameters:
-      - description: User ID
-        in: path
-        name: userId
+      - description: Create view
+        in: body
+        name: view
         required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Get details of user purchases
-      tags:
-      - purchases
-  /v1/purchases:
-    get:
-      consumes:
-      - application/json
-      description: Get details of user purchases
-      parameters:
+        schema:
+          type: string
       - description: Bearer
         in: header
         name: Authorization
@@ -223,61 +215,15 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Get details of user purchases
+        "201": {}
+      summary: Create a new views
       tags:
-      - purchases
-  /v1/purchases/edit:
-    post:
-      consumes:
-      - application/json
-      description: Create a new purchases
-      parameters:
-      - description: Create purchase
-        in: body
-        name: purchase
-        required: true
-        schema:
-          $ref: '#/definitions/dto.PurchaseDto'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Create a new purchases
-      tags:
-      - purchases
-  /v1/purchases/edit/{orderId}/{status}:
-    put:
-      description: Update purchase by status
-      parameters:
-      - description: Order ID
-        in: path
-        name: orderId
-        required: true
-        type: integer
-      - description: Order Status
-        in: path
-        name: status
-        required: true
-        type: string
-      responses:
-        "200": {}
-        "403": {}
-        "404": {}
-      summary: Update purchase by status
-      tags:
-      - purchases
-  /v1/purchases/fetch:
+      - views
+  /v1/orders/fetch:
     get:
       consumes:
       - application/json
-      description: Get details of user purchases
+      description: Get details of user orders
       parameters:
       - description: name search by start
         in: query
@@ -293,58 +239,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Get details of user purchases
+            $ref: '#/definitions/dto.OrderDto'
+      summary: Get details of user orders
       tags:
-      - purchases
-  /v1/purchases/fetch/{orderId}:
-    get:
-      consumes:
-      - application/json
-      description: Get details of user purchases
-      parameters:
-      - description: Order ID
-        in: path
-        name: orderId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.PurchaseDto'
-      summary: Get details of user purchases
-      tags:
-      - purchases
-  /v1/purchases/manager/edit/{orderId}/{status}:
-    post:
-      description: Update purchase by status
-      parameters:
-      - description: Order ID
-        in: path
-        name: orderId
-        required: true
-        type: integer
-      - description: Order Status
-        in: path
-        name: status
-        required: true
-        type: string
-      - description: Create manager purchase
-        in: body
-        name: purchase
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ManagerDto'
-      responses:
-        "200": {}
-        "403": {}
-        "404": {}
-      summary: Update purchase by status
-      tags:
-      - purchases
+      - views
   /v1/views:
     get:
       consumes:
@@ -362,7 +260,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.ViewDto'
+            $ref: '#/definitions/dto.ProductDto'
       summary: Get details of user views
       tags:
       - views
@@ -376,7 +274,7 @@ paths:
         name: view
         required: true
         schema:
-          $ref: '#/definitions/dto.ProductDto'
+          type: string
       - description: Bearer
         in: header
         name: Authorization
@@ -385,10 +283,7 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.ViewDto'
+        "201": {}
       summary: Create a new views
       tags:
       - views
@@ -412,7 +307,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.ViewDto'
+            $ref: '#/definitions/dto.ProductDto'
       summary: Get details of user views
       tags:
       - views
@@ -433,7 +328,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.ViewDto'
+            $ref: '#/definitions/dto.ProductDto'
       summary: Get details of user views
       tags:
       - views

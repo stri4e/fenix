@@ -132,9 +132,9 @@ var doc = `{
                 }
             }
         },
-        "/v1/purchase/fetch/{userId}": {
-            "get": {
-                "description": "Get details of user purchases",
+        "/v1/orders": {
+            "post": {
+                "description": "Create a new views",
                 "consumes": [
                     "application/json"
                 ],
@@ -142,42 +142,19 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "purchases"
+                    "views"
                 ],
-                "summary": "Get details of user purchases",
+                "summary": "Create a new views",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
+                        "description": "Create view",
+                        "name": "view",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
+                            "type": "string"
                         }
-                    }
-                }
-            }
-        },
-        "/v1/purchases": {
-            "get": {
-                "description": "Get details of user purchases",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "purchases"
-                ],
-                "summary": "Get details of user purchases",
-                "parameters": [
+                    },
                     {
                         "type": "string",
                         "description": "Bearer",
@@ -187,82 +164,13 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
-                        }
-                    }
+                    "201": {}
                 }
             }
         },
-        "/v1/purchases/edit": {
-            "post": {
-                "description": "Create a new purchases",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "purchases"
-                ],
-                "summary": "Create a new purchases",
-                "parameters": [
-                    {
-                        "description": "Create purchase",
-                        "name": "purchase",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/purchases/edit/{orderId}/{status}": {
-            "put": {
-                "description": "Update purchase by status",
-                "tags": [
-                    "purchases"
-                ],
-                "summary": "Update purchase by status",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Order ID",
-                        "name": "orderId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Order Status",
-                        "name": "status",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {},
-                    "403": {},
-                    "404": {}
-                }
-            }
-        },
-        "/v1/purchases/fetch": {
+        "/v1/orders/fetch": {
             "get": {
-                "description": "Get details of user purchases",
+                "description": "Get details of user orders",
                 "consumes": [
                     "application/json"
                 ],
@@ -270,9 +178,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "purchases"
+                    "views"
                 ],
-                "summary": "Get details of user purchases",
+                "summary": "Get details of user orders",
                 "parameters": [
                     {
                         "type": "string",
@@ -291,80 +199,9 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
+                            "$ref": "#/definitions/dto.OrderDto"
                         }
                     }
-                }
-            }
-        },
-        "/v1/purchases/fetch/{orderId}": {
-            "get": {
-                "description": "Get details of user purchases",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "purchases"
-                ],
-                "summary": "Get details of user purchases",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Order ID",
-                        "name": "orderId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.PurchaseDto"
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/purchases/manager/edit/{orderId}/{status}": {
-            "post": {
-                "description": "Update purchase by status",
-                "tags": [
-                    "purchases"
-                ],
-                "summary": "Update purchase by status",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Order ID",
-                        "name": "orderId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Order Status",
-                        "name": "status",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Create manager purchase",
-                        "name": "purchase",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ManagerDto"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {},
-                    "403": {},
-                    "404": {}
                 }
             }
         },
@@ -394,7 +231,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.ViewDto"
+                            "$ref": "#/definitions/dto.ProductDto"
                         }
                     }
                 }
@@ -418,7 +255,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ProductDto"
+                            "type": "string"
                         }
                     },
                     {
@@ -430,12 +267,7 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ViewDto"
-                        }
-                    }
+                    "201": {}
                 }
             }
         },
@@ -470,7 +302,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.ViewDto"
+                            "$ref": "#/definitions/dto.ProductDto"
                         }
                     }
                 }
@@ -502,7 +334,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.ViewDto"
+                            "$ref": "#/definitions/dto.ProductDto"
                         }
                     }
                 }
@@ -510,20 +342,41 @@ var doc = `{
         }
     },
     "definitions": {
+        "dto.CommentDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "This is comment description"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "comment author"
+                }
+            }
+        },
         "dto.CustomerDto": {
             "type": "object",
             "properties": {
                 "customerAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Brodvey"
                 },
                 "customerEmail": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "julvern@gmail.com"
                 },
                 "customerName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Julvern"
                 },
                 "customerPhone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "+780466869"
                 },
                 "id": {
                     "type": "integer",
@@ -560,26 +413,45 @@ var doc = `{
                 }
             }
         },
-        "dto.ManagerDto": {
+        "dto.OrderDto": {
             "type": "object",
             "properties": {
-                "firstName": {
-                    "type": "string",
-                    "example": "Michal"
+                "amount": {
+                    "type": "number",
+                    "example": 1.99
                 },
-                "lastName": {
-                    "type": "string",
-                    "example": "Mackonagen"
+                "customer": {
+                    "$ref": "#/definitions/dto.CustomerDto"
                 },
-                "managerId": {
+                "id": {
                     "type": "integer",
                     "example": 1
+                },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ProductDto"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "status"
                 }
             }
         },
         "dto.ProductDto": {
             "type": "object",
             "properties": {
+                "category": {
+                    "type": "string",
+                    "example": "phone"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CommentDto"
+                    }
+                },
                 "description": {
                     "type": "string",
                     "example": "This is phone"
@@ -609,61 +481,29 @@ var doc = `{
                 "quantity": {
                     "type": "integer",
                     "example": 10
-                }
-            }
-        },
-        "dto.PurchaseDto": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "number"
                 },
-                "createAt": {
-                    "type": "string",
-                    "example": "2019-11-09T21:21:46+00:00"
-                },
-                "customer": {
-                    "$ref": "#/definitions/dto.CustomerDto"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "manager": {
-                    "$ref": "#/definitions/dto.ManagerDto"
-                },
-                "orderId": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "products": {
+                "specifications": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.ProductDto"
+                        "$ref": "#/definitions/dto.SpecificationDto"
                     }
-                },
-                "status": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "integer",
-                    "example": 1
                 }
             }
         },
-        "dto.ViewDto": {
+        "dto.SpecificationDto": {
             "type": "object",
             "properties": {
-                "createAt": {
+                "description": {
                     "type": "string",
-                    "example": "2019-11-09T21:21:46+00:00"
+                    "example": "This is specification description"
                 },
                 "id": {
                     "type": "integer",
                     "example": 1
                 },
-                "product": {
-                    "$ref": "#/definitions/dto.ProductDto"
+                "name": {
+                    "type": "string",
+                    "example": "specificationName"
                 }
             }
         }

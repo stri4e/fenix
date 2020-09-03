@@ -13,36 +13,36 @@ const (
 	Open     = "open"
 )
 
-type ItemsController struct {
+type PurchasesController struct {
 	managerService  *services.ManagersService
-	itemService     *services.ItemService
+	purchaseService *services.PurchaseService
 	orderService    *services.OrderService
 }
 
-func NewItemsController(
+func NewPurchasesController(
 	managerService *services.ManagersService,
-	itemService *services.ItemService,
-	orderService *services.OrderService) *ItemsController {
-	return &ItemsController{
+	purchaseService *services.PurchaseService,
+	orderService *services.OrderService) *PurchasesController {
+	return &PurchasesController{
 		managerService:  managerService,
-		itemService:     itemService,
+		purchaseService: purchaseService,
 		orderService:    orderService,
 	}
 }
 
-// SaveItem godoc
-// @Summary Save a new items
-// @Description Save a new items
-// @Tags items
+// SavePurchase godoc
+// @Summary Save a new purchases
+// @Description Save a new purchases
+// @Tags purchases
 // @Accept  json
 // @Produce  json
-// @Param item body dto.ItemDto true "Save item"
+// @Param purchase body dto.PurchaseDto true "Save purchase"
 // @Success 201
 // @Failure 400
 // @Failure 403
 // @Router /v1 [post]
 // @Param Authorization header string true "Bearer"
-func (controller *ItemsController) SaveItem(mangerId uint, firstName string, lastName string, payload *dto.ItemDto) error {
+func (controller *PurchasesController) SavePurchases(mangerId uint, firstName string, lastName string, payload *dto.PurchaseDto) error {
 	manager, err := controller.managerService.FirstOrCreateManager(
 		&entity.Manager{ManagerId: mangerId, FirstName: firstName, LastName: lastName})
 	if err != nil {
@@ -53,8 +53,8 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 		return err
 	}
 	if manager != nil {
-		item := utils.ToItem(mangerId, payload)
-		item, err = controller.itemService.CreateItem(item)
+		purchase := utils.ToPurchase(mangerId, payload)
+		purchase, err = controller.purchaseService.CreatePurchase(purchase)
 		if err != nil {
 			return err
 		}
@@ -65,7 +65,7 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 // FindItems godoc
 // @Summary Get a all orders by status
 // @Description Get a all orders by status
-// @Tags items
+// @Tags purchases
 // @Accept  json
 // @Produce  json
 // @Param status path string true "Order Status"
@@ -73,13 +73,13 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 // @Failure 400
 // @Failure 403
 // @Router /v1/{status} [get]
-func (controller *ItemsController) FindItems(managerId uint, status string) (*[]dto.OrderDto, error) {
+func (controller *PurchasesController) FindItems(managerId uint, status string) (*[]dto.OrderDto, error) {
 	manager, err := controller.managerService.Find(managerId, status)
 	if err != nil {
 		return nil, err
 	}
 	var ordersIds []uint
-	for _, i := range manager.Items {
+	for _, i := range manager.Purchases {
 		ordersIds = append(ordersIds, i.OrderId)
 	}
 	orders, err := controller.orderService.GetOrders(ordersIds)
@@ -89,10 +89,10 @@ func (controller *ItemsController) FindItems(managerId uint, status string) (*[]
 	return orders, nil
 }
 
-// FindItems godoc
+// FindAllPurchases godoc
 // @Summary Get a all orders by status
 // @Description Get a all orders by status
-// @Tags items
+// @Tags purchases
 // @Accept  json
 // @Produce  json
 // @Param status path string true "Order Status"
@@ -100,7 +100,7 @@ func (controller *ItemsController) FindItems(managerId uint, status string) (*[]
 // @Failure 400
 // @Failure 403
 // @Router /v1/all/{status} [get]
-func (controller *ItemsController) FindAllItems(status string) (*[]dto.OrderDto, error) {
+func (controller *PurchasesController) FindAllPurchases(status string) (*[]dto.OrderDto, error) {
 	orders, err := controller.orderService.GetOrdersByStatus(status)
 	if err != nil {
 		return nil, err
@@ -108,10 +108,10 @@ func (controller *ItemsController) FindAllItems(status string) (*[]dto.OrderDto,
 	return orders, nil
 }
 
-// UpdateStatusItem godoc
+// UpdateStatusPurchase godoc
 // @Summary Update order by status
 // @Description Update order by status
-// @Tags items
+// @Tags purchases
 // @Accept  json
 // @Produce  json
 // @Param orderId path integer true "Order ID"
@@ -120,7 +120,7 @@ func (controller *ItemsController) FindAllItems(status string) (*[]dto.OrderDto,
 // @Failure 403
 // @Failure 404
 // @Router /v1/{orderId}/{status} [put]
-func (controller *ItemsController) UpdateStatusItem(orderId uint, status string) error {
+func (controller *PurchasesController) UpdateStatusPurchase(orderId uint, status string) error {
 	var err error
 	switch status {
 	case Open:
@@ -131,5 +131,5 @@ func (controller *ItemsController) UpdateStatusItem(orderId uint, status string)
 	if err != nil {
 		return err
 	}
-	return controller.itemService.UpdateStatus(orderId, status)
+	return controller.purchaseService.UpdateStatus(orderId, status)
 }

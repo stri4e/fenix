@@ -8,12 +8,12 @@ import (
 )
 
 type RestHandler struct {
-	ordersHandler *ItemsHandler
+	ordersHandler *PurchasesHandler
 	config        *config.Config
 	tracer          *Tracer
 }
 
-func NewRestHandler(ordersHandler *ItemsHandler, config *config.Config, tracer *Tracer) *RestHandler {
+func NewRestHandler(ordersHandler *PurchasesHandler, config *config.Config, tracer *Tracer) *RestHandler {
 	return &RestHandler{ordersHandler: ordersHandler, config: config, tracer: tracer}
 }
 
@@ -21,13 +21,13 @@ func (handler *RestHandler) Handler() http.Handler {
 	zipkinMiddleware := handler.tracer.CreateMiddleware()
 	router := mux.NewRouter()
 	router.
-		HandleFunc("/v1", handler.ordersHandler.SaveItem).
+		HandleFunc("/v1", handler.ordersHandler.SavePurchase).
 		Methods(http.MethodPost)
-	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindItemsByStatus).
+	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindPurchasesByStatus).
 		Methods(http.MethodGet)
-	router.HandleFunc("/v1/all/{status}", handler.ordersHandler.FindItemsAllByStatus).
+	router.HandleFunc("/v1/all/{status}", handler.ordersHandler.FindPurchasesAllByStatus).
 		Methods(http.MethodGet)
-	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusItem).
+	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusPurchase).
 		Methods(http.MethodPut)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)

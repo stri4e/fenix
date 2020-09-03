@@ -1,12 +1,12 @@
 package entity
 
-type Item struct {
+type Purchase struct {
 	Id        uint   `gorm:"column:id"`
 	ManagerId uint   `gorm:"column:manager_id"`
 	OrderId   uint   `gorm:"column:order_id"`
 	Status    string `gorm:"column:status"`
 }
 
-func (purchase *Item) TableName() string {
-	return "items"
+func (purchase *Purchase) TableName() string {
+	return "purchases"
 }

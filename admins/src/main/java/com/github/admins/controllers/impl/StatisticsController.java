@@ -2,6 +2,7 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.IStatisticsController;
 import com.github.admins.dto.LoginDto;
+import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.PurchaseDto;
 import com.github.admins.dto.ViewDto;
 import com.github.admins.services.IStatisticsService;
@@ -19,7 +20,7 @@ public class StatisticsController implements IStatisticsController {
     private final IStatisticsService statisticsService;
 
     @Override
-    public List<PurchaseDto> findPurchases(String start, String end) {
+    public List<OrderDetailDto> findOrders(String start, String end) {
         return this.statisticsService.findPurchases(start, end);
     }
 

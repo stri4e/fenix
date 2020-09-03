@@ -1,6 +1,7 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.LoginDto;
+import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.PurchaseDto;
 import com.github.admins.dto.ViewDto;
 import org.springframework.http.MediaType;
@@ -12,10 +13,10 @@ import java.util.List;
 public interface IStatisticsController {
 
     @GetMapping(
-            path = "/purchases",
+            path = "/orders",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<PurchaseDto> findPurchases(@RequestParam String start, @RequestParam String end);
+    List<OrderDetailDto> findOrders(@RequestParam String start, @RequestParam String end);
 
     @GetMapping(
             path = "/logins",

@@ -26,7 +26,7 @@ func (repo *ManagersRepository) FirstOrCreateManager(manager *entity.Manager) (*
 
 func (repo *ManagersRepository) Find(managerId uint, status string) (*entity.Manager, error) {
 	var data *entity.Manager
-	err := repo.db.Preload("Items").
+	err := repo.db.Preload("Purchases").
 		Order("create_at").
 		Where("manager_id = ? AND status = ?", managerId, status).
 		Find(&data).Error

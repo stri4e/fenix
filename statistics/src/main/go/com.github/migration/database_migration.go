@@ -30,11 +30,13 @@ func createTables(connection *gorm.DB) error {
 	err := connection.DropTableIfExists(
 		&entity.Login{},
 		&entity.View{},
+		&entity.NewOrder{},
 	).Error
 	if err == nil {
 		err = connection.CreateTable(
 			&entity.Login{},
 			&entity.View{},
+			&entity.NewOrder{},
 		).Error
 	}
 	return err
@@ -44,6 +46,7 @@ func updateTables(connection *gorm.DB) error {
 	err := connection.AutoMigrate(
 		&entity.Login{},
 		&entity.View{},
+		&entity.NewOrder{},
 	).Error
 	return err
 }
