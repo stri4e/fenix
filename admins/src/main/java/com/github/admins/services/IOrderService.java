@@ -24,6 +24,15 @@ public interface IOrderService {
     Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
+            path = "/v1/page/fetch/{status}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    Optional<Object> pageByStatus(@PathVariable OrderStatus status,
+                                  @RequestParam(name = "page") Integer page,
+                                  @RequestParam(name = "size") Integer size
+    );
+
+    @GetMapping(
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )

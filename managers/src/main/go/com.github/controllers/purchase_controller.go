@@ -62,7 +62,7 @@ func (controller *PurchasesController) SavePurchases(mangerId uint, firstName st
 	return err
 }
 
-// FindItems godoc
+// FindPurchases godoc
 // @Summary Get a all orders by status
 // @Description Get a all orders by status
 // @Tags purchases
@@ -73,7 +73,7 @@ func (controller *PurchasesController) SavePurchases(mangerId uint, firstName st
 // @Failure 400
 // @Failure 403
 // @Router /v1/{status} [get]
-func (controller *PurchasesController) FindItems(managerId uint, status string) (*[]dto.OrderDto, error) {
+func (controller *PurchasesController) FindPurchases(managerId uint, status string) (*[]dto.OrderDto, error) {
 	manager, err := controller.managerService.Find(managerId, status)
 	if err != nil {
 		return nil, err

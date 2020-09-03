@@ -59,7 +59,7 @@ func (handler *PurchasesHandler) FindPurchasesByStatus(w http.ResponseWriter, r 
 		return
 	}
 	managerId, err := utils.GetSubject(tokenHeader)
-	payload, err := handler.controller.FindItems(managerId, status)
+	payload, err := handler.controller.FindPurchases(managerId, status)
 	if err != nil {
 		ErrorSender(w, http.StatusBadRequest, "Purchases not found")
 		return

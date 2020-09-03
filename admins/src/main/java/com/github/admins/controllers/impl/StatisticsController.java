@@ -2,9 +2,9 @@ package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.IStatisticsController;
 import com.github.admins.dto.LoginDto;
-import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.dto.PurchaseDto;
 import com.github.admins.dto.ViewDto;
+import com.github.admins.payload.OrderStatus;
+import com.github.admins.services.IOrderService;
 import com.github.admins.services.IStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +19,11 @@ public class StatisticsController implements IStatisticsController {
 
     private final IStatisticsService statisticsService;
 
+    private final IOrderService orderService;
+
     @Override
-    public List<OrderDetailDto> findOrders(String start, String end) {
-        return this.statisticsService.findPurchases(start, end);
+    public Object findOrders(OrderStatus status, Integer page, Integer size) {
+        return this.orderService.pageByStatus(status, page, size);
     }
 
     @Override

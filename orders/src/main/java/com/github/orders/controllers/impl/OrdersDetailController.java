@@ -3,17 +3,22 @@ package com.github.orders.controllers.impl;
 import com.github.orders.controllers.IOrdersDetailController;
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
-import com.github.orders.dto.PurchaseDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.payload.Product;
-import com.github.orders.service.*;
+import com.github.orders.service.ICustomerService;
+import com.github.orders.service.IOrderDetailService;
+import com.github.orders.service.IProductService;
+import com.github.orders.service.IPushOrders;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +39,6 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IPushOrders pushOrders;
 
-    private final IPurchaseService purchaseService;
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -48,7 +51,18 @@ public class OrdersDetailController implements IOrdersDetailController {
                 .orElseThrow(NotFound::new);
         OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);
         this.pushOrders.pushOrder(pushData);
-        this.purchaseService.createPurchase(result.getId());
+    }
+
+    @Override
+    public Page<OrderDto> fetchOrders(String status, Pageable pageable) {
+        Page<OrderDetail> orders = this.orderService.read(OrderStatus.valueOf(status), pageable);
+        var total = orders.getTotalElements();
+        return new PageImpl<>(
+                orders.stream()
+                        .map(this::collect)
+                        .collect(Collectors.toList()),
+                pageable, total
+        );
     }
 
     @Override

@@ -6,9 +6,12 @@ import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.OrderDetailRepo;
 import com.github.orders.service.IOrderDetailService;
+import com.github.orders.utils.OrdersSpec;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,6 +32,11 @@ public class OrderDetailService implements IOrderDetailService {
     )
     public OrderDetail crete(OrderDetail o) {
          return this.orderRepo.save(o);
+    }
+
+    @Override
+    public Page<OrderDetail> read(OrderStatus status, Pageable pageable) {
+        return this.orderRepo.findAll(OrdersSpec.status(status), pageable);
     }
 
     @Override

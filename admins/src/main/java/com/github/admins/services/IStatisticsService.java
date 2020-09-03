@@ -20,12 +20,6 @@ import java.util.List;
 public interface IStatisticsService {
 
     @GetMapping(
-            path = "/v1/purchases/fetch",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    List<OrderDetailDto> findPurchases(@RequestParam String start, @RequestParam String end);
-
-    @GetMapping(
             path = "/v1/logins/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )

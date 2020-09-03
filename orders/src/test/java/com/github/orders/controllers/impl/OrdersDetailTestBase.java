@@ -49,20 +49,6 @@ public class OrdersDetailTestBase {
                 HttpResponse.response()
                         .withStatusCode(HttpStatus.CREATED.value())
         );
-
-        this.client.when(
-                HttpRequest.request()
-                        .withMethod(RequestMethod.POST.name())
-                        .withPath("/v1/purchases/edit")
-                        .withBody(JsonBody.json(
-                                OrdersDetailControllerMocks.purchaseDto())
-                        ),
-                Times.exactly(1)
-        ).respond(
-                HttpResponse.response()
-                        .withStatusCode(HttpStatus.CREATED.value())
-        );
-
     }
 
 }
