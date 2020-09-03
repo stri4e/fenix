@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"../controllers"
-	"../dto"
 	log "../logger"
 	"../utils"
-	"encoding/json"
+	"encoding/binary"
 	"github.com/gorilla/mux"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -27,13 +27,13 @@ func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	views, err := handler.controller.FindByUserId(uint(userId))
+	products, err := handler.controller.FindByUserId(uint(userId))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	log.Debug("Enter: read all views information by account id")
-	ResponseSender(w, views, http.StatusOK)
+	ResponseSender(w, products, http.StatusOK)
 }
 
 func (handler *ViewsHandler) FindBetweenTime(w http.ResponseWriter, r *http.Request) {
@@ -79,13 +79,17 @@ func (handler *ViewsHandler) CreateViews(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	userId, err := utils.GetSubject(tokenHeader)
-	var payload dto.ProductDto
-	err = json.NewDecoder(r.Body).Decode(&payload)
-	view, err := handler.controller.CreateView(userId, &payload)
+	body, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Debug("Enter: create new view by account id")
-	ResponseSender(w, view, http.StatusCreated)
+	err = handler.controller.CreateView(userId, uint(binary.BigEndian.Uint64(body)))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Debug("Enter: create new view by user id")
+	ResponseSender(w, "", http.StatusCreated)
 }

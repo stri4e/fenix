@@ -52,12 +52,12 @@ func (repo ViewRepo) FindViews(userId uint) ([]*entity.View, error) {
 	return views, err
 }
 
-func (repo ViewRepo) Save(view *entity.View) (*entity.View, error) {
+func (repo ViewRepo) Save(view *entity.View) error {
 	tx := repo.database.Begin()
 	err := tx.Save(&view).Error
 	if err != nil {
-		return nil, err
+		return err
 	}
 	tx.Commit()
-	return view, nil
+	return nil
 }

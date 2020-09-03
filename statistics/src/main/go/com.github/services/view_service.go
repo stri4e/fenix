@@ -21,6 +21,6 @@ func (service ViewService) ReadBetweenTime(start string, end string) ([]*entity.
 	return service.repo.FindBetweenTime(start, end)
 }
 
-func (service ViewService) CreateView(data *entity.View) (*entity.View, error) {
+func (service ViewService) CreateView(data *entity.View) error {
 	return service.repo.Save(data)
 }

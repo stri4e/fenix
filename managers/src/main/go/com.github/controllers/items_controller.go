@@ -17,19 +17,16 @@ type ItemsController struct {
 	managerService  *services.ManagersService
 	itemService     *services.ItemService
 	orderService    *services.OrderService
-	purchaseService *services.PurchaseService
 }
 
 func NewItemsController(
 	managerService *services.ManagersService,
 	itemService *services.ItemService,
-	orderService *services.OrderService,
-	purchaseService *services.PurchaseService) *ItemsController {
+	orderService *services.OrderService) *ItemsController {
 	return &ItemsController{
 		managerService:  managerService,
 		itemService:     itemService,
 		orderService:    orderService,
-		purchaseService: purchaseService,
 	}
 }
 
@@ -52,8 +49,6 @@ func (controller *ItemsController) SaveItem(mangerId uint, firstName string, las
 		return err
 	}
 	err = controller.orderService.UpdateOrder(payload.OrderId, Handling)
-	err = controller.purchaseService.CreateManagerPurchase(
-		payload.OrderId, Handling, utils.FromManager(manager))
 	if err != nil {
 		return err
 	}
@@ -130,10 +125,8 @@ func (controller *ItemsController) UpdateStatusItem(orderId uint, status string)
 	switch status {
 	case Open:
 		err = controller.orderService.UpdateOrder(orderId, Handling)
-		err = controller.purchaseService.UpdateStatusPurchase(orderId, Handling)
 	case Close:
 		err = controller.orderService.UpdateOrder(orderId, Close)
-		err = controller.purchaseService.UpdateStatusPurchase(orderId, Close)
 	}
 	if err != nil {
 		return err

@@ -9,52 +9,27 @@ import (
 )
 
 type RestHandler struct {
-	purchaseHandler *PurchasesHandler
-	loginHandler    *LoginHandler
-	viewsHandler    *ViewsHandler
-	config          *config.Config
-	tracer          *Tracer
+	loginHandler *LoginHandler
+	viewsHandler *ViewsHandler
+	config       *config.Config
+	tracer       *Tracer
 }
 
 func NewRestHandler(
-	purchaseHandler *PurchasesHandler,
 	loginHandler *LoginHandler,
 	viewsHandler *ViewsHandler,
 	config *config.Config,
 	tracer *Tracer) *RestHandler {
 	return &RestHandler{
-		purchaseHandler: purchaseHandler,
-		loginHandler:    loginHandler,
-		viewsHandler:    viewsHandler,
-		config:          config,
-		tracer:          tracer,
+		loginHandler: loginHandler,
+		viewsHandler: viewsHandler,
+		config:       config,
+		tracer:       tracer,
 	}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
 	router := mux.NewRouter()
-	router.
-		HandleFunc("/v1/purchases/fetch/{userId}", handler.purchaseHandler.FindByUserId).
-		Methods(http.MethodGet)
-	router.
-		HandleFunc("/v1/purchases/fetch", handler.purchaseHandler.FindBetweenTime).
-		Queries("start", "{start}", "end", "{end}").
-		Methods(http.MethodGet)
-	router.
-		HandleFunc("/v1/purchases", handler.purchaseHandler.FindPurchases).
-		Methods(http.MethodGet)
-	router.
-		HandleFunc("/v1/purchases/fetch/{orderId}", handler.purchaseHandler.FindPurchasesByOrderId).
-		Methods(http.MethodGet)
-	router.
-		HandleFunc("/v1/purchases/edit", handler.purchaseHandler.CreatePurchase).
-		Methods(http.MethodPost)
-	router.
-		HandleFunc("/v1/purchases/manager/edit/{orderId}/{status}", handler.purchaseHandler.CreateManagerPurchase).
-		Methods(http.MethodPost)
-	router.
-		HandleFunc("/v1/purchases/edit/{orderId}/{status}", handler.purchaseHandler.UpdateStatusPurchase).
-		Methods(http.MethodPut)
 	router.
 		HandleFunc("/v1/logins/fetch/{userId}", handler.loginHandler.FindByUserId).
 		Methods(http.MethodGet)

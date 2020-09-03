@@ -13,3 +13,7 @@ func IsBlank(str string) bool {
 	}
 	return false
 }
+
+type Ids struct {
+	Ids uint `url:"ids,omitempty"`
+}
