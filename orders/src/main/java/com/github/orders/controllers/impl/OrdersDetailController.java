@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.github.orders.utils.TransferObj.toCustomer;
+import static com.github.orders.utils.TransferObj.toOrderDetail;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1")
@@ -43,13 +46,11 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void saveOrders(Long userId, OrderDetailDto payload) {
-        Customer c = TransferObj.toCustomer(payload.getCustomer());
-        Customer customer = this.customerService.create(c);
-        OrderDetail data = TransferObj.toOrderDetail(customer, payload, userId);
-        OrderDetail result = this.orderService.crete(data);
-        List<Product> products = this.productService.readByIds(result.getProductIds())
+        Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
+        OrderDetail order = this.orderService.crete(toOrderDetail(customer, payload, userId));
+        List<Product> products = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
-        OrderDto pushData = TransferObj.fromOrderDetailDto(result, products);
+        OrderDto pushData = TransferObj.fromOrderDetailDto(order, products);
         this.pushOrders.pushOrder(pushData);
     }
 
