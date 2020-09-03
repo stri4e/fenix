@@ -1,0 +1,248 @@
+basePath: /
+definitions:
+  dto.CommentDto:
+    properties:
+      description:
+        example: This is comment description
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: comment author
+        type: string
+    type: object
+  dto.LoginDto:
+    properties:
+      createAt:
+        example: "2019-11-09T21:21:46+00:00"
+        type: string
+      device:
+        example: phone
+        type: string
+      id:
+        example: 1
+        type: integer
+      location:
+        example: 192.168.1.1
+        type: string
+      userId:
+        example: 12
+        type: integer
+    type: object
+  dto.ProductDto:
+    properties:
+      category:
+        example: phone
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/dto.CommentDto'
+        type: array
+      description:
+        example: This is phone
+        type: string
+      id:
+        example: 1
+        type: integer
+      images:
+        items:
+          type: string
+        type: array
+      name:
+        example: Phone
+        type: string
+      previewImage:
+        example: image
+        type: string
+      price:
+        example: 1.11
+        type: number
+      quantity:
+        example: 10
+        type: integer
+      specifications:
+        items:
+          $ref: '#/definitions/dto.SpecificationDto'
+        type: array
+    type: object
+  dto.SpecificationDto:
+    properties:
+      description:
+        example: This is specification description
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: specificationName
+        type: string
+    type: object
+host: localhost:8787
+info:
+  contact: {}
+  description: This is a sample service for managing statistics
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Statistics API
+  version: "1.0"
+paths:
+  /v1/logins/edit:
+    post:
+      consumes:
+      - application/json
+      description: Create a new login
+      parameters:
+      - description: Create login
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginDto'
+      summary: Create a new login
+      tags:
+      - logins
+  /v1/logins/fetch:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user logins
+      parameters:
+      - description: name search by start
+        in: query
+        name: start
+        type: string
+      - description: name search by end
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginDto'
+      summary: Get details of user logins
+      tags:
+      - logins
+  /v1/logins/fetch/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user logins
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginDto'
+      summary: Get details of user logins
+      tags:
+      - logins
+  /v1/views:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user views
+      parameters:
+      - description: Bearer
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+      summary: Get details of user views
+      tags:
+      - views
+    post:
+      consumes:
+      - application/json
+      description: Create a new views
+      parameters:
+      - description: Create view
+        in: body
+        name: view
+        required: true
+        schema:
+          type: string
+      - description: Bearer
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201": {}
+      summary: Create a new views
+      tags:
+      - views
+  /v1/views/fetch:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user views
+      parameters:
+      - description: name search by start
+        in: query
+        name: start
+        type: string
+      - description: name search by end
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+      summary: Get details of user views
+      tags:
+      - views
+  /v1/views/fetch/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user views
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+      summary: Get details of user views
+      tags:
+      - views
+swagger: "2.0"

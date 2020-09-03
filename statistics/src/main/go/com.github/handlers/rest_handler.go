@@ -9,25 +9,22 @@ import (
 )
 
 type RestHandler struct {
-	loginHandler     *LoginHandler
-	viewsHandler     *ViewsHandler
-	newOrdersHandler *NewOrdersHandler
-	config           *config.Config
-	tracer           *Tracer
+	loginHandler *LoginHandler
+	viewsHandler *ViewsHandler
+	config       *config.Config
+	tracer       *Tracer
 }
 
 func NewRestHandler(
 	loginHandler *LoginHandler,
 	viewsHandler *ViewsHandler,
-	newOrdersHandler *NewOrdersHandler,
 	config *config.Config,
 	tracer *Tracer) *RestHandler {
 	return &RestHandler{
-		loginHandler:     loginHandler,
-		viewsHandler:     viewsHandler,
-		newOrdersHandler: newOrdersHandler,
-		config:           config,
-		tracer:           tracer,
+		loginHandler: loginHandler,
+		viewsHandler: viewsHandler,
+		config:       config,
+		tracer:       tracer,
 	}
 }
 
@@ -56,14 +53,6 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodGet)
 	router.
 		HandleFunc("/v1/views", handler.viewsHandler.CreateViews).
-		Methods(http.MethodPost)
-
-	router.
-		HandleFunc("/v1/orders/fetch", handler.newOrdersHandler.FindBetweenTime).
-		Queries("start", "{start}", "end", "{end}").
-		Methods(http.MethodGet)
-	router.
-		HandleFunc("/v1/orders/edit", handler.newOrdersHandler.CreateOrder).
 		Methods(http.MethodPost)
 
 	router.Handle("/metrics", promhttp.Handler())

@@ -18,14 +18,6 @@ func FromViews(data []*entity.View) []uint {
 	return productsIds
 }
 
-func FromOrders(data []*entity.NewOrder) []uint {
-	var productsIds []uint
-	for _, order := range data {
-		productsIds = append(productsIds, order.OrderId)
-	}
-	return productsIds
-}
-
 func FromProduct(data *payload.Product) *dto.ProductDto {
 	var specifications []*dto.SpecificationDto
 	for _, s := range data.Specifications {
