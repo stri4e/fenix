@@ -17,6 +17,7 @@ const (
 type Config struct {
 	ApplicationName string
 	ZipkinUrl       string
+	ZipkinEnable    bool
 	IsLoggerFile    bool
 	ServerPort      string
 	DatabaseConfig  DatabaseConfig
@@ -34,6 +35,7 @@ type DatabaseConfig struct {
 	DdlAuto          string
 	MaxIdleConns     int
 	MaxOpenConns     int
+	DbLogging        bool
 }
 
 type EurekaConfig struct {

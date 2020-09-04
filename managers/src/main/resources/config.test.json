@@ -1,6 +1,7 @@
 {
   "ApplicationName": "managers",
   "ZipkinUrl": "http://localhost:9411/api/v2/spans",
+  "ZipkinEnable": false,
   "IsLoggerFile": false,
   "ServerPort": "8887",
   "DatabaseConfig": {
@@ -11,7 +12,8 @@
     "DatabaseName": "managers_test.db",
     "DdlAuto": "create",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": true
   },
   "EurekaConfig": {
     "EurekaUrl": "http://localhost:3000/eureka",

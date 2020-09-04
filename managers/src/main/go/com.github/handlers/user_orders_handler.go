@@ -22,15 +22,15 @@ func (handler *UserOrderHandler) FindBindingOrders(w http.ResponseWriter, r *htt
 		Try: func() {
 			vars := mux.Vars(r)
 			strOrderId := vars["orderId"]
-			utils.ThrowIfNil(strOrderId, "Request path is required.")
-			orderId, err := strconv.ParseUint(strOrderId, 10, 64)
-			utils.ThrowIfErr(err, "Arguments must be a number.")
+			utils.ThrowIfNil(strOrderId, &utils.BadRequest{Message: "Request path is required."})
+			orderId, err := strconv.ParseUint(strOrderId, BaseUint, BitSize)
+			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Arguments must be a number."})
 			payload, err := handler.controller.FindBindingOrders(uint(orderId))
-			utils.ThrowIfErr(err, "Purchases not found")
-			log.Debug("Enter: find orders information")
+			utils.ThrowIfErr(err, &utils.NotFound{Message: "Purchases not found"})
+			log.WithFields(log.Fields{"orderId": orderId}).Debug("Enter: orders information")
 			ResponseSender(w, payload, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
-			ErrorSender(w, http.StatusBadRequest, e.(string))
+			ErrorSender(w, e)
 		},
 	}.Do()
 }

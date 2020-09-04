@@ -31,7 +31,6 @@ func NewRestHandler(
 }
 
 func (handler *RestHandler) Handler() http.Handler {
-	zipkinMiddleware := handler.tracer.CreateMiddleware()
 	router := mux.NewRouter()
 	router.
 		HandleFunc("/v1", handler.ordersHandler.SavePurchase).
@@ -49,7 +48,10 @@ func (handler *RestHandler) Handler() http.Handler {
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
-	router.Use(zipkinMiddleware)
+	if handler.config.ZipkinEnable {
+		zipkinMiddleware := handler.tracer.CreateMiddleware()
+		router.Use(zipkinMiddleware)
+	}
 	router.Use(prometheusMiddleware)
 	http.Handle("/", router)
 	return router

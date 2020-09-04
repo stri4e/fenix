@@ -11,15 +11,23 @@ type Block struct {
 type Exception interface {
 }
 
-func ThrowIfErr(err error, message string) {
+type NotFound struct {
+	Message string
+}
+
+type BadRequest struct {
+	Message string
+}
+
+func ThrowIfErr(err error, exception interface{}) {
 	if err != nil {
-		panic(message)
+		panic(exception)
 	}
 }
 
-func ThrowIfNil(data interface{}, message string) {
+func ThrowIfNil(data interface{}, exception interface{}) {
 	if data == nil || data == "" {
-		panic(message)
+		panic(exception)
 	}
 }
 

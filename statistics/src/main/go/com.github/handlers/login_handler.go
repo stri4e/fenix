@@ -24,7 +24,7 @@ func (handler *LoginHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 		Try: func() {
 			vars := mux.Vars(r)
 			result := vars["userId"]
-			userId, err := strconv.ParseUint(result, 10, 64)
+			userId, err := strconv.ParseUint(result, BaseUint, BitSize)
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Arguments must be a number."})
 			logins, err := handler.controller.FindByUserId(uint(userId))
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Logins not found."})

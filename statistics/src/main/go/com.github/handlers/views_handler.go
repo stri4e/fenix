@@ -25,7 +25,7 @@ func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 			vars := mux.Vars(r)
 			strUserId := vars["userId"]
 			utils.ThrowIfNil(strUserId, &utils.BadRequest{Message: "Request path is required."})
-			userId, err := strconv.ParseUint(strUserId, 10, 64)
+			userId, err := strconv.ParseUint(strUserId, BaseUint, BitSize)
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Arguments must be a number."})
 			products, err := handler.controller.FindByUserId(uint(userId))
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Views not found."})

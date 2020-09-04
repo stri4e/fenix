@@ -12,6 +12,8 @@ import (
 const (
 	ContentType     = "Content-Type"
 	ApplicationJson = "application/json"
+	BaseUint = 10
+	BitSize = 64
 )
 
 func ResponseSender(w http.ResponseWriter, payload interface{}, status int) {
