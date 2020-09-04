@@ -20,93 +20,78 @@ func NewPurchasesHandler(controller *controllers.PurchasesController) *Purchases
 }
 
 func (handler *PurchasesHandler) SavePurchase(w http.ResponseWriter, r *http.Request) {
-	tokenHeader := r.Header.Get("Authorization")
-	token := utils.GetToken(tokenHeader)
-	if token == nil {
-		log.Debug("Can't fetch authorize token")
-		ErrorSender(w, http.StatusBadRequest, "Can't fetch authorize token")
-		return
-	}
-	managerId, err := strconv.ParseUint(token.Subject, 10, 64)
-	if err != nil {
-		log.Debug("Params mast be number.")
-		ErrorSender(w, http.StatusBadRequest, "Params mast be number.")
-		return
-	}
-	var payload dto.PurchaseDto
-	err = json.NewDecoder(r.Body).Decode(&payload)
-	if err != nil {
-		log.Debug("Can't deserialize payload.")
-		ErrorSender(w, http.StatusBadRequest, "Can't deserialize payload.")
-		return
-	}
-	err = handler.controller.SavePurchases(uint(managerId), token.FirstName, token.LastName, &payload)
-	if err != nil {
-		log.WithFields(log.Fields{"orderId": payload.OrderId, "status": payload.Status}).
-			Debug("Can't save purchase.")
-		ErrorSender(w, http.StatusBadRequest, "Can't save purchase.")
-		return
-	}
-	log.Debug("Enter: create new  manger orders information")
-	ResponseSender(w, "", http.StatusCreated)
+	utils.Block{
+		Try: func() {
+			tokenHeader := r.Header.Get("Authorization")
+			token := utils.GetToken(tokenHeader)
+			utils.ThrowIfNil(token, "Can't fetch a subject.")
+			managerId, err := strconv.ParseUint(token.Subject, 10, 64)
+			utils.ThrowIfErr(err, "Arguments must be a number.")
+			var payload dto.PurchaseDto
+			err = json.NewDecoder(r.Body).Decode(&payload)
+			utils.ThrowIfErr(err, "Can't deserialize payload")
+			log.WithFields(log.Fields{"OrderId": payload.OrderId, "Status": payload.Status}).
+				Debug("Enter: received new purchase.")
+			err = handler.controller.SavePurchases(uint(managerId), token.FirstName, token.LastName, &payload)
+			utils.ThrowIfErr(err, "Can't save payload.")
+			ResponseSender(w, "", http.StatusCreated)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, http.StatusBadRequest, e.(string))
+		},
+	}.Do()
 }
 
 func (handler *PurchasesHandler) FindPurchasesByStatus(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	status := vars["status"]
-	if utils.IsBlank(status) {
-		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
-		return
-	}
-	tokenHeader := r.Header.Get("Authorization")
-	if tokenHeader == "" {
-		ErrorSender(w, http.StatusBadRequest, "Can't authorize")
-		return
-	}
-	managerId, err := utils.GetSubject(tokenHeader)
-	payload, err := handler.controller.FindPurchases(managerId, status)
-	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Purchases not found")
-		return
-	}
-	log.Debug("Enter: find orders information")
-	ResponseSender(w, payload, http.StatusOK)
+	utils.Block{
+		Try: func() {
+			vars := mux.Vars(r)
+			status := vars["status"]
+			utils.ThrowIfNil(status, "Request path is required.")
+			tokenHeader := r.Header.Get("Authorization")
+			utils.ThrowIfNil(tokenHeader, "Can't fetch a subject.")
+			managerId, err := utils.GetSubject(tokenHeader)
+			payload, err := handler.controller.FindPurchases(managerId, status)
+			utils.ThrowIfErr(err, "Purchases not found!")
+			log.Debug("Enter: find orders information")
+			ResponseSender(w, payload, http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, http.StatusBadRequest, e.(string))
+		},
+	}.Do()
 }
 
 func (handler *PurchasesHandler) FindPurchasesAllByStatus(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	status := vars["status"]
-	if utils.IsBlank(status) {
-		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
-		return
-	}
-	payload, err := handler.controller.FindAllPurchases(status)
-	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Purchases not found")
-		return
-	}
-	log.Debug("Enter: find orders information")
-	ResponseSender(w, payload, http.StatusOK)
+	utils.Block{
+		Try: func() {
+			vars := mux.Vars(r)
+			status := vars["status"]
+			utils.ThrowIfNil(status, "Request path is required.")
+			payload, err := handler.controller.FindAllPurchases(status)
+			utils.ThrowIfErr(err, "Purchases not found")
+			log.Debug("Enter: find orders information")
+			ResponseSender(w, payload, http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, http.StatusBadRequest, e.(string))
+		},
+	}.Do()
 }
 
 func (handler *PurchasesHandler) UpdateStatusPurchase(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	orderIdStr := vars["orderId"]
-	status := vars["status"]
-	if utils.IsBlank(orderIdStr) || utils.IsBlank(status) {
-		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
-		return
-	}
-	orderId, err := strconv.ParseUint(orderIdStr, 10, 64)
-	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Order id is not number.")
-		return
-	}
-	err = handler.controller.UpdateStatusPurchase(uint(orderId), status)
-	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Can't update order.")
-		return
-	}
-	log.Debug("Enter: update orders information")
-	ResponseSender(w, "", http.StatusOK)
+	utils.Block{
+		Try: func() {
+			vars := mux.Vars(r)
+			strOrderId := vars["orderId"]
+			status := vars["status"]
+			utils.ThrowIfNil(strOrderId, "Request path is required.")
+			utils.ThrowIfNil(status, "Request path is required.")
+			orderId, err := strconv.ParseUint(strOrderId, 10, 64)
+			utils.ThrowIfErr(err, "Arguments must be a number.")
+			err = handler.controller.UpdateStatusPurchase(uint(orderId), status)
+			utils.ThrowIfErr(err, "Can't update order.")
+			log.Debug("Enter: update orders information")
+			ResponseSender(w, "", http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, http.StatusBadRequest, e.(string))
+		},
+	}.Do()
 }

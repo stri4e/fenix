@@ -18,18 +18,18 @@ func NewManagerHandler(controller *controllers.ManagersController) *ManagerHandl
 }
 
 func (handler *ManagerHandler) FindManagerByOrder(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	strOrderId := vars["orderId"]
-	if utils.IsBlank(strOrderId) {
-		ErrorSender(w, http.StatusBadRequest, "Request path is required.")
-		return
-	}
-	orderId, err := strconv.ParseUint(strOrderId, 10, 64)
-	payload, err := handler.controller.FindManagerByOrderId(uint(orderId))
-	if err != nil {
-		ErrorSender(w, http.StatusNotFound, "Manager not found")
-		return
-	}
-	log.Debug("Enter: find manager information")
-	ResponseSender(w, payload, http.StatusOK)
+	utils.Block{
+		Try: func() {
+			vars := mux.Vars(r)
+			strOrderId := vars["orderId"]
+			utils.ThrowIfNil(strOrderId, "Request path is required.")
+			orderId, err := strconv.ParseUint(strOrderId, 10, 64)
+			payload, err := handler.controller.FindManagerByOrderId(uint(orderId))
+			utils.ThrowIfErr(err, "Manager not found")
+			log.Debug("Enter: find manager information")
+			ResponseSender(w, payload, http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, http.StatusBadRequest, e.(string))
+		},
+	}.Do()
 }
