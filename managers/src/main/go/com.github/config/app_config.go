@@ -67,7 +67,7 @@ func NewConfig() *Config {
 	case ProfileDefault:
 		err = gonfig.GetConf("src/main/resources/config.default.json", &config)
 	}
-	log.Info("Profile name:", profile, " Application port:", config.ServerPort)
+	log.Info("Profile name: ", profile, " Application port: ", config.ServerPort)
 	if err != nil {
 		panic(err)
 	}
