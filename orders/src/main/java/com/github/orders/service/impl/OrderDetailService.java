@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,8 +36,8 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
-    public Page<OrderDetail> read(OrderStatus status, Pageable pageable) {
-        return this.orderRepo.findAll(OrdersSpec.status(status), pageable);
+    public List<OrderDetail> read(OrderStatus status, LocalDateTime start, LocalDateTime end) {
+        return this.orderRepo.findByStatusAndCreateAtBetween(status, start, end);
     }
 
     @Override

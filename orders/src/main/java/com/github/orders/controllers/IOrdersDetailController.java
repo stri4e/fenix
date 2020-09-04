@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IOrdersDetailController {
@@ -37,13 +38,13 @@ public interface IOrdersDetailController {
             @RequestBody @Valid OrderDetailDto payload
     );
 
-    @GetMapping(path = "/page/{status}")
-    Page<OrderDto> fetchOrders(
-            @PathVariable String status,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
-            }) Pageable pageable);
+    @GetMapping(path = "/fetch/{status}/time")
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> fetchOrdersInTime(
+            @PathVariable OrderStatus status,
+            @RequestParam("start") LocalDateTime start,
+            @RequestParam("end") LocalDateTime end
+    );
 
     @GetMapping(
             path = "/fetch/{status}",

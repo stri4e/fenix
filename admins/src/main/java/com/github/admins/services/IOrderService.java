@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +25,13 @@ public interface IOrderService {
     Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
-            path = "/v1/page/fetch/{status}",
+            path = "/v1/fetch/{status}/time",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Object> pageByStatus(@PathVariable OrderStatus status,
-                                  @RequestParam(name = "page") Integer page,
-                                  @RequestParam(name = "size") Integer size
+    Optional<List<OrderDetailDto>> findByStatusInTime(
+            @PathVariable OrderStatus status,
+            @RequestParam(name = "start") LocalDateTime start,
+            @RequestParam(name = "end") LocalDateTime end
     );
 
     @GetMapping(

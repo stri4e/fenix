@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,15 +56,12 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
-    public Page<OrderDto> fetchOrders(String status, Pageable pageable) {
-        Page<OrderDetail> orders = this.orderService.read(OrderStatus.valueOf(status), pageable);
-        var total = orders.getTotalElements();
-        return new PageImpl<>(
-                orders.stream()
-                        .map(this::collect)
-                        .collect(Collectors.toList()),
-                pageable, total
-        );
+    public List<OrderDto>
+    fetchOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
+        List<OrderDetail> orders = this.orderService.read(status, start, end);
+        return orders.stream()
+                .map(this::collect)
+                .collect(Collectors.toList());
     }
 
     @Override

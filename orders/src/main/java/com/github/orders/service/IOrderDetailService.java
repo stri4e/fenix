@@ -5,13 +5,14 @@ import com.github.orders.entity.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IOrderDetailService {
 
     OrderDetail crete(OrderDetail o);
 
-    Page<OrderDetail> read(OrderStatus status, Pageable pageable);
+    List<OrderDetail> read(OrderStatus status, LocalDateTime start, LocalDateTime end);
 
     OrderDetail readById(Long orderId);
 

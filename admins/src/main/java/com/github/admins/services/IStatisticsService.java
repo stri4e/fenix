@@ -1,8 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.LoginDto;
-import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.dto.PurchaseDto;
 import com.github.admins.dto.ViewDto;
 import com.github.admins.services.impl.StatisticsService;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -10,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(
         name = "statistics",
@@ -20,15 +20,21 @@ import java.util.List;
 public interface IStatisticsService {
 
     @GetMapping(
-            path = "/v1/logins/fetch",
+            path = "/v1/logins/fetch/time",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<LoginDto> findLogins(@RequestParam String start, @RequestParam String end);
+    Optional<List<LoginDto>> findLoginsInTime(
+            @RequestParam LocalDateTime start,
+            @RequestParam LocalDateTime end
+    );
 
     @GetMapping(
-            path = "/v1/views/fetch",
+            path = "/v1/views/fetch/time",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<ViewDto> findViews(@RequestParam String start, @RequestParam String end);
+    Optional<List<ViewDto>> findViewsInTime(
+            @RequestParam LocalDateTime start,
+            @RequestParam LocalDateTime end
+    );
 
 }
