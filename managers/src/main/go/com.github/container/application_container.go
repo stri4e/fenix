@@ -30,6 +30,7 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewOrderService)
 
 	err = container.Provide(controllers.NewPurchasesController)
+	err = container.Provide(controllers.NewUserOrdersController)
 
 	err = container.Provide(handlers.NewRestHandler)
 	err = container.Provide(handlers.NewPurchasesHandler)

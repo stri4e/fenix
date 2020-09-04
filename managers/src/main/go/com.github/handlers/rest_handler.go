@@ -8,13 +8,14 @@ import (
 )
 
 type RestHandler struct {
-	ordersHandler *PurchasesHandler
-	config        *config.Config
-	tracer          *Tracer
+	ordersHandler    *PurchasesHandler
+	userOrderHandler *UserOrderHandler
+	config           *config.Config
+	tracer           *Tracer
 }
 
-func NewRestHandler(ordersHandler *PurchasesHandler, config *config.Config, tracer *Tracer) *RestHandler {
-	return &RestHandler{ordersHandler: ordersHandler, config: config, tracer: tracer}
+func NewRestHandler(ordersHandler *PurchasesHandler, userOrderHandler *UserOrderHandler, config *config.Config, tracer *Tracer) *RestHandler {
+	return &RestHandler{ordersHandler: ordersHandler, userOrderHandler: userOrderHandler, config: config, tracer: tracer}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
@@ -29,6 +30,9 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodGet)
 	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusPurchase).
 		Methods(http.MethodPut)
+	router.HandleFunc("/v1/binding/{orderId}", handler.userOrderHandler.FindBindingOrders).
+		Methods(http.MethodPut)
+
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
@@ -37,4 +41,3 @@ func (handler *RestHandler) Handler() http.Handler {
 	http.Handle("/", router)
 	return router
 }
-
