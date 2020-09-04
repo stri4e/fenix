@@ -31,5 +31,4 @@ func (logger *Logger) InitLogger() {
 		log.Error("Logger level not found!")
 		break
 	}
-
 }

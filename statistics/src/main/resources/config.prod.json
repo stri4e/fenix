@@ -26,6 +26,6 @@
     "HealthCheckUrl": "http://statistics:8787/health",
     "EnableEureka": true
   },
-  "LoggerLvl": "debug",
+  "LoggerLvl": "info",
   "IsSwaggerEnable": false
 }
