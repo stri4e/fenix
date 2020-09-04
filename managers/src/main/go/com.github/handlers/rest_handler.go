@@ -10,12 +10,24 @@ import (
 type RestHandler struct {
 	ordersHandler    *PurchasesHandler
 	userOrderHandler *UserOrderHandler
+	managerHandler   *ManagerHandler
 	config           *config.Config
 	tracer           *Tracer
 }
 
-func NewRestHandler(ordersHandler *PurchasesHandler, userOrderHandler *UserOrderHandler, config *config.Config, tracer *Tracer) *RestHandler {
-	return &RestHandler{ordersHandler: ordersHandler, userOrderHandler: userOrderHandler, config: config, tracer: tracer}
+func NewRestHandler(
+	ordersHandler *PurchasesHandler,
+	userOrderHandler *UserOrderHandler,
+	managerHandler *ManagerHandler,
+	config *config.Config,
+	tracer *Tracer) *RestHandler {
+	return &RestHandler{
+		ordersHandler:    ordersHandler,
+		userOrderHandler: userOrderHandler,
+		managerHandler:   managerHandler,
+		config:           config,
+		tracer:           tracer,
+	}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
@@ -31,8 +43,9 @@ func (handler *RestHandler) Handler() http.Handler {
 	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusPurchase).
 		Methods(http.MethodPut)
 	router.HandleFunc("/v1/binding/{orderId}", handler.userOrderHandler.FindBindingOrders).
-		Methods(http.MethodPut)
-
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/fetch/{orderId}", handler.managerHandler.FindManagerByOrder).
+		Methods(http.MethodGet)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}

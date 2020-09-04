@@ -74,7 +74,7 @@ func (controller *PurchasesController) SavePurchases(mangerId uint, firstName st
 // @Failure 403
 // @Router /v1/{status} [get]
 func (controller *PurchasesController) FindPurchases(managerId uint, status string) (*[]dto.OrderDto, error) {
-	manager, err := controller.managerService.Find(managerId, status)
+	manager, err := controller.managerService.ReadByManagerIdAndStatus(managerId, status)
 	if err != nil {
 		return nil, err
 	}

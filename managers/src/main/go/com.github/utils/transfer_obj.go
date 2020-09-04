@@ -11,8 +11,7 @@ func ToPurchase(managerId uint, data *dto.PurchaseDto) *entity.Purchase {
 
 func FromManager(manager *entity.Manager) *dto.ManagerDto {
 	return &dto.ManagerDto{
-		ManagerId: manager.ManagerId,
 		FirstName: manager.FirstName,
-		LastName: manager.LastName,
+		LastName:  manager.LastName,
 	}
 }

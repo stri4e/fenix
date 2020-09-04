@@ -20,3 +20,7 @@ func (service *PurchaseService) CreatePurchase(purchase *entity.Purchase) (*enti
 func (service *PurchaseService) UpdateStatus(orderId uint, status string) error {
 	return service.repository.UpdateStatus(orderId, status)
 }
+
+func (service *PurchaseService) FindPurchaseByOrderId(orderId uint) (*entity.Purchase, error) {
+	return service.repository.FindByOrderId(orderId)
+}
