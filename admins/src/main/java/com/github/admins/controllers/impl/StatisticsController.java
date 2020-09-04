@@ -8,6 +8,8 @@ import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrderService;
 import com.github.admins.services.IStatisticsService;
+import com.github.admins.utils.Logging;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,8 @@ public class StatisticsController implements IStatisticsController {
     private final IOrderService orderService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto>
     findOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
         return this.orderService.findByStatusInTime(status, start, end)
@@ -32,12 +36,16 @@ public class StatisticsController implements IStatisticsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<LoginDto> findLoginsInTime(LocalDateTime start, LocalDateTime end) {
         return this.statisticsService.findLoginsInTime(start, end)
                 .orElseThrow(NotFound::new);
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<ViewDto> findViewsInTime(LocalDateTime start, LocalDateTime end) {
         return this.statisticsService.findViewsInTime(start, end)
                 .orElseThrow(NotFound::new);

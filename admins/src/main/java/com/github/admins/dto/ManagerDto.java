@@ -13,24 +13,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchaseDto {
+public class ManagerDto {
 
     @JsonProperty(value = "id")
     private Long id;
 
-    @JsonProperty(value = "createdAt")
-    private Date createdAt;
+    @JsonProperty(value = "firstName")
+    private String firstName;
 
-    @JsonProperty(value = "customer")
-    private CustomerDto customer;
-
-    @JsonProperty(value = "products")
-    private List<ProductDto> products;
-
-    @JsonProperty(value = "amount")
-    private BigDecimal amount;
-
-    @JsonProperty(value = "status")
-    private OrderStatus status;
+    @JsonProperty(value = "lastName")
+    private String lastName;
 
 }
