@@ -17,14 +17,12 @@ import java.util.Optional;
 public interface OrderDetailRepo extends
         PagingAndSortingRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
 
-    Optional<OrderDetail> findByUserId(Long userId);
+    List<OrderDetail> findByUserId(Long userId);
 
     List<OrderDetail> findByStatus(OrderStatus status);
 
     List<OrderDetail> findByStatusAndCreateAtBetween(
             OrderStatus status, LocalDateTime start, LocalDateTime end);
-
-    List<OrderDetail> findAllByUserId(Long userId);
 
     @Modifying
     @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.id =:id")

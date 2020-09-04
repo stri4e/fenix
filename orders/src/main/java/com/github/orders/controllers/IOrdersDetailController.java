@@ -38,6 +38,27 @@ public interface IOrdersDetailController {
             @RequestBody @Valid OrderDetailDto payload
     );
 
+    @GetMapping
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> userOrders(
+            @ApiIgnore @RequestAttribute(name = "userId") Long userId
+    );
+
+    @GetMapping(path = "/fetch/binding/{orderId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> fetchBindingOrders(
+            @PathVariable(name = "orderId") Long orderId
+    );
+
     @GetMapping(path = "/fetch/{status}/time")
     @ResponseStatus(code = HttpStatus.OK)
     List<OrderDto> fetchOrdersInTime(

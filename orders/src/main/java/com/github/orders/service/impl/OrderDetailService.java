@@ -48,16 +48,9 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
-    @Cacheable(value = "order", key = "#userId")
-    public OrderDetail readUserId(Long userId) {
-        return this.orderRepo.findByUserId(userId)
-                .orElseThrow(BadRequest::new);
-    }
-
-    @Override
     @Cacheable(value = "orders", key = "#userId", unless = "#result.size() == 0")
-    public List<OrderDetail> readAllUserId(Long userId) {
-        return this.orderRepo.findAllByUserId(userId);
+    public List<OrderDetail> readUserId(Long userId) {
+        return this.orderRepo.findByUserId(userId);
     }
 
     @Override

@@ -16,9 +16,7 @@ public interface IOrderDetailService {
 
     OrderDetail readById(Long orderId);
 
-    OrderDetail readUserId(Long userId);
-
-    List<OrderDetail> readAllUserId(Long userId);
+    List<OrderDetail> readUserId(Long userId);
 
     List<OrderDetail> readByStatus(OrderStatus status);
 

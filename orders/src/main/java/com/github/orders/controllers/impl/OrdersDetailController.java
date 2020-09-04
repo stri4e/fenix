@@ -16,9 +16,6 @@ import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,6 +56,23 @@ public class OrdersDetailController implements IOrdersDetailController {
     public List<OrderDto>
     fetchOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
         List<OrderDetail> orders = this.orderService.read(status, start, end);
+        return orders.stream()
+                .map(this::collect)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDto> userOrders(Long userId) {
+        List<OrderDetail> orders = this.orderService.readUserId(userId);
+        return orders.stream()
+                .map(this::collect)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDto> fetchBindingOrders(Long orderId) {
+        OrderDetail order = this.orderService.readById(orderId);
+        List<OrderDetail> orders = this.orderService.readUserId(order.getUserId());
         return orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());
