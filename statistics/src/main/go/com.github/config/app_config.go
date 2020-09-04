@@ -2,8 +2,8 @@ package config
 
 import (
 	"../utils"
+	log "github.com/sirupsen/logrus"
 	"github.com/tkanos/gonfig"
-	"log"
 	"os"
 )
 
@@ -17,6 +17,7 @@ const (
 type Config struct {
 	ApplicationName string
 	ZipkinUrl       string
+	ZipkinEnable    bool
 	IsLoggerFile    bool
 	ServerPort      string
 	DatabaseConfig  DatabaseConfig
@@ -34,6 +35,7 @@ type DatabaseConfig struct {
 	DdlAuto          string
 	MaxIdleConns     int
 	MaxOpenConns     int
+	DbLogging        bool
 }
 
 type EurekaConfig struct {
@@ -65,7 +67,7 @@ func NewConfig() *Config {
 	case ProfileDefault:
 		err = gonfig.GetConf("src/main/resources/config.default.json", &config)
 	}
-	log.Println("Profile name:", profile, "Application port:", config.ServerPort)
+	log.Info("Profile name: ", profile, " Application port:", config.ServerPort)
 	if err != nil {
 		panic(err)
 	}

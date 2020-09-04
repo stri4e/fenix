@@ -19,6 +19,7 @@ func ResponseSender(w http.ResponseWriter, payload interface{}, status int) {
 	w.Header().Set(ContentType, ApplicationJson)
 	w.WriteHeader(status)
 	code, err := w.Write(response)
+	log.WithFields(log.Fields{"payload": string(response)}).Debug("Enter: send response")
 	if err != nil {
 		log.Error("Enter: ", code, err)
 	}

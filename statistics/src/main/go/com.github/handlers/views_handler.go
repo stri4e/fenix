@@ -29,7 +29,6 @@ func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Arguments must be a number."})
 			products, err := handler.controller.FindByUserId(uint(userId))
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Views not found."})
-			log.Debug("Enter: read all views information by account id")
 			ResponseSender(w, products, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
 			ErrorSender(w, e)
@@ -63,7 +62,7 @@ func (handler *ViewsHandler) FindViews(w http.ResponseWriter, r *http.Request) {
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Can't fetch subject."})
 			views, err := handler.controller.FindViews(userId)
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Views not found."})
-			log.Debug("Enter: read all views information by account id")
+			log.Debug("Enter: read all views information by user id")
 			ResponseSender(w, views, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
 			ErrorSender(w, e)

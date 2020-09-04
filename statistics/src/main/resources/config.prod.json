@@ -1,6 +1,7 @@
 {
   "ApplicationName": "statistics",
   "ZipkinUrl": "http://zipkin:9411/api/v2/spans",
+  "ZipkinEnable": true,
   "IsLoggerFile": false,
   "ServerPort": "8787",
   "DatabaseConfig": {
@@ -11,7 +12,8 @@
     "DatabaseName": "statistics_prod.db",
     "DdlAuto": "none",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": false
   },
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",

@@ -60,9 +60,10 @@ func (handler *RestHandler) Handler() http.Handler {
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
-
-	zipkinMiddleware := handler.tracer.CreateMiddleware()
-	router.Use(zipkinMiddleware)
+	if handler.config.ZipkinEnable {
+		zipkinMiddleware := handler.tracer.CreateMiddleware()
+		router.Use(zipkinMiddleware)
+	}
 	router.Use(prometheusMiddleware)
 	http.Handle("/", router)
 	return router

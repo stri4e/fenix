@@ -24,12 +24,11 @@ func (handler *LoginHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 		Try: func() {
 			vars := mux.Vars(r)
 			result := vars["userId"]
-			accountId, err := strconv.ParseUint(result, 10, 64)
+			userId, err := strconv.ParseUint(result, 10, 64)
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Arguments must be a number."})
-			login, err := handler.controller.FindByUserId(uint(accountId))
+			logins, err := handler.controller.FindByUserId(uint(userId))
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Logins not found."})
-			log.Debug("Enter: read all account information by account id.")
-			ResponseSender(w, login, http.StatusOK)
+			ResponseSender(w, logins, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
 			ErrorSender(w, e)
 		},
@@ -45,7 +44,8 @@ func (handler *LoginHandler) FindBetweenTime(w http.ResponseWriter, r *http.Requ
 			utils.ThrowIfNil(end, &utils.BadRequest{Message: "Request path is required."})
 			login, err := handler.controller.FindBetweenTime(start, end)
 			utils.ThrowIfErr(err, &utils.NotFound{Message: "Logins not found."})
-			log.Debug("Enter: read all account information between", start, end)
+			log.WithFields(log.Fields{"start": start, "end": end}).
+				Debug("Enter: read all account information", start, end)
 			ResponseSender(w, login, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
 			ErrorSender(w, e)
@@ -61,7 +61,8 @@ func (handler *LoginHandler) CreateLogin(w http.ResponseWriter, r *http.Request)
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Can't deserialize LoginDto."})
 			login, err := handler.controller.CreateLogin(&payload)
 			utils.ThrowIfErr(err, &utils.BadRequest{Message: "Can't save LoginDto."})
-			log.Debug("Enter: create new  user login information")
+			log.WithFields(log.Fields{"Device": payload.Device, "Location": payload.Location}).
+				Debug("Enter: create new  user login information")
 			ResponseSender(w, login, http.StatusCreated)
 		}, Catch: func(e utils.Exception) {
 			ErrorSender(w, e)
