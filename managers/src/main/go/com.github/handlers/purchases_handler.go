@@ -3,10 +3,10 @@ package handlers
 import (
 	"../controllers"
 	"../dto"
-	log "../logger"
 	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -21,25 +21,30 @@ func NewPurchasesHandler(controller *controllers.PurchasesController) *Purchases
 
 func (handler *PurchasesHandler) SavePurchase(w http.ResponseWriter, r *http.Request) {
 	tokenHeader := r.Header.Get("Authorization")
-	if tokenHeader == "" {
-		ErrorSender(w, http.StatusForbidden, "Authorization token not fount.")
-		return
-	}
 	token := utils.GetToken(tokenHeader)
 	if token == nil {
-		ErrorSender(w, http.StatusBadRequest, "Can't authorize")
+		log.Debug("Can't fetch authorize token")
+		ErrorSender(w, http.StatusBadRequest, "Can't fetch authorize token")
 		return
 	}
 	managerId, err := strconv.ParseUint(token.Subject, 10, 64)
+	if err != nil {
+		log.Debug("Params mast be number.")
+		ErrorSender(w, http.StatusBadRequest, "Params mast be number.")
+		return
+	}
 	var payload dto.PurchaseDto
 	err = json.NewDecoder(r.Body).Decode(&payload)
 	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Can't deserialize Payload.")
+		log.Debug("Can't deserialize payload.")
+		ErrorSender(w, http.StatusBadRequest, "Can't deserialize payload.")
 		return
 	}
 	err = handler.controller.SavePurchases(uint(managerId), token.FirstName, token.LastName, &payload)
 	if err != nil {
-		ErrorSender(w, http.StatusBadRequest, "Can't save items.")
+		log.WithFields(log.Fields{"orderId": payload.OrderId, "status": payload.Status}).
+			Debug("Can't save purchase.")
+		ErrorSender(w, http.StatusBadRequest, "Can't save purchase.")
 		return
 	}
 	log.Debug("Enter: create new  manger orders information")

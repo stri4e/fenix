@@ -35,6 +35,7 @@ func BuildContainer() *dig.Container {
 
 	err = container.Provide(handlers.NewRestHandler)
 	err = container.Provide(handlers.NewPurchasesHandler)
+	err = container.Provide(handlers.NewUserOrderHandler)
 	err = container.Provide(handlers.NewManagerHandler)
 	err = container.Provide(handlers.NewTracer)
 

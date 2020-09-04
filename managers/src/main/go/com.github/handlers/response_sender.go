@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	log "../logger"
 	"../models"
 	"encoding/json"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 

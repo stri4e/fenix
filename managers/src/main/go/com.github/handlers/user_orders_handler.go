@@ -13,6 +13,10 @@ type UserOrderHandler struct {
 	controller *controllers.UserOrdersController
 }
 
+func NewUserOrderHandler(controller *controllers.UserOrdersController) *UserOrderHandler {
+	return &UserOrderHandler{controller: controller}
+}
+
 func (handler *UserOrderHandler) FindBindingOrders(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	strOrderId := vars["orderId"]

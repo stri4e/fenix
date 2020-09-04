@@ -2,8 +2,8 @@ package config
 
 import (
 	"../utils"
+	log "github.com/sirupsen/logrus"
 	"github.com/tkanos/gonfig"
-	"log"
 	"os"
 )
 
@@ -65,7 +65,7 @@ func NewConfig() *Config {
 	case ProfileDefault:
 		err = gonfig.GetConf("src/main/resources/config.default.json", &config)
 	}
-	log.Println("Profile name:", profile, "Application port:", config.ServerPort)
+	log.Info("Profile name:", profile, " Application port:", config.ServerPort)
 	if err != nil {
 		panic(err)
 	}

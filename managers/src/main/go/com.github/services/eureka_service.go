@@ -2,8 +2,8 @@ package services
 
 import (
 	"../config"
-	"../logger"
 	"github.com/hudl/fargo"
+	log "github.com/sirupsen/logrus"
 	"strconv"
 	"time"
 )
@@ -55,7 +55,7 @@ func HeartBeat(ec *fargo.EurekaConnection, i *fargo.Instance) {
 		select {
 		case <-ticker:
 			if err := ec.HeartBeatInstance(i); err != nil {
-				logger.Error("Lost connection to eureka")
+				log.Warn("Lost connection to eureka")
 			}
 		}
 	}
