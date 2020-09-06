@@ -19,7 +19,7 @@
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",
     "InstanceId": "statistics-golang",
-    "HostName": "127.0.0.1",
+    "HostName": "statistics",
     "SecurePort": 8443,
     "App": "statistics",
     "IPAddr": "statistics",
