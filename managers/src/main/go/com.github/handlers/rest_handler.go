@@ -8,33 +8,51 @@ import (
 )
 
 type RestHandler struct {
-	ordersHandler *ItemsHandler
-	config        *config.Config
-	tracer          *Tracer
+	ordersHandler    *PurchasesHandler
+	userOrderHandler *UserOrderHandler
+	managerHandler   *ManagerHandler
+	config           *config.Config
+	tracer           *Tracer
 }
 
-func NewRestHandler(ordersHandler *ItemsHandler, config *config.Config, tracer *Tracer) *RestHandler {
-	return &RestHandler{ordersHandler: ordersHandler, config: config, tracer: tracer}
+func NewRestHandler(
+	ordersHandler *PurchasesHandler,
+	userOrderHandler *UserOrderHandler,
+	managerHandler *ManagerHandler,
+	config *config.Config,
+	tracer *Tracer) *RestHandler {
+	return &RestHandler{
+		ordersHandler:    ordersHandler,
+		userOrderHandler: userOrderHandler,
+		managerHandler:   managerHandler,
+		config:           config,
+		tracer:           tracer,
+	}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
-	zipkinMiddleware := handler.tracer.CreateMiddleware()
 	router := mux.NewRouter()
 	router.
-		HandleFunc("/v1", handler.ordersHandler.SaveItem).
+		HandleFunc("/v1", handler.ordersHandler.SavePurchase).
 		Methods(http.MethodPost)
-	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindItemsByStatus).
+	router.HandleFunc("/v1/{status}", handler.ordersHandler.FindPurchasesByStatus).
 		Methods(http.MethodGet)
-	router.HandleFunc("/v1/all/{status}", handler.ordersHandler.FindItemsAllByStatus).
+	router.HandleFunc("/v1/all/{status}", handler.ordersHandler.FindPurchasesAllByStatus).
 		Methods(http.MethodGet)
-	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusItem).
+	router.HandleFunc("/v1/{orderId}/{status}", handler.ordersHandler.UpdateStatusPurchase).
 		Methods(http.MethodPut)
+	router.HandleFunc("/v1/binding/{orderId}", handler.userOrderHandler.FindBindingOrders).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/fetch/{orderId}", handler.managerHandler.FindManagerByOrder).
+		Methods(http.MethodGet)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
-	router.Use(zipkinMiddleware)
+	if handler.config.ZipkinEnable {
+		zipkinMiddleware := handler.tracer.CreateMiddleware()
+		router.Use(zipkinMiddleware)
+	}
 	router.Use(prometheusMiddleware)
 	http.Handle("/", router)
 	return router
 }
-

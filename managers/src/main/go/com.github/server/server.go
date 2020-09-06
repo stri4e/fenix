@@ -6,6 +6,7 @@ import (
 	"../logger"
 	"../migration"
 	"../services"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -44,6 +45,6 @@ func (server *Server) Run() {
 	}
 	err = httpServer.ListenAndServe()
 	if err != nil {
-		logger.Error("Server crashed!")
+		log.Error("Server crashed!")
 	}
 }

@@ -50,7 +50,6 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.unused);
-        p.setCreateDate(new Date());
         return p;
     }
 
@@ -63,7 +62,6 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.unused);
-        p.setCreateDate(new Date(1597217653L));
         return p;
     }
 
@@ -77,7 +75,6 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.unused);
-        p.setCreateDate(new Date(1597217653L));
         p.setCategory(category());
         return p;
     }
@@ -92,7 +89,6 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.unused);
-        p.setCreateDate(new Date(1597217653L));
         p.setCategory(category());
         return p;
     }

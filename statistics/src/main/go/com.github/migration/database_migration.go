@@ -28,27 +28,13 @@ func (container *DataBaseMigration) RunBuildDataBase() error {
 
 func createTables(connection *gorm.DB) error {
 	err := connection.DropTableIfExists(
-		&entity.PurchaseImage{},
-		&entity.PurchaseProduct{},
-		&entity.Purchase{},
 		&entity.Login{},
-		&entity.ViewedProduct{},
-		&entity.ViewedImage{},
 		&entity.View{},
-		&entity.Customer{},
-		&entity.Manager{},
 	).Error
 	if err == nil {
 		err = connection.CreateTable(
-			&entity.PurchaseImage{},
-			&entity.PurchaseProduct{},
-			&entity.Purchase{},
 			&entity.Login{},
-			&entity.ViewedProduct{},
-			&entity.ViewedImage{},
 			&entity.View{},
-			&entity.Customer{},
-			&entity.Manager{},
 		).Error
 	}
 	return err
@@ -56,15 +42,8 @@ func createTables(connection *gorm.DB) error {
 
 func updateTables(connection *gorm.DB) error {
 	err := connection.AutoMigrate(
-		&entity.PurchaseImage{},
-		&entity.PurchaseProduct{},
-		&entity.Purchase{},
 		&entity.Login{},
-		&entity.ViewedProduct{},
-		&entity.ViewedImage{},
 		&entity.View{},
-		&entity.Customer{},
-		&entity.Manager{},
 	).Error
 	return err
 }

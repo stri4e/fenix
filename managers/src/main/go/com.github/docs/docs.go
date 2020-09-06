@@ -31,7 +31,7 @@ var doc = `{
     "paths": {
         "/v1": {
             "post": {
-                "description": "Save a new items",
+                "description": "Save a new purchases",
                 "consumes": [
                     "application/json"
                 ],
@@ -39,17 +39,17 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "items"
+                    "purchases"
                 ],
-                "summary": "Save a new items",
+                "summary": "Save a new purchases",
                 "parameters": [
                     {
-                        "description": "Save item",
-                        "name": "item",
+                        "description": "Save purchase",
+                        "name": "purchase",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ItemDto"
+                            "$ref": "#/definitions/dto.PurchaseDto"
                         }
                     },
                     {
@@ -77,7 +77,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "items"
+                    "purchases"
                 ],
                 "summary": "Get a all orders by status",
                 "parameters": [
@@ -101,6 +101,74 @@ var doc = `{
                 }
             }
         },
+        "/v1/binding/{orderId}": {
+            "get": {
+                "description": "Get binding orders by order id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user-orders"
+                ],
+                "summary": "Get binding orders by order id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.OrderDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/fetch/{orderId}": {
+            "get": {
+                "description": "Get manager by order id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "manager"
+                ],
+                "summary": "Get manager by order id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Order ID",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ManagerDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
         "/v1/{orderId}/{status}": {
             "put": {
                 "description": "Update order by status",
@@ -111,7 +179,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "items"
+                    "purchases"
                 ],
                 "summary": "Update order by status",
                 "parameters": [
@@ -147,7 +215,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "items"
+                    "purchases"
                 ],
                 "summary": "Get a all orders by status",
                 "parameters": [
@@ -202,16 +270,16 @@ var doc = `{
                 }
             }
         },
-        "dto.ItemDto": {
+        "dto.ManagerDto": {
             "type": "object",
             "properties": {
-                "orderId": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "status": {
+                "firstName": {
                     "type": "string",
-                    "example": "open or close"
+                    "example": "Michal"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Mackonagen"
                 }
             }
         },
@@ -273,6 +341,19 @@ var doc = `{
                 "quantity": {
                     "type": "integer",
                     "example": 10
+                }
+            }
+        },
+        "dto.PurchaseDto": {
+            "type": "object",
+            "properties": {
+                "orderId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "status": {
+                    "type": "string",
+                    "example": "open or close"
                 }
             }
         }

@@ -3,9 +3,10 @@ package handlers
 import (
 	"../controllers"
 	"../dto"
-	log "../logger"
+	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -19,46 +20,52 @@ func NewLoginHandler(controller *controllers.LoginsController) *LoginHandler {
 }
 
 func (handler *LoginHandler) FindByUserId(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	result := vars["userId"]
-	accountId, err := strconv.ParseUint(result, 10, 64)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	login, err := handler.controller.FindByUserId(uint(accountId))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	log.Debug("Enter: read all account information by account id.")
-	ResponseSender(w, login, http.StatusOK)
+	utils.Block{
+		Try: func() {
+			vars := mux.Vars(r)
+			result := vars["userId"]
+			userId, err := strconv.ParseUint(result, BaseUint, BitSize)
+			utils.ThrowIfErr(err, http.StatusBadRequest, "Arguments must be a number.")
+			logins, err := handler.controller.FindByUserId(uint(userId))
+			utils.ThrowIfErr(err, http.StatusNotFound, "Logins not found.")
+			ResponseSender(w, logins, http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, e)
+		},
+	}.Do()
 }
 
 func (handler *LoginHandler) FindBetweenTime(w http.ResponseWriter, r *http.Request) {
-	start := r.FormValue("start")
-	end := r.FormValue("end")
-	if start == "" && end == "" {
-		http.Error(w, "Required params is empty!", http.StatusBadRequest)
-		return
-	}
-	login, err := handler.controller.FindBetweenTime(start, end)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	log.Debug("Enter: read all account information between", start, end)
-	ResponseSender(w, login, http.StatusOK)
+	utils.Block{
+		Try: func() {
+			start := r.FormValue("start")
+			end := r.FormValue("end")
+			utils.ThrowIfNil(start, http.StatusBadRequest, "Request path is required.")
+			utils.ThrowIfNil(end, http.StatusBadRequest, "Request path is required.")
+			login, err := handler.controller.FindBetweenTime(start, end)
+			utils.ThrowIfErr(err, http.StatusNotFound, "Logins not found.")
+			log.WithFields(log.Fields{"start": start, "end": end}).
+				Debug("Enter: read all account information", start, end)
+			ResponseSender(w, login, http.StatusOK)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, e)
+		},
+	}.Do()
 }
 
 func (handler *LoginHandler) CreateLogin(w http.ResponseWriter, r *http.Request) {
-	var payload dto.LoginDto
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	login, err := handler.controller.CreateLogin(&payload)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	log.Debug("Enter: create new  user login information")
-	ResponseSender(w, login, http.StatusCreated)
+	utils.Block{
+		Try: func() {
+			var payload dto.LoginDto
+			err := json.NewDecoder(r.Body).Decode(&payload)
+			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't deserialize LoginDto.")
+			login, err := handler.controller.CreateLogin(&payload)
+			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't save LoginDto.")
+			log.WithFields(log.Fields{"Device": payload.Device, "Location": payload.Location}).
+				Debug("Enter: create new  user login information")
+			ResponseSender(w, login, http.StatusCreated)
+		}, Catch: func(e utils.Exception) {
+			ErrorSender(w, e)
+		},
+	}.Do()
 }

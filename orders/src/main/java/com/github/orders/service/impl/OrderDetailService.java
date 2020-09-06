@@ -6,12 +6,16 @@ import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.OrderDetailRepo;
 import com.github.orders.service.IOrderDetailService;
+import com.github.orders.utils.OrdersSpec;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +36,11 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
+    public List<OrderDetail> read(OrderStatus status, LocalDateTime start, LocalDateTime end) {
+        return this.orderRepo.findByStatusAndCreateAtBetween(status, start, end);
+    }
+
+    @Override
     @Cacheable(value = "order", key = "#orderId")
     public OrderDetail readById(Long orderId) {
         return this.orderRepo.findById(orderId)
@@ -39,16 +48,9 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
-    @Cacheable(value = "order", key = "#userId")
-    public OrderDetail readUserId(Long userId) {
-        return this.orderRepo.findByUserId(userId)
-                .orElseThrow(BadRequest::new);
-    }
-
-    @Override
     @Cacheable(value = "orders", key = "#userId", unless = "#result.size() == 0")
-    public List<OrderDetail> readAllUserId(Long userId) {
-        return this.orderRepo.findAllByUserId(userId);
+    public List<OrderDetail> readUserId(Long userId) {
+        return this.orderRepo.findByUserId(userId);
     }
 
     @Override

@@ -6,12 +6,18 @@ import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IOrdersDetailController {
@@ -30,6 +36,35 @@ public interface IOrdersDetailController {
     void saveOrders(
             @ApiIgnore @RequestAttribute(name = "userId") Long userId,
             @RequestBody @Valid OrderDetailDto payload
+    );
+
+    @GetMapping
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> userOrders(
+            @ApiIgnore @RequestAttribute(name = "userId") Long userId
+    );
+
+    @GetMapping(path = "/fetch/binding/{orderId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> fetchBindingOrders(
+            @PathVariable(name = "orderId") Long orderId
+    );
+
+    @GetMapping(path = "/fetch/{status}/time")
+    @ResponseStatus(code = HttpStatus.OK)
+    List<OrderDto> fetchOrdersInTime(
+            @PathVariable OrderStatus status,
+            @RequestParam("start") LocalDateTime start,
+            @RequestParam("end") LocalDateTime end
     );
 
     @GetMapping(

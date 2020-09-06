@@ -76,7 +76,6 @@ public class CommentControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.unused);
-        p.setCreateDate(new Date());
         return p;
     }
 

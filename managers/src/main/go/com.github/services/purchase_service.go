@@ -1,70 +1,26 @@
 package services
 
 import (
-	"../dto"
-	"errors"
-	"github.com/dghubble/sling"
-	"github.com/hudl/fargo"
-	"net/http"
+	"../entity"
+	"../repository"
 )
 
 type PurchaseService struct {
-	eureka *EurekaService
+	repository *repository.PurchaseRepository
 }
 
-func NewPurchaseService(eureka *EurekaService) *PurchaseService {
-	return &PurchaseService{eureka: eureka}
+func NewPurchaseService(repository *repository.PurchaseRepository) *PurchaseService {
+	return &PurchaseService{repository: repository}
 }
 
-func (service *PurchaseService) CreateManagerPurchase(orderId uint, status string, manager *dto.ManagerDto) error {
-	instances, err := service.getInstances()
-	if err == nil {
-		client := sling.New().Path("/v1/purchases/manager/edit").
-			Path(string(orderId)).
-			Path(status).
-			BodyJSON(manager)
-		for _, instance := range instances {
-			client := client.Post(instance.HomePageUrl)
-			resp, err := client.ReceiveSuccess(nil)
-			if err != nil {
-				return err
-			}
-			if resp.StatusCode == http.StatusOK {
-				return nil
-			}
-		}
-	}
-	return nil
+func (service *PurchaseService) CreatePurchase(purchase *entity.Purchase) (*entity.Purchase, error) {
+	return service.repository.SavePurchase(purchase)
 }
 
-func (service *PurchaseService) UpdateStatusPurchase(orderId uint, status string) error {
-	instances, err := service.getInstances()
-	if err == nil {
-		client := sling.New().Path("/v1/purchases/edit").
-			Path(string(orderId)).
-			Path(status)
-		for _, instance := range instances {
-			client := client.Post(instance.HomePageUrl)
-			resp, err := client.ReceiveSuccess(nil)
-			if err != nil {
-				return err
-			}
-			if resp.StatusCode == http.StatusOK {
-				return nil
-			}
-		}
-	}
-	return nil
+func (service *PurchaseService) UpdateStatus(orderId uint, status string) error {
+	return service.repository.UpdateStatus(orderId, status)
 }
 
-func (service *PurchaseService) getInstances() ([]*fargo.Instance, error) {
-	apps, err := service.eureka.connection.GetApps()
-	if err != nil {
-		return nil, err
-	}
-	result := apps["STATISTICS"]
-	if result == nil {
-		return nil, errors.New("instance not found")
-	}
-	return result.Instances, nil
+func (service *PurchaseService) FindPurchaseByOrderId(orderId uint) (*entity.Purchase, error) {
+	return service.repository.FindByOrderId(orderId)
 }

@@ -32,7 +32,7 @@ public class ProductController implements IProductController {
     @Logging(isTime = true, isReturn = false)
     public Page<ProductDto> getProduct(Pageable pageable) {
         Page<Product> products = this.productService.read(pageable);
-        long total = products.getTotalElements();
+        var total = products.getTotalElements();
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)

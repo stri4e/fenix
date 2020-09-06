@@ -2,16 +2,18 @@ package controllers
 
 import (
 	"../dto"
+	"../entity"
 	"../services"
 	"../utils"
 )
 
 type ViewsController struct {
-	service *services.ViewService
+	viewService    *services.ViewService
+	productService *services.ProductService
 }
 
-func NewViewsController(service *services.ViewService) *ViewsController {
-	return &ViewsController{service: service}
+func NewViewsController(viewService *services.ViewService, productService *services.ProductService) *ViewsController {
+	return &ViewsController{viewService: viewService, productService: productService}
 }
 
 // FindByUserId godoc
@@ -21,14 +23,19 @@ func NewViewsController(service *services.ViewService) *ViewsController {
 // @Accept  json
 // @Produce  json
 // @Param userId path integer true "User ID"
-// @Success 200 {object} dto.ViewDto
+// @Success 200 {object} dto.ProductDto
 // @Router /v1/views/fetch/{userId} [get]
-func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, error) {
-	views, err := controller.service.ReadByUserId(userId)
+func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ProductDto, error) {
+	views, err := controller.viewService.ReadByUserId(userId)
 	if err != nil {
 		return nil, err
 	}
-	return utils.FromViewsArray(views), nil
+	productIds := utils.FromViews(views)
+	products, err := controller.productService.GetProducts(productIds)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromProducts(products), nil
 }
 
 // FindBetweenTime godoc
@@ -39,14 +46,19 @@ func (controller *ViewsController) FindByUserId(userId uint) ([]*dto.ViewDto, er
 // @Produce  json
 // @Param start query string false "name search by start"
 // @Param end query string false "name search by end"
-// @Success 200 {object} dto.ViewDto
+// @Success 200 {object} dto.ProductDto
 // @Router /v1/views/fetch [get]
-func (controller *ViewsController) FindBetweenTime(start string, end string) ([]*dto.ViewDto, error) {
-	views, err := controller.service.ReadBetweenTime(start, end)
+func (controller *ViewsController) FindBetweenTime(start string, end string) ([]*dto.ProductDto, error) {
+	views, err := controller.viewService.ReadBetweenTime(start, end)
 	if err != nil {
 		return nil, err
 	}
-	return utils.FromViewsArray(views), nil
+	productIds := utils.FromViews(views)
+	products, err := controller.productService.GetProducts(productIds)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromProducts(products), nil
 }
 
 // FindViews godoc
@@ -56,14 +68,19 @@ func (controller *ViewsController) FindBetweenTime(start string, end string) ([]
 // @Accept  json
 // @Produce  json
 // @Param Authorization header string true "Bearer"
-// @Success 200 {object} dto.ViewDto
+// @Success 200 {object} dto.ProductDto
 // @Router /v1/views [get]
-func (controller *ViewsController) FindViews(userId uint) ([]*dto.ViewDto, error) {
-	views, err := controller.service.ReadByUserId(userId)
+func (controller *ViewsController) FindViews(userId uint) ([]*dto.ProductDto, error) {
+	views, err := controller.viewService.ReadByUserId(userId)
 	if err != nil {
 		return nil, err
 	}
-	return utils.FromViewsArray(views), nil
+	productIds := utils.FromViews(views)
+	products, err := controller.productService.GetProducts(productIds)
+	if err != nil {
+		return nil, err
+	}
+	return utils.FromProducts(products), nil
 }
 
 // CreateView godoc
@@ -72,15 +89,14 @@ func (controller *ViewsController) FindViews(userId uint) ([]*dto.ViewDto, error
 // @Tags views
 // @Accept  json
 // @Produce  json
-// @Param view body dto.ProductDto true "Create view"
-// @Success 200 {object} dto.ViewDto
+// @Param view body string true "Create view"
+// @Success 201
 // @Router /v1/views [post]
 // @Param Authorization header string true "Bearer"
-func (controller *ViewsController) CreateView(userId uint, payload *dto.ProductDto) (*dto.ViewDto, error) {
-	views := utils.ToView(userId, payload)
-	result, err := controller.service.CreateView(views)
+func (controller *ViewsController) CreateView(userId uint, productId uint) error {
+	err := controller.viewService.CreateView(&entity.View{UserId: userId, ProductId: productId})
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return utils.FromView(result), nil
+	return nil
 }

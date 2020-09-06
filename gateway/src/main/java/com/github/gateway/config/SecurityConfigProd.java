@@ -26,7 +26,8 @@ public class SecurityConfigProd {
 
     private static final String[] USER_ACCESS  = new String[] {
             "/products/v1/comments",
-            "/orders/**"
+            "/orders/**",
+            "/statistics/v1/views"
     };
 
     private static final String[] MANAGER_ACCESS  = new String[] {

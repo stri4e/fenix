@@ -2,17 +2,9 @@ package logger
 
 import (
 	"../config"
-	"log"
-	"os"
-	"strings"
-)
-
-var (
-	levels     string
-	InfoLvl    *log.Logger
-	WarningLvl *log.Logger
-	ErrorLvl   *log.Logger
-	DebugLvl   *log.Logger
+	"github.com/cheshir/logrustash"
+	log "github.com/sirupsen/logrus"
+	"time"
 )
 
 type Logger struct {
@@ -24,44 +16,52 @@ func NewLogger(config *config.Config) *Logger {
 }
 
 func (logger *Logger) InitLogger() {
-	if logger.config.IsLoggerFile {
-		file, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
-		if err != nil {
-			panic(err.Error())
+	switch logger.config.LoggerLvl {
+	case "debug":
+		log.SetLevel(log.DebugLevel)
+		break
+	case "info":
+		log.SetLevel(log.InfoLevel)
+		break
+	case "error":
+		log.SetLevel(log.ErrorLevel)
+		break
+	case "trace":
+		log.SetLevel(log.TraceLevel)
+		break
+	default:
+		log.Error("Logger level not found!")
+		break
+	}
+	go addLogstashHook(logger.config)
+}
+
+
+func addLogstashHook(config *config.Config) {
+	ticker := time.NewTicker(time.Duration(5*1000) * time.Millisecond)
+	for {
+		select {
+		case <-ticker.C:
+			if err := connectionLogstash(config); err != nil {
+				log.WithFields(log.Fields{"Error": err}).
+					Warn("Can't connect to logstash")
+			} else {
+				ticker.Stop()
+				log.Debug("Logstash ticker is finished.")
+			}
 		}
-		InfoLvl = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-		WarningLvl = log.New(file, "WARN: ", log.Ldate|log.Ltime|log.Lshortfile)
-		ErrorLvl = log.New(file, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
-		DebugLvl = log.New(file, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+	}
+}
+
+func connectionLogstash(config *config.Config) error {
+	hook, err := logrustash.NewAsyncHook("tcp", config.LogstashUrl, config.ApplicationName)
+	if err != nil {
+		return err
 	} else {
-		InfoLvl = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-		WarningLvl = log.New(os.Stdout, "WARN: ", log.Ldate|log.Ltime|log.Lshortfile)
-		ErrorLvl = log.New(os.Stdout, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
-		DebugLvl = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
-	}
-	levels = logger.config.LoggerLvl
-}
-
-func Debug(values ...interface{}) {
-	if strings.Contains(levels, "debug") {
-		DebugLvl.Println(values)
-	}
-}
-
-func Warning(values ...interface{}) {
-	if strings.Contains(levels, "warning") {
-		WarningLvl.Println(values)
-	}
-}
-
-func Info(values ...interface{}) {
-	if strings.Contains(levels, "info") {
-		InfoLvl.Println(values)
-	}
-}
-
-func Error(values ...interface{}) {
-	if strings.Contains(levels, "error") {
-		InfoLvl.Println(values)
+		hook.ReconnectBaseDelay = time.Second
+		hook.ReconnectDelayMultiplier = 5
+		hook.MaxReconnectRetries = 100
+		log.AddHook(hook)
+		return nil
 	}
 }

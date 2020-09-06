@@ -1,6 +1,7 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.repository.CustomerRepo;
@@ -94,11 +95,11 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         this.customerRepo.save(customer);
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/open");
-        ResponseEntity<List<OrderDetail>> response = this.restTemplate.exchange(
+        ResponseEntity<List<OrderDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        List<OrderDetail> act = response.getBody();
+        List<OrderDto> act = response.getBody();
         assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
     }
 

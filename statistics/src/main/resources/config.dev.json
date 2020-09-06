@@ -1,8 +1,10 @@
 {
   "ApplicationName": "statistics",
   "ZipkinUrl": "http://zipkin:9411/api/v2/spans",
+  "ZipkinEnable": true,
   "IsLoggerFile": false,
   "ServerPort": "8787",
+  "LogstashUrl": "logstash:9999",
   "DatabaseConfig": {
     "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,
@@ -11,7 +13,8 @@
     "DatabaseName": "statistics_dev.db",
     "DdlAuto": "none",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": true
   },
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",

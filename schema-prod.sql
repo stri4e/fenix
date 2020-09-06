@@ -222,7 +222,7 @@ create table "managers"
 
 create index idx_managers_deleted_at ON "managers" (deleted_at);
 
-create table "items"
+create table "purchases"
 (
     "id"         serial,
     "manager_id" integer,

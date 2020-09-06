@@ -1,8 +1,10 @@
 {
   "ApplicationName": "managers",
   "ZipkinUrl": "http://localhost:9411/api/v2/spans",
+  "ZipkinEnable": false,
   "IsLoggerFile": false,
   "ServerPort": "8887",
+  "LogstashUrl": "localhost:9999",
   "DatabaseConfig": {
     "DatabaseHost": "localhost",
     "DatabasePort": 5432,
@@ -11,7 +13,8 @@
     "DatabaseName": "managers_default.db",
     "DdlAuto": "none",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": true
   },
   "EurekaConfig": {
     "EurekaUrl": "http://localhost:3000/eureka",
@@ -24,8 +27,8 @@
     "HomePageUrl": "http://127.0.0.1:8887/",
     "StatusPageUrl": "http://127.0.0.1:8887/info",
     "HealthCheckUrl": "http://127.0.0.1:8887/health",
-    "EnableEureka": false
+    "EnableEureka": true
   },
-  "LoggerLvl": "debug, info, error",
+  "LoggerLvl": "debug",
   "IsSwaggerEnable": true
 }

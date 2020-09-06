@@ -22,7 +22,7 @@ public interface IProductController {
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "category_name", direction = Sort.Direction.ASC),
-                    @SortDefault(sort = "createDate", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
             }) Pageable pageable);
 
     @GetMapping(path = "/page/{category}")
@@ -30,7 +30,7 @@ public interface IProductController {
             @PathVariable String category,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createDate", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
 
