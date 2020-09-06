@@ -20,11 +20,16 @@ func NewEurekaService(config *config.Config, connection *fargo.EurekaConnection)
 func (service *EurekaService) Run() {
 	instance := service.createInstance()
 	err := service.connection.DeregisterInstance(&instance)
+	if err != nil {
+		log.WithFields(log.Fields{"err": err.Error()}).
+			Debug("Enter: Can't deregister eureka instance")
+	}
 	err = service.connection.RegisterInstance(&instance)
 	if err != nil {
-		panic("Can not connect to eureka.")
+		log.Warn("Enter: Can't connect to eureka.")
+		service.registerInstance(&instance)
 	} else {
-		HeartBeat(service.connection, &instance)
+		heartBeat(service.connection, &instance)
 	}
 }
 
@@ -49,13 +54,36 @@ func (service *EurekaService) createInstance() fargo.Instance {
 	}
 }
 
-func HeartBeat(ec *fargo.EurekaConnection, i *fargo.Instance) {
+func (service *EurekaService) registerInstance(i *fargo.Instance) {
+	var err error
+	regTicker := time.NewTicker(time.Duration(30*1000) * time.Millisecond)
+	heartBeatTicker := time.Tick(time.Duration(30*1000) * time.Millisecond)
+	for {
+		select {
+		case <-regTicker.C:
+			if err = service.connection.RegisterInstance(i); err != nil {
+				log.Warn("Enter: can't connect to eureka")
+			} else {
+				regTicker.Stop()
+				log.Debug("Register ticker is finished.")
+			}
+		case <-heartBeatTicker:
+			if err == nil {
+				if err := service.connection.HeartBeatInstance(i); err != nil {
+					log.Warn("Enter: Lost connection to eureka")
+				}
+			}
+		}
+	}
+}
+
+func heartBeat(ec *fargo.EurekaConnection, i *fargo.Instance) {
 	ticker := time.Tick(time.Duration(30*1000) * time.Millisecond)
 	for {
 		select {
 		case <-ticker:
 			if err := ec.HeartBeatInstance(i); err != nil {
-				log.Warn("Lost connection to eureka")
+				log.Warn("Enter: Lost connection to eureka")
 			}
 		}
 	}

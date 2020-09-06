@@ -198,7 +198,7 @@ paths:
       parameters:
       - description: Order ID
         in: path
-        name: status
+        name: orderId
         required: true
         type: integer
       produces:

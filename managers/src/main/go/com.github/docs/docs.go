@@ -118,7 +118,7 @@ var doc = `{
                     {
                         "type": "integer",
                         "description": "Order ID",
-                        "name": "status",
+                        "name": "orderId",
                         "in": "path",
                         "required": true
                     }

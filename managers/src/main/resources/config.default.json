@@ -4,6 +4,7 @@
   "ZipkinEnable": false,
   "IsLoggerFile": false,
   "ServerPort": "8887",
+  "LogstashUrl": "localhost:9999",
   "DatabaseConfig": {
     "DatabaseHost": "localhost",
     "DatabasePort": 5432,
@@ -26,7 +27,7 @@
     "HomePageUrl": "http://127.0.0.1:8887/",
     "StatusPageUrl": "http://127.0.0.1:8887/info",
     "HealthCheckUrl": "http://127.0.0.1:8887/health",
-    "EnableEureka": false
+    "EnableEureka": true
   },
   "LoggerLvl": "debug",
   "IsSwaggerEnable": true

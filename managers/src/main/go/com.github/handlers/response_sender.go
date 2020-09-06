@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"../models"
-	"../utils"
 	"encoding/json"
 	log "github.com/sirupsen/logrus"
 	"net/http"
-	"reflect"
 )
 
 const (
@@ -30,25 +28,10 @@ func ResponseSender(w http.ResponseWriter, payload interface{}, status int) {
 }
 
 func ErrorSender(w http.ResponseWriter, elem interface{}) {
-	var code int
-	var e models.Error
-	switch reflect.TypeOf(elem).Name() {
-	case "NotFound":
-		code = http.StatusNotFound
-		exception := elem.(utils.NotFound)
-		e = models.Error{Code: code, Message: exception.Message}
-		break
-	case "BadRequest":
-		code = http.StatusBadRequest
-		exception := elem.(utils.BadRequest)
-		e = models.Error{Code: code, Message: exception.Message}
-		break
-	default:
-		code = http.StatusBadRequest
-		break
-	}
+	e := elem.(models.Error)
+	code := e.Code
 	err, _ := json.Marshal(e)
 	http.Error(w, string(err), code)
-	log.WithFields(log.Fields{"Code": code, "Error": err}).
+	log.WithFields(log.Fields{"Error": e}).
 		Warn("Enter: send response")
 }

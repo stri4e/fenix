@@ -2,7 +2,9 @@ package logger
 
 import (
 	"../config"
+	"github.com/cheshir/logrustash"
 	log "github.com/sirupsen/logrus"
+	"time"
 )
 
 type Logger struct {
@@ -30,5 +32,36 @@ func (logger *Logger) InitLogger() {
 	default:
 		log.Error("Logger level not found!")
 		break
+	}
+	go addLogstashHook(logger.config)
+}
+
+
+func addLogstashHook(config *config.Config) {
+	ticker := time.NewTicker(time.Duration(5*1000) * time.Millisecond)
+	for {
+		select {
+		case <-ticker.C:
+			if err := connectionLogstash(config); err != nil {
+				log.WithFields(log.Fields{"Error": err}).
+					Warn("Can't connect to logstash")
+			} else {
+				ticker.Stop()
+				log.Debug("Logstash ticker is finished.")
+			}
+		}
+	}
+}
+
+func connectionLogstash(config *config.Config) error {
+	hook, err := logrustash.NewAsyncHook("tcp", config.LogstashUrl, config.ApplicationName)
+	if err != nil {
+		return err
+	} else {
+		hook.ReconnectBaseDelay = time.Second
+		hook.ReconnectDelayMultiplier = 5
+		hook.MaxReconnectRetries = 100
+		log.AddHook(hook)
+		return nil
 	}
 }

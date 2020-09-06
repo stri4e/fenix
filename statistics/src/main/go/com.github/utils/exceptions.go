@@ -1,5 +1,7 @@
 package utils
 
+import "../models"
+
 type Block struct {
 	Try        func()
 	Catch      func(Exception)
@@ -11,23 +13,15 @@ type Block struct {
 type Exception interface {
 }
 
-type NotFound struct {
-	Message string
-}
-
-type BadRequest struct {
-	Message string
-}
-
-func ThrowIfErr(err error, exception interface{}) {
+func ThrowIfErr(err error, code int, message string) {
 	if err != nil {
-		panic(exception)
+		panic(models.Error{Code: code, Message: message})
 	}
 }
 
-func ThrowIfNil(data interface{}, exception interface{}) {
+func ThrowIfNil(data interface{}, code int, message string) {
 	if data == nil || data == "" {
-		panic(exception)
+		panic(models.Error{Code: code, Message: message})
 	}
 }
 

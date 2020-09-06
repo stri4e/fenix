@@ -19,7 +19,7 @@ func NewUserOrdersController(orderService *services.OrderService) *UserOrdersCon
 // @Tags user-orders
 // @Accept  json
 // @Produce  json
-// @Param status path int true "Order ID"
+// @Param orderId path integer true "Order ID"
 // @Success 200 {object} dto.OrderDto
 // @Failure 400
 // @Failure 403

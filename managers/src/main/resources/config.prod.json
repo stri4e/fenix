@@ -4,6 +4,7 @@
   "ZipkinEnable": true,
   "IsLoggerFile": false,
   "ServerPort": "8887",
+  "LogstashUrl": "logstash:9999",
   "DatabaseConfig": {
     "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,

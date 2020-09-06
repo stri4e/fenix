@@ -22,10 +22,10 @@ func (handler *ManagerHandler) FindManagerByOrder(w http.ResponseWriter, r *http
 		Try: func() {
 			vars := mux.Vars(r)
 			strOrderId := vars["orderId"]
-			utils.ThrowIfNil(strOrderId, utils.BadRequest{Message: "Request path is required."})
+			utils.ThrowIfNil(strOrderId, http.StatusBadRequest, "Request path is required.")
 			orderId, err := strconv.ParseUint(strOrderId, BaseUint, BitSize)
 			payload, err := handler.controller.FindManagerByOrderId(uint(orderId))
-			utils.ThrowIfErr(err, utils.NotFound{Message: "Manager not found"})
+			utils.ThrowIfErr(err, http.StatusNotFound, "Manager not found")
 			log.Debug("Enter: find manager information")
 			ResponseSender(w, payload, http.StatusOK)
 		}, Catch: func(e utils.Exception) {

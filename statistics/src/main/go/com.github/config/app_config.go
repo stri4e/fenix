@@ -24,6 +24,7 @@ type Config struct {
 	EurekaConfig    EurekaConfig
 	LoggerLvl       string
 	IsSwaggerEnable bool
+	LogstashUrl     string
 }
 
 type DatabaseConfig struct {
