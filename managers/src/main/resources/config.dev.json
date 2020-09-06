@@ -19,7 +19,7 @@
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",
     "InstanceId": "managers-golang",
-    "HostName": "127.0.0.1",
+    "HostName": "managers",
     "SecurePort": 8444,
     "App": "managers",
     "IPAddr": "managers",

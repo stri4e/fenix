@@ -27,7 +27,7 @@
     "HomePageUrl": "http://127.0.0.1:8787/",
     "StatusPageUrl": "http://127.0.0.1:8787/info",
     "HealthCheckUrl": "http://127.0.0.1:8787/health",
-    "EnableEureka": false
+    "EnableEureka": true
   },
   "LoggerLvl": "debug",
   "IsSwaggerEnable": true
