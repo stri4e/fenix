@@ -2,6 +2,7 @@ package server
 
 import (
 	"../config"
+	"../docs"
 	"../handlers"
 	"../logger"
 	"../migration"
@@ -27,6 +28,7 @@ func (server *Server) Run() {
 		Addr:    ":" + server.config.ServerPort,
 		Handler: server.handler.Handler(),
 	}
+	docs.SwaggerInfo.Host = server.config.SwaggerHost
 	server.logger.InitLogger()
 	err := server.dataBaseContainer.RunBuildDataBase()
 	if server.config.EurekaConfig.EnableEureka {

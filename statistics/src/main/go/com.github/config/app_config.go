@@ -25,6 +25,7 @@ type Config struct {
 	LoggerLvl       string
 	IsSwaggerEnable bool
 	LogstashUrl     string
+	SwaggerHost     string
 }
 
 type DatabaseConfig struct {
