@@ -56,8 +56,8 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodPost)
 
 	router.Handle("/metrics", promhttp.Handler())
-
 	if handler.config.IsSwaggerEnable {
+		mux.CORSMethodMiddleware(router)
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
 	if handler.config.ZipkinEnable {
