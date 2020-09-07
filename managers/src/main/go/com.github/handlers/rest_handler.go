@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"../config"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
@@ -46,13 +47,13 @@ func (handler *RestHandler) Handler() http.Handler {
 	router.HandleFunc("/v1/fetch/{orderId}", handler.managerHandler.FindManagerByOrder).
 		Methods(http.MethodGet)
 	if handler.config.IsSwaggerEnable {
-		router.PathPrefix("/swagger").Methods(
-			http.MethodGet,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodOptions,
-		).Handler(httpSwagger.WrapHandler)
-		router.Use(mux.CORSMethodMiddleware(router))
+		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
+		cors := handlers.CORS(
+			handlers.AllowedHeaders([]string{"content-type"}),
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowCredentials(),
+		)
+		router.Use(cors)
 	}
 	if handler.config.ZipkinEnable {
 		zipkinMiddleware := handler.tracer.CreateMiddleware()
