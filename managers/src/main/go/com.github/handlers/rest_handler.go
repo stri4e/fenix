@@ -46,8 +46,13 @@ func (handler *RestHandler) Handler() http.Handler {
 	router.HandleFunc("/v1/fetch/{orderId}", handler.managerHandler.FindManagerByOrder).
 		Methods(http.MethodGet)
 	if handler.config.IsSwaggerEnable {
+		router.PathPrefix("/swagger").Methods(
+			http.MethodGet,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodOptions,
+		).Handler(httpSwagger.WrapHandler)
 		router.Use(mux.CORSMethodMiddleware(router))
-		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
 	if handler.config.ZipkinEnable {
 		zipkinMiddleware := handler.tracer.CreateMiddleware()
