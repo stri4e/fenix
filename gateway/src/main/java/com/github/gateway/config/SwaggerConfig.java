@@ -51,6 +51,7 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
         resources.add(swaggerResource("orders-service","/orders/v2/api-docs","1.0"));
         resources.add(swaggerResource("emails","/emails/v2/api-docs","1.0"));
         resources.add(swaggerResource("statistics","/statistics/swagger/index.html","1.0"));
+        resources.add(swaggerResource("managers","/managers/swagger/index.html","1.0"));
         return resources;
     }
 
