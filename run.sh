@@ -56,15 +56,7 @@ function restart() {
 function start() {
   dc_file="$1"
   service="$2"
-  printf "RUN CLEAN AND BUILD SERVICE: %s\n" $service
-  cd $service
-  if [ -f gradlew ]; then
-    ./gradlew clean && ./gradlew bootJar && cd ..
-  fi
-  if [ -f build-golang-app-script.sh ]; then
-     /bin/bash build-golang-app-script.sh && cd ..
-  fi
-  printf "\n"
+  build_all_services
   docker-compose -f ${dc_file} up -d $service
 }
 
