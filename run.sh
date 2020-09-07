@@ -57,7 +57,8 @@ function start() {
   dc_file="$1"
   service="$2"
   build_all_services
-  docker-compose -f ${dc_file} up -d $service
+  docker-compose -f ${dc_file} up --build --force-recreate -d $service
+  docker-compose -f ${dc_main} logs -f
 }
 
 function stop() {
