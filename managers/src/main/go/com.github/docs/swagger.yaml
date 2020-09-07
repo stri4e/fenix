@@ -82,7 +82,6 @@ definitions:
         example: open or close
         type: string
     type: object
-host: localhost:8887
 info:
   contact: {}
   description: This is a sample service for managers

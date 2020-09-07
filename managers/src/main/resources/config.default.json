@@ -5,6 +5,7 @@
   "IsLoggerFile": false,
   "ServerPort": "8887",
   "LogstashUrl": "localhost:9999",
+  "SwaggerHost": "localhost:8887",
   "DatabaseConfig": {
     "DatabaseHost": "localhost",
     "DatabasePort": 5432,
