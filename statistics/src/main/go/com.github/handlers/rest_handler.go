@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"../config"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
@@ -63,6 +64,12 @@ func (handler *RestHandler) Handler() http.Handler {
 		zipkinMiddleware := handler.tracer.CreateMiddleware()
 		router.Use(zipkinMiddleware)
 	}
+	cors := handlers.CORS(
+		handlers.AllowedHeaders([]string{"content-type"}),
+		handlers.AllowedOrigins([]string{"*"}),
+		handlers.AllowCredentials(),
+	)
+	router.Use(cors)
 	router.Use(prometheusMiddleware)
 	http.Handle("/", router)
 	return router
