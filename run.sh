@@ -72,8 +72,10 @@ function start() {
 
 function stop() {
   dc_file="$1"
-  docker-compose -f ${dc_file} stop
-  docker-compose -f ${dc_file} rm -f
+  service="$2"
+  project_name="$3"
+  docker-compose -p ${project_name} -f ${dc_file} stop $service
+  docker-compose -p ${project_name} -f ${dc_file} rm -f $service
 }
 
 action="build_all_services"
