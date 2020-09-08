@@ -57,7 +57,7 @@ function start() {
   dc_file="$1"
   service="$2"
   build_all_services
-  docker-compose -f ${dc_file} up --build --force-recreate -d $service
+  docker-compose -f ${dc_file} up --build --force-recreate --scale discovery=0 --scale postgresdb=0 -d $service
   docker-compose -f ${dc_file} logs -f
 }
 
