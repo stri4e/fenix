@@ -39,7 +39,7 @@ function start_all() {
   build_all_services
   dc_file="$1"
   echo $dc_file
-  docker-compose -f ${dc_file} -n backend up --build --force-recreate -d
+  docker-compose -f ${dc_file} up --build --force-recreate -d
 }
 
 function stop_all() {
@@ -57,7 +57,7 @@ function start() {
   dc_file="$1"
   service="$2"
   build_all_services
-  docker-compose -f ${dc_file} -n backend up --build --force-recreate --no-deps -d $service
+  docker-compose -f ${dc_file} up --build --force-recreate --no-deps -d $service
   docker-compose -f ${dc_file} logs -f
 }
 
