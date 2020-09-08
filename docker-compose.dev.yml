@@ -225,4 +225,3 @@ services:
     entrypoint: ./managers-entrypoint.sh postgresdb 5432 discovery 3000 managers
 networks:
   default:
-    name: backend
