@@ -65,7 +65,7 @@ function start() {
      /bin/bash build-golang-app-script.sh && cd ..
   fi
   printf "\n"
-  docker-compose -f ${dc_file} up -d --no-deps --build $service
+  docker-compose -f ${dc_file} up -d --force-recreate --no-deps --build $service
   docker-compose -f ${dc_main} logs -f
 }
 
