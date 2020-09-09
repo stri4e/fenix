@@ -2,7 +2,6 @@ package main
 
 import (
 	"./container"
-	_ "./docs"
 	"./server"
 )
 
@@ -12,7 +11,6 @@ import (
 // @termsOfService http://swagger.io/terms/
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8887
 // @BasePath /
 func main() {
 	con := container.BuildContainer()

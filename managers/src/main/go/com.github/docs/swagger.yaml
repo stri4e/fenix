@@ -21,13 +21,13 @@ definitions:
         example: 11
         type: integer
     type: object
-  dto.ItemDto:
+  dto.ManagerDto:
     properties:
-      orderId:
-        example: 1
-        type: integer
-      status:
-        example: open or close
+      firstName:
+        example: Michal
+        type: string
+      lastName:
+        example: Mackonagen
         type: string
     type: object
   dto.OrderDto:
@@ -73,7 +73,15 @@ definitions:
         example: 10
         type: integer
     type: object
-host: localhost:8887
+  dto.PurchaseDto:
+    properties:
+      orderId:
+        example: 1
+        type: integer
+      status:
+        example: open or close
+        type: string
+    type: object
 info:
   contact: {}
   description: This is a sample service for managers
@@ -88,14 +96,14 @@ paths:
     post:
       consumes:
       - application/json
-      description: Save a new items
+      description: Save a new purchases
       parameters:
-      - description: Save item
+      - description: Save purchase
         in: body
-        name: item
+        name: purchase
         required: true
         schema:
-          $ref: '#/definitions/dto.ItemDto'
+          $ref: '#/definitions/dto.PurchaseDto'
       - description: Bearer
         in: header
         name: Authorization
@@ -107,9 +115,9 @@ paths:
         "201": {}
         "400": {}
         "403": {}
-      summary: Save a new items
+      summary: Save a new purchases
       tags:
-      - items
+      - purchases
   /v1/{orderId}/{status}:
     put:
       consumes:
@@ -134,7 +142,7 @@ paths:
         "404": {}
       summary: Update order by status
       tags:
-      - items
+      - purchases
   /v1/{status}:
     get:
       consumes:
@@ -157,7 +165,7 @@ paths:
         "403": {}
       summary: Get a all orders by status
       tags:
-      - items
+      - purchases
   /v1/all/{status}:
     get:
       consumes:
@@ -180,5 +188,51 @@ paths:
         "403": {}
       summary: Get a all orders by status
       tags:
-      - items
+      - purchases
+  /v1/binding/{orderId}:
+    get:
+      consumes:
+      - application/json
+      description: Get binding orders by order id
+      parameters:
+      - description: Order ID
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.OrderDto'
+        "400": {}
+        "403": {}
+      summary: Get binding orders by order id
+      tags:
+      - user-orders
+  /v1/fetch/{orderId}:
+    get:
+      consumes:
+      - application/json
+      description: Get manager by order id
+      parameters:
+      - description: Order ID
+        in: path
+        name: status
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ManagerDto'
+        "400": {}
+        "403": {}
+      summary: Get manager by order id
+      tags:
+      - manager
 swagger: "2.0"

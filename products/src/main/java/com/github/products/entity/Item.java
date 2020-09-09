@@ -1,10 +1,13 @@
 package com.github.products.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,14 +59,20 @@ public abstract class Item implements Serializable, Cloneable {
     )
     private List<String> images = new ArrayList<>();
 
-    @Temporal(
-            TemporalType.DATE
-    )
+    @CreationTimestamp
     @Column(
-            name = "create_date",
-            updatable = false,
-            nullable = false
+            name = "create_at",
+            nullable = false,
+            updatable = false
     )
-    private Date createDate;
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
 
 }

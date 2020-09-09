@@ -1,8 +1,11 @@
 {
   "ApplicationName": "statistics",
   "ZipkinUrl": "http://zipkin:9411/api/v2/spans",
+  "ZipkinEnable": true,
   "IsLoggerFile": false,
   "ServerPort": "8787",
+  "LogstashUrl": "logstash:9999",
+  "SwaggerHost": "statistics:8787",
   "DatabaseConfig": {
     "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,
@@ -11,12 +14,13 @@
     "DatabaseName": "statistics_prod.db",
     "DdlAuto": "none",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": false
   },
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",
     "InstanceId": "statistics-golang",
-    "HostName": "127.0.0.1",
+    "HostName": "statistics",
     "SecurePort": 8443,
     "App": "statistics",
     "IPAddr": "statistics",
@@ -26,6 +30,6 @@
     "HealthCheckUrl": "http://statistics:8787/health",
     "EnableEureka": true
   },
-  "LoggerLvl": "debug",
+  "LoggerLvl": "info",
   "IsSwaggerEnable": false
 }

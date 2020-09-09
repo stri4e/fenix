@@ -2,10 +2,12 @@ package server
 
 import (
 	"../config"
+	"../docs"
 	"../handlers"
 	"../logger"
 	"../migration"
 	"../services"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -26,6 +28,7 @@ func (server *Server) Run() {
 		Addr:    ":" + server.config.ServerPort,
 		Handler: server.handler.Handler(),
 	}
+	docs.SwaggerInfo.Host = server.config.SwaggerHost
 	server.logger.InitLogger()
 	err := server.dataBaseContainer.RunBuildDataBase()
 	if server.config.EurekaConfig.EnableEureka {
@@ -33,6 +36,6 @@ func (server *Server) Run() {
 	}
 	err = httpServer.ListenAndServe()
 	if err != nil {
-		logger.Error("Server crashed!")
+		log.Error("Server crashed!")
 	}
 }

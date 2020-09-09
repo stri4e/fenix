@@ -139,6 +139,8 @@ create table public.product
     quantity      int4         not null,
     status        varchar(255),
     categories_id int8         not null,
+    create_at     timestamp    not null,
+    update_at     timestamp    not null,
     primary key (id)
 );
 
@@ -188,6 +190,8 @@ create table public.order_details
     status      varchar(255),
     user_id     int8          not null,
     customer_id int8          not null,
+    create_at   timestamp     not null,
+    update_at   timestamp     not null,
     primary key (id)
 );
 
@@ -221,7 +225,7 @@ create table "managers"
 
 create index idx_managers_deleted_at ON "managers" (deleted_at);
 
-create table "items"
+create table "purchases"
 (
     "id"         serial,
     "manager_id" integer,

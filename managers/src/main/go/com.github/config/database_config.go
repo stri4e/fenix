@@ -22,7 +22,7 @@ func ConnectDatabase(config *Config) (*gorm.DB, error) {
 		panic(err.Error())
 	}
 	database := connection.DB()
-	db := connection.LogMode(true)
+	db := connection.LogMode(config.DatabaseConfig.DbLogging)
 	db.SetLogger(log.New(os.Stdout, "\r\n", 0))
 	database.SetMaxIdleConns(config.DatabaseConfig.MaxIdleConns)
 	database.SetMaxOpenConns(config.DatabaseConfig.MaxOpenConns)

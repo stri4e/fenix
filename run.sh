@@ -38,8 +38,9 @@ function build_service() {
 function start_all() {
   build_all_services
   dc_file="$1"
+  project_name="$2"
   echo $dc_file
-  docker-compose -f ${dc_file} up --build --force-recreate -d
+  docker-compose -p ${project_name} -f ${dc_file} up --build --force-recreate -d
 }
 
 function stop_all() {
@@ -56,6 +57,7 @@ function restart() {
 function start() {
   dc_file="$1"
   service="$2"
+  project_name="$3"
   printf "RUN CLEAN AND BUILD SERVICE: %s\n" $service
   cd $service
   if [ -f gradlew ]; then
@@ -65,14 +67,22 @@ function start() {
      /bin/bash build-golang-app-script.sh && cd ..
   fi
   printf "\n"
-  docker-compose -f ${dc_file} up -d $service
+  docker-compose -p ${project_name} -f ${dc_file} up --d --build --no-deps $service
 }
 
 function stop() {
   dc_file="$1"
   service="$2"
-  docker-compose -f ${dc_file} stop $service
-  docker-compose -f ${dc_file} rm -f $service
+  project_name="$3"
+  docker-compose -p ${project_name} -f ${dc_file} stop $service
+  docker-compose -p ${project_name} -f ${dc_file} rm -f $service
+}
+
+function start_infrastructure() {
+    dc_file="$1"
+    service="$2"
+    project_name="$3"
+    docker-compose -p ${project_name} -f ${dc_file} up --d --build --no-deps $service
 }
 
 action="build_all_services"

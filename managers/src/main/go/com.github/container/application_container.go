@@ -21,19 +21,22 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(logger.NewLogger)
 
 	err = container.Provide(repository.NewManagersRepository)
-	err = container.Provide(repository.NewItemRepository)
+	err = container.Provide(repository.NewPurchaseRepository)
 
 	err = container.Provide(services.NewEurekaService)
 	err = container.Provide(services.NewManagersService)
-	err = container.Provide(services.NewItemService)
+	err = container.Provide(services.NewPurchaseService)
 	err = container.Provide(services.NewProductService)
 	err = container.Provide(services.NewOrderService)
-	err = container.Provide(services.NewPurchaseService)
 
-	err = container.Provide(controllers.NewItemsController)
+	err = container.Provide(controllers.NewPurchasesController)
+	err = container.Provide(controllers.NewUserOrdersController)
+	err = container.Provide(controllers.NewManagersController)
 
 	err = container.Provide(handlers.NewRestHandler)
-	err = container.Provide(handlers.NewItemsHandler)
+	err = container.Provide(handlers.NewPurchasesHandler)
+	err = container.Provide(handlers.NewUserOrderHandler)
+	err = container.Provide(handlers.NewManagerHandler)
 	err = container.Provide(handlers.NewTracer)
 
 	err = container.Provide(server.NewServer)

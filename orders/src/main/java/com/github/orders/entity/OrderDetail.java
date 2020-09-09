@@ -3,10 +3,15 @@ package com.github.orders.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,6 +77,33 @@ public class OrderDetail implements Serializable, Cloneable {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
+
+    public OrderDetail(
+            Long id, Customer customer, List<Long> productIds,
+            BigDecimal amount, Long userId, OrderStatus status) {
+        this.id = id;
+        this.customer = customer;
+        this.productIds = productIds;
+        this.amount = amount;
+        this.userId = userId;
+        this.status = status;
+    }
 
     public OrderDetail(
             Customer customer, List<Long> productIds,

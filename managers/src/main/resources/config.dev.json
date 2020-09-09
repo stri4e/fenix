@@ -1,8 +1,11 @@
 {
   "ApplicationName": "managers",
-  "ZipkinUrl": "http://localhost:9411/api/v2/spans",
+  "ZipkinUrl": "http://zipkin:9411/api/v2/spans",
+  "ZipkinEnable": true,
   "IsLoggerFile": false,
   "ServerPort": "8887",
+  "LogstashUrl": "logstash:9999",
+  "SwaggerHost": "192.168.212.35:8887",
   "DatabaseConfig": {
     "DatabaseHost": "postgresdb",
     "DatabasePort": 5432,
@@ -11,12 +14,13 @@
     "DatabaseName": "managers_dev.db",
     "DdlAuto": "create",
     "MaxIdleConns": 10,
-    "MaxOpenConns": 100
+    "MaxOpenConns": 100,
+    "DbLogging": true
   },
   "EurekaConfig": {
     "EurekaUrl": "http://discovery:3000/eureka",
     "InstanceId": "managers-golang",
-    "HostName": "127.0.0.1",
+    "HostName": "managers",
     "SecurePort": 8444,
     "App": "managers",
     "IPAddr": "managers",

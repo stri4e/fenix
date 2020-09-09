@@ -29,12 +29,12 @@ func (container *DataBaseMigration) RunBuildDataBase() error {
 func createTables(connection *gorm.DB) error {
 	err := connection.DropTableIfExists(
 		&entity.Manager{},
-		&entity.Item{},
+		&entity.Purchase{},
 	).Error
 	if err == nil {
 		err = connection.CreateTable(
 			&entity.Manager{},
-			&entity.Item{},
+			&entity.Purchase{},
 		).Error
 	}
 	return err
@@ -43,7 +43,7 @@ func createTables(connection *gorm.DB) error {
 func updateTables(connection *gorm.DB) error {
 	err := connection.AutoMigrate(
 		&entity.Manager{},
-		&entity.Item{},
+		&entity.Purchase{},
 	).Error
 	return err
 }

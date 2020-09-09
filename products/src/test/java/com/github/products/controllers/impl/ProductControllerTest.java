@@ -68,7 +68,13 @@ public class ProductControllerTest {
                 url, HttpMethod.POST, new HttpEntity<>(payload), Product.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.CREATED));
-        assertEquals(exp, response.getBody());
+        Product act = response.getBody();
+        assertNotNull(act);
+        assertEquals(exp.getId(), act.getId());
+        assertEquals(exp.getName(), act.getName());
+        assertEquals(exp.getQuantity(), act.getQuantity());
+        assertEquals(exp.getDescription(), act.getDescription());
+        assertEquals(exp.getPreviewImage(), act.getPreviewImage());
     }
 
     @Test
@@ -78,7 +84,7 @@ public class ProductControllerTest {
         product.setCategory(category);
         this.productRepo.save(product);
         Product exp = ProductControllerMocks.responseProduct();
-        String url = String.format("%s%s", this.productUrl, "/fetch/1");
+        String url = String.format("%s%s", this.productUrl, "/fetch?id=1");
         ResponseEntity<Product> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null, Product.class
         );

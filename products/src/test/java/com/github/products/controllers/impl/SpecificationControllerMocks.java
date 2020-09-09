@@ -73,7 +73,6 @@ public class SpecificationControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(ProductStatus.used);
-        p.setCreateDate(new Date());
         return p;
     }
 
