@@ -78,6 +78,13 @@ function stop() {
   docker-compose -p ${project_name} -f ${dc_file} rm -f $service
 }
 
+function start_infrastructure() {
+    dc_file="$1"
+    service="$2"
+    project_name="$3"
+    docker-compose -p ${project_name} -f ${dc_file} up --d --build --no-deps $service
+}
+
 action="build_all_services"
 
 if [[ "$#" != "0"  ]]
