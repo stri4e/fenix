@@ -45,8 +45,9 @@ function start_all() {
 
 function stop_all() {
   dc_file="$1"
-  docker-compose -f ${dc_file} stop
-  docker-compose -f ${dc_file} down --rmi all
+  project_name="$2"
+  docker-compose -p ${project_name} -f ${dc_file} stop
+  docker-compose -p ${project_name} -f ${dc_file} down --rmi all
 }
 
 function restart() {
