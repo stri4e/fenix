@@ -233,3 +233,32 @@ create table "purchases"
     "status"     text,
     primary key ("id")
 );
+
+\c statistics_default.db
+
+create table "logins"
+(
+    "id"         serial,
+    "created_at" timestamp with time zone,
+    "updated_at" timestamp with time zone,
+    "deleted_at" timestamp with time zone,
+    "user_id"    bigint,
+    "device"     text,
+    "location"   text,
+    primary key ("id")
+);
+
+create index idx_logins_deleted_at ON "logins" (deleted_at);
+
+create table "views"
+(
+    "id"         serial,
+    "created_at" timestamp with time zone,
+    "updated_at" timestamp with time zone,
+    "deleted_at" timestamp with time zone,
+    "user_id"    integer,
+    "product_id" integer,
+    primary key ("id")
+);
+
+create index idx_views_deleted_at ON "views" (deleted_at);
