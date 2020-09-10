@@ -12,7 +12,7 @@
     "DatabaseUser": "user",
     "DatabasePassword": "password",
     "DatabaseName": "managers_dev.db",
-    "DdlAuto": "create",
+    "DdlAuto": "none",
     "MaxIdleConns": 10,
     "MaxOpenConns": 100,
     "DbLogging": true
