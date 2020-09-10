@@ -3,6 +3,7 @@ services:
   postgresdb:
     image: postgres
     container_name: postgresdb
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -12,6 +13,7 @@ services:
       - ./schema-prod.sql:/docker-entrypoint-initdb.d/schema-prod.sql
   discovery:
     container_name: discovery
+    restart: always
     build: ./discovery
     ports:
       - "3000:3000"
@@ -19,6 +21,7 @@ services:
       - "SPRING_PROFILES_ACTIVE=prod"
   config-server:
     container_name: config-server
+    restart: always
     build: ./config-server
     ports:
       - "8888:8888"
@@ -30,6 +33,7 @@ services:
       - /root/config-properties:/config
   gateway:
     container_name: gateway
+    restart: always
     build: ./gateway
     ports:
       - "8081:8081"
@@ -41,6 +45,7 @@ services:
     entrypoint: ./gateway-entrypoint.sh config-server 8888 java -jar /app/gateway.jar
   admins:
     container_name: admins
+    restart: always
     build: ./admins
     ports:
       - "8585:8585"
@@ -53,6 +58,7 @@ services:
     entrypoint: ./admins-entrypoint.sh config-server 8888 java -jar /app/admins.jar
   emails:
     container_name: emails
+    restart: always
     build: ./emails
     ports:
       - "8689:8689"
@@ -65,6 +71,7 @@ services:
     entrypoint: ./emails-entrypoint.sh config-server 8888 java -jar /app/emails.jar
   monitoring:
     container_name: monitoring
+    restart: always
     build: ./monitoring
     ports:
       - "8281:8281"
@@ -77,6 +84,7 @@ services:
     entrypoint: ./monitoring-entrypoint.sh config-server 8888 java -jar /app/monitoring.jar
   orders-service:
     container_name: orders-service
+    restart: always
     build: ./orders
     ports:
       - "8687:8687"
@@ -89,6 +97,7 @@ services:
     entrypoint: ./orders-entrypoint.sh config-server 8888 java -jar /app/orders.jar
   products-service:
     container_name: products-service
+    restart: always
     build: ./products
     ports:
       - "8686:8686"
@@ -101,6 +110,7 @@ services:
     entrypoint: ./products-entrypoint.sh config-server 8888 java -jar /app/products.jar
   users-center:
     container_name: users-center
+    restart: always
     build: ./users-center
     ports:
       - "8587:8587"
@@ -113,6 +123,7 @@ services:
     entrypoint: ./users-center-entrypoint.sh config-server 8888 java -jar /app/users-center.jar
   websocket:
     container_name: websocket
+    restart: always
     build: ./websocket
     ports:
       - "8187:8187"
@@ -126,6 +137,7 @@ services:
     entrypoint: ./websocket-entrypoint.sh config-server 8888 java -jar /app/websocket.jar
   statistics:
     container_name: statistics
+    restart: always
     build: ./statistics
     ports:
       - "8787:8787"
@@ -137,6 +149,7 @@ services:
     entrypoint: ./statistics-entrypoint.sh postgresdb 5432 discovery 3000 statistics
   managers:
     container_name: managers
+    restart: always
     build: ./managers
     ports:
       - "8887:8887"

@@ -3,6 +3,7 @@ services:
   postgresdb:
     image: postgres
     container_name: postgresdb
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -33,11 +34,13 @@ services:
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    restart: always
     ports:
       - "9411:9411"
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    restart: always
     ports:
       - "9090:9090"
     volumes:
@@ -45,6 +48,7 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana
+    restart: always
     ports:
       - "3001:3000"
     depends_on:
@@ -57,6 +61,7 @@ services:
   elasticsearch:
     image: elasticsearch:7.9.0
     container_name: elasticsearch
+    restart: always
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -66,6 +71,7 @@ services:
   kibana:
     image: kibana:7.9.0
     container_name: kibana
+    restart: always
     ports:
       - "5601:5601"
     links:
@@ -75,6 +81,7 @@ services:
   logstash:
     image: logstash:7.9.0
     container_name: logstash
+    restart: always
     environment:
       - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
     volumes:
@@ -87,6 +94,7 @@ services:
       - elasticsearch
   discovery:
     container_name: discovery
+    restart: always
     build: ./discovery
     ports:
       - "3000:3000"
@@ -95,6 +103,7 @@ services:
       - "JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintCommandLineFlags -Xmx256m -Xms128m"
   config-server:
     container_name: config-server
+    restart: always
     build: ./config-server
     ports:
       - "8888:8888"
@@ -107,6 +116,7 @@ services:
       - /root/config-properties:/config
   gateway:
     container_name: gateway
+    restart: always
     build: ./gateway
     ports:
       - "8081:8081"
@@ -118,6 +128,7 @@ services:
     entrypoint: "./gateway-entrypoint.sh config-server 8888 java ${JAVA_OPTS_GATEWAY} -jar /app/gateway.jar"
   admins:
     container_name: admins
+    restart: always
     build: ./admins
     ports:
       - "8585:8585"
@@ -130,6 +141,7 @@ services:
     entrypoint: "./admins-entrypoint.sh config-server 8888 java ${JAVA_OPTS_ADMINS} -jar /app/admins.jar"
   emails:
     container_name: emails
+    restart: always
     build: ./emails
     ports:
       - "8689:8689"
@@ -142,6 +154,7 @@ services:
     entrypoint: "./emails-entrypoint.sh config-server 8888 java ${JAVA_OPTS_EMAILS} -jar /app/emails.jar"
   monitoring:
     container_name: monitoring
+    restart: always
     build: ./monitoring
     ports:
       - "8281:8281"
@@ -154,6 +167,7 @@ services:
     entrypoint: "./monitoring-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MONITORING} -jar /app/monitoring.jar"
   orders-service:
     container_name: orders-service
+    restart: always
     build: ./orders
     ports:
       - "8687:8687"
@@ -166,6 +180,7 @@ services:
     entrypoint: "./orders-entrypoint.sh config-server 8888 java ${JAVA_OPTS_ORDERS} -jar /app/orders.jar"
   products-service:
     container_name: products-service
+    restart: always
     build: ./products
     ports:
       - "8686:8686"
@@ -178,6 +193,7 @@ services:
     entrypoint: "./products-entrypoint.sh config-server 8888 java ${JAVA_OPTS_PRODUCTS} -jar /app/products.jar"
   users-center:
     container_name: users-center
+    restart: always
     build: ./users-center
     ports:
       - "8587:8587"
@@ -190,6 +206,7 @@ services:
     entrypoint: "./users-center-entrypoint.sh config-server 8888  java ${JAVA_OPTS_USERS} -jar /app/users-center.jar"
   websocket:
     container_name: websocket
+    restart: always
     build: ./websocket
     ports:
       - "8187:8187"
@@ -203,6 +220,7 @@ services:
     entrypoint: "./websocket-entrypoint.sh config-server 8888 java ${JAVA_OPTS_WS} -jar /app/websocket.jar"
   statistics:
     container_name: statistics
+    restart: always
     build: ./statistics
     ports:
       - "8787:8787"
@@ -214,6 +232,7 @@ services:
     entrypoint: ./statistics-entrypoint.sh postgresdb 5432 discovery 3000 statistics
   managers:
     container_name: managers
+    restart: always
     build: ./managers
     ports:
       - "8887:8887"
