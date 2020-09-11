@@ -1,9 +1,7 @@
 package com.github.orders.utils;
 
 import com.github.orders.dto.*;
-import com.github.orders.entity.Customer;
-import com.github.orders.entity.OrderDetail;
-import com.github.orders.entity.OrderStatus;
+import com.github.orders.entity.*;
 import com.github.orders.payload.Category;
 import com.github.orders.payload.Comment;
 import com.github.orders.payload.Product;
@@ -81,6 +79,50 @@ public class TransferObj {
 
     public static CategoryDto fromCategory(Category data) {
         return new CategoryDto(data.getId(), data.getName());
+    }
+
+    public static Company toCompany(CompanyDto data) {
+        return new Company(
+                data.getId(),
+                data.getName(),
+                data.getBranches().stream()
+                        .map(TransferObj::toBranch)
+                        .collect(Collectors.toList()),
+                data.getCities(),
+                data.getHomePrice(),
+                data.getBranchPrice()
+        );
+    }
+
+    public static CompanyDto fromCompany(Company data) {
+        return new CompanyDto(
+                data.getId(),
+                data.getName(),
+                data.getBranches().stream()
+                        .map(TransferObj::fromBranch)
+                        .collect(Collectors.toList()),
+                data.getCities(),
+                data.getHomePrice(),
+                data.getBranchPrice()
+        );
+    }
+
+    public static Branch toBranch(BranchDto data) {
+        return new Branch(
+                data.getId(),
+                data.getNumber(),
+                data.getAddress(),
+                data.getPhone()
+        );
+    }
+
+    public static BranchDto fromBranch(Branch data) {
+        return new BranchDto(
+                data.getId(),
+                data.getNumber(),
+                data.getAddress(),
+                data.getPhone()
+        );
     }
 
 }
