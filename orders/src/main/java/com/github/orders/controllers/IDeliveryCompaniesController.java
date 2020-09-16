@@ -14,30 +14,30 @@ public interface IDeliveryCompaniesController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<CompanyDto> findCompanies();
+    List<CompanyDto> findAll();
 
     @PostMapping(
             path = "/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Company saveCompany(@RequestBody Company payload);
+    Company save(@RequestBody Company payload);
 
     @GetMapping(
             path = "/fetch/{id}"
     )
-    Company findCompany(@PathVariable(name = "id") Long id);
+    Company findById(@PathVariable(name = "id") Long id);
 
     @PutMapping(
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void updateCompany(@RequestBody Company payload);
+    void update(@RequestBody Company payload);
 
     @DeleteMapping(
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deleteCompany(@PathVariable(name = "id") Long id);
+    void delete(@PathVariable(name = "id") Long id);
 
 }

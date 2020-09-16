@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,15 +44,14 @@ public class Company implements Serializable, Cloneable {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "brances_id",
-            nullable = false
+            name = "brances_id"
     )
-    private Set<Branch> branches;
+    private Set<Branch> branches = new HashSet<>();
 
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private Set<String> cities;
+    private Set<String> cities = new HashSet<>();
 
     @Column(
             name = "home_price",

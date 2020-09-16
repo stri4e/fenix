@@ -20,7 +20,7 @@ public class DeliveryCompaniesController implements IDeliveryCompaniesController
     private final ICompanyService companyService;
 
     @Override
-    public List<CompanyDto> findCompanies() {
+    public List<CompanyDto> findAll() {
         List<Company> companies = this.companyService.readAll();
         return companies.stream()
                 .map(TransferObj::fromCompany)
@@ -28,22 +28,22 @@ public class DeliveryCompaniesController implements IDeliveryCompaniesController
     }
 
     @Override
-    public Company saveCompany(Company payload) {
+    public Company save(Company payload) {
         return this.companyService.create(payload);
     }
 
     @Override
-    public Company findCompany(Long id) {
+    public Company findById(Long id) {
         return this.companyService.readById(id);
     }
 
     @Override
-    public void updateCompany(Company payload) {
+    public void update(Company payload) {
         this.companyService.update(payload);
     }
 
     @Override
-    public void deleteCompany(Long id) {
+    public void delete(Long id) {
         this.companyService.remove(id);
     }
 }
