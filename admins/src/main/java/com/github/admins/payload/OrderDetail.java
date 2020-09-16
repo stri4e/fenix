@@ -41,6 +41,10 @@ public class OrderDetail implements Serializable, Cloneable {
     @JsonProperty(value = "status")
     private OrderStatus status;
 
+    @NotNull
+    @JsonProperty(value = "delivery")
+    private Delivery delivery;
+
     public OrderDetail(Long id,
                        List<Long> productIds,
                        Customer customer,

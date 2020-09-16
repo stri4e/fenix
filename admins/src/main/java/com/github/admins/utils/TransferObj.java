@@ -72,7 +72,8 @@ public class TransferObj {
                         .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getUserId(),
-                data.getStatus()
+                data.getStatus(),
+                fromDelivery(data.getDelivery())
         );
     }
 
@@ -84,7 +85,8 @@ public class TransferObj {
                 productIds,
                 data.getAmount(),
                 data.getUserId(),
-                data.getStatus()
+                data.getStatus(),
+                toDelivery(data.getDelivery())
         );
     }
 
@@ -105,6 +107,24 @@ public class TransferObj {
                 customer.getCustomerAddress(),
                 customer.getCustomerEmail(),
                 customer.getCustomerPhone()
+        );
+    }
+
+    public static Delivery toDelivery(DeliveryDto data) {
+        return new Delivery(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
+        );
+    }
+
+    public static DeliveryDto fromDelivery(Delivery data) {
+        return new DeliveryDto(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
         );
     }
 

@@ -26,8 +26,8 @@ public interface IBranchCompanyController {
     void update(@Valid @RequestBody Branch payload);
 
     @DeleteMapping(
-            path = "/edit"
+            path = "/edit/{id}"
     )
-    void delete(@PathVariable Long id);
+    void delete(@PathVariable(name = "id") Long id);
 
 }
