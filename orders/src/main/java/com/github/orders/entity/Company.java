@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -45,12 +46,12 @@ public class Company implements Serializable, Cloneable {
             name = "brances_id",
             nullable = false
     )
-    private List<Branch> branches;
+    private Set<Branch> branches;
 
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private List<String> cities;
+    private Set<String> cities;
 
     @Column(
             name = "home_price",
@@ -88,7 +89,7 @@ public class Company implements Serializable, Cloneable {
 
     public Company(
             Long id, String name,
-            List<Branch> branches, List<String> cities,
+            Set<Branch> branches, Set<String> cities,
             BigDecimal homePrice, BigDecimal branchPrice) {
         this.id = id;
         this.name = name;

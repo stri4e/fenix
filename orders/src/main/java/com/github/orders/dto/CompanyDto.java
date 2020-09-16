@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +17,9 @@ public class CompanyDto {
 
     private String name;
 
-    private List<BranchDto> branches;
+    private Set<BranchDto> branches;
 
-    private List<String> cities;
+    private Set<String> cities;
 
     private BigDecimal homePrice;
 

@@ -7,20 +7,16 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(
-        name = "brances",
-        schema = "public"
-)
-public class Branch implements Serializable, Cloneable {
+@NoArgsConstructor
+@Entity
+@Table(name = "delivery", schema = "public")
+public class Delivery {
 
-    private static final long serialVersionUID = 125375057451013087L;
+    private static final long serialVersionUID = 1655627397181362589L;
 
     @Id
     @Column(name = "id")
@@ -29,36 +25,27 @@ public class Branch implements Serializable, Cloneable {
     )
     private Long id;
 
+    @Enumerated(
+            value = EnumType.STRING
+    )
     @Column(
-            name = "number",
+            name = "delivery_type",
             nullable = false
     )
-    private Integer number;
+    private DeliveryType type;
 
     @Column(
-            name = "address",
-            nullable = false
+            name = "company_name",
+            nullable = false,
+            length = 100
     )
-    private String address;
+    private String companyName;
 
     @Column(
-            name = "phone",
-            nullable = false
+            name = "branch_address",
+            length = 100
     )
-    private String phone;
-
-    @Column(
-            name = "max_weight",
-            nullable = false
-    )
-    private Integer maxWeight;
-
-    @Column(
-            name = "status",
-            nullable = false
-    )
-    @Enumerated(EnumType.STRING)
-    private BranchStatus status;
+    private String branchAddress;
 
     @CreationTimestamp
     @Column(
@@ -76,10 +63,11 @@ public class Branch implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Branch(Long id, Integer number, String address, String phone) {
+    public Delivery(Long id, DeliveryType type, String companyName, String branchAddress) {
         this.id = id;
-        this.number = number;
-        this.address = address;
-        this.phone = phone;
+        this.type = type;
+        this.companyName = companyName;
+        this.branchAddress = branchAddress;
     }
+
 }

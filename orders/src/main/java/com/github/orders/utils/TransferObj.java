@@ -32,7 +32,7 @@ public class TransferObj {
     }
 
     public static OrderDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products) {
+    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery) {
         var customer = fromCustomer(data.getCustomer());
         var productsDto = products.stream()
                 .map(TransferObj::fromProduct)
@@ -42,7 +42,8 @@ public class TransferObj {
                 customer,
                 productsDto,
                 data.getAmount(),
-                data.getStatus()
+                data.getStatus(),
+                fromDelivery(delivery)
         );
     }
 
@@ -87,7 +88,7 @@ public class TransferObj {
                 data.getName(),
                 data.getBranches().stream()
                         .map(TransferObj::toBranch)
-                        .collect(Collectors.toList()),
+                        .collect(Collectors.toSet()),
                 data.getCities(),
                 data.getHomePrice(),
                 data.getBranchPrice()
@@ -100,7 +101,7 @@ public class TransferObj {
                 data.getName(),
                 data.getBranches().stream()
                         .map(TransferObj::fromBranch)
-                        .collect(Collectors.toList()),
+                        .collect(Collectors.toSet()),
                 data.getCities(),
                 data.getHomePrice(),
                 data.getBranchPrice()
@@ -122,6 +123,24 @@ public class TransferObj {
                 data.getNumber(),
                 data.getAddress(),
                 data.getPhone()
+        );
+    }
+
+    public static Delivery toDelivery(DeliveryDto data) {
+        return new Delivery(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
+        );
+    }
+
+    public static DeliveryDto fromDelivery(Delivery data) {
+        return new DeliveryDto(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
         );
     }
 
