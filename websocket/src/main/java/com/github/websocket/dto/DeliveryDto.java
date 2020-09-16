@@ -1,7 +1,7 @@
-package com.github.admins.dto;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.admins.payload.DeliveryType;
+import com.github.websocket.payload.DeliveryType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

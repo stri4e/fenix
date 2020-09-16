@@ -22,7 +22,8 @@ public class TransferObj {
                 productsDto,
                 data.getAmount(),
                 data.getUserId(),
-                data.getStatus()
+                data.getStatus(),
+                fromDelivery(data.getDelivery())
         );
     }
 
@@ -45,20 +46,13 @@ public class TransferObj {
         return p;
     }
 
-    public static SpecificationDto fromSpecification(Specification data) {
-        return new SpecificationDto(
+    public static DeliveryDto fromDelivery(Delivery data) {
+        return new DeliveryDto(
                 data.getId(),
-                data.getName(),
-                data.getDescription()
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
         );
-    }
-
-    public static CommentDto fromComment(Comment data) {
-        return new CommentDto(data.getId(), data.getName(), data.getComment());
-    }
-
-    public static CategoryDto fromCategory(Category data) {
-        return new CategoryDto(data.getId(), data.getName());
     }
 
 }
