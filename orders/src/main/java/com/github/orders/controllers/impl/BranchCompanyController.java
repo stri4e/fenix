@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/v1/branch")
+@RequestMapping(path = "/v1/company/branch")
 @RequiredArgsConstructor
 public class BranchCompanyController implements IBranchCompanyController {
 
