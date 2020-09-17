@@ -26,9 +26,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewEurekaService)
 	err = container.Provide(services.NewManagersService)
 	err = container.Provide(services.NewPurchaseService)
-	err = container.Provide(services.NewProductService)
 	err = container.Provide(services.NewOrderService)
 	err = container.Provide(services.NewCategoryService)
+	err = container.Provide(services.NewProductService)
 
 	err = container.Provide(controllers.NewPurchasesController)
 	err = container.Provide(controllers.NewUserOrdersController)
