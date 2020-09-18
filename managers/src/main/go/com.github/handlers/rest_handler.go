@@ -12,6 +12,8 @@ type RestHandler struct {
 	ordersHandler    *PurchasesHandler
 	userOrderHandler *UserOrderHandler
 	managerHandler   *ManagerHandler
+	categoryHandler  *CategoryHandler
+	productHandler   *ProductHandler
 	config           *config.Config
 	tracer           *Tracer
 }
@@ -20,12 +22,14 @@ func NewRestHandler(
 	ordersHandler *PurchasesHandler,
 	userOrderHandler *UserOrderHandler,
 	managerHandler *ManagerHandler,
+	categoryHandler *CategoryHandler,
 	config *config.Config,
 	tracer *Tracer) *RestHandler {
 	return &RestHandler{
 		ordersHandler:    ordersHandler,
 		userOrderHandler: userOrderHandler,
 		managerHandler:   managerHandler,
+		categoryHandler:  categoryHandler,
 		config:           config,
 		tracer:           tracer,
 	}
@@ -46,6 +50,22 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodGet)
 	router.HandleFunc("/v1/fetch/{orderId}", handler.managerHandler.FindManagerByOrder).
 		Methods(http.MethodGet)
+	router.HandleFunc("/v1/category/{categoryName}", handler.categoryHandler.FindByCategoryName).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/category", handler.categoryHandler.SaveCategory).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/category", handler.categoryHandler.UpdateCategory).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/products/{categoryName}", handler.productHandler.SaveProduct).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/products/{productId}", handler.productHandler.FindProductById).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/products/un-publish", handler.productHandler.FindAllProduct).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/products", handler.productHandler.UpdateProduct).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/products/{productId}/{status}", handler.productHandler.UpdateStatusProduct).
+		Methods(http.MethodDelete)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}

@@ -7,6 +7,7 @@ import (
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
 	"net/http"
+	"strconv"
 )
 
 type OrderService struct {
@@ -68,7 +69,7 @@ func (service *OrderService) GetBindingOrders(orderId uint) (*[]dto.OrderDto, er
 		for _, instance := range instances {
 			client := client.Get(instance.HomePageUrl).
 				Path("/v1/fetch/binding").
-				Path(string(orderId))
+				Path(strconv.Itoa(int(orderId)))
 			resp, err := client.ReceiveSuccess(result)
 			if err != nil {
 				return nil, err
@@ -88,7 +89,7 @@ func (service *OrderService) UpdateOrder(orderId uint, status string) error {
 		for _, instance := range instances {
 			resp, err := client.Put(instance.HomePageUrl).
 				Path("/v1/edit/").
-				Path(string(orderId)).
+				Path(strconv.Itoa(int(orderId))).
 				Path("/").
 				Path(status).
 				Receive(nil, nil)

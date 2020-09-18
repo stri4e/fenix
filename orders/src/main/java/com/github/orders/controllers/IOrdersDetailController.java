@@ -96,4 +96,10 @@ public interface IOrdersDetailController {
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
 
+    @DeleteMapping(
+            path = "/{id}"
+    )
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    void deleteOrder(@PathVariable(name = "id") Long id);
+
 }

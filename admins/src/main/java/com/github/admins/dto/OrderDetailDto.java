@@ -60,4 +60,10 @@ public class OrderDetailDto {
     )
     private OrderStatus status;
 
+    @NotNull(
+            message = "Delivery is required."
+    )
+    @JsonProperty(value = "delivery")
+    private DeliveryDto delivery;
+
 }

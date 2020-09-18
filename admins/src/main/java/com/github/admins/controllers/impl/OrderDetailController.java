@@ -67,13 +67,4 @@ public class OrderDetailController implements IOrderDetailController {
         this.orderService.update(orderId, orderStatus);
     }
 
-    private OrderDetailDto collect(OrderDetail order) {
-        List<Product> pr = this.productService.readByIds(order.getProductIds())
-                .orElseThrow(NotFound::new);
-        return fromOrderDetailDto(
-                order,
-                pr
-        );
-    }
-
 }

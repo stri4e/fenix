@@ -2,6 +2,7 @@ package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.*;
 import com.github.orders.entity.Customer;
+import com.github.orders.entity.DeliveryType;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.payload.Product;
@@ -41,7 +42,7 @@ public class OrdersDetailControllerMocks {
     }
 
     public static OrderDetailDto orderDetailDto() {
-        return new OrderDetailDto(ORDER_ID, customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open);
+        return new OrderDetailDto(ORDER_ID, customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open, delivery());
     }
 
     public static OrderDetailDto payload() {
@@ -136,12 +137,22 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 PRODUCTS_DTO,
                 AMOUNT,
-                OrderStatus.open
+                OrderStatus.open,
+                delivery()
         );
     }
 
     public static PurchaseDto purchaseDto() {
         return new PurchaseDto(USER_ID, orderDetailEntryDto());
+    }
+
+    public static DeliveryDto delivery() {
+        return new DeliveryDto(
+                1L,
+                DeliveryType.home,
+                "Nowa poshta",
+                null
+        );
     }
 
 }

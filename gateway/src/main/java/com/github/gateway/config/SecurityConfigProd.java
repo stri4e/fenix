@@ -39,9 +39,12 @@ public class SecurityConfigProd {
             "/users/v1/admins/reg",
             "/users/v1/managers/reg",
             "/statistics/**",
+            "/websocket/**"
+    };
+
+    private static final String [] SERVICE_ACCESS = new String[] {
             "**/fetch/**",
             "**/edit/**",
-            "/websocket/**"
     };
 
     private final AuthenticationManager authenticationManager;
@@ -65,6 +68,7 @@ public class SecurityConfigProd {
                 .pathMatchers(USER_ACCESS).hasRole("USER")
                 .pathMatchers(ADMIN_ACCESS).hasRole("ADMIN")
                 .pathMatchers(MANAGER_ACCESS).hasRole("MANAGER")
+                .pathMatchers(SERVICE_ACCESS).hasRole("ROLE_SERVICE")
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyExchange().authenticated()
                 .and()
