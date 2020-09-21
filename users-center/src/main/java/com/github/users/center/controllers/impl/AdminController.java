@@ -58,7 +58,7 @@ public class AdminController implements IAdminController, Serializable {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
-        var user = TransferObj.user(payload, ROLE_ADMIN);
+        User user = TransferObj.toUser(payload, ROLE_ADMIN);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
@@ -74,7 +74,7 @@ public class AdminController implements IAdminController, Serializable {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
+        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var accessToken = this.jwtTokenProvider.adminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
                     .refreshSession(fingerprint, location, user, ADMIN_SCOPE);
@@ -103,6 +103,11 @@ public class AdminController implements IAdminController, Serializable {
             }
         }
         throw new Unauthorized();
+    }
+
+    @Override
+    public void lockedUser(String email, Boolean isLocked) {
+        this.userService.updateIsLocked(email, isLocked);
     }
 
     private JwtRefreshResponse

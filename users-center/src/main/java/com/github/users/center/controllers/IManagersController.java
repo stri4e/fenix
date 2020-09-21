@@ -5,10 +5,7 @@ import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.payload.JwtRefreshResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -41,5 +38,11 @@ public interface IManagersController {
     JwtRefreshResponse submitRefreshSession(
             @Valid @RequestBody String refreshToken
     );
+
+    @PutMapping(
+            path = "/locked/{email}/{isLocked}"
+    )
+    void lockedUser(@PathVariable(name = "email") String email,
+                    @PathVariable(name = "isLocked") Boolean isLocked);
 
 }

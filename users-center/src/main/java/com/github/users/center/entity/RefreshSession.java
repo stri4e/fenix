@@ -3,9 +3,12 @@ package com.github.users.center.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -59,24 +62,46 @@ public class RefreshSession implements Serializable, Cloneable {
     @Column(name = "expire_in")
     private Date expireIn;
 
-    @Temporal(
-            value = TemporalType.TIMESTAMP
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
     )
-    @Column(name = "expire_at")
-    private Date createdAt;
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
 
     public RefreshSession(Long userId,
                           String refreshToken,
                           String fingerprint,
                           String ip,
-                          Date expireIn,
-                          Date createdAt) {
+                          Date expireIn) {
         this.userId = userId;
         this.refreshToken = refreshToken;
         this.fingerprint = fingerprint;
         this.ip = ip;
         this.expireIn = expireIn;
-        this.createdAt = createdAt;
+    }
+
+    public RefreshSession(Long id,
+                          Long userId,
+                          String refreshToken,
+                          String fingerprint,
+                          String ip,
+                          Date expireIn) {
+        this.id = id;
+        this.userId = userId;
+        this.refreshToken = refreshToken;
+        this.fingerprint = fingerprint;
+        this.ip = ip;
+        this.expireIn = expireIn;
     }
 
     public boolean isExpired() {

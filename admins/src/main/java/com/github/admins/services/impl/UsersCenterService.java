@@ -16,4 +16,14 @@ public class UsersCenterService implements IUsersCenterService {
     public void createManager(UserRegDto payload) {
 
     }
+
+    @Override
+    public void updateManagersIsLocked(String email, Boolean isLocked) {
+
+    }
+
+    @Override
+    public void updateAdminsIsLocked(String email, Boolean isLocked) {
+
+    }
 }

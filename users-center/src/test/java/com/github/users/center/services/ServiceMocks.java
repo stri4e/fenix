@@ -105,7 +105,6 @@ public class ServiceMocks {
     public static ConfirmToken confirmTokenExp() {
         ConfirmToken c = new ConfirmToken();
         c.setId(ID);
-        c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
         c.setClientUrl(LOCALHOST_AUTH_FRONT);
@@ -114,7 +113,6 @@ public class ServiceMocks {
 
     public static ConfirmToken confirmToken() {
         ConfirmToken c = new ConfirmToken();
-        c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
         c.setClientUrl(LOCALHOST_AUTH_FRONT);

@@ -3,10 +3,13 @@ package com.github.users.center.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Data
@@ -36,7 +39,7 @@ import java.util.Collection;
         )
 })
 @Table(
-        name = "user",
+        name = "users",
         schema = "public",
         indexes = {
                 @Index(columnList = "email", name = "email_idx"),
@@ -102,11 +105,18 @@ public class User implements Serializable, Cloneable {
     private String pass;
 
     @Column(
-            name = "isEnable",
+            name = "is_enable",
             nullable = false,
             columnDefinition = "boolean default false"
     )
     private boolean isEnable;
+
+    @Column(
+            name = "is_locked",
+            nullable = false,
+            columnDefinition = "boolean default false"
+    )
+    private boolean isLocked;
 
     @ManyToMany(
             fetch = FetchType.EAGER,
@@ -124,6 +134,22 @@ public class User implements Serializable, Cloneable {
             )
     )
     private Collection<Role> roles;
+
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
 
     public User(
             String fName,
