@@ -90,8 +90,7 @@ public class TransferObj {
                         .map(TransferObj::toBranch)
                         .collect(Collectors.toSet()),
                 data.getCities(),
-                data.getHomePrice(),
-                data.getBranchPrice()
+                toPrice(data.getPrice())
         );
     }
 
@@ -103,8 +102,7 @@ public class TransferObj {
                         .map(TransferObj::fromBranch)
                         .collect(Collectors.toSet()),
                 data.getCities(),
-                data.getHomePrice(),
-                data.getBranchPrice()
+                fromPrice(data.getPrice())
         );
     }
 
@@ -141,6 +139,22 @@ public class TransferObj {
                 data.getType(),
                 data.getCompanyName(),
                 data.getBranchAddress()
+        );
+    }
+
+    public static Price toPrice(PriceDto data) {
+        return new Price(
+                data.getId(),
+                data.getToHome(),
+                data.getToBranch()
+        );
+    }
+
+    public static PriceDto fromPrice(Price data) {
+        return new PriceDto(
+                data.getId(),
+                data.getToHome(),
+                data.getToBranch()
         );
     }
 
