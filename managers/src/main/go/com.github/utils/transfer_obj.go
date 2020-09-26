@@ -33,6 +33,14 @@ func FromProduct(data *payload.Product) *dto.ProductDto {
 	}
 }
 
+func FromSpecification(data *payload.Specification) *dto.SpecificationDto {
+	return &dto.SpecificationDto{
+		Id:          data.Id,
+		Name:        data.Name,
+		Description: data.Description,
+	}
+}
+
 func ToCategory(data *dto.CategoryDto) *payload.Category {
 	return &payload.Category{Id: data.Id, Name: data.Name}
 }
@@ -46,5 +54,13 @@ func ToProduct(data *dto.ProductDto) *payload.Product {
 		Description:  data.Description,
 		PreviewImage: data.PreviewImage,
 		Images:       data.Images,
+	}
+}
+
+func ToSpecification(data *dto.SpecificationDto) *payload.Specification {
+	return &payload.Specification{
+		Id:          data.Id,
+		Name:        data.Name,
+		Description: data.Description,
 	}
 }

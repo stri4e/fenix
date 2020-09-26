@@ -14,6 +14,7 @@ type RestHandler struct {
 	managerHandler   *ManagerHandler
 	categoryHandler  *CategoryHandler
 	productHandler   *ProductHandler
+	specHandler      *SpecificationHandler
 	config           *config.Config
 	tracer           *Tracer
 }
@@ -23,13 +24,18 @@ func NewRestHandler(
 	userOrderHandler *UserOrderHandler,
 	managerHandler *ManagerHandler,
 	categoryHandler *CategoryHandler,
+	productHandler *ProductHandler,
+	specHandler *SpecificationHandler,
 	config *config.Config,
-	tracer *Tracer) *RestHandler {
+	tracer *Tracer,
+) *RestHandler {
 	return &RestHandler{
 		ordersHandler:    ordersHandler,
 		userOrderHandler: userOrderHandler,
 		managerHandler:   managerHandler,
 		categoryHandler:  categoryHandler,
+		productHandler:   productHandler,
+		specHandler:      specHandler,
 		config:           config,
 		tracer:           tracer,
 	}
@@ -66,6 +72,12 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodPut)
 	router.HandleFunc("/v1/products/{productId}/{status}", handler.productHandler.UpdateStatusProduct).
 		Methods(http.MethodDelete)
+	router.HandleFunc("/v1/specifications/{productId}", handler.specHandler.SaveSpecification).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/specifications/{specificationId}", handler.specHandler.FindSpecById).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/specifications", handler.specHandler.UpdateSpecification).
+		Methods(http.MethodPut)
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}

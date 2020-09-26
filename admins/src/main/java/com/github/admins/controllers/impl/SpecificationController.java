@@ -34,9 +34,9 @@ public class SpecificationController implements ISpecificationController {
     saveSpecification(Long productId, @Valid SpecificationDto payload) {
         Specification ts = toSpecification(payload);
         Product product = this.productService.readById(productId)
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         Specification spec = this.specificationService.create(ts)
-                .orElseThrow(NotFound::new);;
+                .orElseThrow(NotFound::new);
         product.addSpecification(spec);
         this.productService.update(product);
         return fromSpecification(spec);
