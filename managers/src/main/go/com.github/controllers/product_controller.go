@@ -49,7 +49,7 @@ func (controller *ProductController) SaveProduct(categoryName string, payload *d
 // FindById godoc
 // @Summary Get product
 // @Description Get product
-// @Tags product
+// @Tags products
 // @Accept  json
 // @Produce  json
 // @Param productId path integer true "Product ID"
@@ -68,7 +68,7 @@ func (controller *ProductController) FindById(productId uint) (*dto.ProductDto, 
 // FindAllUnPublish godoc
 // @Summary Get product
 // @Description Get product
-// @Tags product
+// @Tags products
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} dto.ProductDto
@@ -90,7 +90,7 @@ func (controller *ProductController) FindAllUnPublish() ([]*dto.ProductDto, erro
 // UpdateProduct godoc
 // @Summary Update Product
 // @Description Update product information
-// @Tags product
+// @Tags products
 // @Accept  json
 // @Produce  json
 // @Param account body dto.ProductDto true "Update product"
@@ -105,11 +105,11 @@ func (controller *ProductController) UpdateProduct(payload *dto.ProductDto) erro
 // UpdateStatusProduct godoc
 // @Summary Change Product
 // @Description Change status product
-// @Tags product
+// @Tags products
 // @Accept  json
 // @Produce  json
 // @Param productId path integer true "Product ID"
-// @Param status path integer true "Product Status"
+// @Param status path string true "Product Status"
 // @Success 200
 // @Failure 403
 // @Failure 404

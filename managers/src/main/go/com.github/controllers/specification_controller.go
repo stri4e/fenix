@@ -18,7 +18,7 @@ func NewSpecificationController(productService *services.ProductService, specSer
 // SaveSpecification godoc
 // @Summary Save specification
 // @Description Save specification
-// @Tags specifications
+// @Tags specification
 // @Accept  json
 // @Produce  json
 // @Param productId path integer true "Product ID"
