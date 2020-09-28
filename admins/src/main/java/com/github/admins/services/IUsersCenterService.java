@@ -4,7 +4,9 @@ import com.github.admins.dto.UserRegDto;
 import com.github.admins.services.impl.UsersCenterService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
@@ -27,5 +29,21 @@ public interface IUsersCenterService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     void createManager(@RequestBody UserRegDto payload);
+
+    @PutMapping(
+            path = "/v1/managers/locked/{email}/{isLocked}"
+    )
+    void updateManagersIsLocked(
+            @PathVariable(name = "email") String email,
+            @PathVariable(name = "isLocked") Boolean isLocked
+    );
+
+    @PutMapping(
+            path = "/v1/admins/locked/{email}/{isLocked}"
+    )
+    void updateAdminsIsLocked(
+            @PathVariable(name = "email") String email,
+            @PathVariable(name = "isLocked") Boolean isLocked
+    );
 
 }

@@ -20,4 +20,6 @@ public interface IUserService {
 
     void updateIsEnable(boolean isEnable, Long id);
 
+    void updateIsLocked(String email, boolean isLocked);
+
 }

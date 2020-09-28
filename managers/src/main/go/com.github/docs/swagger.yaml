@@ -1,5 +1,14 @@
 basePath: /
 definitions:
+  dto.CategoryDto:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Phone
+        type: string
+    type: object
   dto.CustomerDto:
     properties:
       customerAddress:
@@ -21,6 +30,21 @@ definitions:
         example: 11
         type: integer
     type: object
+  dto.DeliveryDto:
+    properties:
+      branchAddress:
+        example: 189 street
+        type: string
+      companyName:
+        example: NowaPoshta
+        type: string
+      id:
+        example: 1
+        type: integer
+      type:
+        example: home
+        type: string
+    type: object
   dto.ManagerDto:
     properties:
       firstName:
@@ -37,6 +61,8 @@ definitions:
         type: number
       customer:
         $ref: '#/definitions/dto.CustomerDto'
+      delivery:
+        $ref: '#/definitions/dto.DeliveryDto'
       id:
         example: 1
         type: integer
@@ -80,6 +106,18 @@ definitions:
         type: integer
       status:
         example: open or close
+        type: string
+    type: object
+  dto.SpecificationDto:
+    properties:
+      description:
+        example: supper sensor
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: settings
         type: string
     type: object
 info:
@@ -212,6 +250,73 @@ paths:
       summary: Get binding orders by order id
       tags:
       - user-orders
+  /v1/category:
+    post:
+      consumes:
+      - application/json
+      description: Save product category
+      parameters:
+      - description: Create category
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CategoryDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CategoryDto'
+        "400": {}
+        "403": {}
+      summary: Save category
+      tags:
+      - products category
+    put:
+      consumes:
+      - application/json
+      description: Update category
+      parameters:
+      - description: Create category
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CategoryDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update Category
+      tags:
+      - products category
+  /v1/category/{categoryName}:
+    get:
+      consumes:
+      - application/json
+      description: Get category by category name
+      parameters:
+      - description: Category Name
+        in: path
+        name: categoryName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CategoryDto'
+        "400": {}
+        "403": {}
+      summary: Get category by category name
+      tags:
+      - products category
   /v1/fetch/{orderId}:
     get:
       consumes:
@@ -235,4 +340,192 @@ paths:
       summary: Get manager by order id
       tags:
       - manager
+  /v1/products:
+    put:
+      consumes:
+      - application/json
+      description: Update product information
+      parameters:
+      - description: Update product
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update Product
+      tags:
+      - products
+  /v1/products/{categoryName}:
+    post:
+      consumes:
+      - application/json
+      description: Save product
+      parameters:
+      - description: Category Name
+        in: path
+        name: categoryName
+        required: true
+        type: string
+      - description: Create products
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Save product
+      tags:
+      - products
+  /v1/products/{productId}:
+    get:
+      consumes:
+      - application/json
+      description: Get product
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Get product
+      tags:
+      - products
+  /v1/products/{productId}/{status}:
+    delete:
+      consumes:
+      - application/json
+      description: Change status product
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Product Status
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Change Product
+      tags:
+      - products
+  /v1/products/un-publish:
+    get:
+      consumes:
+      - application/json
+      description: Get product
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Get product
+      tags:
+      - products
+  /v1/specifications:
+    put:
+      consumes:
+      - application/json
+      description: Update specification information
+      parameters:
+      - description: Update specification
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SpecificationDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update Specification
+      tags:
+      - specification
+  /v1/specifications/{productId}:
+    post:
+      consumes:
+      - application/json
+      description: Save specification
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Create products
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SpecificationDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Save specification
+      tags:
+      - specification
+  /v1/specifications/{specificationId}:
+    get:
+      consumes:
+      - application/json
+      description: Get specification
+      parameters:
+      - description: Specification ID
+        in: path
+        name: specificationId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SpecificationDto'
+        "400": {}
+        "403": {}
+      summary: Get specification
+      tags:
+      - specification
 swagger: "2.0"

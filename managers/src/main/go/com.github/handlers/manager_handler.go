@@ -4,7 +4,7 @@ import (
 	"../controllers"
 	"../utils"
 	"github.com/gorilla/mux"
-	"github.com/prometheus/common/log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )

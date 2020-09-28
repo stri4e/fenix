@@ -17,14 +17,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    private final UserRepo ur;
+    private final UserRepo userRepo;
 
     @Override
     public void create(User u) {
         if (Objects.isNull(u)) {
             throw new BadRequest();
         }
-        this.ur.save(u);
+        this.userRepo.save(u);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class UserService implements IUserService {
         if (Objects.isNull(id)) {
             throw new BadRequest();
         }
-        return this.ur.findById(id)
+        return this.userRepo.findById(id)
                 .orElseThrow(NotFound::new);
     }
 
@@ -41,7 +41,7 @@ public class UserService implements IUserService {
         if (!StringUtils.hasText(email)) {
             throw new BadRequest();
         }
-        return this.ur.findByEmail(email)
+        return this.userRepo.findByEmail(email)
                 .orElseThrow(NotFound::new);
     }
 
@@ -50,14 +50,14 @@ public class UserService implements IUserService {
         if (!StringUtils.hasText(login)) {
             throw new BadRequest();
         }
-        return this.ur.findByLogin(login)
+        return this.userRepo.findByLogin(login)
                 .orElseThrow(NotFound::new);
     }
 
     @Override
     public User readByEmailOrLogin(String email, String login) {
         if (StringUtils.hasText(email) && StringUtils.hasText(login)) {
-            return this.ur.findByEmailOrLogin(email, login)
+            return this.userRepo.findByEmailOrLogin(email, login)
                     .orElseThrow(NotFound::new);
         }
         throw new BadRequest();
@@ -66,7 +66,7 @@ public class UserService implements IUserService {
     @Override
     public boolean existsByEmailOrLogin(String email, String login) {
         if (StringUtils.hasText(email) && StringUtils.hasText(login)) {
-            return this.ur.existsByEmailOrLogin(email, login);
+            return this.userRepo.existsByEmailOrLogin(email, login);
         }
         return false;
     }
@@ -76,7 +76,7 @@ public class UserService implements IUserService {
         if (!StringUtils.hasText(pass) || Objects.isNull(id)) {
             throw new BadRequest();
         }
-        this.ur.updatePass(pass, id);
+        this.userRepo.updatePass(pass, id);
     }
 
     @Override
@@ -84,7 +84,15 @@ public class UserService implements IUserService {
         if (Objects.isNull(id)) {
             throw new BadRequest();
         }
-        this.ur.updateIsEnable(isEnable, id);
+        this.userRepo.updateIsEnable(isEnable, id);
+    }
+
+    @Override
+    public void updateIsLocked(String email, boolean isLocked) {
+        if (StringUtils.hasText(email)) {
+            throw new BadRequest();
+        }
+        this.userRepo.updateIsLocked(isLocked, email);
     }
 
 }

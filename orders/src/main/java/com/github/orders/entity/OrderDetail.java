@@ -68,6 +68,13 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private BigDecimal amount;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+            name = "delivery_id",
+            nullable = false
+    )
+    private Delivery delivery;
+
     @Column(
             name = "userId",
             nullable = false
@@ -89,8 +96,7 @@ public class OrderDetail implements Serializable, Cloneable {
     @UpdateTimestamp
     @Column(
             name = "update_at",
-            nullable = false,
-            updatable = false
+            nullable = false
     )
     private LocalDateTime updateAt;
 

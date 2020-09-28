@@ -4,14 +4,12 @@ import com.github.orders.controllers.IOrdersDetailController;
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.Customer;
+import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.payload.Product;
-import com.github.orders.service.ICustomerService;
-import com.github.orders.service.IOrderDetailService;
-import com.github.orders.service.IProductService;
-import com.github.orders.service.IPushOrders;
+import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -24,8 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.github.orders.utils.TransferObj.toCustomer;
-import static com.github.orders.utils.TransferObj.toOrderDetail;
+import static com.github.orders.utils.TransferObj.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,15 +37,18 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IPushOrders pushOrders;
 
+    private final IDeliveryService deliveryService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void saveOrders(Long userId, OrderDetailDto payload) {
         Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
+        Delivery delivery = this.deliveryService.create(toDelivery(payload.getDelivery()));
         OrderDetail order = this.orderService.crete(toOrderDetail(customer, payload, userId));
         List<Product> products = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
-        OrderDto pushData = TransferObj.fromOrderDetailDto(order, products);
+        OrderDto pushData = TransferObj.fromOrderDetailDto(order, products, delivery);
         this.pushOrders.pushOrder(pushData);
     }
 
@@ -116,12 +116,18 @@ public class OrdersDetailController implements IOrdersDetailController {
         this.orderService.update(orderId, status);
     }
 
+    @Override
+    public void deleteOrder(Long id) {
+        this.orderService.update(id, OrderStatus.canceling);
+    }
+
     private OrderDto collect(OrderDetail order) {
         List<Product> pr = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
         return TransferObj.fromOrderDetailDto(
                 order,
-                pr
+                pr,
+                order.getDelivery()
         );
     }
 

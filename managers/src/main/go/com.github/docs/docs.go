@@ -135,6 +135,105 @@ var doc = `{
                 }
             }
         },
+        "/v1/category": {
+            "put": {
+                "description": "Update category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products category"
+                ],
+                "summary": "Update Category",
+                "parameters": [
+                    {
+                        "description": "Create category",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CategoryDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            },
+            "post": {
+                "description": "Save product category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products category"
+                ],
+                "summary": "Save category",
+                "parameters": [
+                    {
+                        "description": "Create category",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CategoryDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CategoryDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/category/{categoryName}": {
+            "get": {
+                "description": "Get category by category name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products category"
+                ],
+                "summary": "Get category by category name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category Name",
+                        "name": "categoryName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CategoryDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
         "/v1/fetch/{orderId}": {
             "get": {
                 "description": "Get manager by order id",
@@ -162,6 +261,283 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.ManagerDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/products": {
+            "put": {
+                "description": "Update product information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Update Product",
+                "parameters": [
+                    {
+                        "description": "Update product",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/products/un-publish": {
+            "get": {
+                "description": "Get product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get product",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/products/{categoryName}": {
+            "post": {
+                "description": "Save product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Save product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category Name",
+                        "name": "categoryName",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create products",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/products/{productId}": {
+            "get": {
+                "description": "Get product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/products/{productId}/{status}": {
+            "delete": {
+                "description": "Change status product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Change Product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Product Status",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/specifications": {
+            "put": {
+                "description": "Update specification information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Update Specification",
+                "parameters": [
+                    {
+                        "description": "Update specification",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/specifications/{productId}": {
+            "post": {
+                "description": "Save specification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Save specification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create products",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/specifications/{specificationId}": {
+            "get": {
+                "description": "Get specification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Get specification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Specification ID",
+                        "name": "specificationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
                         }
                     },
                     "400": {},
@@ -241,6 +617,19 @@ var doc = `{
         }
     },
     "definitions": {
+        "dto.CategoryDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Phone"
+                }
+            }
+        },
         "dto.CustomerDto": {
             "type": "object",
             "properties": {
@@ -270,6 +659,27 @@ var doc = `{
                 }
             }
         },
+        "dto.DeliveryDto": {
+            "type": "object",
+            "properties": {
+                "branchAddress": {
+                    "type": "string",
+                    "example": "189 street"
+                },
+                "companyName": {
+                    "type": "string",
+                    "example": "NowaPoshta"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "type": {
+                    "type": "string",
+                    "example": "home"
+                }
+            }
+        },
         "dto.ManagerDto": {
             "type": "object",
             "properties": {
@@ -292,6 +702,9 @@ var doc = `{
                 },
                 "customer": {
                     "$ref": "#/definitions/dto.CustomerDto"
+                },
+                "delivery": {
+                    "$ref": "#/definitions/dto.DeliveryDto"
                 },
                 "id": {
                     "type": "integer",
@@ -354,6 +767,23 @@ var doc = `{
                 "status": {
                     "type": "string",
                     "example": "open or close"
+                }
+            }
+        },
+        "dto.SpecificationDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "supper sensor"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "settings"
                 }
             }
         }

@@ -181,9 +181,9 @@ paths:
       - application/json
       description: Create a new views
       parameters:
-      - description: Create view
+      - description: Product Id
         in: body
-        name: view
+        name: productId
         required: true
         schema:
           type: string
@@ -196,6 +196,8 @@ paths:
       - application/json
       responses:
         "201": {}
+        "400": {}
+        "403": {}
       summary: Create a new views
       tags:
       - views

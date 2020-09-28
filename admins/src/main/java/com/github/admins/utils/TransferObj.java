@@ -72,7 +72,8 @@ public class TransferObj {
                         .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getUserId(),
-                data.getStatus()
+                data.getStatus(),
+                fromDelivery(data.getDelivery())
         );
     }
 
@@ -84,7 +85,8 @@ public class TransferObj {
                 productIds,
                 data.getAmount(),
                 data.getUserId(),
-                data.getStatus()
+                data.getStatus(),
+                toDelivery(data.getDelivery())
         );
     }
 
@@ -105,6 +107,68 @@ public class TransferObj {
                 customer.getCustomerAddress(),
                 customer.getCustomerEmail(),
                 customer.getCustomerPhone()
+        );
+    }
+
+    public static Company toCompany(CompanyDto data) {
+        return new Company(
+                data.getId(),
+                data.getName(),
+                data.getBranches().stream()
+                        .map(TransferObj::toBranch)
+                        .collect(Collectors.toSet()),
+                data.getCities(),
+                data.getHomePrice(),
+                data.getBranchPrice()
+        );
+    }
+
+    public static CompanyDto fromCompany(Company data) {
+        return new CompanyDto(
+                data.getId(),
+                data.getName(),
+                data.getBranches().stream()
+                        .map(TransferObj::fromBranch)
+                        .collect(Collectors.toSet()),
+                data.getCities(),
+                data.getHomePrice(),
+                data.getBranchPrice()
+        );
+    }
+
+    public static Branch toBranch(BranchDto data) {
+        return new Branch(
+                data.getId(),
+                data.getNumber(),
+                data.getAddress(),
+                data.getPhone()
+        );
+    }
+
+    public static BranchDto fromBranch(Branch data) {
+        return new BranchDto(
+                data.getId(),
+                data.getNumber(),
+                data.getAddress(),
+                data.getPhone()
+        );
+    }
+
+    public static Delivery toDelivery(DeliveryDto data) {
+        return new Delivery(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
+        );
+    }
+
+    public static DeliveryDto fromDelivery(Delivery data) {
+        return new DeliveryDto(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                data.getBranchAddress()
         );
     }
 

@@ -14,7 +14,8 @@ import java.util.Optional;
 
 @FeignClient(
         name = "orders-service",
-        fallback = OrderService.class
+        fallback = OrderService.class,
+        contextId = "orderId"
 )
 public interface IOrderService {
 

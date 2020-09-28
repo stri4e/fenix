@@ -34,7 +34,7 @@ import static com.github.users.center.utils.UsersUtils.*;
 @RequestMapping(path = "/v1/managers")
 public class ManagersController implements IManagersController {
 
-    private final static long serialVersionUID = 1799369425842156063L;
+    private static final long serialVersionUID = 7320210790321457692L;
 
     private final IUserService userService;
 
@@ -57,7 +57,7 @@ public class ManagersController implements IManagersController {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
-        var user = TransferObj.user(payload, ROLE_MANAGER);
+        User user = TransferObj.toUser(payload, ROLE_MANAGER);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
@@ -73,7 +73,7 @@ public class ManagersController implements IManagersController {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
+        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
                     .refreshSession(fingerprint, location, user, MANAGER_SCOPE);
@@ -102,6 +102,11 @@ public class ManagersController implements IManagersController {
             }
         }
         throw new Unauthorized();
+    }
+
+    @Override
+    public void lockedUser(String email, Boolean isLocked) {
+        this.userService.updateIsLocked(email, isLocked);
     }
 
     private JwtRefreshResponse
