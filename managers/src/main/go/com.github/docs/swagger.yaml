@@ -108,6 +108,18 @@ definitions:
         example: open or close
         type: string
     type: object
+  dto.SpecificationDto:
+    properties:
+      description:
+        example: supper sensor
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: settings
+        type: string
+    type: object
 info:
   contact: {}
   description: This is a sample service for managers
@@ -281,7 +293,7 @@ paths:
         "404": {}
       summary: Update Category
       tags:
-      - categories
+      - products category
   /v1/category/{categoryName}:
     get:
       consumes:
@@ -348,7 +360,7 @@ paths:
         "404": {}
       summary: Update Product
       tags:
-      - product
+      - products
   /v1/products/{categoryName}:
     post:
       consumes:
@@ -400,7 +412,7 @@ paths:
         "403": {}
       summary: Get product
       tags:
-      - product
+      - products
   /v1/products/{productId}/{status}:
     delete:
       consumes:
@@ -416,7 +428,7 @@ paths:
         in: path
         name: status
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -425,7 +437,7 @@ paths:
         "404": {}
       summary: Change Product
       tags:
-      - product
+      - products
   /v1/products/un-publish:
     get:
       consumes:
@@ -442,5 +454,78 @@ paths:
         "403": {}
       summary: Get product
       tags:
-      - product
+      - products
+  /v1/specifications:
+    put:
+      consumes:
+      - application/json
+      description: Update specification information
+      parameters:
+      - description: Update specification
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SpecificationDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update Specification
+      tags:
+      - specification
+  /v1/specifications/{productId}:
+    post:
+      consumes:
+      - application/json
+      description: Save specification
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Create products
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SpecificationDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Save specification
+      tags:
+      - specification
+  /v1/specifications/{specificationId}:
+    get:
+      consumes:
+      - application/json
+      description: Get specification
+      parameters:
+      - description: Specification ID
+        in: path
+        name: specificationId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SpecificationDto'
+        "400": {}
+        "403": {}
+      summary: Get specification
+      tags:
+      - specification
 swagger: "2.0"

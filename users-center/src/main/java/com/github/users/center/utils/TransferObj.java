@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class TransferObj {
 
-    public static User user(UserRegDto dto, String role) {
+    public static User toUser(UserRegDto dto, String role) {
         return new User(
                 dto.getFName(),
                 dto.getLName(),

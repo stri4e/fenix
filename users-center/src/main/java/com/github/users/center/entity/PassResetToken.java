@@ -1,9 +1,12 @@
 package com.github.users.center.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -63,6 +66,22 @@ public class PassResetToken implements Serializable, Cloneable {
             name = "user_id"
     )
     private User user;
+
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
 
     public PassResetToken() {
     }

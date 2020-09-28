@@ -8,10 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,7 +39,8 @@ public class Company implements Serializable, Cloneable {
     private String name;
 
     @OneToMany(
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            targetEntity = Branch.class
     )
     @JoinColumn(
             name = "brances_id"
@@ -53,17 +52,14 @@ public class Company implements Serializable, Cloneable {
     )
     private Set<String> cities = new HashSet<>();
 
-    @Column(
-            name = "home_price",
-            nullable = false
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Price.class
     )
-    private BigDecimal homePrice;
-
-    @Column(
-            name = "branch_price",
-            nullable = false
+    @JoinColumn(
+            name = "price_id"
     )
-    private BigDecimal branchPrice;
+    private Price price;
 
     @Column(
             name = "status",
@@ -90,12 +86,11 @@ public class Company implements Serializable, Cloneable {
     public Company(
             Long id, String name,
             Set<Branch> branches, Set<String> cities,
-            BigDecimal homePrice, BigDecimal branchPrice) {
+            Price price) {
         this.id = id;
         this.name = name;
         this.branches = branches;
         this.cities = cities;
-        this.homePrice = homePrice;
-        this.branchPrice = branchPrice;
+        this.price = price;
     }
 }

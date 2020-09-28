@@ -1,9 +1,12 @@
 package com.github.users.center.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -46,13 +49,6 @@ public class ConfirmToken implements Serializable, Cloneable {
     )
     private String token;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(
-            name = "create_date",
-            nullable = false
-    )
-    private Date createDate;
-
     @Column(
             name = "client_url",
             nullable = false
@@ -69,12 +65,27 @@ public class ConfirmToken implements Serializable, Cloneable {
     )
     private User user;
 
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime updateAt;
+
     public ConfirmToken() {
     }
 
     public ConfirmToken(String clientUrl, User user) {
         this.user = user;
-        this.createDate = new Date();
         this.token = UUID.randomUUID().toString();
         this.clientUrl = clientUrl;
     }

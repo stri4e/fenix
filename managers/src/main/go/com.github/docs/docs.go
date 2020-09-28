@@ -145,7 +145,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "categories"
+                    "products category"
                 ],
                 "summary": "Update Category",
                 "parameters": [
@@ -278,7 +278,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "products"
                 ],
                 "summary": "Update Product",
                 "parameters": [
@@ -309,7 +309,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "products"
                 ],
                 "summary": "Get product",
                 "responses": {
@@ -377,7 +377,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "products"
                 ],
                 "summary": "Get product",
                 "parameters": [
@@ -411,7 +411,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "products"
                 ],
                 "summary": "Change Product",
                 "parameters": [
@@ -423,7 +423,7 @@ var doc = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Product Status",
                         "name": "status",
                         "in": "path",
@@ -434,6 +434,114 @@ var doc = `{
                     "200": {},
                     "403": {},
                     "404": {}
+                }
+            }
+        },
+        "/v1/specifications": {
+            "put": {
+                "description": "Update specification information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Update Specification",
+                "parameters": [
+                    {
+                        "description": "Update specification",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/specifications/{productId}": {
+            "post": {
+                "description": "Save specification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Save specification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create products",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/specifications/{specificationId}": {
+            "get": {
+                "description": "Get specification",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "specification"
+                ],
+                "summary": "Get specification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Specification ID",
+                        "name": "specificationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SpecificationDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
                 }
             }
         },
@@ -659,6 +767,23 @@ var doc = `{
                 "status": {
                     "type": "string",
                     "example": "open or close"
+                }
+            }
+        },
+        "dto.SpecificationDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "supper sensor"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "settings"
                 }
             }
         }

@@ -3,8 +3,11 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -46,7 +49,28 @@ public class Comment {
     )
     private String comment;
 
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false
+    )
+    private LocalDateTime updateAt;
+
     public Comment(String name, String comment) {
+        this.name = name;
+        this.comment = comment;
+    }
+
+    public Comment(Long id, String name, String comment) {
+        this.id = id;
         this.name = name;
         this.comment = comment;
     }

@@ -25,7 +25,7 @@ func (handler *CategoryHandler) FindByCategoryName(w http.ResponseWriter, r *htt
 			categoryName := vars["categoryName"]
 			utils.ThrowIfNil(categoryName, http.StatusBadRequest, "Request path is required.")
 			payload, err := handler.controller.FindByCategoryName(categoryName)
-			utils.ThrowIfErr(err, http.StatusNotFound, "category not found")
+			utils.ThrowIfErr(err, http.StatusNotFound, "Category not found")
 			log.Debug("Enter: find category information")
 			ResponseSender(w, payload, http.StatusOK)
 		}, Catch: func(e utils.Exception) {

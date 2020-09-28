@@ -55,7 +55,7 @@ func (controller *CategoryController) SaveCategory(payload *dto.CategoryDto) (*d
 // UpdateCategory godoc
 // @Summary Update Category
 // @Description Update category
-// @Tags categories
+// @Tags products category
 // @Accept  json
 // @Produce  json
 // @Param account body dto.CategoryDto true "Create category"

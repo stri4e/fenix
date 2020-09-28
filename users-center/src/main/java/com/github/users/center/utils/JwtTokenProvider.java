@@ -74,7 +74,7 @@ public class JwtTokenProvider {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
         var token = refreshToken(fingerprint, expire, user, scope);
-        return new RefreshSession(user.getId(), token, fingerprint, location, expire, now);
+        return new RefreshSession(user.getId(), token, fingerprint, location, expire);
     }
 
     private String refreshToken(String fingerprint, Date expire, User user, String scope) {

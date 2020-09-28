@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -26,10 +24,7 @@ public class CompanyDto {
     @JsonProperty(value = "cities")
     private Set<String> cities;
 
-    @JsonProperty(value = "homePrice")
-    private BigDecimal homePrice;
-
-    @JsonProperty(value = "branchPrice")
-    private BigDecimal branchPrice;
+    @JsonProperty(value = "price")
+    private PriceDto price;
 
 }

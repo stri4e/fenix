@@ -74,6 +74,7 @@ public class RepositoryMocks {
         u.setEmail(EMAIL);
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
+        u.setIsLocked(Boolean.FALSE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
@@ -87,6 +88,7 @@ public class RepositoryMocks {
         u.setEmail(EMAIL);
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
+        u.setIsLocked(Boolean.FALSE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
@@ -104,7 +106,6 @@ public class RepositoryMocks {
     public static ConfirmToken confirmTokenExp() {
         ConfirmToken c = new ConfirmToken();
         c.setId(ID);
-        c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
         c.setClientUrl(LOCALHOST_AUTH_FRONT);
@@ -113,7 +114,6 @@ public class RepositoryMocks {
 
     public static ConfirmToken confirmToken() {
         ConfirmToken c = new ConfirmToken();
-        c.setCreateDate(new Date());
         c.setToken(TOKEN);
         c.setUser(userExp());
         c.setClientUrl(LOCALHOST_AUTH_FRONT);
@@ -154,8 +154,7 @@ public class RepositoryMocks {
                 REFRESH_TOKEN,
                 FINGER_PRINT,
                 IP,
-                EXPIRE_IN,
-                CREATE_AT
+                EXPIRE_IN
         );
     }
 
@@ -166,8 +165,7 @@ public class RepositoryMocks {
                 REFRESH_TOKEN,
                 FINGER_PRINT,
                 IP,
-                EXPIRE_IN,
-                CREATE_AT
+                EXPIRE_IN
         );
     }
 

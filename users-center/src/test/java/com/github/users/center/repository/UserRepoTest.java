@@ -11,7 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
-import static com.github.users.center.repository.RepositoryMocks.*;
+import static com.github.users.center.repository.RepositoryMocks.user;
+import static com.github.users.center.repository.RepositoryMocks.userExp;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest

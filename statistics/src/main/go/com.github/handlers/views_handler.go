@@ -3,7 +3,6 @@ package handlers
 import (
 	"../controllers"
 	"../utils"
-	"encoding/binary"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -80,8 +79,9 @@ func (handler *ViewsHandler) CreateViews(w http.ResponseWriter, r *http.Request)
 			body, err := ioutil.ReadAll(r.Body)
 			defer r.Body.Close()
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't deserialize body")
-			productId := uint(binary.BigEndian.Uint64(body))
-			err = handler.controller.CreateView(userId, productId)
+			productId, err := strconv.ParseUint(string(body), BaseUint, BitSize)
+			utils.ThrowIfErr(err, http.StatusBadRequest, "Arguments must be a number.")
+			err = handler.controller.CreateView(userId, uint(productId))
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't create Views.")
 			log.WithFields(log.Fields{"productId": productId}).
 				Debug("Enter: create new view by user id, Product Id ->")

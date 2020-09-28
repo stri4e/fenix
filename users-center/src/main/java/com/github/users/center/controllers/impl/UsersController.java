@@ -69,7 +69,7 @@ public class UsersController implements IUsersController, Serializable {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
-        User user = TransferObj.user(payload, ROLE_USER);
+        User user = TransferObj.toUser(payload, ROLE_USER);
         user.setPass(this.passwordEncoder.encode(user.getPass()));
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
