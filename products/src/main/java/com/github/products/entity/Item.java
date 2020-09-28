@@ -70,8 +70,7 @@ public abstract class Item implements Serializable, Cloneable {
     @UpdateTimestamp
     @Column(
             name = "update_at",
-            nullable = false,
-            updatable = false
+            nullable = false
     )
     private LocalDateTime updateAt;
 

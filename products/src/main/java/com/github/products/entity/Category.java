@@ -3,9 +3,12 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -44,7 +47,27 @@ public class Category implements Serializable, Cloneable {
     )
     private String name;
 
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false
+    )
+    private LocalDateTime updateAt;
+
     public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 }
