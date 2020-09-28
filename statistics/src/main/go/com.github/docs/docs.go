@@ -177,8 +177,8 @@ var doc = `{
                 "summary": "Create a new views",
                 "parameters": [
                     {
-                        "description": "Create view",
-                        "name": "view",
+                        "description": "Product Id",
+                        "name": "productId",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -194,7 +194,9 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "201": {}
+                    "201": {},
+                    "400": {},
+                    "403": {}
                 }
             }
         },
