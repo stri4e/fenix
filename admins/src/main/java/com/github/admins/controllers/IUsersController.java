@@ -1,5 +1,6 @@
 package com.github.admins.controllers;
 
+import com.github.admins.dto.LockedDto;
 import com.github.admins.dto.UserRegDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +17,10 @@ public interface IUsersController {
     @ResponseStatus(value = HttpStatus.CREATED)
     void managersReg(@Valid @RequestBody UserRegDto payload);
 
-    @PutMapping(path = "/managers/{email}/{isLocked}")
-    void updateManagersIsLocked(
-            @PathVariable(name = "email") String email,
-            @PathVariable(name = "isLocked") Boolean isLocked
-    );
+    @PutMapping(path = "/managers")
+    void updateManagersIsLocked(@RequestBody LockedDto payload);
 
-    @PutMapping(path = "/admins/{email}/{isLocked}")
-    void updateAdminsIsLocked(
-            @PathVariable(name = "email") String email,
-            @PathVariable(name = "isLocked") Boolean isLocked
-    );
+    @PutMapping(path = "/admins")
+    void updateAdminsIsLocked(@RequestBody LockedDto payload);
 
 }
