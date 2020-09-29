@@ -1,6 +1,7 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IAdminController;
+import com.github.users.center.dto.LockedDto;
 import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
@@ -106,8 +107,8 @@ public class AdminController implements IAdminController, Serializable {
     }
 
     @Override
-    public void lockedUser(String email, Boolean isLocked) {
-        this.userService.updateIsLocked(email, isLocked);
+    public void lockedUser(LockedDto payload) {
+        this.userService.updateIsLocked(payload.getEmail(), payload.isLocked());
     }
 
     private JwtRefreshResponse

@@ -1,6 +1,7 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.IUsersController;
+import com.github.admins.dto.LockedDto;
 import com.github.admins.dto.UserRegDto;
 import com.github.admins.services.IUsersCenterService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,13 @@ public class UsersController implements IUsersController {
     }
 
     @Override
-    public void updateManagersIsLocked(String email, Boolean isLocked) {
-        this.usersCenterService.updateManagersIsLocked(email, isLocked);
+    public void updateManagersIsLocked(LockedDto payload) {
+        this.usersCenterService.updateManagersIsLocked(payload);
     }
 
     @Override
-    public void updateAdminsIsLocked(String email, Boolean isLocked) {
-        this.usersCenterService.updateAdminsIsLocked(email, isLocked);
+    public void updateAdminsIsLocked(LockedDto payload) {
+        this.usersCenterService.updateAdminsIsLocked(payload);
     }
 
 }

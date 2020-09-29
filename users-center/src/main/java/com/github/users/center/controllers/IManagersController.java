@@ -1,5 +1,6 @@
 package com.github.users.center.controllers;
 
+import com.github.users.center.dto.LockedDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.payload.JwtRefreshResponse;
@@ -40,9 +41,8 @@ public interface IManagersController {
     );
 
     @PutMapping(
-            path = "/locked/{email}/{isLocked}"
+            path = "/locked"
     )
-    void lockedUser(@PathVariable(name = "email") String email,
-                    @PathVariable(name = "isLocked") Boolean isLocked);
+    void lockedUser(@RequestBody LockedDto payload);
 
 }
