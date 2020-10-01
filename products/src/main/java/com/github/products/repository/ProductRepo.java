@@ -11,6 +11,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
         JpaSpecificationExecutor<Product> {
@@ -18,6 +20,8 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     Page<Product> findByStatus(ProductStatus status, Pageable pageable);
 
     Page<Product> findAllByCategoryName(String name, Pageable pageable);
+
+    List<Product> findByNameContainingOrDescriptionContaining(String name, String description);
 
     @Modifying
     @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")

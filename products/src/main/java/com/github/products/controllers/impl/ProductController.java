@@ -55,6 +55,14 @@ public class ProductController implements IProductController {
     }
 
     @Override
+    public List<ProductDto> searchProduct(String searchLine) {
+        List<Product> products = this.productService.searchProduct(searchLine, searchLine);
+        return products.stream()
+                .map(TransferObj::fromProduct)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Product saveProduct(@Valid Product payload) {
