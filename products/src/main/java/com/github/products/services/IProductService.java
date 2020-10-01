@@ -16,6 +16,8 @@ public interface IProductService {
             String category, Pageable pageable
     );
 
+    List<Product> searchProduct(String name, String description);
+
     Product create(Product p);
 
     Product readById(Long id);

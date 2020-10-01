@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public interface IProductController {
@@ -32,6 +33,13 @@ public interface IProductController {
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
             }) Pageable pageable
+    );
+
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    List<ProductDto> searchProduct(
+            @NotBlank @RequestParam(name = "searchLine") String searchLine
     );
 
     @PostMapping(

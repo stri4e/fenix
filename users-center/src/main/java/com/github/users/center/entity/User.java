@@ -146,8 +146,7 @@ public class User implements Serializable, Cloneable {
     @UpdateTimestamp
     @Column(
             name = "update_at",
-            nullable = false,
-            updatable = false
+            nullable = false
     )
     private LocalDateTime updateAt;
 
