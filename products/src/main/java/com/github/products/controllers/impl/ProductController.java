@@ -56,7 +56,8 @@ public class ProductController implements IProductController {
 
     @Override
     public List<ProductDto> searchProduct(String searchLine) {
-        List<Product> products = this.productService.searchProduct(searchLine, searchLine);
+        List<Product> products = this.productService
+                .searchProduct(searchLine, searchLine);
         return products.stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
