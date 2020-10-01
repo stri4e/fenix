@@ -51,6 +51,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<Product> searchProduct(String name, String description) {
+        if (StringUtils.isEmpty(name)) {
+            throw new BadRequest();
+        }
+        return this.productRepo.findByNameContainingOrDescriptionContaining(
+                name, description
+        );
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "product", key = "#p.id"),
             evict = {

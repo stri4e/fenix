@@ -17,26 +17,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IUsersCenterService {
 
     @PostMapping(
-            path = "/v1/admins/reg",
+            path = "/v1/admins/edit/reg",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     void createAdmins(@RequestBody UserRegDto payload);
 
     @PostMapping(
-            path = "/v1/managers/reg",
+            path = "/v1/managers/edit/reg",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     void createManager(@RequestBody UserRegDto payload);
 
     @PutMapping(
-            path = "/v1/managers/locked"
+            path = "/v1/managers/fetch/locked"
     )
     void updateManagersIsLocked(@RequestBody LockedDto payload);
 
     @PutMapping(
-            path = "/v1/admins/locked"
+            path = "/v1/admins/fetch/locked"
     )
     void updateAdminsIsLocked(@RequestBody LockedDto payload);
 
