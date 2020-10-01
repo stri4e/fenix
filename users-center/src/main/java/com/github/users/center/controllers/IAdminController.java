@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 public interface IAdminController {
 
-    @PostMapping(path = "/reg")
+    @PostMapping(path = "/edit/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
     void submitReg(
             @ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
@@ -41,7 +41,7 @@ public interface IAdminController {
     );
 
     @PutMapping(
-            path = "/locked"
+            path = "/fetch/locked"
     )
     void lockedUser(@RequestBody LockedDto payload);
 
