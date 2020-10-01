@@ -1,0 +1,71 @@
+package com.github.ethereum.entity;
+
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+
+@Data
+@Entity
+@Table(name = "fees", schema = "public")
+public class Fee implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -5778399031489268847L;
+
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    private Long id;
+
+    @Column(
+            name = "fee",
+            nullable = false
+    )
+    private BigInteger fee;
+
+    @Column(
+            name = "gas_price",
+            nullable = false
+    )
+    private BigInteger gasPrice;
+
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @Enumerated(
+            value = EnumType.STRING
+    )
+    private EntityStatus status;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false
+    )
+    private LocalDateTime updateAt;
+
+    public Fee(BigInteger fee, BigInteger gasPrice, EntityStatus status) {
+        this.fee = fee;
+        this.gasPrice = gasPrice;
+        this.status = status;
+    }
+
+    public Fee(Long id, BigInteger fee, BigInteger gasPrice, EntityStatus status) {
+        this.id = id;
+        this.fee = fee;
+        this.gasPrice = gasPrice;
+        this.status = status;
+    }
+
+}
