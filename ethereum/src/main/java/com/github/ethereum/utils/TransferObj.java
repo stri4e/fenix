@@ -1,5 +1,6 @@
 package com.github.ethereum.utils;
 
+import com.github.ethereum.dto.ContractDto;
 import com.github.ethereum.entity.Contract;
 import com.github.ethereum.entity.Transaction;
 import com.github.ethereum.entity.TransactionStatus;
@@ -21,6 +22,22 @@ public class TransferObj {
                 data.getValue(),
                 data.getFee(),
                 TransactionStatus.incoming
+        );
+    }
+
+    public static Contract toContract(ContractDto data) {
+        return new Contract(
+                data.getId(),
+                data.getName(),
+                data.getAddress()
+        );
+    }
+
+    public static ContractDto fromContract(Contract data) {
+        return new ContractDto(
+                data.getId(),
+                data.getName(),
+                data.getAddress()
         );
     }
 

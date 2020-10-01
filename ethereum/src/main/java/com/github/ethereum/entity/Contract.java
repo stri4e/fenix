@@ -66,4 +66,15 @@ public class Contract implements Serializable, Cloneable {
         this.address = address;
         this.status = status;
     }
+
+    public Contract(
+            Long id,
+            String name,
+            String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.status = EntityStatus.on;
+    }
+
 }
