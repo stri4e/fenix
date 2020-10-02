@@ -10,13 +10,14 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.util.List;
 
 public interface IAccountController {
 
     @GetMapping(
-            path = "/{status}",
+            path = "/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Page<AccountDto> findByStatus(
@@ -26,5 +27,10 @@ public interface IAccountController {
                     @SortDefault(sort = "update_at", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
+
+    @GetMapping(
+            path = "/fetch/address"
+    )
+    String findAvailableAddress(@RequestAttribute Long userId);
 
 }

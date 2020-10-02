@@ -33,7 +33,7 @@ public class Account implements Serializable, Cloneable {
             nullable = false,
             updatable = false
     )
-    private Long user_id;
+    private Long userId;
 
     @Column(
             name = "private_key",
@@ -102,14 +102,29 @@ public class Account implements Serializable, Cloneable {
 
     public Account(
             Long id,
-            Long user_id,
+            Long userId,
             BigInteger privateKey,
             BigInteger publicKey,
             String address,
             BigInteger currencyBalance,
             EntityStatus status) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
+        this.privateKey = privateKey;
+        this.publicKey = publicKey;
+        this.address = address;
+        this.currencyBalance = currencyBalance;
+        this.status = status;
+    }
+
+    public Account(
+            Long userId,
+            BigInteger privateKey,
+            BigInteger publicKey,
+            String address,
+            BigInteger currencyBalance,
+            EntityStatus status) {
+        this.userId = userId;
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.address = address;

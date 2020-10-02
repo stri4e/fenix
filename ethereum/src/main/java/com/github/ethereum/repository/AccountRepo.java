@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface AccountRepo extends JpaRepository<Account, Long>,
         PagingAndSortingRepository<Account, Long>, JpaSpecificationExecutor<Account> {
 
+    Account findFirstByUser_idAndStatus(Long userId, EntityStatus status);
+
     Optional<Account> findByAddress(String address);
 
     @Query(value = "select a.address from Account a where a.status=:status")

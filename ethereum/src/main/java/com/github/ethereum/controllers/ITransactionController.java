@@ -17,13 +17,13 @@ public interface ITransactionController {
             path = "/edit/trx",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    void sendTransaction(@RequestBody ReceiptDto payload);
+    TransactionDto sendTransaction(@RequestBody ReceiptDto payload);
 
     @PostMapping(
             path = "/edit/contract/{address}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    void sendContract(
+    TransactionDto sendContract(
             @PathVariable(name = "address") String address,
             @RequestBody ReceiptDto payload
     );
