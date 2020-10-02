@@ -5,7 +5,6 @@ import com.github.ethereum.dto.AccountDto;
 import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.exceptions.NoContent;
-import com.github.ethereum.exceptions.NotFound;
 import com.github.ethereum.services.IAccountService;
 import com.github.ethereum.utils.TransferObj;
 import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
