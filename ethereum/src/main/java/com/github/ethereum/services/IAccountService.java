@@ -15,9 +15,8 @@ public interface IAccountService {
     List<String> readAddressesByStatus(EntityStatus status);
 
     Page<Account> readAllByStatus(EntityStatus status);
-    Account readByUserIdAndByStatus(Long userId, EntityStatus status);
 
-    List<Account> readByStatus(EntityStatus status);
+    Account readByUserIdAndByStatus(Long userId, EntityStatus status);
 
     Account readByAddress(String address);
 
