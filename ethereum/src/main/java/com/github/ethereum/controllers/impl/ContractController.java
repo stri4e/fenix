@@ -2,10 +2,12 @@ package com.github.ethereum.controllers.impl;
 
 import com.github.ethereum.controllers.IContractController;
 import com.github.ethereum.dto.ContractDto;
+import com.github.ethereum.entity.Contract;
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.services.IContractService;
 import com.github.ethereum.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -17,6 +19,7 @@ import static com.github.ethereum.utils.TransferObj.toContract;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "/v1/contracts")
 public class ContractController implements IContractController {
 
     private final IContractService contractService;
@@ -36,7 +39,10 @@ public class ContractController implements IContractController {
 
     @Override
     public void update(ContractDto payload) {
-
+        Contract contract = this.contractService.readById(payload.getId());
+        contract.setName(payload.getName());
+        contract.setAddress(payload.getAddress());
+        this.contractService.update(contract);
     }
 
     @Override

@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface AccountRepo extends JpaRepository<Account, Long>,
         JpaSpecificationExecutor<Account> {
 
+    List<Account> findByStatus(EntityStatus status);
+
     Optional<Account> findByAddress(String address);
 
     @Query(value = "select a.address from Account a where a.status=:status")

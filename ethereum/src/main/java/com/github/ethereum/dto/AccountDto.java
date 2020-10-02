@@ -14,7 +14,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressDto implements Serializable, Cloneable {
+public class AccountDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 510255980297499969L;
 

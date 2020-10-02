@@ -13,6 +13,8 @@ public interface IAccountService {
 
     List<String> readAddressesByStatus(EntityStatus status);
 
+    List<Account> readByStatus(EntityStatus status);
+
     Account readByAddress(String address);
 
     void update(Account account);

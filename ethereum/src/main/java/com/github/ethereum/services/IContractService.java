@@ -15,6 +15,8 @@ public interface IContractService {
 
     Contract readByName(String name);
 
+    Contract readById(Long id);
+
     Contract readByAddress(String address);
 
     void update(Contract contract);

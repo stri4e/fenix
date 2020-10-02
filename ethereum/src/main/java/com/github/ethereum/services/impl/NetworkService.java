@@ -2,6 +2,7 @@ package com.github.ethereum.services.impl;
 
 import com.github.ethereum.entity.*;
 import com.github.ethereum.services.*;
+import com.github.ethereum.utils.Logging;
 import com.github.ethereum.utils.TransferObj;
 import com.github.wrapper.ethrereum.model.Information;
 import com.github.wrapper.ethrereum.model.TransactionData;
@@ -11,11 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+import static com.github.ethereum.entity.Contract.DEFAULT_CONTRACT_NAME;
+
 @Service
 @RequiredArgsConstructor
 public class NetworkService implements INetworkService {
-
-    private static final String DEFAULT_TOKEN = "default";
 
     private final IAccountService accountService;
 
@@ -26,6 +27,7 @@ public class NetworkService implements INetworkService {
     private final IFeeService feeService;
 
     @Override
+    @Logging
     public void createOrUpdateFee(Information info) {
         Fee fee = this.feeService.readByStatus(EntityStatus.on);
         if (Objects.isNull(fee)) {
@@ -46,11 +48,12 @@ public class NetworkService implements INetworkService {
     }
 
     @Override
+    @Logging
     public void incomingTransaction(TransactionData data) {
         if (Objects.nonNull(data)) {
             Account account = this.accountService.readByAddress(data.getTo());
-            Contract contract = this.contractService.readByName(DEFAULT_TOKEN);
-            Transaction tmp = TransferObj.toTransaction(data, contract);
+            Contract contract = this.contractService.readByName(DEFAULT_CONTRACT_NAME);
+            Transaction tmp = TransferObj.toIncomingTransaction(data, contract);
             Transaction transaction = this.transactionService.create(tmp);
             account.addCurrencyBal(data.getValue());
             account.addTransaction(transaction);
@@ -60,6 +63,7 @@ public class NetworkService implements INetworkService {
     }
 
     @Override
+    @Logging
     public void outgoingTransaction(TransactionData data) {
         if (Objects.nonNull(data)) {
             Account account = this.accountService.readByAddress(data.getFrom());
@@ -68,16 +72,18 @@ public class NetworkService implements INetworkService {
             Transaction transaction = this.transactionService.readByHash(data.getHash());
             transaction.setBlockHash(data.getBlockHash());
             transaction.setBlockNumber(data.getBlockNumber());
+            transaction.setStatus(EntityStatus.on);
             this.transactionService.update(transaction);
         }
     }
 
     @Override
+    @Logging
     public void incomingContract(TransactionData data) {
         if (Objects.nonNull(data)) {
             Account account = this.accountService.readByAddress(data.getTo());
             Contract contract = this.contractService.readByAddress(data.getContact());
-            Transaction tmp = TransferObj.toTransaction(data, contract);
+            Transaction tmp = TransferObj.toIncomingTransaction(data, contract);
             Transaction transaction = this.transactionService.create(tmp);
             account.addContractBal(contract.getName(), transaction.getValue());
             account.addTransaction(transaction);
@@ -87,6 +93,7 @@ public class NetworkService implements INetworkService {
     }
 
     @Override
+    @Logging
     public void outgoingContract(TransactionData data) {
         if (Objects.nonNull(data)) {
             Contract contract = this.contractService.readByAddress(data.getContact());
@@ -96,6 +103,7 @@ public class NetworkService implements INetworkService {
             Transaction transaction = this.transactionService.readByHash(data.getHash());
             transaction.setBlockHash(data.getBlockHash());
             transaction.setBlockNumber(data.getBlockNumber());
+            transaction.setStatus(EntityStatus.on);
             this.transactionService.update(transaction);
         }
     }

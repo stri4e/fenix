@@ -40,6 +40,12 @@ public class ContractService implements IContractService {
     }
 
     @Override
+    public Contract readById(Long id) {
+        return this.contractRepo.findById(id)
+                .orElseThrow(NotFound::new);
+    }
+
+    @Override
     public Contract readByAddress(String address) {
         return this.contractRepo.findByAddress(address)
                 .orElseThrow(NotFound::new);

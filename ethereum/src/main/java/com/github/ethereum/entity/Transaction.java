@@ -92,9 +92,13 @@ public class Transaction implements Serializable, Cloneable {
     )
     private BigInteger fee;
 
+    @Column(name = "trx_status")
+    @Enumerated(value = EnumType.STRING)
+    private TransactionStatus trxStatus;
+
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
-    private TransactionStatus status;
+    private EntityStatus status;
 
     @CreationTimestamp
     @Column(
@@ -123,7 +127,7 @@ public class Transaction implements Serializable, Cloneable {
             String to,
             BigInteger value,
             BigInteger fee,
-            TransactionStatus status) {
+            TransactionStatus trxStatus) {
         this.hash = hash;
         this.nonce = nonce;
         this.blockHash = blockHash;
@@ -135,6 +139,36 @@ public class Transaction implements Serializable, Cloneable {
         this.to = to;
         this.value = value;
         this.fee = fee;
+        this.trxStatus = trxStatus;
+    }
+
+    public Transaction(
+            String hash,
+            BigInteger nonce,
+            String blockHash,
+            BigInteger blockNumber,
+            BigInteger gasPrice,
+            BigInteger gasLimit,
+            Contract contract,
+            String from,
+            String to,
+            BigInteger value,
+            BigInteger fee,
+            TransactionStatus trxStatus,
+            EntityStatus status) {
+        this.hash = hash;
+        this.nonce = nonce;
+        this.blockHash = blockHash;
+        this.blockNumber = blockNumber;
+        this.gasPrice = gasPrice;
+        this.gasLimit = gasLimit;
+        this.contract = contract;
+        this.from = from;
+        this.to = to;
+        this.value = value;
+        this.fee = fee;
+        this.trxStatus = trxStatus;
         this.status = status;
     }
+
 }

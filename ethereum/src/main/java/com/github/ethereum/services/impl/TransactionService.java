@@ -1,5 +1,6 @@
 package com.github.ethereum.services.impl;
 
+import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.entity.Transaction;
 import com.github.ethereum.exceptions.NotFound;
 import com.github.ethereum.repository.TransactionRepo;
@@ -25,6 +26,11 @@ public class TransactionService implements ITransactionService {
     @Override
     public List<Transaction> readAll() {
         return this.transactionRepo.findAll();
+    }
+
+    @Override
+    public List<Transaction> readAllByStatus(EntityStatus status) {
+        return this.transactionRepo.findByStatus(status);
     }
 
     @Override

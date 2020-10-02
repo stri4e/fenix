@@ -36,6 +36,11 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public List<Account> readByStatus(EntityStatus status) {
+        return this.accountRepo.findByStatus(status);
+    }
+
+    @Override
     public Account readByAddress(String address) {
         return this.accountRepo.findByAddress(address)
                 .orElseThrow(NotFound::new);

@@ -19,6 +19,8 @@ public class Contract implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1028569186091960062L;
 
+    public static final String DEFAULT_CONTRACT_NAME = "default";
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(

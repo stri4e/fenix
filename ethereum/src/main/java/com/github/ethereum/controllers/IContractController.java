@@ -18,7 +18,6 @@ public interface IContractController {
     ContractDto createContract(@Valid @RequestBody ContractDto payload);
 
     @GetMapping(
-            path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
