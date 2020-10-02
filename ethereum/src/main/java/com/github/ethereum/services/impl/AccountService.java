@@ -6,6 +6,7 @@ import com.github.ethereum.exceptions.NotFound;
 import com.github.ethereum.repository.AccountRepo;
 import com.github.ethereum.services.IAccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,8 +37,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> readByStatus(EntityStatus status) {
-        return this.accountRepo.findByStatus(status);
+    public Page<Account> readAllByStatus(EntityStatus status) {
+        return this.accountRepo.findAllByStatus(status);
     }
 
     @Override

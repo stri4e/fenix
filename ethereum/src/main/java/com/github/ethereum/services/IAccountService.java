@@ -2,6 +2,7 @@ package com.github.ethereum.services;
 
 import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IAccountService {
 
     List<String> readAddressesByStatus(EntityStatus status);
 
-    List<Account> readByStatus(EntityStatus status);
+    Page<Account> readAllByStatus(EntityStatus status);
 
     Account readByAddress(String address);
 
