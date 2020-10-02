@@ -36,6 +36,11 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Account readByUserIdAndByStatus(Long userId, EntityStatus status) {
+        return this.accountRepo.findFirstByUser_idAndStatus(userId, status);
+    }
+
+    @Override
     public List<Account> readByStatus(EntityStatus status) {
         return this.accountRepo.findByStatus(status);
     }

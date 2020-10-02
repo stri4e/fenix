@@ -17,6 +17,8 @@ public interface AccountRepo extends JpaRepository<Account, Long>,
 
     List<Account> findByStatus(EntityStatus status);
 
+    Account findFirstByUser_idAndStatus(Long userId, EntityStatus status);
+
     Optional<Account> findByAddress(String address);
 
     @Query(value = "select a.address from Account a where a.status=:status")

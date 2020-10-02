@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.github.ethereum.entity.Contract.DEFAULT_CONTRACT_NAME;
+import static com.github.ethereum.utils.TransferObj.fromTransaction;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class TransactionController implements ITransactionController {
     private final IFeeService feeService;
 
     @Override
-    public void sendTransaction(ReceiptDto payload) {
+    public TransactionDto sendTransaction(ReceiptDto payload) {
         Contract contract = this.contractService.readByName(DEFAULT_CONTRACT_NAME);
         Account account = this.accountService.readByAddress(payload.getFrom());
         Fee fee = this.feeService.readByStatus(EntityStatus.on);
@@ -53,10 +54,11 @@ public class TransactionController implements ITransactionController {
         );
         account.addTransaction(transaction);
         this.accountService.update(account);
+        return fromTransaction(transaction);
     }
 
     @Override
-    public void sendContract(String address, ReceiptDto payload) {
+    public TransactionDto sendContract(String address, ReceiptDto payload) {
         Contract contract = this.contractService.readByName(address);
         Account account = this.accountService.readByAddress(payload.getFrom());
         Fee fee = this.feeService.readByStatus(EntityStatus.on);
@@ -72,6 +74,7 @@ public class TransactionController implements ITransactionController {
         );
         account.addTransaction(transaction);
         this.accountService.update(account);
+        return fromTransaction(transaction);
     }
 
     @Override
