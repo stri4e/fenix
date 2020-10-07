@@ -32,6 +32,7 @@ public class NetworkService implements INetworkService {
     private final IBlockService blockService;
 
     @Override
+    @Logging
     public Long findBlockNumber() {
         Block block = this.blockService.readByStatus(EntityStatus.on);
         if(Objects.isNull(block)) {
@@ -124,6 +125,7 @@ public class NetworkService implements INetworkService {
     }
 
     @Override
+    @Logging
     public void updateBlockNumber(Long number) {
         this.blockService.update(number, EntityStatus.on);
     }
