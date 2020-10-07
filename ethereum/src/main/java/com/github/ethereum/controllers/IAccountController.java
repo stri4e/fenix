@@ -27,7 +27,7 @@ public interface IAccountController {
     );
 
     @GetMapping(
-            path = "/fetch/address"
+            path = "/address"
     )
     String findAvailableAddress(@RequestAttribute Long userId);
 
