@@ -4,6 +4,7 @@ import com.github.ethereum.entity.*;
 import com.github.ethereum.services.*;
 import com.github.ethereum.utils.Logging;
 import com.github.ethereum.utils.TransferObj;
+import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
 import com.github.wrapper.ethrereum.model.Information;
 import com.github.wrapper.ethrereum.model.TransactionData;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ import static com.github.ethereum.entity.Contract.DEFAULT_CONTRACT_NAME;
 @RequiredArgsConstructor
 public class NetworkService implements INetworkService {
 
+    private final IFacadeEthereum facade;
+
     private final IAccountService accountService;
 
     private final IContractService contractService;
@@ -25,6 +28,18 @@ public class NetworkService implements INetworkService {
     private final ITransactionService transactionService;
 
     private final IFeeService feeService;
+
+    private final IBlockService blockService;
+
+    @Override
+    public Long findBlockNumber() {
+        Block block = this.blockService.readByStatus(EntityStatus.on);
+        if(Objects.isNull(block)) {
+            return this.facade.bastBlock()
+                    .orElseGet(() -> this.blockService.createDefault().getNumber());
+        }
+        return block.getNumber();
+    }
 
     @Override
     @Logging
@@ -106,6 +121,11 @@ public class NetworkService implements INetworkService {
             transaction.setStatus(EntityStatus.on);
             this.transactionService.update(transaction);
         }
+    }
+
+    @Override
+    public void updateBlockNumber(Long number) {
+        this.blockService.update(number, EntityStatus.on);
     }
 
 }

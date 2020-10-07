@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface INetworkService {
 
+    Long findBlockNumber();
+
     void createOrUpdateFee(Information info);
 
     List<String> contractsAddresses();
@@ -20,5 +22,7 @@ public interface INetworkService {
     void incomingContract(TransactionData data);
 
     void outgoingContract(TransactionData data);
+
+    void updateBlockNumber(Long number);
 
 }

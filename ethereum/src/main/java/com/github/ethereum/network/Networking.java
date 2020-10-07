@@ -19,17 +19,16 @@ public class Networking implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        this.facadeEthereum.startTransactionTrack(
+        this.facadeEthereum.blockTracker(
+                this.networkService::findBlockNumber,
                 this.networkService::incomingTransaction,
                 this.networkService::outgoingTransaction,
                 this.networkService::incomingContract,
                 this.networkService::outgoingTransaction,
-                err -> log.warn("Enter: {}", err.getMessage()),
                 this.networkService::accountAddresses,
-                this.networkService::contractsAddresses
-        );
-        this.facadeEthereum.startInfoTrack(
+                this.networkService::contractsAddresses,
                 this.networkService::createOrUpdateFee,
+                this.networkService::updateBlockNumber,
                 err -> log.warn("Enter: {}", err.getMessage())
         );
     }
