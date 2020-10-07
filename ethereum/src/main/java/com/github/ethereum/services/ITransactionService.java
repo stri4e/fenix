@@ -2,6 +2,7 @@ package com.github.ethereum.services;
 
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.entity.Transaction;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ITransactionService {
 
     List<Transaction> readAll();
 
-    List<Transaction> readAllByStatus(EntityStatus status);
+    Page<Transaction> readAllByStatus(EntityStatus status);
 
     Transaction readByHash(String hash);
 

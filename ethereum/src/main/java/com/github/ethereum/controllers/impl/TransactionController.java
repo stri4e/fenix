@@ -13,10 +13,12 @@ import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
 import com.github.wrapper.ethrereum.model.KeyPair;
 import com.github.wrapper.ethrereum.model.TransactionData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.github.ethereum.entity.Contract.DEFAULT_CONTRACT_NAME;
@@ -78,10 +80,14 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
-    public List<TransactionDto> findAllByStatus(EntityStatus status) {
-        return this.transactionService.readAllByStatus(status)
-                .stream().map(TransferObj::fromTransaction)
-                .collect(Collectors.toList());
+    public Page<TransactionDto> findAllByStatus(EntityStatus status, Pageable pageable) {
+        Page<Transaction> transactions = this.transactionService.readAllByStatus(status);
+        return new PageImpl<>(
+                transactions.stream()
+                        .map(TransferObj::fromTransaction)
+                        .collect(Collectors.toList()),
+                pageable, transactions.getTotalElements()
+        );
     }
 
 }
