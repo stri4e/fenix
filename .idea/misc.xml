@@ -10,6 +10,7 @@
     <file type="web" url="file://$PROJECT_DIR$/gateway" />
     <file type="web" url="file://$PROJECT_DIR$/monitoring" />
     <file type="web" url="file://$PROJECT_DIR$/orders" />
+    <file type="web" url="file://$PROJECT_DIR$/payments" />
     <file type="web" url="file://$PROJECT_DIR$/products" />
     <file type="web" url="file://$PROJECT_DIR$/server-mocks" />
     <file type="web" url="file://$PROJECT_DIR$/statistics" />
