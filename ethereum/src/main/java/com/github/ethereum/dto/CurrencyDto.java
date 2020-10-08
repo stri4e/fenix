@@ -12,24 +12,21 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContractDto implements Serializable, Cloneable {
+public class CurrencyDto implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 3564068861790087316L;
-
-    @JsonProperty(value = "id")
-    private Long id;
+    private static final long serialVersionUID = 5693842243570892367L;
 
     @NotBlank
     @JsonProperty(value = "name")
     private String name;
 
     @NotBlank
-    @JsonProperty(value = "full_Name")
+    @JsonProperty(value = "fullName")
     private String fullName;
 
     @NotBlank
-    @JsonProperty(value = "address")
-    private String address;
+    @JsonProperty(value = "addressRegex")
+    private String addressRegex;
 
     @NotNull
     @JsonProperty(value = "pow")

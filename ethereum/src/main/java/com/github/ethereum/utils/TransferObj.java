@@ -1,9 +1,6 @@
 package com.github.ethereum.utils;
 
-import com.github.ethereum.dto.AccountDto;
-import com.github.ethereum.dto.ContractDto;
-import com.github.ethereum.dto.FeeDto;
-import com.github.ethereum.dto.TransactionDto;
+import com.github.ethereum.dto.*;
 import com.github.ethereum.entity.*;
 import com.github.wrapper.ethrereum.model.TransactionData;
 
@@ -64,7 +61,9 @@ public class TransferObj {
         return new Contract(
                 data.getId(),
                 data.getName(),
-                data.getAddress()
+                data.getFullName(),
+                data.getAddress(),
+                data.getPow()
         );
     }
 
@@ -72,7 +71,9 @@ public class TransferObj {
         return new ContractDto(
                 data.getId(),
                 data.getName(),
-                data.getAddress()
+                data.getFullName(),
+                data.getAddress(),
+                data.getPow()
         );
     }
 
@@ -88,6 +89,24 @@ public class TransferObj {
         return new FeeDto(
                 data.getFee(),
                 data.getGasPrice()
+        );
+    }
+
+    public static Currency toCurrency(CurrencyDto data) {
+        return new Currency(
+                data.getName(),
+                data.getFullName(),
+                data.getAddressRegex(),
+                data.getPow()
+        );
+    }
+
+    public static CurrencyDto fromCurrency(Currency data) {
+        return new CurrencyDto(
+                data.getName(),
+                data.getFullName(),
+                data.getAddressRegex(),
+                data.getPow()
         );
     }
 
