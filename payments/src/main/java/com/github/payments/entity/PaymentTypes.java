@@ -1,6 +1,7 @@
 package com.github.payments.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +35,10 @@ public class PaymentTypes implements Serializable, Cloneable {
     )
     private String alias;
 
+    @Column(
+            name = "status",
+            nullable = false
+    )
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 
@@ -51,4 +57,8 @@ public class PaymentTypes implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
+    public PaymentTypes(Long id, String alias) {
+        this.id = id;
+        this.alias = alias;
+    }
 }

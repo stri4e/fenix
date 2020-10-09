@@ -8,4 +8,6 @@ public interface ICurrentRateService {
 
     void saveAll(List<CurrentRate> rates);
 
+    List<CurrentRate> readAll();
+
 }

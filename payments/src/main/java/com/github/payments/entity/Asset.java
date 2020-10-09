@@ -61,8 +61,7 @@ public class Asset implements Serializable, Cloneable {
 
     @Column(
             name = "status",
-            nullable = false,
-            columnDefinition = ""
+            nullable = false
     )
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
@@ -101,5 +100,14 @@ public class Asset implements Serializable, Cloneable {
         this.pow = pow;
         this.assetType = assetType;
         this.status = status;
+    }
+
+    public Asset(Long id, String owner, String name, String fullName, Integer pow, AssetType assetType) {
+        this.id = id;
+        this.owner = owner;
+        this.name = name;
+        this.fullName = fullName;
+        this.pow = pow;
+        this.assetType = assetType;
     }
 }

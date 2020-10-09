@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -19,5 +20,11 @@ public class CurrentRateService implements ICurrentRateService {
     @Override
     public void saveAll(List<CurrentRate> rates) {
         this.currentRateRepo.saveAll(rates);
+    }
+
+    @Override
+    public List<CurrentRate> readAll() {
+        return this.currentRateRepo
+                .findAllByCreateAt_Hour(BigInteger.TEN.intValue());
     }
 }

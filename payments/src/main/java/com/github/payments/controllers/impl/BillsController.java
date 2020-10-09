@@ -25,7 +25,7 @@ import static com.github.payments.utils.TransferObj.toBill;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/crypto/bills")
+@RequestMapping(path = "/v1/bills")
 public class BillsController implements IBillsController {
 
     private final IBillsService billService;

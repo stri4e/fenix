@@ -8,6 +8,7 @@ import com.github.payments.entity.CurrentRate;
 import com.github.payments.service.IAssetsService;
 import com.github.payments.service.ICurrentRateService;
 import com.github.payments.service.INetworkService;
+import com.github.payments.service.IRatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class NetworkService implements INetworkService {
     private final IAssetsService assetsService;
 
     private final ICurrentRateService currentRateService;
+
+    private final IRatesService ratesService;
 
     @Override
     public Optional<RatesPayload> fetchRates(String currencyName) {
