@@ -1,18 +1,17 @@
 package com.github.payments.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,6 +30,12 @@ public class Bill implements Serializable, Cloneable {
             nullable = false
     )
     private BigInteger amount;
+
+    @Column(
+            name = "amount_paid",
+            nullable = false
+    )
+    private BigInteger amountPaid;
 
     @OneToOne
     @JoinColumn(
@@ -71,7 +76,7 @@ public class Bill implements Serializable, Cloneable {
             nullable = false
     )
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -88,4 +93,22 @@ public class Bill implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
+    public void forUpdate(EntityStatus status, BigInteger amountPaid) {
+        this.status = status;
+        this.amountPaid = amountPaid;
+    }
+
+    public Bill forCreate(Asset asset, PaymentTypes paymentType) {
+        this.asset = asset;
+        this.paymentType = paymentType;
+        return this;
+    }
+
+    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType) {
+        this.id = id;
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.address = address;
+        this.billType = billType;
+    }
 }

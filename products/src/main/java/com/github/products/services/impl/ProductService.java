@@ -1,7 +1,7 @@
 package com.github.products.services.impl;
 
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.repository.ProductRepo;
@@ -120,7 +120,7 @@ public class ProductService implements IProductService {
                     @CacheEvict(value = "products_by_category", allEntries = true),
             }
     )
-    public void updateStatus(ProductStatus status, Long id) {
+    public void updateStatus(EntityStatus status, Long id) {
         this.productRepo.updateStatus(status, id);
     }
 

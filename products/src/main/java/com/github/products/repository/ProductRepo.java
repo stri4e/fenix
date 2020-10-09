@@ -1,7 +1,7 @@
 package com.github.products.repository;
 
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,7 +17,7 @@ import java.util.List;
 public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
         JpaSpecificationExecutor<Product> {
 
-    Page<Product> findByStatus(ProductStatus status, Pageable pageable);
+    Page<Product> findByStatus(EntityStatus status, Pageable pageable);
 
     Page<Product> findAllByCategoryName(String name, Pageable pageable);
 
@@ -26,7 +26,7 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     @Modifying
     @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")
     void updateStatus(
-            @Param(value = "status") ProductStatus status,
+            @Param(value = "status") EntityStatus status,
             @Param(value = "id") Long id);
 
 }

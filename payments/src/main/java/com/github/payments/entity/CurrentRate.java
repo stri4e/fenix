@@ -43,7 +43,7 @@ public class CurrentRate implements Serializable, Cloneable {
     private List<Rate> rates;
 
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

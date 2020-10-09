@@ -25,13 +25,13 @@ public class BillDto implements Serializable, Cloneable {
     @JsonProperty(value = "amount")
     private BigInteger amount;
 
-    @NotBlank
-    @JsonProperty(value = "currency")
-    private String currency;
+    @NotNull
+    @JsonProperty(value = "amountPaid")
+    private BigInteger amountPaid;
 
     @NotBlank
-    @JsonProperty(value = "contract")
-    private String contract;
+    @JsonProperty(value = "asset")
+    private String assetName;
 
     @NotBlank
     @JsonProperty(value = "address")

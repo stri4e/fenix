@@ -1,7 +1,7 @@
 package com.github.orders.service.impl;
 
 import com.github.orders.entity.Company;
-import com.github.orders.entity.CompanyStatus;
+import com.github.orders.entity.EntityStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.CompanyRepo;
 import com.github.orders.service.ICompanyService;
@@ -25,7 +25,7 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public List<Company> readAll() {
-        return this.companyRepo.findAllByStatus(CompanyStatus.active);
+        return this.companyRepo.findAllByStatus(EntityStatus.on);
     }
 
     @Override
@@ -41,6 +41,6 @@ public class CompanyService implements ICompanyService {
 
     @Override
     public void remove(Long id) {
-        this.companyRepo.updateStatus(id, CompanyStatus.no_active);
+        this.companyRepo.updateStatus(id, EntityStatus.off);
     }
 }

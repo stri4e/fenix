@@ -31,6 +31,6 @@ public class Product extends Item implements Serializable, Cloneable {
 
     @NotNull
     @JsonProperty(value = "publish")
-    private ProductStatus status;
+    private EntityStauts status;
 
 }

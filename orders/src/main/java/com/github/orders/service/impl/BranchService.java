@@ -1,7 +1,7 @@
 package com.github.orders.service.impl;
 
 import com.github.orders.entity.Branch;
-import com.github.orders.entity.BranchStatus;
+import com.github.orders.entity.EntityStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.BranchRepo;
 import com.github.orders.service.IBranchService;
@@ -35,6 +35,6 @@ public class BranchService implements IBranchService {
 
     @Override
     public void remove(Long id) {
-        this.branchRepo.updateStatus(id, BranchStatus.no_active);
+        this.branchRepo.updateStatus(id, EntityStatus.off);
     }
 }

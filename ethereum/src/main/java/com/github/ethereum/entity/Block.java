@@ -33,7 +33,7 @@ public class Block implements Serializable, Cloneable {
     private Long number;
 
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

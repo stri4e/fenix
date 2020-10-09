@@ -2,11 +2,10 @@ package com.github.products.controllers.impl;
 
 import com.github.products.entity.Category;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import org.assertj.core.util.Lists;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public class ProductControllerMocks {
@@ -49,7 +48,7 @@ public class ProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         return p;
     }
 
@@ -61,7 +60,7 @@ public class ProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         return p;
     }
 
@@ -74,7 +73,7 @@ public class ProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         p.setCategory(category());
         return p;
     }
@@ -88,7 +87,7 @@ public class ProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION_FOR_UPDATE);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         p.setCategory(category());
         return p;
     }

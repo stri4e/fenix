@@ -1,12 +1,11 @@
 package com.github.products.services;
 
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IProductService {
 
@@ -28,6 +27,6 @@ public interface IProductService {
 
     void updateProduct(Product p);
 
-    void updateStatus(ProductStatus status, Long id);
+    void updateStatus(EntityStatus status, Long id);
 
 }

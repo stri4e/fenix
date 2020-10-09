@@ -34,7 +34,7 @@ public class PaymentTypes implements Serializable, Cloneable {
     private String alias;
 
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

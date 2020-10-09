@@ -27,14 +27,22 @@ public class Asset implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "name",
+            name = "owner",
             nullable = false
+    )
+    private String owner;
+
+    @Column(
+            name = "name",
+            nullable = false,
+            unique = true
     )
     private String name;
 
     @Column(
             name = "full_name",
-            nullable = false
+            nullable = false,
+            unique = true
     )
     private String fullName;
 
@@ -53,10 +61,11 @@ public class Asset implements Serializable, Cloneable {
 
     @Column(
             name = "status",
-            nullable = false
+            nullable = false,
+            columnDefinition = ""
     )
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -73,20 +82,20 @@ public class Asset implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Asset(String name, String fullName, String addressRegex, Integer pow) {
+    public Asset(String name, String fullName, Integer pow) {
         this.name = name;
         this.fullName = fullName;
         this.pow = pow;
     }
 
-    public Asset(String name, String fullName, String addressRegex, Integer pow, EntityStatus status) {
+    public Asset(String name, String fullName, Integer pow, EntityStatus status) {
         this.name = name;
         this.fullName = fullName;
         this.pow = pow;
         this.status = status;
     }
 
-    public Asset(String name, String fullName, String addressRegex, Integer pow, AssetType assetType, EntityStatus status) {
+    public Asset(String name, String fullName, Integer pow, AssetType assetType, EntityStatus status) {
         this.name = name;
         this.fullName = fullName;
         this.pow = pow;

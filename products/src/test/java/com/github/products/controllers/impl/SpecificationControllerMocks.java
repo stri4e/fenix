@@ -2,12 +2,11 @@ package com.github.products.controllers.impl;
 
 import com.github.products.entity.Category;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Specification;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SpecificationControllerMocks {
@@ -72,7 +71,7 @@ public class SpecificationControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.used);
+        p.setStatus(EntityStatus.on);
         return p;
     }
 

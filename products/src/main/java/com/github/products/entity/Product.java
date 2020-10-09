@@ -65,7 +65,7 @@ public class Product extends Item implements Serializable, Cloneable {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private EntityStatus status = EntityStatus.off;
 
     public void addComment(Comment c) {
         if (Objects.nonNull(c)) {

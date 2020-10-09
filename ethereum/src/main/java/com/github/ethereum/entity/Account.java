@@ -83,7 +83,7 @@ public class Account implements Serializable, Cloneable {
     private Set<Transaction> transactions = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

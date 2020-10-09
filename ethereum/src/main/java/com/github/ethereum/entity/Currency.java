@@ -51,7 +51,7 @@ public class Currency implements Serializable, Cloneable {
     private Integer pow;
 
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

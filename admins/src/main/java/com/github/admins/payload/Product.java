@@ -29,7 +29,7 @@ public class Product extends Item implements Serializable, Cloneable {
     private Category category;
 
     @JsonProperty(value = "publish")
-    private ProductStatus publish;
+    private EntityStatus publish;
 
     public void addSpecification(Specification s) {
         if (Objects.nonNull(s)) {

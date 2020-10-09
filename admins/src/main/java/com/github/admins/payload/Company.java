@@ -29,7 +29,7 @@ public class Company implements Serializable, Cloneable {
 
     private BigDecimal branchPrice;
 
-    private CompanyStatus status;
+    private EntityStatus status;
 
     public Company(
             Long id, String name,

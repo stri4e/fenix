@@ -13,18 +13,24 @@ import java.util.stream.Collectors;
 public class TransferObj {
 
     public static Bill toBill(BillDto data) {
-        return new Bill();
+        return new Bill(
+                data.getId(),
+                data.getAmount(),
+                data.getAmountPaid(),
+                data.getAddress(),
+                data.getBillType()
+        );
     }
 
     public static BillDto fromBill(Bill data) {
         return new BillDto();
     }
 
-    public static Asset toCurrency(AssetDto data) {
+    public static Asset toAsset(AssetDto data) {
         return new Asset();
     }
 
-    public static AssetDto fromCurrency(Asset data) {
+    public static AssetDto fromAsset(Asset data) {
         return new AssetDto();
     }
 

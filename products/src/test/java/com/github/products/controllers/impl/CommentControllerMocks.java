@@ -4,11 +4,10 @@ import com.github.products.dto.CommentDto;
 import com.github.products.entity.Category;
 import com.github.products.entity.Comment;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommentControllerMocks {
@@ -75,7 +74,7 @@ public class CommentControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         return p;
     }
 

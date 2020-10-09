@@ -66,7 +66,7 @@ public class Company implements Serializable, Cloneable {
             nullable = false
     )
     @Enumerated(EnumType.STRING)
-    private CompanyStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

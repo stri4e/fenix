@@ -2,7 +2,7 @@ package com.github.products.controllers;
 
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -73,7 +73,7 @@ public interface IProductController {
     @ResponseStatus(code = HttpStatus.OK)
     void updateStatusProduct(
             @PathVariable Long id,
-            @PathVariable ProductStatus status
+            @PathVariable EntityStatus status
     );
 
 }

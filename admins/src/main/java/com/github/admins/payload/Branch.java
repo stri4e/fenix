@@ -24,7 +24,7 @@ public class Branch implements Serializable, Cloneable {
 
     private Integer maxWeight;
 
-    private BranchStatus status;
+    private EntityStatus status;
 
     private LocalDateTime createAt;
 

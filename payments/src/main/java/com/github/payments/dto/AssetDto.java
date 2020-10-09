@@ -17,6 +17,13 @@ public class AssetDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5693842243570892367L;
 
+    @JsonProperty(value = "id")
+    private Long id;
+
+    @NotBlank
+    @JsonProperty(value = "owner")
+    private String owner;
+
     @NotBlank
     @JsonProperty(value = "name")
     private String name;
@@ -24,10 +31,6 @@ public class AssetDto implements Serializable, Cloneable {
     @NotBlank
     @JsonProperty(value = "fullName")
     private String fullName;
-
-    @NotBlank
-    @JsonProperty(value = "addressRegex")
-    private String addressRegex;
 
     @NotNull
     @JsonProperty(value = "pow")

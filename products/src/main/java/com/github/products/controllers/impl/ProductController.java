@@ -3,7 +3,7 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.IProductController;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
@@ -93,7 +93,7 @@ public class ProductController implements IProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateStatusProduct(Long id, ProductStatus status) {
+    public void updateStatusProduct(Long id, EntityStatus status) {
         this.productService.updateStatus(status, id);
     }
 

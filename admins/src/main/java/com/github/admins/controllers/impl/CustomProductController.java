@@ -5,7 +5,7 @@ import com.github.admins.dto.ProductDto;
 import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.Category;
 import com.github.admins.payload.Product;
-import com.github.admins.payload.ProductStatus;
+import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.ICategoryService;
 import com.github.admins.services.IProductService;
 import com.github.admins.utils.Logging;
@@ -74,7 +74,7 @@ public class CustomProductController implements ICustomProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void changeStatusProduct(Long id, ProductStatus status) {
+    public void changeStatusProduct(Long id, EntityStatus status) {
         this.productService.updateStatus(id, status);
     }
 

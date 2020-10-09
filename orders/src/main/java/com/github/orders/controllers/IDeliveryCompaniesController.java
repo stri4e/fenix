@@ -2,7 +2,6 @@ package com.github.orders.controllers;
 
 import com.github.orders.dto.CompanyDto;
 import com.github.orders.entity.Company;
-import com.github.orders.entity.CompanyStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

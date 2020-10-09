@@ -46,7 +46,7 @@ public class Fee implements Serializable, Cloneable {
     @Enumerated(
             value = EnumType.STRING
     )
-    private EntityStatus status;
+    private EntityStatus status = EntityStatus.on;
 
     @UpdateTimestamp
     @Column(
