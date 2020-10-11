@@ -14,19 +14,17 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "transactions", schema = "public")
-public class Transaction implements Serializable, Cloneable {
+@Table(name = "blocks", schema = "public")
+public class Block implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -2385997796398711316L;
+    private static final long serialVersionUID = 2242841964532354864L;
 
     @Id
-    @Column(
-            name = "ID"
-    )
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long number;
 
     @Column(
             name = "status",

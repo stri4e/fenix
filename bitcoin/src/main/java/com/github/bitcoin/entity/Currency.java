@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,12 +13,10 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "transactions", schema = "public")
-public class Transaction implements Serializable, Cloneable {
-
-    private static final long serialVersionUID = -2385997796398711316L;
+@NoArgsConstructor
+@Table(name = "currency", schema = "public")
+public class Currency implements Serializable, Cloneable {
 
     @Id
     @Column(
