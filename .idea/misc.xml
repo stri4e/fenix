@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/admins" />
+    <file type="web" url="file://$PROJECT_DIR$/bitcoin" />
     <file type="web" url="file://$PROJECT_DIR$/config-server" />
     <file type="web" url="file://$PROJECT_DIR$/discovery" />
     <file type="web" url="file://$PROJECT_DIR$/emails" />
