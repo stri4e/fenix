@@ -13,4 +13,6 @@ public class TransactionDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 7447054344952876288L;
 
+    private Long id;
+
 }

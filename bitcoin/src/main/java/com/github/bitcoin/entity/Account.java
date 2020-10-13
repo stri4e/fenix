@@ -8,7 +8,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -29,11 +32,77 @@ public class Account implements Serializable, Cloneable {
     )
     private Long id;
 
-    @OneToMany
-    private Set<Address> addresses;
+    @Column(
+            name = "user_id",
+            nullable = false,
+            updatable = false
+    )
+    private Long userId;
 
-    @OneToMany
-    private Set<Transaction> transactions;
+    @Column(
+            name = "mnemonic",
+            nullable = false,
+            unique = true
+    )
+    private String mnemonic;
+
+    @Column(
+            name = "private_key",
+            nullable = false,
+            unique = true
+    )
+    private String privateKey;
+
+    @Column(
+            name = "public_key",
+            nullable = false,
+            unique = true
+    )
+    private String publicKey;
+
+    @Column(
+            name = "chain_code",
+            nullable = false,
+            unique = true
+    )
+    private String chainCode;
+
+    @Column(
+            name = "time_stamp",
+            nullable = false,
+            unique = true
+    )
+    private Long timeStamp;
+
+    @Column(
+            name = "amount",
+            nullable = false
+    )
+    private BigInteger amount = BigInteger.ZERO;
+
+    @OneToMany(
+            targetEntity = Address.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "address_id",
+            foreignKey = @ForeignKey(
+                    name = "account_address_fk"
+            )
+    )
+    private Set<Address> addresses = new HashSet<>();
+
+    @OneToMany(
+            targetEntity = Transaction.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "transaction_id",
+            foreignKey = @ForeignKey(
+                    name = "account_transaction_fk"
+            )
+    )
+    private Set<Transaction> transactions = new HashSet<>();
 
     @Column(
             name = "status",
@@ -56,5 +125,34 @@ public class Account implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public Account(String mnemonic,
+                   String privateKey,
+                   String publicKey,
+                   String chainCode,
+                   Long timeStamp) {
+        this.mnemonic = mnemonic;
+        this.privateKey = privateKey;
+        this.publicKey = publicKey;
+        this.chainCode = chainCode;
+        this.timeStamp = timeStamp;
+    }
+
+    public void incoming(Transaction transaction, Long value) {
+        addTransaction(transaction);
+        addAmount(value);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        if (Objects.nonNull(transaction)) {
+            this.transactions.add(transaction);
+        }
+    }
+
+    public void addAmount(Long value) {
+        if (Objects.nonNull(value)) {
+            this.amount = this.amount.add(BigInteger.valueOf(value));
+        }
+    }
 
 }

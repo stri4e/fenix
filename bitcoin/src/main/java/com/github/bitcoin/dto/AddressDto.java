@@ -10,4 +10,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -4872123169803935739L;
+
+    private Long id;
+
 }

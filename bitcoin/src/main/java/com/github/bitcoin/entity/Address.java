@@ -8,8 +8,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -29,11 +32,31 @@ public class Address implements Serializable, Cloneable {
     )
     private Long id;
 
+    @Column(
+            name = "index",
+            nullable = false,
+            unique = true
+    )
+    private Integer index;
+
+    @Column(
+            name = "address",
+            nullable = false,
+            unique = true
+    )
+    private String address;
+
+    @Column(
+            name = "amount",
+            nullable = false
+    )
+    private BigInteger amount = BigInteger.ZERO;
+
     @ManyToOne
     private Account account;
 
     @OneToMany
-    private List<UnspentOut> outs;
+    private List<UnspentOut> outs = new ArrayList<>();
 
     @Column(
             name = "status",
@@ -56,5 +79,12 @@ public class Address implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public void incoming(UnspentOut out, Long value) {
+        if (Objects.nonNull(out) && Objects.nonNull(amount)) {
+            this.outs.add(out);
+            this.amount = this.amount.add(BigInteger.valueOf(value));
+        }
+    }
 
 }

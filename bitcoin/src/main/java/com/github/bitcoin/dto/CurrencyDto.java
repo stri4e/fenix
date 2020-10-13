@@ -13,4 +13,6 @@ public class CurrencyDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7377066527998344106L;
 
+    private Long id;
+
 }

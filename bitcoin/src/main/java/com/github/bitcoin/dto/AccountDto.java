@@ -13,6 +13,6 @@ public class AccountDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 4729447471412394620L;
 
-
+    private Long id;
 
 }

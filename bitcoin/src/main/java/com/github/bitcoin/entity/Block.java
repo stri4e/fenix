@@ -24,6 +24,10 @@ public class Block implements Serializable, Cloneable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(
+            name = "number",
+            nullable = false
+    )
     private Long number;
 
     @Column(

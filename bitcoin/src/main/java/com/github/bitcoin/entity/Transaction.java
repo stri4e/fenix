@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -27,6 +29,40 @@ public class Transaction implements Serializable, Cloneable {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+
+    @Column(
+            name = "block_height",
+            nullable = false
+    )
+    private Long blockHeight;
+
+    @Column(
+            name = "block_hash",
+            nullable = false
+    )
+    private String blockHash;
+
+    @Column(
+            name = "hash",
+            nullable = false
+    )
+    private String hash;
+
+    @Column(
+            name = "confirmations",
+            nullable = false
+    )
+    private Integer confirmations = 0;
+
+    @ElementCollection(
+            fetch = FetchType.EAGER
+    )
+    private List<String> inputs = new ArrayList<>();
+
+    @ElementCollection(
+            fetch = FetchType.EAGER
+    )
+    private List<String> outputs = new ArrayList<>();
 
     @Column(
             name = "status",
@@ -49,5 +85,32 @@ public class Transaction implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public Transaction(Long id, Long blockHeight, String blockHash, String hash,
+                       Integer confirmations, List<String> inputs, List<String> outputs) {
+        this.id = id;
+        this.blockHeight = blockHeight;
+        this.blockHash = blockHash;
+        this.hash = hash;
+        this.confirmations = confirmations;
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
+
+    public Transaction(Long blockHeight, String blockHash, String hash,
+                       Integer confirmations, List<String> inputs, List<String> outputs) {
+        this.blockHeight = blockHeight;
+        this.blockHash = blockHash;
+        this.hash = hash;
+        this.confirmations = confirmations;
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
+
+    public void forUpdate(Long blockHeight, String blockHash, Integer confirmations) {
+        this.blockHeight = blockHeight;
+        this.blockHash = blockHash;
+        this.confirmations = confirmations;
+    }
 
 }
