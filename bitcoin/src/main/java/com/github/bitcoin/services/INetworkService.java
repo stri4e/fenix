@@ -4,7 +4,7 @@ import com.github.wrapper.bitcoin.model.NewBlock;
 
 public interface INetworkService {
 
-    Long findLastHeight();
+    Long findLastHeight(String url);
 
     void handlerBlock(NewBlock block);
 

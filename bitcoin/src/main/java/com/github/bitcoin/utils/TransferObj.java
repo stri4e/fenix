@@ -1,43 +1,92 @@
 package com.github.bitcoin.utils;
 
-import com.github.bitcoin.dto.AddressDto;
-import com.github.bitcoin.dto.CurrencyDto;
-import com.github.bitcoin.dto.TransactionDto;
-import com.github.bitcoin.entity.Address;
-import com.github.bitcoin.entity.Currency;
-import com.github.bitcoin.entity.Transaction;
-import com.github.bitcoin.entity.UnspentOut;
-import com.github.wrapper.bitcoin.model.TInput;
-import com.github.wrapper.bitcoin.model.TOutput;
-import com.github.wrapper.bitcoin.model.TransactionData;
+import com.github.bitcoin.dto.*;
+import com.github.bitcoin.entity.*;
+import com.github.wrapper.bitcoin.model.*;
+import com.github.wrapper.bitcoin.transaction.NewTransaction;
+import com.github.wrapper.bitcoin.utils.Network;
+import com.github.wrapper.bitcoin.utils.WrapUtils;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Transaction toTransaction(TransactionDto data) {
-        return new Transaction();
+    public static AccountDto fromAccount(Account data) {
+        return new AccountDto(
+                data.getId(),
+                data.getAmount(),
+                data.getAddresses().stream()
+                        .map(TransferObj::fromAddress)
+                .collect(Collectors.toList()),
+                data.getTransactions().stream()
+                .map(TransferObj::fromTransaction)
+                .collect(Collectors.toList())
+        );
     }
 
     public static TransactionDto fromTransaction(Transaction data) {
-        return new TransactionDto();
+        return new TransactionDto(
+                data.getId(),
+                data.getBlockHeight(),
+                data.getBlockHash(),
+                data.getHash(),
+                data.getConfirmations(),
+                data.getValue(),
+                data.getInputs(),
+                data.getOutputs()
+        );
     }
 
-    public static Currency toCurrency(Currency data) {
-        return new Currency();
+    public static TrialTransactionDto fromTrialTransaction(TrialTransaction data) {
+        return new TrialTransactionDto(
+                data.getHash(),
+                data.getValue(),
+                data.getFee(),
+                data.getChange(),
+                data.getFrom(),
+                data.getTo()
+        );
+    }
+
+    public static Currency toCurrency(CurrencyDto data) {
+        return new Currency(
+                data.getId(),
+                data.getName(),
+                data.getFullName(),
+                data.getAddressRegex(),
+                data.getPow()
+        );
     }
 
     public static CurrencyDto fromCurrency(Currency data) {
-        return new CurrencyDto();
+        return new CurrencyDto(
+                data.getId(),
+                data.getName(),
+                data.getFullName(),
+                data.getAddressRegex(),
+                data.getPow()
+        );
     }
 
     public static Address toAddress(AddressDto data) {
-        return new Address();
+        return new Address(
+                data.getId(),
+                data.getIndex(),
+                data.getAddress(),
+                data.getAmount()
+        );
     }
 
     public static AddressDto fromAddress(Address data) {
-        return new AddressDto();
+        return new AddressDto(
+                data.getId(),
+                data.getIndex(),
+                data.getAddress(),
+                data.getAmount()
+        );
     }
 
     public static Transaction toTransaction(TransactionData data, long blockHeight, String blockHash) {
@@ -62,6 +111,64 @@ public class TransferObj {
                 data.getScript(),
                 BigInteger.valueOf(data.getValue()),
                 hash
+        );
+    }
+
+    public static UnspentOutput formOut(String address, UnspentOut o, boolean isChange) {
+        return new UnspentOutput(
+                address,
+                isChange,
+                new BigDecimal(o.getValue()),
+                o.getIndex(),
+                o.getScript(),
+                o.getTrxHash(),
+                o.getPubKeyHash()
+        );
+    }
+
+    public static TrialTransaction
+    trial(NewTransaction transaction, ReceiptDto payload, List<UnspentOut> spentOuts) {
+        return new TrialTransaction(
+                transaction.getHash(),
+                transaction.getTotalAmount().toBigInteger(),
+                transaction.getFee().toBigInteger(),
+                transaction.getChange().toBigInteger(),
+                payload.getFrom(),
+                payload.getTo(),
+                transaction.getTrxHex(),
+                spentOuts
+        );
+    }
+
+    public static NewTransaction
+    transaction(Account account, Address address,
+                ReceiptDto payload, BigDecimal feePerKb, List<UnspentOutput> unspentOutputs) {
+        return new NewTransaction.Builder()
+                .parameters(Network.MAIN)
+                .deterministic(WrapUtils.DETERMINISTIC_PATH_MAIN)
+                .privateKey(account.getPrivateKey())
+                .chainCode(account.getChainCode())
+                .from(new ChainAddress(address.getIndex(), address.getAddress()))
+                .to(payload.getTo())
+                .amount(new BigDecimal(payload.getValue()))
+                .outputs(unspentOutputs)
+                .feePerKb(feePerKb)
+                .calcUnspentOutput()
+                .transaction()
+                .build();
+    }
+
+    public static FeePerKbDto fromFeePerKb(FeePerKb data) {
+        return new FeePerKbDto(
+                data.getId(),
+                data.getFee()
+        );
+    }
+
+    public static FeePerKb toFeePerKb(FeePerKbDto data) {
+        return new FeePerKb(
+                data.getId(),
+                data.getFee()
         );
     }
 

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -138,6 +139,19 @@ public class Account implements Serializable, Cloneable {
         this.timeStamp = timeStamp;
     }
 
+    public Account(String mnemonic,
+                   String privateKey,
+                   String publicKey,
+                   String chainCode,
+                   Long timeStamp,
+                   List<Address> addresses) {
+        this.mnemonic = mnemonic;
+        this.privateKey = privateKey;
+        this.publicKey = publicKey;
+        this.chainCode = chainCode;
+        this.timeStamp = timeStamp;
+    }
+
     public void incoming(Transaction transaction, Long value) {
         addTransaction(transaction);
         addAmount(value);
@@ -153,6 +167,10 @@ public class Account implements Serializable, Cloneable {
         if (Objects.nonNull(value)) {
             this.amount = this.amount.add(BigInteger.valueOf(value));
         }
+    }
+
+    public void addAddresses(List<Address> addresses) {
+        this.addresses.addAll(addresses);
     }
 
 }

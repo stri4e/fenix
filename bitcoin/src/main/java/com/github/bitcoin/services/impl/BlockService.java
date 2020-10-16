@@ -17,6 +17,11 @@ public class BlockService implements IBlockService {
     private final BlockRepo blockRepo;
 
     @Override
+    public Block create(Block block) {
+        return this.blockRepo.save(block);
+    }
+
+    @Override
     public Block readByStatus(EntityStatus status) {
         return this.blockRepo.findByStatus(status);
     }

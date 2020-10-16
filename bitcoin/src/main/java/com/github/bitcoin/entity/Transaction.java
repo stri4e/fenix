@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,12 @@ public class Transaction implements Serializable, Cloneable {
             nullable = false
     )
     private Integer confirmations = 0;
+
+    @Column(
+            name = "value",
+            nullable = false
+    )
+    private BigInteger value = BigInteger.ZERO;
 
     @ElementCollection(
             fetch = FetchType.EAGER

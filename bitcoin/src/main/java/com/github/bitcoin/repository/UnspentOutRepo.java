@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UnspentOutRepo extends JpaRepository<UnspentOut, Long> {
+
+    UnspentOut readByIndexAndTrxHash(Integer index, String hash);
+
 }

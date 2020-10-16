@@ -1,5 +1,6 @@
 package com.github.bitcoin.handlers;
 
+import com.github.bitcoin.exceptions.SendTransactionFailed;
 import com.github.bitcoin.payload.Error;
 import com.github.wrapper.bitcoin.exceptions.ErrorFee;
 import com.github.wrapper.bitcoin.exceptions.NotEnoughMoney;
@@ -22,6 +23,14 @@ public class ControllerExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return new ResponseEntity<>(new Error(
                 status.value(), ex.getMessage()), status);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Error> handlerSendTrxFailed(SendTransactionFailed ex) {
+        HttpStatus status = HttpStatus.GONE;
+        return new ResponseEntity<>(
+                new Error(status.value(), ex.getMessage()), status
+        );
     }
 
 }

@@ -52,10 +52,22 @@ public class Address implements Serializable, Cloneable {
     )
     private BigInteger amount = BigInteger.ZERO;
 
-    @ManyToOne
+    @ManyToOne(
+            targetEntity = Account.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "account_id"
+    )
     private Account account;
 
-    @OneToMany
+    @OneToMany(
+            targetEntity = UnspentOut.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "outs_id"
+    )
     private List<UnspentOut> outs = new ArrayList<>();
 
     @Column(
@@ -79,6 +91,19 @@ public class Address implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public Address(Integer index, String address, Account account) {
+        this.index = index;
+        this.address = address;
+        this.account = account;
+    }
+
+    public Address(Long id, Integer index, String address, BigInteger amount) {
+        this.id = id;
+        this.index = index;
+        this.address = address;
+        this.amount = amount;
+    }
 
     public void incoming(UnspentOut out, Long value) {
         if (Objects.nonNull(out) && Objects.nonNull(amount)) {

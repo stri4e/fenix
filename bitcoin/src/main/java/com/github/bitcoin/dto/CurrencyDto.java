@@ -15,4 +15,12 @@ public class CurrencyDto implements Serializable, Cloneable {
 
     private Long id;
 
+    private String name;
+
+    private String fullName;
+
+    private String addressRegex;
+
+    private Integer pow;
+
 }

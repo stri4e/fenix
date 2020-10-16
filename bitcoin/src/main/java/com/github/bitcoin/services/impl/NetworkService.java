@@ -3,18 +3,17 @@ package com.github.bitcoin.services.impl;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.services.*;
 import com.github.bitcoin.utils.TransferObj;
+import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
 import com.github.wrapper.bitcoin.model.NewBlock;
 import com.github.wrapper.bitcoin.model.TInput;
 import com.github.wrapper.bitcoin.model.TOutput;
 import com.github.wrapper.bitcoin.model.TransactionData;
+import com.github.wrapper.bitcoin.payload.BlockChainInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -36,9 +35,16 @@ public class NetworkService implements INetworkService {
 
     private final IAddressService addressService;
 
+    private final IFacadeBitcoin facadeBitcoin;
+
     @Override
-    public Long findLastHeight() {
+    public Long findLastHeight(String url) {
         Block block = this.blockService.readByStatus(EntityStatus.on);
+        if (Objects.isNull(block)) {
+            BlockChainInfo response = this.facadeBitcoin.fetchInfo(url);
+            var number = response.getData().getBlocks().longValue();
+            block = this.blockService.create(new Block(number));
+        }
         return block.getNumber();
     }
 

@@ -8,16 +8,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "blocks", schema = "public")
-public class Block implements Serializable, Cloneable {
+@Table(name = "fee_per_kb", schema = "public")
+public class FeePerKb implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 2242841964532354864L;
+    private static final long serialVersionUID = 3878646032566847776L;
 
     @Id
     @Column(name = "ID")
@@ -25,10 +27,10 @@ public class Block implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "number",
+            name = "fee",
             nullable = false
     )
-    private Long number;
+    private BigInteger fee;
 
     @Column(
             name = "status",
@@ -52,7 +54,8 @@ public class Block implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Block(Long number) {
-        this.number = number;
+    public FeePerKb(Long id, BigInteger fee) {
+        this.id = id;
+        this.fee = fee;
     }
 }

@@ -16,7 +16,8 @@ public class AppConfig {
                 Network.MAIN,
                 WrapUtils.DETERMINISTIC_PATH_MAIN,
                 ".",
-                "btc_wallet"
+                "btc_wallet",
+                10
         );
     }
 

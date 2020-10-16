@@ -19,6 +19,11 @@ public class AddressService implements IAddressService {
     private final AddressRepo addressRepo;
 
     @Override
+    public List<Address> createAll(List<Address> addresses) {
+        return this.addressRepo.saveAll(addresses);
+    }
+
+    @Override
     public List<String> readAllAddresses(EntityStatus status) {
         return addressRepo.findAllAddresses(status);
     }

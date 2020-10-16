@@ -5,6 +5,8 @@ import com.github.bitcoin.entity.EntityStatus;
 
 public interface IBlockService {
 
+    Block create(Block block);
+
     Block readByStatus(EntityStatus status);
 
     void update(Long number);
