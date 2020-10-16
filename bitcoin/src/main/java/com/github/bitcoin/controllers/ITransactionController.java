@@ -15,22 +15,37 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public interface ITransactionController {
 
+    @GetMapping(
+            path = "/fetch/trials/{status}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    List<TrialTransactionDto> findTrialByStatus(
+            @PathVariable(name = "status") EntityStatus status
+    );
+
     @PostMapping(
-            path = "/edit/generate/trx",
+            path = "/edit/generate",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     TrialTransactionDto generateTransaction(@Valid @RequestBody ReceiptDto payload);
 
     @PostMapping(
-            path = "/edit/send/trx",
+            path = "/edit/send",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     void sendTransaction(@Valid @RequestBody TrialTransaction payload);
+
+    @PutMapping(
+            path = "/edit/canceled"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void canceledTransaction(@Valid @RequestBody TrialTransaction payload);
 
     @GetMapping(
             path = "/fetch/{status}",

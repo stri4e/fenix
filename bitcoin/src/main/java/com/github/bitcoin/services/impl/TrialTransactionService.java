@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,6 +22,11 @@ public class TrialTransactionService implements ITrialTransactionService {
     public TrialTransaction readByHash(String hash) {
         return this.trialTransactionRepo.findByHash(hash)
                 .orElseThrow(NotFound::new);
+    }
+
+    @Override
+    public List<TrialTransaction> readByStatus(EntityStatus status) {
+        return this.trialTransactionRepo.findByStatus(status);
     }
 
     @Override

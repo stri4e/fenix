@@ -114,6 +114,13 @@ public class Transaction implements Serializable, Cloneable {
         this.outputs = outputs;
     }
 
+    public Transaction(String hash, BigInteger value, List<String> inputs, List<String> outputs) {
+        this.hash = hash;
+        this.value = value;
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
+
     public void forUpdate(Long blockHeight, String blockHash, Integer confirmations) {
         this.blockHeight = blockHeight;
         this.blockHash = blockHash;

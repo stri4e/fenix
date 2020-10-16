@@ -19,9 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -43,6 +43,13 @@ public class TransactionController implements ITransactionController {
     private final IUnspentOutService unspentOutService;
 
     private final IFeePerKbService feePerKbService;
+
+    @Override
+    public List<TrialTransactionDto> findTrialByStatus(EntityStatus status) {
+        return this.trialTransactionService.readByStatus(status).stream()
+                .map(TransferObj::fromTrialTransaction)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public TrialTransactionDto generateTransaction(ReceiptDto payload) {
@@ -76,14 +83,30 @@ public class TransactionController implements ITransactionController {
 
     @Override
     public void sendTransaction(TrialTransaction payload) {
-        String hash = payload.getHash();
+        var hash = payload.getHash();
         TrialTransaction trx = this.trialTransactionService.readByHash(hash);
         ResponseTrx response = this.facadeBitcoin.send(trx.getSignedTrx());
         if (response.isHasError()) {
+            trx.getUnspentOuts().forEach(o -> this.unspentOutService.update(o, EntityStatus.off));
             throw new SendTransactionFailed(response.getError().getMessage());
         } else {
             this.trialTransactionService.updateStatus(hash, EntityStatus.off);
+            Transaction transaction = new Transaction(
+                    trx.getHash(),
+                    trx.getValue(),
+                    List.of(trx.getFrom()),
+                    List.of(trx.getTo())
+            );
+            this.transactionService.create(transaction);
         }
+    }
+
+    @Override
+    public void canceledTransaction(@Valid TrialTransaction payload) {
+        var hash = payload.getHash();
+        TrialTransaction trx = this.trialTransactionService.readByHash(payload.getHash());
+        trx.getUnspentOuts().forEach(o -> this.unspentOutService.update(o, EntityStatus.on));
+        this.trialTransactionService.updateStatus(hash, EntityStatus.off);
     }
 
     @Override
@@ -96,4 +119,5 @@ public class TransactionController implements ITransactionController {
                 pageable, transactions.getTotalElements()
         );
     }
+
 }

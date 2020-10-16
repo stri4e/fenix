@@ -7,12 +7,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TrialTransactionRepo extends JpaRepository<TrialTransaction, Long> {
 
     Optional<TrialTransaction> findByHash(String hash);
+
+    List<TrialTransaction> findByStatus(EntityStatus status);
 
     @Modifying
     @Query(value = "update TrialTransaction  t set t.status=:status where t.hash=:hash")
