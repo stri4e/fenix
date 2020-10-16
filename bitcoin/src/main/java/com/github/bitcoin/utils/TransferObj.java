@@ -3,11 +3,9 @@ package com.github.bitcoin.utils;
 import com.github.bitcoin.dto.*;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.payload.Receipt;
-import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
 import com.github.wrapper.bitcoin.model.*;
 import com.github.wrapper.bitcoin.transaction.NewTransaction;
 import com.github.wrapper.bitcoin.utils.Network;
-import com.github.wrapper.bitcoin.utils.WrapUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -91,7 +89,8 @@ public class TransferObj {
         );
     }
 
-    public static Transaction toTransaction(TransactionData data, long blockHeight, String blockHash) {
+    public static Transaction
+    toTransaction(TransactionData data, long blockHeight, String blockHash) {
         return new Transaction(
                 blockHeight,
                 blockHash,
