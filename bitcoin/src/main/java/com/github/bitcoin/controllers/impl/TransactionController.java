@@ -61,8 +61,8 @@ public class TransactionController implements ITransactionController {
                 .map(o -> formOut(address.getAddress(), o, Boolean.FALSE))
                 .collect(Collectors.toList());
         NewTransaction transaction = transaction(
-                account, address, payload,
-                new BigDecimal(feePerKb.getFee()), unspentOutputs
+                account, address, payload, new BigDecimal(feePerKb.getFee()),
+                unspentOutputs, this.facadeBitcoin.getNetwork(), this.facadeBitcoin.getDerivation()
         );
         List<UnspentOut> spentOuts = unspentOutputs.stream()
                 .map(o -> findByIndexAndHash(o.getIndex(), o.getTxHash(), outs))

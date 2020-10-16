@@ -3,6 +3,7 @@ package com.github.bitcoin.utils;
 import com.github.bitcoin.dto.*;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.payload.Receipt;
+import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
 import com.github.wrapper.bitcoin.model.*;
 import com.github.wrapper.bitcoin.transaction.NewTransaction;
 import com.github.wrapper.bitcoin.utils.Network;
@@ -143,10 +144,12 @@ public class TransferObj {
 
     public static NewTransaction
     transaction(Account account, Address address,
-                Receipt payload, BigDecimal feePerKb, List<UnspentOutput> unspentOutputs) {
+                Receipt payload, BigDecimal feePerKb,
+                List<UnspentOutput> unspentOutputs,
+                Network network, String derivation) {
         return new NewTransaction.Builder()
-                .parameters(Network.MAIN)
-                .deterministic(WrapUtils.DETERMINISTIC_PATH_MAIN)
+                .parameters(network)
+                .deterministic(derivation)
                 .privateKey(account.getPrivateKey())
                 .chainCode(account.getChainCode())
                 .from(new ChainAddress(address.getIndex(), address.getAddress()))
