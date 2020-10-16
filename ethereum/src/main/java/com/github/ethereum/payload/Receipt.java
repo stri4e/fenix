@@ -1,4 +1,4 @@
-package com.github.ethereum.dto;
+package com.github.ethereum.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.math.BigInteger;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReceiptDto {
+public class Receipt {
 
     @NotBlank
     @JsonProperty(value = "from")

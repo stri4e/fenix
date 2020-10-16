@@ -1,7 +1,7 @@
 package com.github.ethereum.controllers.impl;
 
 import com.github.ethereum.controllers.ITransactionController;
-import com.github.ethereum.dto.ReceiptDto;
+import com.github.ethereum.payload.Receipt;
 import com.github.ethereum.dto.TransactionDto;
 import com.github.ethereum.entity.*;
 import com.github.ethereum.services.IAccountService;
@@ -40,7 +40,7 @@ public class TransactionController implements ITransactionController {
     private final IFeeService feeService;
 
     @Override
-    public TransactionDto sendTransaction(ReceiptDto payload) {
+    public TransactionDto sendTransaction(Receipt payload) {
         Contract contract = this.contractService.readByName(DEFAULT_CONTRACT_NAME);
         Account account = this.accountService.readByAddress(payload.getFrom());
         Fee fee = this.feeService.readByStatus(EntityStatus.on);
@@ -60,7 +60,7 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
-    public TransactionDto sendContract(String address, ReceiptDto payload) {
+    public TransactionDto sendContract(String address, Receipt payload) {
         Contract contract = this.contractService.readByName(address);
         Account account = this.accountService.readByAddress(payload.getFrom());
         Fee fee = this.feeService.readByStatus(EntityStatus.on);

@@ -1,6 +1,6 @@
 package com.github.ethereum.controllers;
 
-import com.github.ethereum.dto.ReceiptDto;
+import com.github.ethereum.payload.Receipt;
 import com.github.ethereum.dto.TransactionDto;
 import com.github.ethereum.entity.EntityStatus;
 import org.springframework.data.domain.Page;
@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-
 public interface ITransactionController {
 
     @PostMapping(
             path = "/edit/trx",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    TransactionDto sendTransaction(@RequestBody ReceiptDto payload);
+    TransactionDto sendTransaction(@RequestBody Receipt payload);
 
     @PostMapping(
             path = "/edit/contract/{address}",
@@ -30,7 +28,7 @@ public interface ITransactionController {
     )
     TransactionDto sendContract(
             @PathVariable(name = "address") String address,
-            @RequestBody ReceiptDto payload
+            @RequestBody Receipt payload
     );
 
     @GetMapping(
