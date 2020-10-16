@@ -1,7 +1,7 @@
 package com.github.bitcoin.controllers.impl;
 
 import com.github.bitcoin.controllers.ITransactionController;
-import com.github.bitcoin.dto.ReceiptDto;
+import com.github.bitcoin.payload.Receipt;
 import com.github.bitcoin.dto.TransactionDto;
 import com.github.bitcoin.dto.TrialTransactionDto;
 import com.github.bitcoin.entity.*;
@@ -52,7 +52,7 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
-    public TrialTransactionDto generateTransaction(ReceiptDto payload) {
+    public TrialTransactionDto generateTransaction(Receipt payload) {
         FeePerKb feePerKb = this.feePerKbService.readActual();
         Address address = this.addressService.readByAddress(payload.getFrom());
         Account account = address.getAccount();

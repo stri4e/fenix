@@ -1,6 +1,6 @@
 package com.github.bitcoin.controllers;
 
-import com.github.bitcoin.dto.ReceiptDto;
+import com.github.bitcoin.payload.Receipt;
 import com.github.bitcoin.dto.TransactionDto;
 import com.github.bitcoin.dto.TrialTransactionDto;
 import com.github.bitcoin.entity.EntityStatus;
@@ -32,7 +32,7 @@ public interface ITransactionController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    TrialTransactionDto generateTransaction(@Valid @RequestBody ReceiptDto payload);
+    TrialTransactionDto generateTransaction(@Valid @RequestBody Receipt payload);
 
     @PostMapping(
             path = "/edit/send",

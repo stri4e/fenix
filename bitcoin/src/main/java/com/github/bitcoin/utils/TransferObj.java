@@ -2,6 +2,7 @@ package com.github.bitcoin.utils;
 
 import com.github.bitcoin.dto.*;
 import com.github.bitcoin.entity.*;
+import com.github.bitcoin.payload.Receipt;
 import com.github.wrapper.bitcoin.model.*;
 import com.github.wrapper.bitcoin.transaction.NewTransaction;
 import com.github.wrapper.bitcoin.utils.Network;
@@ -127,7 +128,7 @@ public class TransferObj {
     }
 
     public static TrialTransaction
-    trial(NewTransaction transaction, ReceiptDto payload, List<UnspentOut> spentOuts) {
+    trial(NewTransaction transaction, Receipt payload, List<UnspentOut> spentOuts) {
         return new TrialTransaction(
                 transaction.getHash(),
                 transaction.getTotalAmount().toBigInteger(),
@@ -142,7 +143,7 @@ public class TransferObj {
 
     public static NewTransaction
     transaction(Account account, Address address,
-                ReceiptDto payload, BigDecimal feePerKb, List<UnspentOutput> unspentOutputs) {
+                Receipt payload, BigDecimal feePerKb, List<UnspentOutput> unspentOutputs) {
         return new NewTransaction.Builder()
                 .parameters(Network.MAIN)
                 .deterministic(WrapUtils.DETERMINISTIC_PATH_MAIN)
