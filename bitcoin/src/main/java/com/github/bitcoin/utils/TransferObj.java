@@ -90,7 +90,7 @@ public class TransferObj {
     }
 
     public static Transaction
-    toTransaction(TransactionData data, long blockHeight, String blockHash) {
+    toTransaction(TransactionData data, long blockHeight, String blockHash, TransactionType type) {
         return new Transaction(
                 blockHeight,
                 blockHash,
@@ -101,7 +101,8 @@ public class TransferObj {
                         .collect(Collectors.toList()),
                 data.getOutputs().stream()
                         .map(TOutput::getAddress)
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                type
         );
     }
 
@@ -131,7 +132,7 @@ public class TransferObj {
     trial(NewTransaction transaction, Receipt payload, List<UnspentOut> spentOuts) {
         return new TrialTransaction(
                 transaction.getHash(),
-                transaction.getTotalAmount().toBigInteger(),
+                payload.getValue(),
                 transaction.getFee().toBigInteger(),
                 transaction.getChange().toBigInteger(),
                 payload.getFrom(),

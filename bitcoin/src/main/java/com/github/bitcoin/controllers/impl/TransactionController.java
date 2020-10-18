@@ -41,6 +41,8 @@ public class TransactionController implements ITransactionController {
 
     private final IAddressService addressService;
 
+    private final IAccountService accountService;
+
     private final IUnspentOutService unspentOutService;
 
     private final IFeePerKbService feePerKbService;
@@ -91,18 +93,32 @@ public class TransactionController implements ITransactionController {
             trx.getUnspentOuts().forEach(o -> this.unspentOutService.update(o, EntityStatus.off));
             throw new SendTransactionFailed(response.getError().getMessage());
         } else {
+            Address address = this.addressService.readByAddress(payload.getFrom());
+            Account account = address.getAccount();
             this.trialTransactionService.updateStatus(hash, EntityStatus.off);
-            var isZero = trx.getChange().equals(BigInteger.ZERO);
-            List<String> outputs = isZero ? List.of(trx.getTo()) : List.of(trx.getTo(), trx.getFrom());
-            Transaction transaction = new Transaction(
-                    trx.getHash(),
-                    trx.getValue(),
-                    List.of(trx.getFrom()),
-                    outputs,
-                    TransactionType.outgoing
-            );
+            Transaction transaction = doTransaction(trx);
             this.transactionService.create(transaction);
+            updateAmount(trx.getValue(), trx.getChange(), address, account);
         }
+    }
+
+    private Transaction doTransaction(TrialTransaction trx) {
+        var isZero = trx.getChange().equals(BigInteger.ZERO);
+        List<String> outputs = isZero ? List.of(trx.getTo()) : List.of(trx.getTo(), trx.getFrom());
+        return new Transaction(
+                trx.getHash(),
+                trx.getValue(),
+                List.of(trx.getFrom()),
+                outputs,
+                TransactionType.outgoing
+        );
+    }
+
+    private void updateAmount(BigInteger value, BigInteger change, Address address, Account account) {
+        address.outgoing(value, change);
+        account.outgoing(value, change);
+        this.addressService.update(address);
+        this.accountService.update(account);
     }
 
     @Override

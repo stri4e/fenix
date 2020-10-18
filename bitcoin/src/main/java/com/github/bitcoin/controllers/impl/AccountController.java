@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -75,11 +76,14 @@ public class AccountController implements IAccountController {
     @Override
     public String findAvailableAddress(Long userId) {
         Account account = this.accountService.readByUserId(userId);
-        return account.getAddresses().stream()
+        var result = account.getAddresses().stream()
                 .filter(address -> EntityStatus.off.equals(address.getStatus()))
                 .map(Address::getAddress)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(NotFound::new);
+        this.addressService.updateStatus(result, EntityStatus.on);
+        return result;
     }
 
 }

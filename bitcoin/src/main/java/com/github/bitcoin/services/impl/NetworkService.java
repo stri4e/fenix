@@ -2,10 +2,8 @@ package com.github.bitcoin.services.impl;
 
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.services.*;
-import com.github.bitcoin.utils.TransferObj;
 import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
 import com.github.wrapper.bitcoin.model.NewBlock;
-import com.github.wrapper.bitcoin.model.TInput;
 import com.github.wrapper.bitcoin.model.TOutput;
 import com.github.wrapper.bitcoin.model.TransactionData;
 import com.github.wrapper.bitcoin.payload.BlockChainInfo;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static com.github.bitcoin.utils.TransferObj.toTransaction;
 import static com.github.bitcoin.utils.TransferObj.toUnspentOut;
@@ -80,22 +76,33 @@ public class NetworkService implements INetworkService {
 
     private void incoming(TransactionData data, TOutput output, String address, long height, String blockHash) {
         var value = output.getValue();
-        Transaction transaction = toTransaction(data, height, blockHash);
+        var hash = data.getHash();
         Address addr = this.addressService.readByAddress(address);
         Account account = addr.getAccount();
-        transaction = this.transactionService.create(transaction);
-        account.incoming(transaction, value);
-        UnspentOut unspentOut = toUnspentOut(output, data.getHash());
-        unspentOut = this.unspentOutService.create(unspentOut);
-        addr.incoming(unspentOut, value);
+        if (this.transactionService.existByHash(hash)) {
+            UnspentOut unspentOut = toUnspentOut(output, hash);
+            unspentOut = this.unspentOutService.create(unspentOut);
+            account.addAmount(value);
+            addr.incoming(unspentOut, value);
+        } else {
+            Transaction transaction = toTransaction(data, height, blockHash, TransactionType.incoming);
+            transaction = this.transactionService.create(transaction);
+            account.incoming(transaction, value);
+            UnspentOut unspentOut = toUnspentOut(output, hash);
+            unspentOut = this.unspentOutService.create(unspentOut);
+            addr.incoming(unspentOut, value);
+        }
         this.addressService.update(addr);
         this.accountService.update(account);
     }
 
     private void outgoing(TransactionData data, long height, String blockHash) {
-        Transaction transaction = this.transactionService.findByHash(data.getHash());
-        transaction.forUpdate(height, blockHash, data.getConfirmation());
-        this.transactionService.update(transaction);
+        var hash = data.getHash();
+        if (this.transactionService.existByHash(hash)) {
+            Transaction transaction = this.transactionService.findByHash(hash);
+            transaction.forUpdate(height, blockHash, data.getConfirmation());
+            this.transactionService.update(transaction);
+        }
     }
 
 }

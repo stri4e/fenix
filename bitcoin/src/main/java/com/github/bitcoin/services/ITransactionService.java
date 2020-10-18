@@ -16,4 +16,6 @@ public interface ITransactionService {
 
     void update(Transaction transaction);
 
+    boolean existByHash(String hash);
+
 }

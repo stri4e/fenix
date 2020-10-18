@@ -18,4 +18,6 @@ public interface TransactionRepo extends JpaRepository<Transaction, Long>,
 
     Page<Transaction> findAllByStatus(EntityStatus status);
 
+    boolean existsByHash(String hash);
+
 }

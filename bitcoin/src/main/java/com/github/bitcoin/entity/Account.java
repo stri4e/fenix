@@ -157,6 +157,11 @@ public class Account implements Serializable, Cloneable {
         addAmount(value);
     }
 
+    public void outgoing(BigInteger value, BigInteger change) {
+        subtractAmount(value);
+        addAmount(change);
+    }
+
     public void addTransaction(Transaction transaction) {
         if (Objects.nonNull(transaction)) {
             this.transactions.add(transaction);
@@ -166,6 +171,18 @@ public class Account implements Serializable, Cloneable {
     public void addAmount(Long value) {
         if (Objects.nonNull(value)) {
             this.amount = this.amount.add(BigInteger.valueOf(value));
+        }
+    }
+
+    public void addAmount(BigInteger value) {
+        if (Objects.nonNull(value)) {
+            this.amount = this.amount.add(value);
+        }
+    }
+
+    public void subtractAmount(BigInteger value) {
+        if (Objects.nonNull(value)) {
+            this.amount = this.amount.subtract(value);
         }
     }
 

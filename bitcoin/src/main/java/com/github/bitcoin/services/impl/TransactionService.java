@@ -39,4 +39,9 @@ public class TransactionService implements ITransactionService {
     public void update(Transaction transaction) {
         this.transactionRepo.save(transaction);
     }
+
+    @Override
+    public boolean existByHash(String hash) {
+        return this.transactionRepo.existsByHash(hash);
+    }
 }

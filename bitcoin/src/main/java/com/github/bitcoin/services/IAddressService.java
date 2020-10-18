@@ -15,4 +15,6 @@ public interface IAddressService {
 
     void update(Address address);
 
+    void updateStatus(String address, EntityStatus status);
+
 }

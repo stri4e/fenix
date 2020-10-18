@@ -39,4 +39,9 @@ public class AddressService implements IAddressService {
         this.addressRepo.save(address);
     }
 
+    @Override
+    public void updateStatus(String address, EntityStatus status) {
+        this.addressRepo.updateStatus(address, status);
+    }
+
 }
