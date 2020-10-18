@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -91,11 +92,14 @@ public class TransactionController implements ITransactionController {
             throw new SendTransactionFailed(response.getError().getMessage());
         } else {
             this.trialTransactionService.updateStatus(hash, EntityStatus.off);
+            var isZero = trx.getChange().equals(BigInteger.ZERO);
+            List<String> outputs = isZero ? List.of(trx.getTo()) : List.of(trx.getTo(), trx.getFrom());
             Transaction transaction = new Transaction(
                     trx.getHash(),
                     trx.getValue(),
                     List.of(trx.getFrom()),
-                    List.of(trx.getTo())
+                    outputs,
+                    TransactionType.outgoing
             );
             this.transactionService.create(transaction);
         }

@@ -19,7 +19,7 @@ public class TransferObj {
                 data.getTo(),
                 data.getValue(),
                 data.getFee(),
-                TransactionStatus.incoming,
+                TransactionType.incoming,
                 EntityStatus.on
         );
     }
@@ -37,7 +37,7 @@ public class TransferObj {
                 data.getTo(),
                 data.getValue(),
                 data.getFee(),
-                TransactionStatus.outgoing,
+                TransactionType.outgoing,
                 EntityStatus.off
         );
     }
@@ -53,7 +53,7 @@ public class TransferObj {
                 data.getTo(),
                 data.getValue(),
                 data.getFee(),
-                data.getTrxStatus()
+                data.getType()
         );
     }
 

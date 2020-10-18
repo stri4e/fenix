@@ -92,9 +92,9 @@ public class Transaction implements Serializable, Cloneable {
     )
     private BigInteger fee;
 
-    @Column(name = "trx_status")
+    @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
-    private TransactionStatus trxStatus;
+    private TransactionType type;
 
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
@@ -127,7 +127,7 @@ public class Transaction implements Serializable, Cloneable {
             String to,
             BigInteger value,
             BigInteger fee,
-            TransactionStatus trxStatus) {
+            TransactionType type) {
         this.hash = hash;
         this.nonce = nonce;
         this.blockHash = blockHash;
@@ -139,7 +139,7 @@ public class Transaction implements Serializable, Cloneable {
         this.to = to;
         this.value = value;
         this.fee = fee;
-        this.trxStatus = trxStatus;
+        this.type = type;
     }
 
     public Transaction(
@@ -154,7 +154,7 @@ public class Transaction implements Serializable, Cloneable {
             String to,
             BigInteger value,
             BigInteger fee,
-            TransactionStatus trxStatus,
+            TransactionType type,
             EntityStatus status) {
         this.hash = hash;
         this.nonce = nonce;
@@ -167,7 +167,7 @@ public class Transaction implements Serializable, Cloneable {
         this.to = to;
         this.value = value;
         this.fee = fee;
-        this.trxStatus = trxStatus;
+        this.type = type;
         this.status = status;
     }
 

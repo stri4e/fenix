@@ -78,6 +78,13 @@ public class Transaction implements Serializable, Cloneable {
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 
+    @Column(
+            name = "type",
+            nullable = false
+    )
+    @Enumerated(value = EnumType.STRING)
+    private TransactionType type;
+
     @CreationTimestamp
     @Column(
             name = "create_at",
@@ -114,11 +121,12 @@ public class Transaction implements Serializable, Cloneable {
         this.outputs = outputs;
     }
 
-    public Transaction(String hash, BigInteger value, List<String> inputs, List<String> outputs) {
+    public Transaction(String hash, BigInteger value, List<String> inputs, List<String> outputs, TransactionType type) {
         this.hash = hash;
         this.value = value;
         this.inputs = inputs;
         this.outputs = outputs;
+        this.type = type;
     }
 
     public void forUpdate(Long blockHeight, String blockHash, Integer confirmations) {

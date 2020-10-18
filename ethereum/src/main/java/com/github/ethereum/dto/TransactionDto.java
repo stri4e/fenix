@@ -1,7 +1,7 @@
 package com.github.ethereum.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.ethereum.entity.TransactionStatus;
+import com.github.ethereum.entity.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,7 +54,7 @@ public class TransactionDto implements Serializable, Cloneable {
     private BigInteger fee;
 
     @NotNull
-    @JsonProperty(value = "status")
-    private TransactionStatus status;
+    @JsonProperty(value = "type")
+    private TransactionType type;
 
 }

@@ -1,5 +1,5 @@
 package com.github.ethereum.entity;
 
-public enum TransactionStatus {
+public enum TransactionType {
     incoming, outgoing
 }
