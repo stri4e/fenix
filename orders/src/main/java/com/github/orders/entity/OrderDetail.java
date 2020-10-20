@@ -73,10 +73,16 @@ public class OrderDetail implements Serializable, Cloneable {
     private Delivery delivery;
 
     @Column(
-            name = "userId",
+            name = "user_id",
             nullable = false
     )
     private Long userId;
+
+    @Column(
+            name = "bill_id",
+            nullable = false
+    )
+    private Long billId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

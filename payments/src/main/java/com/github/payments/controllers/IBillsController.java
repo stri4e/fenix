@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.util.List;
 
 public interface IBillsController {
 
@@ -20,11 +19,14 @@ public interface IBillsController {
     BillDto save(@RequestBody BillDto payload);
 
     @GetMapping(
-            path = "/fetch/{status}",
+            path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<BillDto> findBillsByStatus(@PathVariable(name = "status") EntityStatus status);
+    Object findByParams(
+            @RequestParam(required = false, name = "id") Long id,
+            @RequestParam(required = false, name = "status") EntityStatus status
+    );
 
     @PutMapping(
             path = "/edit/{address}/{value}/{transfer}"

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.github.payments.utils.TransferObj.fromBill;
@@ -43,10 +44,13 @@ public class BillsController implements IBillsController {
     }
 
     @Override
-    public List<BillDto> findBillsByStatus(EntityStatus status) {
-        return this.billService.readByStatus(status).stream()
-                .map(TransferObj::fromBill)
-                .collect(Collectors.toList());
+    public Object findByParams(Long id, EntityStatus status) {
+        if (Objects.isNull(id)) {
+            return this.billService.readByStatus(status).stream()
+                    .map(TransferObj::fromBill)
+                    .collect(Collectors.toList());
+        }
+        return TransferObj.fromBill(this.billService.readById(id));
     }
 
     @Override

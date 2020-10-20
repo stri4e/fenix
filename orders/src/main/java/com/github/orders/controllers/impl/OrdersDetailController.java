@@ -1,6 +1,7 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.controllers.IOrdersDetailController;
+import com.github.orders.dto.BillDto;
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.Customer;
@@ -11,7 +12,6 @@ import com.github.orders.exceptions.NotFound;
 import com.github.orders.payload.Product;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
-import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +39,8 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IDeliveryService deliveryService;
 
+    private final IBillService billService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -48,8 +50,8 @@ public class OrdersDetailController implements IOrdersDetailController {
         OrderDetail order = this.orderService.crete(toOrderDetail(customer, payload, userId));
         List<Product> products = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
-        OrderDto pushData = TransferObj.fromOrderDetailDto(order, products, delivery);
-        this.pushOrders.pushOrder(pushData);
+        BillDto bill = this.billService.create(payload.getBill());
+        this.pushOrders.pushOrder(fromOrderDetailDto(order, products, delivery, bill));
     }
 
     @Override
@@ -122,13 +124,10 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     private OrderDto collect(OrderDetail order) {
-        List<Product> pr = this.productService.readByIds(order.getProductIds())
+        List<Product> products = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
-        return TransferObj.fromOrderDetailDto(
-                order,
-                pr,
-                order.getDelivery()
-        );
+        BillDto bill = this.billService.findById(order.getBillId());
+        return fromOrderDetailDto(order, products, order.getDelivery(), bill);
     }
 
 }

@@ -42,7 +42,7 @@ public class OrdersDetailControllerMocks {
     }
 
     public static OrderDetailDto orderDetailDto() {
-        return new OrderDetailDto(ORDER_ID, customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open, delivery());
+        return new OrderDetailDto(ORDER_ID, customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open, delivery(), null);
     }
 
     public static OrderDetailDto payload() {
@@ -138,7 +138,8 @@ public class OrdersDetailControllerMocks {
                 PRODUCTS_DTO,
                 AMOUNT,
                 OrderStatus.open,
-                delivery()
+                delivery(),
+                null
         );
     }
 

@@ -39,4 +39,8 @@ public class OrderDto {
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
 
+    @NotNull
+    @JsonProperty(value = "bill")
+    private BillDto bill;
+
 }

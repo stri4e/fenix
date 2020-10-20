@@ -32,7 +32,7 @@ public class TransferObj {
     }
 
     public static OrderDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery) {
+    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery, BillDto bill) {
         var customer = fromCustomer(data.getCustomer());
         var productsDto = products.stream()
                 .map(TransferObj::fromProduct)
@@ -43,7 +43,8 @@ public class TransferObj {
                 productsDto,
                 data.getAmount(),
                 data.getStatus(),
-                fromDelivery(delivery)
+                fromDelivery(delivery),
+                bill
         );
     }
 

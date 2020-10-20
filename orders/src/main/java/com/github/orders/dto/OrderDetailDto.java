@@ -41,6 +41,10 @@ public class OrderDetailDto {
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
 
+    @NotNull
+    @JsonProperty(value = "bill")
+    private BillDto bill;
+
     public OrderDetailDto(@NotNull CustomerDto customer,
                           @NotEmpty List<Long> productsIds,
                           @NotNull BigDecimal amount,
@@ -49,6 +53,18 @@ public class OrderDetailDto {
         this.productsIds = productsIds;
         this.amount = amount;
         this.status = status;
+    }
+
+    public OrderDetailDto(@NotNull CustomerDto customer,
+                          @NotEmpty List<Long> productsIds,
+                          @NotNull BigDecimal amount,
+                          @NotNull OrderStatus status,
+                          @NotNull BillDto bill) {
+        this.customer = customer;
+        this.productsIds = productsIds;
+        this.amount = amount;
+        this.status = status;
+        this.bill = bill;
     }
 
     public OrderDetailDto(@NotNull CustomerDto customer,
