@@ -43,10 +43,10 @@ public class Delivery implements Serializable, Cloneable {
     private String companyName;
 
     @Column(
-            name = "branch_address",
+            name = "address",
             length = 100
     )
-    private String branchAddress;
+    private String address;
 
     @CreationTimestamp
     @Column(
@@ -64,11 +64,11 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, String branchAddress) {
+    public Delivery(Long id, DeliveryType type, String companyName, String address) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
-        this.branchAddress = branchAddress;
+        this.address = address;
     }
 
 }

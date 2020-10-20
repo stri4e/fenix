@@ -8,7 +8,6 @@ import com.github.orders.payload.Product;
 import com.github.orders.payload.Specification;
 import org.springframework.beans.BeanUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -130,7 +129,7 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getBranchAddress()
+                data.getAddress()
         );
     }
 
@@ -139,7 +138,7 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getBranchAddress()
+                data.getAddress()
         );
     }
 
