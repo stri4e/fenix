@@ -1,5 +1,6 @@
 package com.github.payments.entity;
 
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -52,6 +56,11 @@ public class Bill implements Serializable, Cloneable {
     )
     private String address;
 
+    @ElementCollection(
+            fetch = FetchType.EAGER
+    )
+    private List<String> transfers = new ArrayList<>();
+
     @OneToOne(
             targetEntity = PaymentTypes.class,
             cascade = CascadeType.ALL
@@ -93,9 +102,10 @@ public class Bill implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public void forUpdate(EntityStatus status, BigInteger amountPaid) {
+    public void forUpdate(EntityStatus status, BigInteger amountPaid, String transfer) {
         this.status = status;
         this.amountPaid = amountPaid;
+        this.transfers.add(transfer);
     }
 
     public Bill forCreate(Asset asset, PaymentTypes paymentType) {
@@ -104,11 +114,12 @@ public class Bill implements Serializable, Cloneable {
         return this;
     }
 
-    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType) {
+    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType, List<String> transfers) {
         this.id = id;
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.address = address;
+        this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
         this.billType = billType;
     }
 }

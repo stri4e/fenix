@@ -10,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -37,6 +39,9 @@ public class BillDto implements Serializable, Cloneable {
     @JsonProperty(value = "address")
     private String address;
 
+    @JsonProperty(value = "billType")
+    private List<String> transfers = new ArrayList<>();
+
     @NotBlank
     @JsonProperty(value = "paymentType")
     private String paymentType;
@@ -44,5 +49,16 @@ public class BillDto implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "billType")
     private BillType billType;
-
+    
+    public BillDto(Long id, @NotNull BigInteger amount, @NotNull BigInteger amountPaid,
+                   @NotBlank String assetName, @NotBlank String address,
+                   @NotBlank String paymentType, @NotNull BillType billType) {
+        this.id = id;
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.assetName = assetName;
+        this.address = address;
+        this.paymentType = paymentType;
+        this.billType = billType;
+    }
 }

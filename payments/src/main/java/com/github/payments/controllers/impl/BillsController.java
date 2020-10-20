@@ -51,17 +51,17 @@ public class BillsController implements IBillsController {
     }
 
     @Override
-    public Report update(String address, BigInteger amountPaid) {
+    public Report update(String address, BigInteger amountPaid, String transfer) {
         Bill bill = this.billService.readByByAddressAndStatus(address, EntityStatus.on);
         var amount = bill.getAmount();
         if (amount.equals(amountPaid)) {
-            bill.forUpdate(EntityStatus.off, amountPaid);
+            bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             var different = amount.subtract(amountPaid);
             this.billService.update(bill);
             return new Report(amount, amountPaid, different, ReportStatus.yes);
         } else {
             var different = amount.subtract(amountPaid);
-            bill.forUpdate(EntityStatus.on, amountPaid);
+            bill.forUpdate(EntityStatus.on, amountPaid, transfer);
             return new Report(amount, amountPaid, different, ReportStatus.no);
         }
     }
