@@ -18,4 +18,6 @@ public interface ITransactionService {
 
     boolean existByHash(String hash);
 
+    void updateConfirmation();
+
 }

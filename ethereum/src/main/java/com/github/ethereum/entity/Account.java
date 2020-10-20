@@ -169,4 +169,26 @@ public class Account implements Serializable, Cloneable {
         this.currencyBalance = this.currencyBalance.subtract(value.add(fee));
     }
 
+    public void forUpdateCurrency(BigInteger value, Transaction transaction, EntityStatus status) {
+        addCurrencyBal(value);
+        addTransaction(transaction);
+        this.status = status;
+    }
+
+    public void forUpdateCurrency(BigInteger value, Transaction transaction) {
+        addCurrencyBal(value);
+        addTransaction(transaction);
+    }
+
+    public void forUpdateContract(String contract, BigInteger value, Transaction transaction, EntityStatus status) {
+        addContractBal(contract, value);
+        addTransaction(transaction);
+        this.status = status;
+    }
+
+    public void forUpdateContract(String contract, BigInteger value, Transaction transaction) {
+        addContractBal(contract, value);
+        addTransaction(transaction);
+    }
+
 }

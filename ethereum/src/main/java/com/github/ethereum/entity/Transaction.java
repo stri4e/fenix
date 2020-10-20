@@ -171,4 +171,10 @@ public class Transaction implements Serializable, Cloneable {
         this.status = status;
     }
 
+    public void forUpdate(String blockHash, BigInteger blockNumber, EntityStatus status) {
+        this.blockHash = blockHash;
+        this.blockNumber = blockNumber;
+        this.status = status;
+    }
+
 }

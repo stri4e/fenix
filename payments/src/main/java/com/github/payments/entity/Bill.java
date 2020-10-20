@@ -33,13 +33,13 @@ public class Bill implements Serializable, Cloneable {
             name = "amount",
             nullable = false
     )
-    private BigInteger amount;
+    private BigInteger amount = BigInteger.ZERO;
 
     @Column(
             name = "amount_paid",
             nullable = false
     )
-    private BigInteger amountPaid;
+    private BigInteger amountPaid = BigInteger.ZERO;
 
     @OneToOne
     @JoinColumn(

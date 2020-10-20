@@ -105,10 +105,10 @@ public class Address implements Serializable, Cloneable {
         this.amount = amount;
     }
 
-    public void incoming(UnspentOut out, Long value) {
+    public void incoming(UnspentOut out, BigInteger value) {
         if (Objects.nonNull(out) && Objects.nonNull(value)) {
             this.outs.add(out);
-            this.amount = this.amount.add(BigInteger.valueOf(value));
+            this.amount = this.amount.add(value);
         }
     }
 

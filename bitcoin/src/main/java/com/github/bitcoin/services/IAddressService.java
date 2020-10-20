@@ -9,7 +9,7 @@ public interface IAddressService {
 
     List<Address> createAll(List<Address> addresses);
 
-    List<String> readAllAddresses(EntityStatus status);
+    List<String> readAllAddresses();
 
     Address readByAddress(String address);
 

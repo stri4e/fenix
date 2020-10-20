@@ -7,7 +7,6 @@ import com.github.payments.entity.Bill;
 import com.github.payments.entity.EntityStatus;
 import com.github.payments.entity.PaymentTypes;
 import com.github.payments.payload.Report;
-import com.github.payments.payload.ReportStatus;
 import com.github.payments.service.IAssetsService;
 import com.github.payments.service.IBillsService;
 import com.github.payments.service.IPaymentTypesService;
@@ -51,18 +50,19 @@ public class BillsController implements IBillsController {
     }
 
     @Override
-    public Report update(String address, BigInteger amountPaid, String transfer) {
+    public Report update(String address, BigInteger value, String transfer) {
         Bill bill = this.billService.readByByAddressAndStatus(address, EntityStatus.on);
         var amount = bill.getAmount();
+        var amountPaid = bill.getAmountPaid().add(value);
         if (amount.equals(amountPaid)) {
             bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             var different = amount.subtract(amountPaid);
             this.billService.update(bill);
-            return new Report(amount, amountPaid, different, ReportStatus.yes);
+            return new Report(amount, amountPaid, different);
         } else {
             var different = amount.subtract(amountPaid);
             bill.forUpdate(EntityStatus.on, amountPaid, transfer);
-            return new Report(amount, amountPaid, different, ReportStatus.no);
+            return new Report(amount, amountPaid, different);
         }
     }
 

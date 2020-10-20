@@ -152,7 +152,7 @@ public class Account implements Serializable, Cloneable {
         this.timeStamp = timeStamp;
     }
 
-    public void incoming(Transaction transaction, Long value) {
+    public void incoming(Transaction transaction, BigInteger value) {
         addTransaction(transaction);
         addAmount(value);
     }

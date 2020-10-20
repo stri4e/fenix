@@ -1,4 +1,4 @@
-package com.github.payments.payload;
+package com.github.bitcoin.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

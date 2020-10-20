@@ -27,12 +27,12 @@ public interface IBillsController {
     List<BillDto> findBillsByStatus(@PathVariable(name = "status") EntityStatus status);
 
     @PutMapping(
-            path = "/edit/{address}/{amountPaid}/{transfer}"
+            path = "/edit/{address}/{value}/{transfer}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     Report update(
             @PathVariable(name = "address") String address,
-            @PathVariable(name = "amountPaid") BigInteger amountPaid,
+            @PathVariable(name = "value") BigInteger value,
             @PathVariable(name = "transfer") String transfer
     );
 

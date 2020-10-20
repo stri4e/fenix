@@ -24,8 +24,8 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public List<String> readAllAddresses(EntityStatus status) {
-        return addressRepo.findAllAddresses(status);
+    public List<String> readAllAddresses() {
+        return addressRepo.findAllAddresses(EntityStatus.on);
     }
 
     @Override

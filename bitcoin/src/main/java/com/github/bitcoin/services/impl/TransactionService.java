@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
@@ -43,5 +42,10 @@ public class TransactionService implements ITransactionService {
     @Override
     public boolean existByHash(String hash) {
         return this.transactionRepo.existsByHash(hash);
+    }
+
+    @Override
+    public void updateConfirmation() {
+        this.transactionRepo.updateConfirmation();
     }
 }
