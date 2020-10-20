@@ -63,7 +63,7 @@ public class TransferObj {
     }
 
     public static OrderDetailDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products) {
+    fromOrderDetailDto(OrderDetail data, List<Product> products, BillDto bill) {
         return new OrderDetailDto(
                 data.getId(),
                 fromCustomer(data.getCustomer()),
@@ -73,7 +73,8 @@ public class TransferObj {
                 data.getAmount(),
                 data.getUserId(),
                 data.getStatus(),
-                fromDelivery(data.getDelivery())
+                fromDelivery(data.getDelivery()),
+                bill
         );
     }
 
@@ -85,6 +86,7 @@ public class TransferObj {
                 productIds,
                 data.getAmount(),
                 data.getUserId(),
+                data.getBill().getId(),
                 data.getStatus(),
                 toDelivery(data.getDelivery())
         );

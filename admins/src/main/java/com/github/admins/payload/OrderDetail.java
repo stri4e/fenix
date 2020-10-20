@@ -1,6 +1,7 @@
 package com.github.admins.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.admins.dto.BillDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,10 @@ public class OrderDetail implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "userId")
     private Long userId;
+
+    @NotNull
+    @JsonProperty(value = "billId")
+    private Long billId;
 
     @NotNull
     @JsonProperty(value = "status")

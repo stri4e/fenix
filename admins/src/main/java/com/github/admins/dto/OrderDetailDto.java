@@ -66,4 +66,10 @@ public class OrderDetailDto {
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
 
+    @NotNull(
+            message = "Bill is required."
+    )
+    @JsonProperty(value = "bill")
+    private BillDto bill;
+
 }
