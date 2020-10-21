@@ -33,7 +33,7 @@ public class TransferController implements ITransferController {
     @Override
     public void sendTransfer(Long billId, Receipt payload) {
         Account account = this.accountService.readActive();
-        BigDecimal amount = payload.getAmount();
+        var amount = payload.getAmount();
         MastercardPaymentTransfer transfer = new MastercardPaymentTransfer(
                 account.getPartnerId(), amount.toPlainString(), payload.getCurrency(),
                 payload.getIdentifier(), payload.getExpYear(), payload.getExpMonth(),
