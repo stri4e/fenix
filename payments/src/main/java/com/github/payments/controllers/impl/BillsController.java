@@ -54,7 +54,7 @@ public class BillsController implements IBillsController {
     }
 
     @Override
-    public Report update(String address, BigInteger value, String transfer) {
+    public Report updateCrypto(String address, BigInteger value, String transfer) {
         Bill bill = this.billService.readByByAddressAndStatus(address, EntityStatus.on);
         var amount = bill.getAmount();
         var amountPaid = bill.getAmountPaid().add(value);
@@ -67,6 +67,17 @@ public class BillsController implements IBillsController {
             var different = amount.subtract(amountPaid);
             bill.forUpdate(EntityStatus.on, amountPaid, transfer);
             return new Report(amount, amountPaid, different);
+        }
+    }
+
+    @Override
+    public void updateMastercard(Long billId, BigInteger value, String transfer) {
+        Bill bill = this.billService.readById(billId);
+        var amount = bill.getAmount();
+        var amountPaid = bill.getAmountPaid().add(value);
+        if (amount.equals(amountPaid)) {
+            bill.forUpdate(EntityStatus.off, amountPaid, transfer);
+            this.billService.update(bill);
         }
     }
 

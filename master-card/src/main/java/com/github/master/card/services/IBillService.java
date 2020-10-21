@@ -1,7 +1,6 @@
-package com.github.ethereum.services;
+package com.github.master.card.services;
 
-import com.github.ethereum.payload.Report;
-import com.github.ethereum.services.impl.BillService;
+import com.github.master.card.services.impl.BillService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,10 +14,10 @@ import java.math.BigInteger;
 public interface IBillService {
 
     @PutMapping(
-        path = "/v1/bills/edit/crypto/{address}/{value}/{transfer}"
+            path = "/v1/bills/edit/mastercard/{billId}/{value}/{transfer}"
     )
-    Report update(
-            @PathVariable(name = "address") String address,
+    void update(
+            @PathVariable(name = "billId") Long billId,
             @PathVariable(name = "value") BigInteger value,
             @PathVariable(name = "transfer") String transfer
     );

@@ -15,7 +15,7 @@ import java.math.BigInteger;
 public interface IBillService {
 
     @PutMapping(
-        path = "/v1/bills/edit/{address}/{value}/{transfer}"
+        path = "/v1/bills/edit/crypto/{address}/{value}/{transfer}"
     )
     Report update(
             @PathVariable(name = "address") String address,

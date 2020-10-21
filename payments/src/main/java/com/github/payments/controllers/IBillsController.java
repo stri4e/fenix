@@ -29,11 +29,21 @@ public interface IBillsController {
     );
 
     @PutMapping(
-            path = "/edit/{address}/{value}/{transfer}"
+            path = "/edit/crypto/{address}/{value}/{transfer}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Report update(
+    Report updateCrypto(
             @PathVariable(name = "address") String address,
+            @PathVariable(name = "value") BigInteger value,
+            @PathVariable(name = "transfer") String transfer
+    );
+
+    @PutMapping(
+            path = "/edit/mastercard/{billId}/{value}/{transfer}"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateMastercard(
+            @PathVariable(name = "billId") Long billId,
             @PathVariable(name = "value") BigInteger value,
             @PathVariable(name = "transfer") String transfer
     );
