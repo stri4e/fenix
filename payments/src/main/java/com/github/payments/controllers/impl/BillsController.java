@@ -95,7 +95,6 @@ public class BillsController implements IBillsController {
             bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             this.billService.update(bill);
             this.ordersService.update(bill.getId());
-            billNotify(bill);
         }
     }
 
