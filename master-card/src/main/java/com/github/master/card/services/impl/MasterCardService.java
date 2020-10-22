@@ -16,21 +16,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MasterCardService implements IMasterCardService {
 
-    @Value(value = "${app.is.debug}")
-    private Boolean isDebug;
-
-    @Value(value = "${app.is.sandbox}")
-    private Boolean isSandbox;
-
     @Override
     public String send(MastercardPaymentTransfer transfer, Account account) {
-        IFacadeMasterCard facade = new FacadeMasterCard(
-                account.getConsumerKey(),
-                account.getKeyAlias(),
-                account.getKeyPassword(),
-                account.getPrivateKey(),
-                this.isDebug, this.isSandbox
-        );
+        IFacadeMasterCard facade = FacadeMasterCard.getInstance();
         return facade.send(transfer).orElseThrow(PaymentRequired::new);
     }
 
