@@ -45,10 +45,12 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
 	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
 	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
-	implementation 'com.github.HellcrowAndrey:wrapper-ethrereum:0.0.8'
+
 	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	implementation 'com.github.HellcrowAndrey:facade-ethrereum:0.0.9'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
