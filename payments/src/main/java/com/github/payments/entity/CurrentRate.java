@@ -44,6 +44,10 @@ public class CurrentRate implements Serializable, Cloneable {
     )
     private List<Rate> rates;
 
+    @Column(
+            name = "status",
+            nullable = false
+    )
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 

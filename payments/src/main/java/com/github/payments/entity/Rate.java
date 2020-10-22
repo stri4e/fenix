@@ -47,6 +47,10 @@ public class Rate implements Serializable, Cloneable {
     )
     private Double rate;
 
+    @Column(
+            name = "status",
+            nullable = false
+    )
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 
