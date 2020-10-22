@@ -52,5 +52,4 @@ public interface IAssetsController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void deleteByStatus(@PathVariable(name = "id") Long id);
 
-
 }
