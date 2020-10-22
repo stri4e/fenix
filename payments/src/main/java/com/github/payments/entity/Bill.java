@@ -122,4 +122,9 @@ public class Bill implements Serializable, Cloneable {
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
         this.billType = billType;
     }
+
+    public boolean isOther() {
+        return this.billType.equals(BillType.other);
+    }
+
 }

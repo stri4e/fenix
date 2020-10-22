@@ -2,15 +2,9 @@ package com.github.payments.controllers.impl;
 
 import com.github.payments.controllers.IBillsController;
 import com.github.payments.dto.BillDto;
-import com.github.payments.entity.Asset;
-import com.github.payments.entity.Bill;
-import com.github.payments.entity.EntityStatus;
-import com.github.payments.entity.PaymentTypes;
+import com.github.payments.entity.*;
 import com.github.payments.payload.Report;
-import com.github.payments.service.IAssetsService;
-import com.github.payments.service.IBillsService;
-import com.github.payments.service.IOrdersService;
-import com.github.payments.service.IPaymentTypesService;
+import com.github.payments.service.*;
 import com.github.payments.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,19 +24,36 @@ public class BillsController implements IBillsController {
 
     private final IBillsService billService;
 
+    private final IBillPushService billPushService;
+
     private final IPaymentTypesService paymentTypesService;
 
     private final IAssetsService assetsService;
 
     private final IOrdersService ordersService;
 
+    private final INotificationService notificationService;
+
+    private final IUsersNotifyService usersNotifyService;
+
     @Override
-    public BillDto save(BillDto payload) {
+    public BillDto saveForDef(BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
         Asset asset = this.assetsService.readByName(payload.getAssetName());
         Bill bill = toBill(payload).forCreate(asset, type);
         return fromBill(this.billService.create(bill));
+    }
+
+    @Override
+    public BillDto saveForOther(Long userId, BillDto payload) {
+        PaymentTypes type = this.paymentTypesService
+                .readByAlias(payload.getPaymentType());
+        Asset asset = this.assetsService.readByName(payload.getAssetName());
+        Bill tmp = toBill(payload).forCreate(asset, type);
+        Bill bill = this.billService.create(tmp);
+        this.notificationService.create(new Notification(bill, userId));
+        return fromBill(bill);
     }
 
     @Override
@@ -52,7 +63,7 @@ public class BillsController implements IBillsController {
                     .map(TransferObj::fromBill)
                     .collect(Collectors.toList());
         }
-        return TransferObj.fromBill(this.billService.readById(id));
+        return fromBill(this.billService.readById(id));
     }
 
     @Override
@@ -65,10 +76,12 @@ public class BillsController implements IBillsController {
             var different = amount.subtract(amountPaid);
             this.billService.update(bill);
             this.ordersService.update(bill.getId());
+            billNotify(bill);
             return new Report(amount, amountPaid, different);
         } else {
             var different = amount.subtract(amountPaid);
             bill.forUpdate(EntityStatus.on, amountPaid, transfer);
+            billNotify(bill);
             return new Report(amount, amountPaid, different);
         }
     }
@@ -82,11 +95,21 @@ public class BillsController implements IBillsController {
             bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             this.billService.update(bill);
             this.ordersService.update(bill.getId());
+            billNotify(bill);
         }
     }
 
     @Override
     public void delete(Long id) {
         this.billService.remove(id);
+    }
+
+    private void billNotify(Bill bill) {
+        if (bill.isOther()) {
+            Notification notify = this.notificationService.findByBillId(bill.getId());
+            var ending = this.usersNotifyService.findUrlEnding(notify.getId())
+                    .orElse("default");
+            this.billPushService.billNotify(ending, fromBill(bill));
+        }
     }
 }

@@ -12,11 +12,18 @@ import java.math.BigInteger;
 public interface IBillsController {
 
     @PostMapping(
-            path = "/",
+            path = "/def",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto save(@RequestBody BillDto payload);
+    BillDto saveForDef(@RequestBody BillDto payload);
+
+    @PostMapping(
+            path = "/other",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
+    BillDto saveForOther(@RequestAttribute Long userId, @RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface IBillService {
 
     @PostMapping(
-        path = "/v1/bills/"
+        path = "/v1/bills/def"
     )
     BillDto create(@RequestBody BillDto payload);
 
