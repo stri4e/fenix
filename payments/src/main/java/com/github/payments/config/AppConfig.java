@@ -1,7 +1,7 @@
 package com.github.payments.config;
 
-import com.github.currencies.rates.controllers.IExchangeController;
-import com.github.currencies.rates.controllers.impl.ExchangeController;
+import com.github.currencies.rates.services.IExchangeService;
+import com.github.currencies.rates.services.impl.ExchangeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
@@ -19,8 +19,8 @@ public class AppConfig {
     private String exchangeUrl;
 
     @Bean
-    public IExchangeController exchangeController() {
-        return new ExchangeController(this.exchangeUrl);
+    public IExchangeService exchangeController() {
+        return new ExchangeService(this.exchangeUrl);
     }
 
 }

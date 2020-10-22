@@ -1,14 +1,12 @@
 package com.github.payments.service.impl;
 
-import com.github.currencies.rates.controllers.IExchangeController;
 import com.github.currencies.rates.payload.RatesPayload;
+import com.github.currencies.rates.services.IExchangeService;
 import com.github.payments.entity.Asset;
-import com.github.payments.entity.AssetType;
 import com.github.payments.entity.CurrentRate;
 import com.github.payments.service.IAssetsService;
 import com.github.payments.service.ICurrentRateService;
 import com.github.payments.service.INetworkService;
-import com.github.payments.service.IRatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class NetworkService implements INetworkService {
     @Value(value = "${exchange.key}")
     private String exchangeKey;
 
-    private final IExchangeController exchangeController;
+    private final IExchangeService exchangeService;
 
     private final IAssetsService assetsService;
 
@@ -36,7 +34,7 @@ public class NetworkService implements INetworkService {
 
     @Override
     public Optional<RatesPayload> fetchRates(String currencyName) {
-        return this.exchangeController
+        return this.exchangeService
                 .findRates(this.exchangeKey, currencyName, Boolean.FALSE);
     }
 
