@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "notification", schema = "public")
-public class Notification implements Serializable, Cloneable {
+@Table(name = "aliases", schema = "public")
+public class Alias implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 377810999923887713L;
 
@@ -62,7 +62,7 @@ public class Notification implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Notification(Bill bill, Long userId) {
+    public Alias(Bill bill, Long userId) {
         this.bill = bill;
         this.userId = userId;
     }

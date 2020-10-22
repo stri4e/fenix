@@ -4,16 +4,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
-public interface INotificationController {
+public interface IAliasController {
 
     @GetMapping(
-            path = "/push/ending/{userId}"
+            path = "/push/{userId}"
     )
-    String endingUrlForPush(@PathVariable(name = "userId") Long userId);
+    String aliasForPush(@PathVariable(name = "userId") Long userId);
 
     @GetMapping(
-            path = "/listening/ending"
+            path = "/listening"
     )
-    String endingUrlForListening(@RequestAttribute Long userId);
+    String aliasForListening(@RequestAttribute Long userId);
 
 }

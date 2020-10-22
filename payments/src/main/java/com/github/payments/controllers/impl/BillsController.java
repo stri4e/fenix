@@ -23,7 +23,7 @@ public class BillsController implements IBillsController {
 
     private final IBillsService billService;
 
-    private final IBillPushService billPushService;
+    private final IBillNotifyService billPushService;
 
     private final IPaymentTypesService paymentTypesService;
 
@@ -31,9 +31,9 @@ public class BillsController implements IBillsController {
 
     private final IOrdersService ordersService;
 
-    private final INotificationService notificationService;
+    private final IAliasService aliasService;
 
-    private final IUsersNotifyService usersNotifyService;
+    private final IUsersAliasService usersAliasService;
 
     private final IWhomService whomService;
 
@@ -57,7 +57,7 @@ public class BillsController implements IBillsController {
         Asset asset = this.assetsService.readByName(payload.getAssetName());
         Bill tmp = toBill(payload).forCreate(asset, type);
         Bill bill = this.billService.create(tmp);
-        this.notificationService.create(new Notification(bill, userId));
+        this.aliasService.create(new Alias(bill, userId));
         return fromBill(bill);
     }
 
@@ -110,8 +110,8 @@ public class BillsController implements IBillsController {
 
     private void billNotify(Bill bill) {
         if (bill.isOther()) {
-            Notification notify = this.notificationService.findByBillId(bill.getId());
-            var ending = this.usersNotifyService.findEndingUrl(notify.getId())
+            Alias notify = this.aliasService.findByBillId(bill.getId());
+            var ending = this.usersAliasService.findEndingUrl(notify.getId())
                     .orElse("default");
             this.billPushService.billNotify(ending, fromBill(bill));
         }

@@ -1,6 +1,6 @@
 package com.github.payments.service;
 
-import com.github.payments.service.impl.UsersNotifyService;
+import com.github.payments.service.impl.UsersAliasService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -8,12 +8,12 @@ import java.util.Optional;
 
 @FeignClient(
         name = "users-center",
-        fallback = UsersNotifyService.class,
+        fallback = UsersAliasService.class,
         contextId = "usersCenterId"
 )
-public interface IUsersNotifyService {
+public interface IUsersAliasService {
 
-    @GetMapping(path = "/v1/notification/push/ending")
+    @GetMapping(path = "/v1/aliases/push")
     Optional<String> findEndingUrl(Long userId);
 
 }
