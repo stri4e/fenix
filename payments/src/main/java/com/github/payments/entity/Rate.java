@@ -40,9 +40,9 @@ public class Rate implements Serializable, Cloneable {
 
     @Column(
             name = "rate",
-            precision = 18,
+            precision = 32,
             scale = 4,
-            columnDefinition="DECIMAL(18, 4)",
+            columnDefinition="DECIMAL(32, 4)",
             nullable = false
     )
     private Double rate;
