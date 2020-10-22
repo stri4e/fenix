@@ -7,6 +7,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Component;
 
+import static java.lang.String.format;
+
 @Component
 @RequiredArgsConstructor
 public class Broker {
@@ -31,6 +33,14 @@ public class Broker {
     @Logging
     public void broadcast(Object payload) {
         this.sendingOperations.convertAndSend("/topic/common", payload);
+    }
+
+    @Logging
+    public void sendBill(String ending, Object payload) {
+        this.sendingOperations.convertAndSend(
+                format("%s%s", "/topic/common/", ending),
+                payload
+        );
     }
 
 }
