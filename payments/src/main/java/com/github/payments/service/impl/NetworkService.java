@@ -34,8 +34,6 @@ public class NetworkService implements INetworkService {
 
     private final ICurrentRateService currentRateService;
 
-    private final IRatesService ratesService;
-
     @Override
     public Optional<RatesPayload> fetchRates(String currencyName) {
         return this.exchangeController
