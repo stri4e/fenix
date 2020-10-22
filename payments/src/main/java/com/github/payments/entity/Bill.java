@@ -80,6 +80,30 @@ public class Bill implements Serializable, Cloneable {
     @Enumerated(value = EnumType.STRING)
     private BillType billType;
 
+    @OneToOne(
+            targetEntity = Who.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "who_id",
+            foreignKey = @ForeignKey(
+                    name = "bill_payment_type_fk"
+            )
+    )
+    private Who who;
+
+    @OneToOne(
+            targetEntity = Whom.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "whom_id",
+            foreignKey = @ForeignKey(
+                    name = "bill_payment_type_fk"
+            )
+    )
+    private Whom whom;
+
     @Column(
             name = "status",
             nullable = false
@@ -106,6 +130,12 @@ public class Bill implements Serializable, Cloneable {
         this.status = status;
         this.amountPaid = amountPaid;
         this.transfers.add(transfer);
+    }
+
+    public Bill forCreate(Who who, Whom whom) {
+        this.who = who;
+        this.whom = whom;
+        return this;
     }
 
     public Bill forCreate(Asset asset, PaymentTypes paymentType) {

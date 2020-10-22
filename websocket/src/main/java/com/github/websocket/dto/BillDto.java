@@ -1,4 +1,4 @@
-package com.github.websocket.payload;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -48,6 +48,14 @@ public class BillDto implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "billType")
     private BillType billType;
+
+    @NotNull
+    @JsonProperty(value = "who")
+    private WhoDto who;
+
+    @NotNull
+    @JsonProperty(value = "whom")
+    private WhomDto whom;
     
     public BillDto(Long id, @NotNull BigInteger amount, @NotNull BigInteger amountPaid,
                    @NotBlank String assetName, @NotBlank String address,

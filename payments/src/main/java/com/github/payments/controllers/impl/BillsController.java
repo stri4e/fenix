@@ -14,8 +14,7 @@ import java.math.BigInteger;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.github.payments.utils.TransferObj.fromBill;
-import static com.github.payments.utils.TransferObj.toBill;
+import static com.github.payments.utils.TransferObj.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,12 +35,18 @@ public class BillsController implements IBillsController {
 
     private final IUsersNotifyService usersNotifyService;
 
+    private final IWhomService whomService;
+
+    private final IWhoService whoService;
+
     @Override
     public BillDto saveForDef(BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
         Asset asset = this.assetsService.readByName(payload.getAssetName());
-        Bill bill = toBill(payload).forCreate(asset, type);
+        Whom whom = this.whomService.create(toWhom(payload.getWhom()));
+        Who who = this.whoService.create(toWho(payload.getWho()));
+        Bill bill = toBill(payload).forCreate(asset, type).forCreate(who, whom);
         return fromBill(this.billService.create(bill));
     }
 

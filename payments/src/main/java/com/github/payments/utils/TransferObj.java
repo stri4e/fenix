@@ -30,7 +30,9 @@ public class TransferObj {
                 data.getAddress(),
                 data.getTransfers(),
                 data.getPaymentType().getAlias(),
-                data.getBillType()
+                data.getBillType(),
+                fromWho(data.getWho()),
+                fromWhom(data.getWhom())
         );
     }
 
@@ -105,6 +107,59 @@ public class TransferObj {
         return new PaymentTypesDto(
                 data.getId(),
                 data.getAlias()
+        );
+    }
+
+    public static Accountant toAccountant(AccountantDto data) {
+        return new Accountant(
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
+        );
+    }
+
+    public static AccountantDto fromAccountant(Accountant data) {
+        return new AccountantDto(
+                data.getId(),
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
+        );
+    }
+
+    public static Who toWho(WhoDto data) {
+        return new Who(
+                data.getId(),
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
+        );
+    }
+
+    public static WhoDto fromWho(Who data) {
+        return new WhoDto(
+                data.getId(),
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
+        );
+    }
+
+    public static Whom toWhom(WhomDto data) {
+        return new Whom(
+                data.getId(),
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
+        );
+    }
+
+    public static WhomDto fromWhom(Whom data) {
+        return new WhomDto(
+                data.getId(),
+                data.getFirsName(),
+                data.getLastName(),
+                data.getPatronymic()
         );
     }
 

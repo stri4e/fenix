@@ -1,7 +1,7 @@
 package com.github.websocket.controllers;
 
 import com.github.websocket.network.Broker;
-import com.github.websocket.payload.BillDto;
+import com.github.websocket.dto.BillDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

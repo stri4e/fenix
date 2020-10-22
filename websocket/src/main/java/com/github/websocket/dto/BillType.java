@@ -1,4 +1,4 @@
-package com.github.websocket.payload;
+package com.github.websocket.dto;
 
 public enum BillType {
     def, other
