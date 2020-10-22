@@ -6,6 +6,7 @@ import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
+import com.github.users.center.entity.Notification;
 import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.BadRequest;
@@ -32,6 +33,7 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
@@ -61,6 +63,8 @@ public class UsersController implements IUsersController, Serializable {
 
     private final ILoginsService loginsService;
 
+    private final INotificationService notificationService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -85,13 +89,15 @@ public class UsersController implements IUsersController, Serializable {
             throw new BadRequest();
         }
         ConfirmToken ct = this.confirmService.readByToken(token);
-        this.userService.updateIsEnable(TRUE, ct.getUser().getId());
+        User user = ct.getUser();
+        this.userService.updateIsEnable(TRUE, user.getId());
         URI url = UsersUtils.createUri(ct.getClientUrl());
         if (Objects.isNull(url)) {
             return new ResponseEntity<>(OK);
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(url);
+        this.notificationService.save(new Notification(user, UUID.randomUUID().toString()));
         return new ResponseEntity<>(headers, SEE_OTHER);
     }
 

@@ -27,11 +27,13 @@ public class SecurityConfigProd {
     private static final String[] USER_ACCESS  = new String[] {
             "/products/v1/comments",
             "/orders/**",
-            "/statistics/v1/views"
+            "/statistics/v1/views",
+            "/users/v1/notification/listening/ending"
     };
 
     private static final String[] MANAGER_ACCESS  = new String[] {
-            "/managers/**"
+            "/managers/**",
+            "/users/v1/notification/listening/ending"
     };
 
     private static final String[] ADMIN_ACCESS = new String[] {
@@ -39,7 +41,8 @@ public class SecurityConfigProd {
             "/users/v1/admins/reg",
             "/users/v1/managers/reg",
             "/statistics/**",
-            "/websocket/**"
+            "/websocket/**",
+            "/users/v1/notification/listening/ending"
     };
 
     private static final String [] SERVICE_ACCESS = new String[] {

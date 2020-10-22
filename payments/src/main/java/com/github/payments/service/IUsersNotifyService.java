@@ -13,7 +13,7 @@ import java.util.Optional;
 )
 public interface IUsersNotifyService {
 
-    @GetMapping(path = "/v1/ending")
+    @GetMapping(path = "/v1/notification/push/ending")
     Optional<String> findUrlEnding(Long userId);
 
 }
