@@ -9,6 +9,7 @@ import com.github.payments.entity.PaymentTypes;
 import com.github.payments.payload.Report;
 import com.github.payments.service.IAssetsService;
 import com.github.payments.service.IBillsService;
+import com.github.payments.service.IOrdersService;
 import com.github.payments.service.IPaymentTypesService;
 import com.github.payments.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,8 @@ public class BillsController implements IBillsController {
     private final IPaymentTypesService paymentTypesService;
 
     private final IAssetsService assetsService;
+
+    private final IOrdersService ordersService;
 
     @Override
     public BillDto save(BillDto payload) {
@@ -62,6 +65,7 @@ public class BillsController implements IBillsController {
             bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             var different = amount.subtract(amountPaid);
             this.billService.update(bill);
+            this.ordersService.update(bill.getId());
             return new Report(amount, amountPaid, different);
         } else {
             var different = amount.subtract(amountPaid);
@@ -78,6 +82,7 @@ public class BillsController implements IBillsController {
         if (amount.equals(amountPaid)) {
             bill.forUpdate(EntityStatus.off, amountPaid, transfer);
             this.billService.update(bill);
+            this.ordersService.update(bill.getId());
         }
     }
 

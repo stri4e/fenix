@@ -82,4 +82,9 @@ public class OrderDetailService implements IOrderDetailService {
         this.orderRepo.save(o);
     }
 
+    @Override
+    public void updateOrderPaid(Long billId) {
+        this.orderRepo.updateOrderPaid(billId, OrderStatus.paid);
+    }
+
 }

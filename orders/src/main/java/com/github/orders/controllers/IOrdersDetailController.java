@@ -91,6 +91,12 @@ public interface IOrdersDetailController {
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
 
+    @PutMapping(
+            path = "/edit/paid/{billId}"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateOderPaid(@PathVariable(name = "billId") Long billId);
+
     @DeleteMapping(
             path = "/{id}"
     )

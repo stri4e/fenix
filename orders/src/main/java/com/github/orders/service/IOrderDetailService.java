@@ -4,6 +4,7 @@ import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,5 +26,7 @@ public interface IOrderDetailService {
     void update(Long id, OrderStatus status);
 
     void update(OrderDetail o);
+
+    void updateOrderPaid(Long billId);
 
 }

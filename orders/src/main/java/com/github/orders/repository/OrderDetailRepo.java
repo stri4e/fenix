@@ -31,4 +31,11 @@ public interface OrderDetailRepo extends
             @Param(value = "status") OrderStatus status
     );
 
+    @Modifying
+    @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.billId =:billId")
+    void updateOrderPaid(
+            @Param(value = "billId") Long billId,
+            @Param(value = "status") OrderStatus status
+    );
+
 }

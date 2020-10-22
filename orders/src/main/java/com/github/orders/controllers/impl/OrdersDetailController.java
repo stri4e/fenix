@@ -119,6 +119,11 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    public void updateOderPaid(Long billId) {
+        this.orderService.updateOrderPaid(billId);
+    }
+
+    @Override
     public void deleteOrder(Long id) {
         this.orderService.update(id, OrderStatus.canceling);
     }
