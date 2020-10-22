@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public class UsersNotifyService implements IUsersNotifyService {
     @Override
-    public Optional<String> findUrlEnding(Long userId) {
+    public Optional<String> findEndingUrl(Long userId) {
         return Optional.empty();
     }
 }

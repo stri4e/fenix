@@ -9,12 +9,11 @@ public interface INotificationController {
     @GetMapping(
             path = "/push/ending/{userId}"
     )
-    String endingForPush(@PathVariable(name = "userId") Long userId);
+    String endingUrlForPush(@PathVariable(name = "userId") Long userId);
 
     @GetMapping(
             path = "/listening/ending"
     )
-    String endingForListening(@RequestAttribute Long userId);
-
+    String endingUrlForListening(@RequestAttribute Long userId);
 
 }

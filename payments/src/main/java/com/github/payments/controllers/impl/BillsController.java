@@ -107,7 +107,7 @@ public class BillsController implements IBillsController {
     private void billNotify(Bill bill) {
         if (bill.isOther()) {
             Notification notify = this.notificationService.findByBillId(bill.getId());
-            var ending = this.usersNotifyService.findUrlEnding(notify.getId())
+            var ending = this.usersNotifyService.findEndingUrl(notify.getId())
                     .orElse("default");
             this.billPushService.billNotify(ending, fromBill(bill));
         }

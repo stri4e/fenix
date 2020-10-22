@@ -14,12 +14,12 @@ public class NotificationController implements INotificationController {
     private final INotificationService notificationService;
 
     @Override
-    public String endingForPush(Long userId) {
+    public String endingUrlForPush(Long userId) {
         return this.notificationService.ending(userId);
     }
 
     @Override
-    public String endingForListening(Long userId) {
+    public String endingUrlForListening(Long userId) {
         return this.notificationService.ending(userId);
     }
 }
