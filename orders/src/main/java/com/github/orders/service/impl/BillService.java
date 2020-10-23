@@ -15,4 +15,9 @@ public class BillService implements IBillService {
     public BillDto findById(Long id) {
         return null;
     }
+
+    @Override
+    public void remove(Long id) {
+
+    }
 }

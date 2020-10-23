@@ -101,6 +101,6 @@ public interface IOrdersDetailController {
             path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deleteOrder(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }
