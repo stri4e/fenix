@@ -56,7 +56,7 @@ public interface IBillsController {
     );
 
     @DeleteMapping(
-            path = "/edit/{id}"
+            path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable(name = "id") Long id);
