@@ -39,6 +39,10 @@ public class BillsController implements IBillsController {
 
     private final IWhoService whoService;
 
+    private final IBitcoinService bitcoinService;
+
+    private final IEthereumService ethereumService;
+
     @Override
     public BillDto saveForDef(BillDto payload) {
         PaymentTypes type = this.paymentTypesService
@@ -104,7 +108,19 @@ public class BillsController implements IBillsController {
     }
 
     @Override
-    public void delete(Long id) {
+    public void remove(Long id) {
+        Bill bill = this.billService.readById(id);
+        Asset asset = bill.getAsset();
+        switch (asset.getName()) {
+            case "eth":
+                this.ethereumService.remove(bill.getAddress());
+                break;
+            case "btc":
+                this.bitcoinService.remove(bill.getAddress());
+                break;
+            default:
+                break;
+        }
         this.billService.remove(id);
     }
 

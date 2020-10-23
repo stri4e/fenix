@@ -50,7 +50,7 @@ public class PaymentTypeController implements IPaymentTypeController {
     }
 
     @Override
-    public void delete(Long id) {
+    public void remove(Long id) {
         this.paymentTypesService.remove(id);
     }
 }

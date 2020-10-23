@@ -50,6 +50,6 @@ public interface IAssetsController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deleteByStatus(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

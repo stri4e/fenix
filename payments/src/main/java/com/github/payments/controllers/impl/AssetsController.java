@@ -61,7 +61,7 @@ public class AssetsController implements IAssetsController {
     }
 
     @Override
-    public void deleteByStatus(Long id) {
+    public void remove(Long id) {
         this.assetsService.remove(id);
     }
 }

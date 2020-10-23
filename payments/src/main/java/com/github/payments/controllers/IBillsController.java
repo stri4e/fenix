@@ -59,6 +59,6 @@ public interface IBillsController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void delete(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

@@ -43,6 +43,6 @@ public interface IPaymentTypeController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void delete(@PathVariable(value = "id") Long id);
+    void remove(@PathVariable(value = "id") Long id);
 
 }

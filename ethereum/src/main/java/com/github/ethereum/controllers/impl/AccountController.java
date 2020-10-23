@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/accounts")
+@RequestMapping(path = "/v1/accounts")
 public class AccountController implements IAccountController {
 
     private final IFacadeEthereum facadeEthereum;
