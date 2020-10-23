@@ -1,5 +1,6 @@
 package com.github.products.services.impl;
 
+import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Specification;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
@@ -22,7 +23,7 @@ public class SpecificationService implements ISpecificationService {
 
     @Override
     @Caching(
-            put = @CachePut(value = "category", key = "#s.id")
+            put = @CachePut(value = "specification", key = "#s.id")
     )
     public Specification create(Specification s) {
         if (Objects.isNull(s)) {
@@ -32,7 +33,7 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
-    @Cacheable(value = "category", key = "#id")
+    @Cacheable(value = "specification", key = "#id")
     public Specification readById(Long id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
@@ -43,9 +44,17 @@ public class SpecificationService implements ISpecificationService {
 
     @Override
     @Caching(
-            put = @CachePut(value = "category", key = "#s.id")
+            put = @CachePut(value = "specification", key = "#s.id")
     )
     public void update(Specification s) {
         this.specificationRepo.save(s);
+    }
+
+    @Override
+    @Caching(
+            put = @CachePut(value = "specification", key = "#id")
+    )
+    public void delete(Long id) {
+        this.specificationRepo.update(id, EntityStatus.off);
     }
 }

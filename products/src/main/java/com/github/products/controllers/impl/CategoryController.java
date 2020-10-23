@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.github.products.utils.TransferObj.fromCategory;
+import static com.github.products.utils.TransferObj.toCategory;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/categories")
@@ -33,28 +36,30 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Category saveCategory(Category payload) {
-        return this.categoryService.create(payload);
+    public CategoryDto saveCategory(CategoryDto payload) {
+        return fromCategory(this.categoryService.create(toCategory(payload)));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Category findByName(String name) {
-        return this.categoryService.readByName(name);
+    public CategoryDto findByName(String name) {
+        return fromCategory(this.categoryService.readByName(name));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateCategory(Category payload) {
-        this.categoryService.update(payload);
+    public void update(CategoryDto payload) {
+        Category category = this.categoryService.readById(payload.getId());
+        category.setName(payload.getName());
+        this.categoryService.update(category);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void removeCategory(Long id) {
+    public void remove(Long id) {
         this.categoryService.remove(id);
     }
 

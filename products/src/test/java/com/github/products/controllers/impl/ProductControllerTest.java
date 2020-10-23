@@ -62,7 +62,7 @@ public class ProductControllerTest {
         Product exp = ProductControllerMocks.responseProduct();
         Product payload = ProductControllerMocks.requestProduct();
         Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        payload.setCategory(category);
+        payload.setSubcategory(category);
         String url = String.format("%s%s", this.productUrl, "/edit");
         ResponseEntity<Product> response = this.restTemplate.exchange(
                 url, HttpMethod.POST, new HttpEntity<>(payload), Product.class
@@ -81,7 +81,7 @@ public class ProductControllerTest {
     public void findByParams() {
         Product product = ProductControllerMocks.requestProduct();
         Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setCategory(category);
+        product.setSubcategory(category);
         this.productRepo.save(product);
         Product exp = ProductControllerMocks.responseProduct();
         String url = String.format("%s%s", this.productUrl, "/fetch?id=1");
@@ -102,7 +102,7 @@ public class ProductControllerTest {
     public void update() {
         Product product = ProductControllerMocks.requestProduct();
         Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setCategory(category);
+        product.setSubcategory(category);
         this.productRepo.save(product);
         Product payload = ProductControllerMocks.responseProductForUpdate();
         String url = String.format("%s%s", this.productUrl, "/edit");
@@ -116,7 +116,7 @@ public class ProductControllerTest {
     public void updateStatus() {
         Product product = ProductControllerMocks.requestProduct();
         Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setCategory(category);
+        product.setSubcategory(category);
         this.productRepo.save(product);
         String url = String.format("%s%s", this.productUrl, "/edit/1/used");
         ResponseEntity<Product> response = this.restTemplate.exchange(

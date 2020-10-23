@@ -4,9 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -14,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Table(name = "product", schema = "public")
+@Table(name = "products", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Product.findAll",
@@ -36,10 +34,10 @@ public class Product extends Item implements Serializable, Cloneable {
     @JoinColumn(
             name = "specification_id",
             foreignKey = @ForeignKey(
-                    name = "product_specification_fk"
+                    name = "products_specification_fk"
             )
     )
-    private Set<Specification> specification = new HashSet<>();
+    private List<Specification> specifications = new ArrayList<>();
 
     @OneToMany(
             targetEntity = Comment.class,
@@ -54,14 +52,24 @@ public class Product extends Item implements Serializable, Cloneable {
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne(
-            targetEntity = Category.class,
+            targetEntity = SubCategory.class,
             fetch = FetchType.EAGER
     )
     @JoinColumn(
             nullable = false,
-            name = "categories_id"
+            name = "sub_categories_id"
     )
-    private Category category;
+    private SubCategory subcategory;
+
+    @ManyToOne(
+            targetEntity = Brand.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "brand_id"
+    )
+    private Brand brand;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -70,6 +78,12 @@ public class Product extends Item implements Serializable, Cloneable {
     public void addComment(Comment c) {
         if (Objects.nonNull(c)) {
             this.comments.add(c);
+        }
+    }
+
+    public void addSpecification(Specification s) {
+        if (Objects.nonNull(s)) {
+            this.specifications.add(s);
         }
     }
 

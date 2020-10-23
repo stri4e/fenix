@@ -1,21 +1,25 @@
 package com.github.products.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@MappedSuperclass
-public abstract class Item implements Serializable, Cloneable {
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "filters", schema = "public")
+public class Filter implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -7416895101550698061L;
+    private static final long serialVersionUID = 7706390004430335311L;
 
     @Id
     @Column(name = "ID")
@@ -25,42 +29,20 @@ public abstract class Item implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "name",
+            name = "title",
             nullable = false,
-            length = 100
+            length = 50
     )
-    private String name;
-
-    @Column(
-            name = "price",
-            precision = 8,
-            scale = 3,
-            columnDefinition="DECIMAL(8, 3)"
-    )
-    private BigDecimal price;
-
-    @Column(
-            name = "quantity",
-            nullable = false
-    )
-    private Integer quantity;
-
-    @Column(
-            name = "description",
-            nullable = false
-    )
-    private String description;
-
-    @Column(
-            name = "preview_image",
-            nullable = false
-    )
-    private String previewImage;
+    private String title;
 
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private List<String> images = new ArrayList<>();
+    private List<String> criteria = new ArrayList<>();
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -76,5 +58,11 @@ public abstract class Item implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public Filter(Long id, String title, List<String> criteria) {
+        this.id = id;
+        this.title = title;
+        this.criteria = criteria;
+    }
 
 }

@@ -22,25 +22,25 @@ public interface ICategoryController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Category saveCategory(@RequestBody Category payload);
+    CategoryDto saveCategory(@RequestBody CategoryDto payload);
 
     @GetMapping(
             path = "/fetch/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Category findByName(@PathVariable String name);
+    CategoryDto findByName(@PathVariable String name);
 
     @PutMapping(
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateCategory(@RequestBody Category payload);
+    void update(@RequestBody CategoryDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void removeCategory(@PathVariable Long id);
+    void remove(@PathVariable Long id);
 
 }

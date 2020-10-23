@@ -10,4 +10,6 @@ public interface ISpecificationService {
 
     void update(Specification s);
 
+    void delete(Long id);
+
 }

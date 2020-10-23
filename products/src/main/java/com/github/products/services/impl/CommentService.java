@@ -1,6 +1,7 @@
 package com.github.products.services.impl;
 
 import com.github.products.entity.Comment;
+import com.github.products.entity.EntityStatus;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.repository.CommentRepo;
@@ -47,7 +48,7 @@ public class CommentService implements ICommentService {
         if (Objects.isNull(id)) {
             throw new BadRequest();
         }
-        this.commentRepo.deleteById(id);
+        this.commentRepo.updateStatus(id, EntityStatus.off);
     }
 
 }

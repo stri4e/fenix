@@ -11,29 +11,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "categories", schema = "public")
-@NamedQueries(value = {
-        @NamedQuery(
-                name = "Category.findAll",
-                query = "SELECT c FROM Category c"
-        ),
-        @NamedQuery(
-                name = "Category.findById",
-                query = "SELECT c FROM Category c WHERE c.id = :id"
-        ),
-        @NamedQuery(
-                name = "Category.findByName",
-                query = "SELECT c FROM Category c WHERE c.name = :name"
-        )
-})
-public class Category implements Serializable, Cloneable {
+@Table(name = "sub_categories", schema = "public")
+public class SubCategory implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -3168450095167684631L;
+    private static final long serialVersionUID = 9085806796284875698L;
 
     @Id
     @Column(name = "ID")
@@ -45,22 +32,31 @@ public class Category implements Serializable, Cloneable {
     @Column(
             name = "name",
             nullable = false,
-            length = 50,
-            unique = true
+            length = 50
     )
     private String name;
 
     @OneToMany(
-            targetEntity = SubCategory.class,
+            targetEntity = Filter.class,
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "sub_caretory_id",
+            name = "filter_title_id",
             foreignKey = @ForeignKey(
-                    name = "category_sub_category_fk"
+                    name = "sub_category_filter_title_fk"
             )
     )
-    private List<SubCategory> subCategories = new ArrayList<>();
+    private List<Filter> filters = new ArrayList<>();
+
+    @ManyToOne(
+            targetEntity = Category.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "categories_id"
+    )
+    private Category category;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -81,12 +77,20 @@ public class Category implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Category(Long id, String name) {
+    public SubCategory(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
+    public SubCategory forCreate(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public void addFilter(Filter filter) {
+        if (Objects.nonNull(filter)) {
+            this.filters.add(filter);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,24 +15,11 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "specification", schema = "public")
-@NamedQueries(value = {
-        @NamedQuery(
-                name = "Specification.findAll",
-                query = "SELECT s FROM Specification s"
-        ),
-        @NamedQuery(
-                name = "Specification.findById",
-                query = "SELECT s FROM Specification s WHERE s.id = :id"
-        ),
-        @NamedQuery(
-                name = "Specification.findByName",
-                query = "SELECT s FROM Specification s WHERE s.name = :name"
-        )
-})
-public class Specification implements Serializable, Cloneable {
+@ToString(callSuper = true)
+@Table(name = "brands", schema = "public")
+public class Brand implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -8426888996223798372L;
+    private static final long serialVersionUID = 1226440996435440929L;
 
     @Id
     @Column(name = "ID")
@@ -43,15 +31,10 @@ public class Specification implements Serializable, Cloneable {
     @Column(
             name = "name",
             nullable = false,
-            length = 50
+            unique = true,
+            length = 100
     )
     private String name;
-
-    @Column(
-            name = "description",
-            nullable = false
-    )
-    private String description;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -72,14 +55,8 @@ public class Specification implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Specification(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public Specification(Long id, String name, String description) {
+    public Brand(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.description = description;
     }
 }

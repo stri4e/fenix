@@ -1,12 +1,9 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.dto.CommentDto;
 import com.github.products.entity.Category;
-import com.github.products.entity.Comment;
 import com.github.products.entity.Product;
 import com.github.products.entity.Specification;
 import com.github.products.repository.CategoryRepo;
-import com.github.products.repository.CommentRepo;
 import com.github.products.repository.ProductRepo;
 import com.github.products.repository.SpecificationRepo;
 import org.hamcrest.core.IsEqual;
@@ -79,7 +76,7 @@ public class SpecificationControllerTest {
         Category categoryData = SpecificationControllerMocks.category();
         Category category = this.categoryRepo.save(categoryData);
         Product data = SpecificationControllerMocks.product();
-        data.setCategory(category);
+        data.setSubcategory(category);
         this.productRepo.save(data);
     }
 

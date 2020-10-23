@@ -77,7 +77,7 @@ public class CommentControllerTest {
         Category categoryData = CommentControllerMocks.category();
         Category category = this.categoryRepo.save(categoryData);
         Product data = CommentControllerMocks.product();
-        data.setCategory(category);
+        data.setSubcategory(category);
         this.productRepo.save(data);
     }
 

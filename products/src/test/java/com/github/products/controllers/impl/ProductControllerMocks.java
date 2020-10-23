@@ -74,7 +74,7 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(EntityStatus.off);
-        p.setCategory(category());
+        p.setSubcategory(category());
         return p;
     }
 
@@ -88,7 +88,7 @@ public class ProductControllerMocks {
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
         p.setStatus(EntityStatus.off);
-        p.setCategory(category());
+        p.setSubcategory(category());
         return p;
     }
 

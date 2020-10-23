@@ -12,6 +12,8 @@ public interface ICategoryService {
 
     Category readByName(String name);
 
+    Category readById(Long id);
+
     void update(Category c);
 
     void remove(Long id);

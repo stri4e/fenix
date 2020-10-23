@@ -32,7 +32,7 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto
-    saveComment(Long productId, CommentDto payload) {
+    save(Long productId, CommentDto payload) {
         if (Objects.isNull(productId) || Objects.isNull(payload)) {
             throw new BadRequest();
         }
@@ -47,14 +47,14 @@ public class CommentController implements ICommentController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Comment findById(Long id) {
-        return this.commentService.readById(id);
+    public CommentDto findById(Long id) {
+        return fromComment(this.commentService.readById(id));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void removeComment(Long id) {
+    public void remove(Long id) {
         this.commentService.remove(id);
     }
 

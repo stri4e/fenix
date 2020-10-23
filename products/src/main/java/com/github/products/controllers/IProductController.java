@@ -1,7 +1,6 @@
 package com.github.products.controllers;
 
 import com.github.products.dto.ProductDto;
-import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +21,13 @@ public interface IProductController {
     Page<ProductDto> getProduct(
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "category_name", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "subcategory_name", direction = Sort.Direction.ASC),
                     @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
             }) Pageable pageable);
 
-    @GetMapping(path = "/page/{category}")
+    @GetMapping(path = "/page/{subcategory}")
     Page<ProductDto> getProduct(
-            @PathVariable String category,
+            @PathVariable String subcategory,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
@@ -43,12 +42,15 @@ public interface IProductController {
     );
 
     @PostMapping(
-            path = "/edit",
+            path = "/edit/{subcategory_name}/{brand_name}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Product saveProduct(@Valid @RequestBody Product payload);
+    ProductDto save(@PathVariable(name = "subcategory_name") String subcategoryName,
+                    @PathVariable(name = "brand_name") String brandName,
+                    @Valid @RequestBody ProductDto payload
+    );
 
     @GetMapping(
             path = "/fetch",
@@ -65,7 +67,7 @@ public interface IProductController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateProduct(@RequestBody Product payload);
+    void updateProduct(@RequestBody ProductDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}/{status}"

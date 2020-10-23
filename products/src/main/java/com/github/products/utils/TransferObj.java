@@ -1,36 +1,41 @@
 package com.github.products.utils;
 
-import com.github.products.dto.CategoryDto;
-import com.github.products.dto.CommentDto;
-import com.github.products.dto.ProductDto;
-import com.github.products.dto.SpecificationDto;
-import com.github.products.entity.Category;
-import com.github.products.entity.Comment;
-import com.github.products.entity.Product;
-import com.github.products.entity.Specification;
+import com.github.products.dto.*;
+import com.github.products.entity.*;
 
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static ProductDto fromProduct(Product p) {
-        var specifications = p.getSpecification()
-                .stream().map(TransferObj::fromSpecification)
-                .collect(Collectors.toList());
-        var comments = p.getComments()
-                .stream().map(TransferObj::fromComment)
-                .collect(Collectors.toList());
+    public static Product toProduct(ProductDto data) {
+        Product result = new Product();
+        result.setId(data.getId());
+        result.setName(data.getName());
+        result.setPrice(data.getPrice());
+        result.setQuantity(data.getQuantity());
+        result.setDescription(data.getDescription());
+        result.setPreviewImage(data.getPreviewImage());
+        result.setImages(data.getImages());
+        return result;
+    }
+
+    public static ProductDto fromProduct(Product data) {
         return new ProductDto(
-                p.getId(),
-                p.getName(),
-                p.getPrice(),
-                p.getQuantity(),
-                p.getDescription(),
-                p.getPreviewImage(),
-                p.getImages(),
-                specifications,
-                comments,
-                p.getCategory().getName()
+                data.getId(),
+                data.getBrand().getName(),
+                data.getName(),
+                data.getPrice(),
+                data.getQuantity(),
+                data.getDescription(),
+                data.getPreviewImage(),
+                data.getImages(),
+                data.getSpecifications().stream()
+                        .map(TransferObj::fromSpecification)
+                        .collect(Collectors.toList()),
+                data.getComments().stream()
+                        .map(TransferObj::fromComment)
+                        .collect(Collectors.toList()),
+                data.getSubcategory().getName()
         );
     }
 
@@ -38,12 +43,12 @@ public class TransferObj {
         return new SpecificationDto(s.getId(), s.getName(), s.getDescription());
     }
 
-    public static CommentDto fromComment(Comment c) {
-        return new CommentDto(c.getId(), c.getName(), c.getComment());
+    public static Specification toSpecification(SpecificationDto s) {
+        return new Specification(s.getId(), s.getName(), s.getDescription());
     }
 
-    public static CategoryDto fromCategory(Category c) {
-        return new CategoryDto(c.getId(), c.getName());
+    public static CommentDto fromComment(Comment c) {
+        return new CommentDto(c.getId(), c.getName(), c.getComment());
     }
 
     public static Comment toComment(CommentDto c) {
@@ -51,6 +56,64 @@ public class TransferObj {
                 c.getId(),
                 c.getName(),
                 c.getDescription()
+        );
+    }
+
+    public static CategoryDto fromCategory(Category data) {
+        return new CategoryDto(
+                data.getId(),
+                data.getName(),
+                data.getSubCategories()
+        );
+    }
+
+    public static Category toCategory(CategoryDto data) {
+        return new Category(
+                data.getId(),
+                data.getName()
+        );
+    }
+
+    public static SubCategory toSubCategory(SubCategoryDto data) {
+        return new SubCategory(
+                data.getId(),
+                data.getName()
+        );
+    }
+
+    public static SubCategoryDto fromSubCategory(SubCategory data) {
+        return new SubCategoryDto(
+                data.getId(),
+                data.getName(),
+                data.getFilters().stream()
+                        .map(TransferObj::fromFilter)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    public static Filter toFilter(FilterDto data) {
+        return new Filter(data.getId(), data.getTitle(), data.getCriteria());
+    }
+
+    public static FilterDto fromFilter(Filter data) {
+        return new FilterDto(
+                data.getId(),
+                data.getTitle(),
+                data.getCriteria()
+        );
+    }
+
+    public static Brand toBrand(BrandDto data) {
+        return new Brand(
+                data.getId(),
+                data.getName()
+        );
+    }
+
+    public static BrandDto fromBrand(Brand data) {
+        return new BrandDto(
+                data.getId(),
+                data.getName()
         );
     }
 
