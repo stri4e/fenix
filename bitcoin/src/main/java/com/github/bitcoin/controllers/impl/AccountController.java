@@ -9,9 +9,9 @@ import com.github.bitcoin.exceptions.NotFound;
 import com.github.bitcoin.services.IAccountService;
 import com.github.bitcoin.services.IAddressService;
 import com.github.bitcoin.utils.TransferObj;
-import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
-import com.github.wrapper.bitcoin.model.ChainAddress;
-import com.github.wrapper.bitcoin.model.KeysBag;
+import com.github.facade.bitcoin.IFacadeBitcoin;
+import com.github.facade.bitcoin.models.ChainAddress;
+import com.github.facade.bitcoin.models.KeysBag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -84,6 +84,11 @@ public class AccountController implements IAccountController {
                 .orElseThrow(NotFound::new);
         this.addressService.updateStatus(result, EntityStatus.on);
         return result;
+    }
+
+    @Override
+    public void remove(String address) {
+        this.addressService.updateStatus(address, EntityStatus.off);
     }
 
 }

@@ -4,9 +4,9 @@ import com.github.ethereum.entity.*;
 import com.github.ethereum.payload.Report;
 import com.github.ethereum.services.*;
 import com.github.ethereum.utils.Logging;
-import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
-import com.github.wrapper.ethrereum.model.Information;
-import com.github.wrapper.ethrereum.model.TransactionData;
+import com.github.facade.ethrereum.IFacadeEthereum;
+import com.github.facade.ethrereum.model.Information;
+import com.github.facade.ethrereum.model.TransactionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

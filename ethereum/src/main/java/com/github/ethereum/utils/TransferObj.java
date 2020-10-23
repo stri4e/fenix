@@ -2,7 +2,7 @@ package com.github.ethereum.utils;
 
 import com.github.ethereum.dto.*;
 import com.github.ethereum.entity.*;
-import com.github.wrapper.ethrereum.model.TransactionData;
+import com.github.facade.ethrereum.model.TransactionData;
 
 public class TransferObj {
 

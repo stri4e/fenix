@@ -3,11 +3,11 @@ package com.github.bitcoin.services.impl;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.payload.Report;
 import com.github.bitcoin.services.*;
-import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
-import com.github.wrapper.bitcoin.model.NewBlock;
-import com.github.wrapper.bitcoin.model.TOutput;
-import com.github.wrapper.bitcoin.model.TransactionData;
-import com.github.wrapper.bitcoin.payload.BlockChainInfo;
+import com.github.facade.bitcoin.IFacadeBitcoin;
+import com.github.facade.bitcoin.models.NewBlock;
+import com.github.facade.bitcoin.models.TOutput;
+import com.github.facade.bitcoin.models.TransactionData;
+import com.github.facade.bitcoin.payloads.BlockChainInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

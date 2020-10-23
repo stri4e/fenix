@@ -1,7 +1,7 @@
 package com.github.bitcoin.network;
 
 import com.github.bitcoin.services.INetworkService;
-import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
+import com.github.facade.bitcoin.IFacadeBitcoin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;

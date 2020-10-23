@@ -57,4 +57,9 @@ public class AccountService implements IAccountService {
         this.accountRepo.save(account);
     }
 
+    @Override
+    public void updateStatus(String address, EntityStatus status) {
+        this.accountRepo.updateStatus(address, status);
+    }
+
 }

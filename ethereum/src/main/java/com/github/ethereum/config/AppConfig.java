@@ -1,7 +1,7 @@
 package com.github.ethereum.config;
 
-import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
-import com.github.wrapper.ethrereum.facade.impl.FacadeEthereum;
+import com.github.facade.ethrereum.FacadeEthereum;
+import com.github.facade.ethrereum.IFacadeEthereum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;

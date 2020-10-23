@@ -1,6 +1,6 @@
 package com.github.bitcoin.services;
 
-import com.github.wrapper.bitcoin.model.NewBlock;
+import com.github.facade.bitcoin.models.NewBlock;
 
 public interface INetworkService {
 

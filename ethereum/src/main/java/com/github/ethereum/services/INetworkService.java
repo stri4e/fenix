@@ -1,7 +1,7 @@
 package com.github.ethereum.services;
 
-import com.github.wrapper.ethrereum.model.Information;
-import com.github.wrapper.ethrereum.model.TransactionData;
+import com.github.facade.ethrereum.model.Information;
+import com.github.facade.ethrereum.model.TransactionData;
 
 import java.util.List;
 

@@ -22,4 +22,6 @@ public interface IAccountService {
 
     void update(Account account);
 
+    void updateStatus(String address, EntityStatus status);
+
 }

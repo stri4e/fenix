@@ -7,10 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.*;
 
 public interface IAccountController {
 
@@ -30,5 +29,11 @@ public interface IAccountController {
             path = "/address"
     )
     String findAvailableAddress(@RequestAttribute Long userId);
+
+    @DeleteMapping(
+            path = "/{address}"
+    )
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    void remove(@PathVariable(name = "address") String address);
 
 }

@@ -37,4 +37,10 @@ public interface IAccountController {
     @ResponseStatus(code = HttpStatus.OK)
     String findAvailableAddress(@RequestAttribute Long userId);
 
+    @DeleteMapping(
+            path = "/{address}"
+    )
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    void remove(@PathVariable(name = "address") String address);
+
 }

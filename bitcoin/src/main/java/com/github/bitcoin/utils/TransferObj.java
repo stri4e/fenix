@@ -3,9 +3,9 @@ package com.github.bitcoin.utils;
 import com.github.bitcoin.dto.*;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.payload.Receipt;
-import com.github.wrapper.bitcoin.model.*;
-import com.github.wrapper.bitcoin.transaction.NewTransaction;
-import com.github.wrapper.bitcoin.utils.Network;
+import com.github.facade.bitcoin.models.*;
+import com.github.facade.bitcoin.transaction.NewTransaction;
+import com.github.facade.bitcoin.utils.Network;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

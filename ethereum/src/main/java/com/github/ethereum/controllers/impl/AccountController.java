@@ -7,8 +7,8 @@ import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.exceptions.NoContent;
 import com.github.ethereum.services.IAccountService;
 import com.github.ethereum.utils.TransferObj;
-import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
-import com.github.wrapper.ethrereum.model.KeyPair;
+import com.github.facade.ethrereum.IFacadeEthereum;
+import com.github.facade.ethrereum.model.KeyPair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -60,6 +60,11 @@ public class AccountController implements IAccountController {
             }
         }
         return account.getAddress();
+    }
+
+    @Override
+    public void remove(String address) {
+        this.accountService.updateStatus(address, EntityStatus.off);
     }
 
 }
