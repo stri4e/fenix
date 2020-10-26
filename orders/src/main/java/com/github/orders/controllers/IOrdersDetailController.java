@@ -1,7 +1,6 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDto;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,19 +43,19 @@ public interface IOrdersDetailController {
             )
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> userOrders(
+    List<OrderDetailDto> userOrders(
             @ApiIgnore @RequestAttribute(name = "userId") Long userId
     );
 
     @GetMapping(path = "/fetch/binding/{orderId}")
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchBindingOrders(
+    List<OrderDetailDto> fetchBindingOrders(
             @PathVariable(name = "orderId") Long orderId
     );
 
     @GetMapping(path = "/fetch/{status}/time")
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchOrdersInTime(
+    List<OrderDetailDto> fetchOrdersInTime(
             @PathVariable OrderStatus status,
             @RequestParam("start") LocalDateTime start,
             @RequestParam("end") LocalDateTime end
@@ -67,7 +66,7 @@ public interface IOrdersDetailController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> findAllByStatus(@PathVariable OrderStatus status);
+    List<OrderDetailDto> findAllByStatus(@PathVariable OrderStatus status);
 
     @GetMapping(
             path = "/fetch",

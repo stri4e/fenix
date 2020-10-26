@@ -5,7 +5,6 @@ import com.github.orders.entity.Customer;
 import com.github.orders.entity.DeliveryType;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import com.github.orders.payload.Product;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;

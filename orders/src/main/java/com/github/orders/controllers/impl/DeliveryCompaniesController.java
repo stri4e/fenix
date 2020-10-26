@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.github.orders.utils.TransferObj.fromCompany;
+import static com.github.orders.utils.TransferObj.toCompany;
+
 @RestController
 @RequestMapping("/v1/delivery/company")
 @RequiredArgsConstructor
@@ -28,18 +31,21 @@ public class DeliveryCompaniesController implements IDeliveryCompaniesController
     }
 
     @Override
-    public Company save(Company payload) {
-        return this.companyService.create(payload);
+    public CompanyDto save(CompanyDto payload) {
+        return fromCompany(this.companyService.create(toCompany(payload)));
     }
 
     @Override
-    public Company findById(Long id) {
-        return this.companyService.readById(id);
+    public CompanyDto findById(Long id) {
+        return fromCompany(this.companyService.readById(id));
     }
 
     @Override
-    public void update(Company payload) {
-        this.companyService.update(payload);
+    public void update(CompanyDto payload) {
+        Company company = this.companyService.readById(payload.getId());
+        company.setName(payload.getName());
+        company.setCities(payload.getCities());
+        this.companyService.update(company);
     }
 
     @Override

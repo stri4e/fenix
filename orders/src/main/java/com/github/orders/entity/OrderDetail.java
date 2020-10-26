@@ -86,7 +86,7 @@ public class OrderDetail implements Serializable, Cloneable {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.open;
 
     @CreationTimestamp
     @Column(
@@ -102,6 +102,30 @@ public class OrderDetail implements Serializable, Cloneable {
             nullable = false
     )
     private LocalDateTime updateAt;
+
+    public OrderDetail(
+            Long id, Customer customer, List<Long> productIds,
+            BigDecimal amount, Long userId, Long billId, OrderStatus status) {
+        this.id = id;
+        this.customer = customer;
+        this.productIds = productIds;
+        this.amount = amount;
+        this.userId = userId;
+        this.billId = billId;
+        this.status = status;
+    }
+
+    public OrderDetail(
+            Customer customer, List<Long> productIds,
+            BigDecimal amount, Delivery delivery, Long userId, Long billId, OrderStatus status) {
+        this.customer = customer;
+        this.productIds = productIds;
+        this.amount = amount;
+        this.delivery = delivery;
+        this.userId = userId;
+        this.billId = billId;
+        this.status = status;
+    }
 
     public OrderDetail(
             Long id, Customer customer, List<Long> productIds,

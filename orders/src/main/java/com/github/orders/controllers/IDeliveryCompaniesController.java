@@ -20,18 +20,18 @@ public interface IDeliveryCompaniesController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Company save(@RequestBody Company payload);
+    CompanyDto save(@RequestBody CompanyDto payload);
 
     @GetMapping(
             path = "/fetch/{id}"
     )
-    Company findById(@PathVariable(name = "id") Long id);
+    CompanyDto findById(@PathVariable(name = "id") Long id);
 
     @PutMapping(
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void update(@RequestBody Company payload);
+    void update(@RequestBody CompanyDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

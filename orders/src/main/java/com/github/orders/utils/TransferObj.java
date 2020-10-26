@@ -2,14 +2,8 @@ package com.github.orders.utils;
 
 import com.github.orders.dto.*;
 import com.github.orders.entity.*;
-import com.github.orders.payload.Category;
-import com.github.orders.payload.Comment;
-import com.github.orders.payload.Product;
-import com.github.orders.payload.Specification;
-import org.springframework.beans.BeanUtils;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TransferObj {
@@ -24,25 +18,32 @@ public class TransferObj {
     }
 
     public static OrderDetail toOrderDetail(
-            Customer c, OrderDetailDto data, Long userId) {
+            Customer customer, OrderDetailDto data, Delivery delivery, Long userId, Long billId) {
+
+        List<Long> r = data.getProducts().stream()
+                .map(ProductDto::getId)
+                .collect(Collectors.toList());
+
         return new OrderDetail(
-                c, data.getProductsIds(),
-                data.getAmount(), userId, data.getStatus());
+                customer,
+                data.getProducts().stream()
+                        .map(ProductDto::getId)
+                        .collect(Collectors.toList()),
+                data.getAmount(),
+                delivery,
+                userId,
+                billId,
+                data.getStatus());
     }
 
-    public static OrderDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery, BillDto bill) {
-        var customer = fromCustomer(data.getCustomer());
-        var productsDto = products.stream()
-                .map(TransferObj::fromProduct)
-                .collect(Collectors.toList());
-        return new OrderDto(
+    public static OrderDetailDto fromOrderDetail(OrderDetail data, List<ProductDto> products, BillDto bill) {
+        return new OrderDetailDto(
                 data.getId(),
-                customer,
-                productsDto,
+                fromCustomer(data.getCustomer()),
+                products,
                 data.getAmount(),
                 data.getStatus(),
-                fromDelivery(delivery),
+                fromDelivery(data.getDelivery()),
                 bill
         );
     }
@@ -55,31 +56,6 @@ public class TransferObj {
                 customer.getCustomerEmail(),
                 customer.getCustomerPhone()
         );
-    }
-
-    public static ProductDto fromProduct(Product data) {
-        if (Objects.isNull(data)) {
-            return null;
-        }
-        ProductDto p = new ProductDto();
-        BeanUtils.copyProperties(data, p);
-        return p;
-    }
-
-    public static SpecificationDto fromSpecification(Specification data) {
-        return new SpecificationDto(
-                data.getId(),
-                data.getName(),
-                data.getDescription()
-        );
-    }
-
-    public static CommentDto fromComment(Comment data) {
-        return new CommentDto(data.getId(), data.getName(), data.getComment());
-    }
-
-    public static CategoryDto fromCategory(Category data) {
-        return new CategoryDto(data.getId(), data.getName());
     }
 
     public static Company toCompany(CompanyDto data) {

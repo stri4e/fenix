@@ -5,10 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BranchDto {
+public class BranchDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -7984765978124159184L;
 
     @JsonProperty(value = "id")
     private Long id;

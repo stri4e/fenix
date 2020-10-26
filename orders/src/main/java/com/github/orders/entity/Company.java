@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -93,4 +94,11 @@ public class Company implements Serializable, Cloneable {
         this.cities = cities;
         this.price = price;
     }
+
+    public void addBranch(Branch b) {
+        if (Objects.nonNull(b)) {
+            this.branches.add(b);
+        }
+    }
+
 }

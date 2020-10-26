@@ -1,5 +1,6 @@
 package com.github.orders.controllers;
 
+import com.github.orders.dto.BranchDto;
 import com.github.orders.entity.Branch;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +13,20 @@ public interface IBranchCompanyController {
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Branch findById(@PathVariable Long id);
+    BranchDto findById(@PathVariable Long id);
 
     @PostMapping(
-            path = "/edit",
+            path = "/edit/{companyId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Branch save(@Valid @RequestBody Branch payload);
+    BranchDto save(
+            @PathVariable(name = "companyId") Long companyId,
+            @Valid @RequestBody BranchDto payload);
 
     @PutMapping(
             path = "/edit"
     )
-    void update(@Valid @RequestBody Branch payload);
+    void update(@Valid @RequestBody BranchDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"
