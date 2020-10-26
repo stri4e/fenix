@@ -9,16 +9,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sub_categories", schema = "public")
-public class SubCategory implements Serializable, Cloneable {
+public class Subcategory implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 9085806796284875698L;
 
@@ -46,11 +44,11 @@ public class SubCategory implements Serializable, Cloneable {
                     name = "sub_category_filter_title_fk"
             )
     )
-    private List<Filter> filters = new ArrayList<>();
+    private Set<Filter> filters = new HashSet<>();
 
     @ManyToOne(
             targetEntity = Category.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(
             nullable = false,
@@ -77,12 +75,12 @@ public class SubCategory implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public SubCategory(Long id, String name) {
+    public Subcategory(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public SubCategory forCreate(Category category) {
+    public Subcategory forCreate(Category category) {
         this.category = category;
         return this;
     }

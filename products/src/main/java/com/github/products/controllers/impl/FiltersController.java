@@ -3,7 +3,7 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.IFiltersController;
 import com.github.products.dto.FilterDto;
 import com.github.products.entity.Filter;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.Subcategory;
 import com.github.products.services.IFiltersService;
 import com.github.products.services.ISubCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class FiltersController implements IFiltersController {
 
     @Override
     public FilterDto save(String subcategoryName, FilterDto payload) {
-        SubCategory subcategory = this.subCategoryService
+        Subcategory subcategory = this.subCategoryService
                 .readByName(subcategoryName);
         Filter filter = this.filtersService.create(toFilter(payload));
         subcategory.addFilter(filter);

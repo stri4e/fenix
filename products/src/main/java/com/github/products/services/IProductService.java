@@ -2,9 +2,11 @@ package com.github.products.services;
 
 import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Specification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface IProductService {
@@ -13,6 +15,12 @@ public interface IProductService {
 
     Page<Product> readAllByCategory(
             String category, Pageable pageable
+    );
+
+    Page<Product> readDistinctBySubcategoryNameAndSpecificationsIn(
+            String subcategoryName,
+            Collection<Specification> specifications,
+            Pageable pageable
     );
 
     List<Product> searchProduct(String name, String description);

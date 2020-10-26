@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -51,16 +52,16 @@ public class Category implements Serializable, Cloneable {
     private String name;
 
     @OneToMany(
-            targetEntity = SubCategory.class,
+            targetEntity = Subcategory.class,
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "sub_caretory_id",
+            name = "subcaretory_id",
             foreignKey = @ForeignKey(
                     name = "category_sub_category_fk"
             )
     )
-    private List<SubCategory> subCategories = new ArrayList<>();
+    private List<Subcategory> subcategories = new ArrayList<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -88,5 +89,11 @@ public class Category implements Serializable, Cloneable {
     public Category(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void  addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategories.add(subcategory);
+        }
     }
 }

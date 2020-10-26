@@ -1,7 +1,7 @@
 package com.github.products.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.Subcategory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -37,13 +37,13 @@ public class CategoryDto implements Serializable, Cloneable {
     @ApiModelProperty(
             value = "Sub categories.")
     @JsonProperty(value = "subCategories")
-    private List<SubCategory> subCategories;
+    private List<Subcategory> subCategories;
 
     public CategoryDto(@NotBlank(message = "Category name is required") String name) {
         this.name = name;
     }
 
-    public CategoryDto(@NotBlank(message = "Category name is required") String name, List<SubCategory> subCategories) {
+    public CategoryDto(@NotBlank(message = "Category name is required") String name, List<Subcategory> subCategories) {
         this.name = name;
         this.subCategories = subCategories;
     }

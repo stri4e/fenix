@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -57,4 +59,10 @@ public class SpecificationService implements ISpecificationService {
     public void delete(Long id) {
         this.specificationRepo.update(id, EntityStatus.off);
     }
+
+    @Override
+    public List<Specification> readDistinctByNameAndDescriptionContains(String name, String patter) {
+        return this.specificationRepo.findDistinctByNameAndDescriptionContains(name, patter);
+    }
+
 }

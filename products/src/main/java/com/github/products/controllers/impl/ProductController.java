@@ -2,12 +2,10 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductController;
 import com.github.products.dto.ProductDto;
-import com.github.products.entity.Brand;
-import com.github.products.entity.EntityStatus;
-import com.github.products.entity.Product;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.*;
 import com.github.products.services.IBrandService;
 import com.github.products.services.IProductService;
+import com.github.products.services.ISpecificationService;
 import com.github.products.services.ISubCategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
@@ -16,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromProduct;
@@ -34,6 +32,8 @@ public class ProductController implements IProductController {
 
     private final IProductService productService;
 
+    private final ISpecificationService specificationService;
+
     private final ISubCategoryService subCategoryService;
 
     private final IBrandService brandService;
@@ -41,27 +41,49 @@ public class ProductController implements IProductController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Page<ProductDto> getProduct(Pageable pageable) {
+    public Page<ProductDto> findProductsByPage(Pageable pageable) {
         Page<Product> products = this.productService.read(pageable);
-        var total = products.getTotalElements();
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)
-                        .collect(Collectors.toList()), pageable, total
+                        .collect(Collectors.toList()),
+                pageable, products.getTotalElements()
         );
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Page<ProductDto> getProduct(String category, Pageable pageable) {
+    public Page<ProductDto> findProductsByPage(String category, Pageable pageable) {
         Page<Product> products = this.productService
                 .readAllByCategory(category, pageable);
-        long total = products.getTotalElements();
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)
-                        .collect(Collectors.toList()), pageable, total
+                        .collect(Collectors.toList()),
+                pageable, products.getTotalElements()
+        );
+    }
+
+    @Override
+    public Page<ProductDto>
+    findProductsByPageAndFilters(String subcategory,
+                                 MultiValueMap<String, String> filters,
+                                 Pageable pageable) {
+        Map<String, List<String>> fs = filters.get("filter").stream()
+                .collect(Collectors.toMap(k -> k.substring(0, k.indexOf(":")),
+                        v -> Arrays.asList(v.substring(v.indexOf(":") + 1).split(","))));
+        List<Specification> specifications = fs.keySet().stream()
+                .flatMap(k -> fs.get(k).stream()
+                        .map(s -> this.specificationService.readDistinctByNameAndDescriptionContains(k, s))
+                ).flatMap(Collection::stream).collect(Collectors.toList());
+        Page<Product> products = this.productService
+                .readDistinctBySubcategoryNameAndSpecificationsIn(subcategory, specifications, pageable);
+        return new PageImpl<>(
+                products.stream()
+                        .map(TransferObj::fromProduct)
+                        .collect(Collectors.toList()),
+                pageable, products.getTotalElements()
         );
     }
 
@@ -80,7 +102,7 @@ public class ProductController implements IProductController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public ProductDto save(String subcategoryName, String brandName, @Valid ProductDto payload) {
-        SubCategory category = this.subCategoryService.readByName(subcategoryName);
+        Subcategory category = this.subCategoryService.readByName(subcategoryName);
         Brand brand = this.brandService.findByName(brandName);
         Product tmp = toProduct(payload);
         tmp.setSubcategory(category);

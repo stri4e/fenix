@@ -1,23 +1,23 @@
 package com.github.products.services;
 
 import com.github.products.entity.EntityStatus;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.Subcategory;
 
 import java.util.List;
 
 public interface ISubCategoryService {
 
-    SubCategory create(SubCategory subCategory);
+    Subcategory create(Subcategory subCategory);
 
-    List<SubCategory> readAllByStatus(EntityStatus status);
+    List<Subcategory> readAllByStatus(EntityStatus status);
 
-    SubCategory readByName(String name);
+    Subcategory readByName(String name);
 
-    SubCategory readById(Long id);
+    Subcategory readById(Long id);
 
-    List<SubCategory> readAllByCategoryName(String categoryName);
+    List<Subcategory> readAllByCategoryName(String categoryName);
 
-    void update(SubCategory subCategory);
+    void update(Subcategory subCategory);
 
     void delete(Long id);
 

@@ -37,7 +37,7 @@ public class Product extends Item implements Serializable, Cloneable {
                     name = "products_specification_fk"
             )
     )
-    private List<Specification> specifications = new ArrayList<>();
+    private Set<Specification> specifications = new HashSet<>();
 
     @OneToMany(
             targetEntity = Comment.class,
@@ -52,14 +52,14 @@ public class Product extends Item implements Serializable, Cloneable {
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne(
-            targetEntity = SubCategory.class,
+            targetEntity = Subcategory.class,
             fetch = FetchType.EAGER
     )
     @JoinColumn(
             nullable = false,
-            name = "sub_categories_id"
+            name = "sub_category_id"
     )
-    private SubCategory subcategory;
+    private Subcategory subcategory;
 
     @ManyToOne(
             targetEntity = Brand.class,

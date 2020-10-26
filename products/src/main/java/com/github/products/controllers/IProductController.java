@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +19,7 @@ import java.util.List;
 public interface IProductController {
 
     @GetMapping(path = "/page")
-    Page<ProductDto> getProduct(
+    Page<ProductDto> findProductsByPage(
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "subcategory_name", direction = Sort.Direction.ASC),
@@ -26,8 +27,18 @@ public interface IProductController {
             }) Pageable pageable);
 
     @GetMapping(path = "/page/{subcategory}")
-    Page<ProductDto> getProduct(
+    Page<ProductDto> findProductsByPage(
             @PathVariable String subcategory,
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
+            }) Pageable pageable
+    );
+
+    @GetMapping(path = "/page/{subcategory}/filters")
+    Page<ProductDto> findProductsByPageAndFilters(
+            @PathVariable String subcategory,
+            @RequestParam MultiValueMap<String, String> filters,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),

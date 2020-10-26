@@ -1,7 +1,7 @@
 package com.github.products.repository;
 
 import com.github.products.entity.EntityStatus;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.Subcategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SubCategoryRepo extends JpaRepository<SubCategory, Long> {
+public interface SubCategoryRepo extends JpaRepository<Subcategory, Long> {
 
-    Optional<SubCategory> findByName(String name);
+    Optional<Subcategory> findByName(String name);
 
-    List<SubCategory> findAllByStatus(EntityStatus status);
+    List<Subcategory> findAllByStatus(EntityStatus status);
 
-    List<SubCategory> findAllByStatusAndCategoryName(EntityStatus status, String name);
+    List<Subcategory> findAllByStatusAndCategoryName(EntityStatus status, String name);
 
     @Modifying
-    @Query(value = "update SubCategory sc set sc.status=:status where sc.id=:id")
+    @Query(value = "update Subcategory sc set sc.status=:status where sc.id=:id")
     void updateStatus(
             @Param(value = "id") Long id,
             @Param(value = "status") EntityStatus status

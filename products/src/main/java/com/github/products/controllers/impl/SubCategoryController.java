@@ -4,7 +4,7 @@ import com.github.products.controllers.ISubCategoryController;
 import com.github.products.dto.SubCategoryDto;
 import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
-import com.github.products.entity.SubCategory;
+import com.github.products.entity.Subcategory;
 import com.github.products.services.ICategoryService;
 import com.github.products.services.ISubCategoryService;
 import com.github.products.utils.TransferObj;
@@ -31,8 +31,11 @@ public class SubCategoryController implements ISubCategoryController {
     @Override
     public SubCategoryDto save(String categoryName, SubCategoryDto payload) {
         Category category = this.categoryService.readByName(categoryName);
-        SubCategory tmp = toSubCategory(payload).forCreate(category);
-        return fromSubCategory(this.subCategoryService.create(tmp));
+        Subcategory tmp = toSubCategory(payload).forCreate(category);
+        Subcategory subcategory = this.subCategoryService.create(tmp);
+        category.addSubcategory(subcategory);
+        this.categoryService.update(category);
+        return fromSubCategory(subcategory);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class SubCategoryController implements ISubCategoryController {
 
     @Override
     public void update(SubCategoryDto payload) {
-        SubCategory subCategory = this.subCategoryService.readById(payload.getId());
+        Subcategory subCategory = this.subCategoryService.readById(payload.getId());
         subCategory.setName(payload.getName());
         this.subCategoryService.update(subCategory);
     }

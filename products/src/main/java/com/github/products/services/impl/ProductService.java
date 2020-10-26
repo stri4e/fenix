@@ -2,6 +2,7 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Specification;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.repository.ProductRepo;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,8 +48,14 @@ public class ProductService implements IProductService {
             throw new BadRequest();
         }
         return this.productRepo.findAll(
-                ProductSpec.category(category), pageable
+                ProductSpec.subcategory(category), pageable
         );
+    }
+
+    @Override
+    public Page<Product>
+    readDistinctBySubcategoryNameAndSpecificationsIn(String subcategoryName, Collection<Specification> specifications, Pageable pageable) {
+        return this.productRepo.findDistinctBySubcategoryNameAndSpecificationsIn(subcategoryName, specifications, pageable);
     }
 
     @Override
