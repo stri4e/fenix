@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keeps sub category.")
-public class SubCategoryDto implements Serializable, Cloneable {
+public class SubcategoryDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7600745435217894495L;
 

@@ -74,15 +74,15 @@ public class TransferObj {
         );
     }
 
-    public static Subcategory toSubCategory(SubCategoryDto data) {
+    public static Subcategory toSubCategory(SubcategoryDto data) {
         return new Subcategory(
                 data.getId(),
                 data.getName()
         );
     }
 
-    public static SubCategoryDto fromSubCategory(Subcategory data) {
-        return new SubCategoryDto(
+    public static SubcategoryDto fromSubCategory(Subcategory data) {
+        return new SubcategoryDto(
                 data.getId(),
                 data.getName(),
                 data.getFilters().stream()

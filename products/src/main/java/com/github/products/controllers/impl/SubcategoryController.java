@@ -1,7 +1,7 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.ISubcategoryController;
-import com.github.products.dto.SubCategoryDto;
+import com.github.products.dto.SubcategoryDto;
 import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
@@ -21,7 +21,7 @@ import static com.github.products.utils.TransferObj.toSubCategory;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/v1/sub/categories")
+@RequestMapping(path = "/v1/subcategories")
 public class SubcategoryController implements ISubcategoryController {
 
     private final ICategoryService categoryService;
@@ -29,7 +29,7 @@ public class SubcategoryController implements ISubcategoryController {
     private final ISubcategoryService subCategoryService;
 
     @Override
-    public SubCategoryDto save(String categoryName, SubCategoryDto payload) {
+    public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         Category category = this.categoryService.readByName(categoryName);
         Subcategory tmp = toSubCategory(payload).forCreate(category);
         Subcategory subcategory = this.subCategoryService.create(tmp);
@@ -50,14 +50,14 @@ public class SubcategoryController implements ISubcategoryController {
     }
 
     @Override
-    public List<SubCategoryDto> findAllByCategoryName(String categoryName) {
+    public List<SubcategoryDto> findAllByCategoryName(String categoryName) {
         return this.subCategoryService.readAllByCategoryName(categoryName).stream()
                 .map(TransferObj::fromSubCategory)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void update(SubCategoryDto payload) {
+    public void update(SubcategoryDto payload) {
         Subcategory subCategory = this.subCategoryService.readById(payload.getId());
         subCategory.setName(payload.getName());
         this.subCategoryService.update(subCategory);
