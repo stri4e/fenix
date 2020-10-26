@@ -15,6 +15,6 @@ public interface ISpecificationService {
 
     void delete(Long id);
 
-    List<Specification> readDistinctByNameAndDescriptionContains(String name, String patter);
+    List<Specification> readByParams(String name, String patter);
 
 }

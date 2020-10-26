@@ -6,6 +6,7 @@ import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.repository.SpecificationRepo;
 import com.github.products.services.ISpecificationService;
+import com.github.products.utils.SpecificationSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import static com.github.products.utils.SpecificationSpec.selectBy;
 
 @Service
 @Transactional
@@ -61,8 +64,8 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
-    public List<Specification> readDistinctByNameAndDescriptionContains(String name, String patter) {
-        return this.specificationRepo.findDistinctByNameAndDescriptionContains(name, patter);
+    public List<Specification> readByParams(String name, String patter) {
+        return this.specificationRepo.findAll(selectBy(name, patter));
     }
 
 }

@@ -75,10 +75,10 @@ public class ProductController implements IProductController {
                         v -> Arrays.asList(v.substring(v.indexOf(":") + 1).split(","))));
         List<Specification> specifications = fs.keySet().stream()
                 .flatMap(k -> fs.get(k).stream()
-                        .map(s -> this.specificationService.readDistinctByNameAndDescriptionContains(k, s))
+                        .map(s -> this.specificationService.readByParams(k, s))
                 ).flatMap(Collection::stream).collect(Collectors.toList());
         Page<Product> products = this.productService
-                .readDistinctBySubcategoryNameAndSpecificationsIn(subcategory, specifications, pageable);
+                .readByParams(subcategory, specifications, pageable);
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)

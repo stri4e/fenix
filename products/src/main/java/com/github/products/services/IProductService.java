@@ -17,9 +17,9 @@ public interface IProductService {
             String category, Pageable pageable
     );
 
-    Page<Product> readDistinctBySubcategoryNameAndSpecificationsIn(
+    Page<Product> readByParams(
             String subcategoryName,
-            Collection<Specification> specifications,
+            List<Specification> specifications,
             Pageable pageable
     );
 

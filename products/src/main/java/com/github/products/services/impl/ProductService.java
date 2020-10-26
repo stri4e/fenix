@@ -1,7 +1,7 @@
 package com.github.products.services.impl;
 
-import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Product;
 import com.github.products.entity.Specification;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
@@ -17,9 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+import static com.github.products.utils.ProductSpec.selectByAndIn;
 
 @Service
 @Transactional
@@ -54,8 +55,8 @@ public class ProductService implements IProductService {
 
     @Override
     public Page<Product>
-    readDistinctBySubcategoryNameAndSpecificationsIn(String subcategoryName, Collection<Specification> specifications, Pageable pageable) {
-        return this.productRepo.findDistinctBySubcategoryNameAndSpecificationsIn(subcategoryName, specifications, pageable);
+    readByParams(String subcategoryName, List<Specification> specifications, Pageable pageable) {
+        return this.productRepo.findAll(selectByAndIn(subcategoryName, specifications), pageable);
     }
 
     @Override
