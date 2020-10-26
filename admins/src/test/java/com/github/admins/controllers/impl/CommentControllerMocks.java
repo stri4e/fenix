@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.CommentDto;
-import com.github.admins.payload.Comment;
 
 public class CommentControllerMocks {
 

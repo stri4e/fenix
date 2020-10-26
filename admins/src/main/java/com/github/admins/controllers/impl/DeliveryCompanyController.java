@@ -9,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.github.admins.utils.TransferObj.fromCompany;
-import static com.github.admins.utils.TransferObj.toCompany;
-
 @RestController
 @RequestMapping(path = "/v1/delivery/company")
 @RequiredArgsConstructor
@@ -21,23 +18,19 @@ public class DeliveryCompanyController implements IDeliveryCompanyController {
 
     @Override
     public CompanyDto save(CompanyDto payload) {
-        return fromCompany(
-                this.deliveryCompaniesService.save(toCompany(payload))
-                        .orElseThrow(BadRequest::new)
-        );
+        return this.deliveryCompaniesService.save(payload)
+                .orElseThrow(BadRequest::new);
     }
 
     @Override
     public CompanyDto findById(Long id) {
-        return fromCompany(
-                this.deliveryCompaniesService.findById(id)
-                        .orElseThrow(NotFound::new)
-        );
+        return this.deliveryCompaniesService.findById(id)
+                .orElseThrow(NotFound::new);
     }
 
     @Override
     public void update(CompanyDto payload) {
-        this.deliveryCompaniesService.update(toCompany(payload));
+        this.deliveryCompaniesService.update(payload);
     }
 
     @Override

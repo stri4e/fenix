@@ -6,11 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LockedDto {
+public class LockedDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 5075914453502795093L;
 
     @NotBlank
     @JsonProperty(value = "email")

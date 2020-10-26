@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface ISubCategoryController {
+public interface ISubcategoryController {
 
     @PostMapping(
             path = "/edit/{categoryName}",

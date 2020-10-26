@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.CategoryDto;
-import com.github.admins.payload.Category;
 
 import java.util.ArrayList;
 import java.util.List;

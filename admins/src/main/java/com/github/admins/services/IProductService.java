@@ -1,6 +1,6 @@
 package com.github.admins.services;
 
-import com.github.admins.payload.Product;
+import com.github.admins.dto.ProductDto;
 import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.ProductService;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,35 +18,39 @@ import java.util.Optional;
 public interface IProductService {
 
     @PostMapping(
-            path = "/v1/edit",
+            path = "/v1/edit/{subcategory_name}/{brand_name}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Product> create(@RequestBody Product p);
+    Optional<ProductDto> create(
+            @PathVariable(name = "subcategory_name") String subcategoryName,
+            @PathVariable(name = "brand_name") String brandName,
+            @RequestBody ProductDto p
+    );
 
     @GetMapping(
             path = "/v1/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Product> readById(@PathVariable Long id);
+    Optional<ProductDto> readById(@PathVariable Long id);
 
     @GetMapping(
             path = "/v1/fetch/un-publish",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<Product>> readAllUnPublish();
+    Optional<List<ProductDto>> readAllUnPublish();
 
     @GetMapping(
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<Product>> readByIds(@RequestParam List<Long> ids);
+    Optional<List<ProductDto>> readByIds(@RequestParam List<Long> ids);
 
     @PutMapping(
             path = "/v1/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    void update(Product p);
+    void update(ProductDto p);
 
     @DeleteMapping(
             path = "/v1/edit/{id}/{status}"

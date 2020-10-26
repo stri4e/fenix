@@ -6,7 +6,7 @@ import com.github.products.entity.*;
 import com.github.products.services.IBrandService;
 import com.github.products.services.IProductService;
 import com.github.products.services.ISpecificationService;
-import com.github.products.services.ISubCategoryService;
+import com.github.products.services.ISubcategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -34,7 +34,7 @@ public class ProductController implements IProductController {
 
     private final ISpecificationService specificationService;
 
-    private final ISubCategoryService subCategoryService;
+    private final ISubcategoryService subCategoryService;
 
     private final IBrandService brandService;
 

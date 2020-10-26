@@ -6,10 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryDto {
+public class DeliveryDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -6916839934598045795L;
 
     @JsonProperty(value = "id")
     private Long id;

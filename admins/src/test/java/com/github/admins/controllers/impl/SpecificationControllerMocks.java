@@ -1,8 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.SpecificationDto;
-import com.github.admins.payload.Product;
-import com.github.admins.payload.Specification;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

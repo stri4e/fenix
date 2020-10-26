@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface ICustomProductController {
+public interface IProductsController {
 
     @PostMapping(
-            path = "/{categoryName}",
+            path = "/{subcategoryName}/{brand_name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto saveProduct(@PathVariable String categoryName,
-                           @Valid @RequestBody ProductDto payload
+    ProductDto save(@PathVariable String subcategoryName,
+                    @PathVariable(name = "brand_name") String brandName,
+                    @Valid @RequestBody ProductDto payload
     );
 
     @GetMapping(

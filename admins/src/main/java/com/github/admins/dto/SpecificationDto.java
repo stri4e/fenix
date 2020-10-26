@@ -7,11 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keep specification.")
-public class SpecificationDto {
+public class SpecificationDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 860709173693192204L;
 
     @ApiModelProperty(
             value = "Specification id",

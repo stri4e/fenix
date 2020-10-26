@@ -1,12 +1,12 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.controllers.ISubCategoryController;
+import com.github.products.controllers.ISubcategoryController;
 import com.github.products.dto.SubCategoryDto;
 import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
 import com.github.products.services.ICategoryService;
-import com.github.products.services.ISubCategoryService;
+import com.github.products.services.ISubcategoryService;
 import com.github.products.utils.TransferObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
@@ -22,11 +22,11 @@ import static com.github.products.utils.TransferObj.toSubCategory;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/sub/categories")
-public class SubCategoryController implements ISubCategoryController {
+public class SubcategoryController implements ISubcategoryController {
 
     private final ICategoryService categoryService;
 
-    private final ISubCategoryService subCategoryService;
+    private final ISubcategoryService subCategoryService;
 
     @Override
     public SubCategoryDto save(String categoryName, SubCategoryDto payload) {

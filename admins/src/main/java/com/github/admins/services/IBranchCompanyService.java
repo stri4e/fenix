@@ -1,6 +1,6 @@
 package com.github.admins.services;
 
-import com.github.admins.payload.Branch;
+import com.github.admins.dto.BranchDto;
 import com.github.admins.services.impl.BranchCompanyService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -19,18 +19,21 @@ public interface IBranchCompanyService {
             path = "/v1/delivery/company/branch/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Branch> findById(@PathVariable Long id);
+    Optional<BranchDto> findById(@PathVariable Long id);
 
     @PostMapping(
-            path = "/v1/delivery/company/branch/edit",
+            path = "/v1/delivery/company/branch/edit/{companyId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<Branch> save(@RequestBody Branch payload);
+    Optional<BranchDto> create(
+            @PathVariable(name = "companyId") Long companyId,
+            @RequestBody BranchDto payload
+    );
 
     @PutMapping(
             path = "/v1/delivery/company/branch/edit"
     )
-    void update(@RequestBody Branch payload);
+    void update(@RequestBody BranchDto payload);
 
     @DeleteMapping(
             path = "/v1/delivery/company/branch/edit/{id}"

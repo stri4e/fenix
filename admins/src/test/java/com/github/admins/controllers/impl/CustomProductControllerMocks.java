@@ -1,8 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.ProductDto;
-import com.github.admins.payload.Category;
-import com.github.admins.payload.Product;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;

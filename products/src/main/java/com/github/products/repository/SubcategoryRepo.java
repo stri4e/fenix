@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SubCategoryRepo extends JpaRepository<Subcategory, Long> {
+public interface SubcategoryRepo extends JpaRepository<Subcategory, Long> {
 
     Optional<Subcategory> findByName(String name);
 

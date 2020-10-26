@@ -3,8 +3,8 @@ package com.github.products.services.impl;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
 import com.github.products.exceptions.NotFound;
-import com.github.products.repository.SubCategoryRepo;
-import com.github.products.services.ISubCategoryService;
+import com.github.products.repository.SubcategoryRepo;
+import com.github.products.services.ISubcategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SubCategoryService implements ISubCategoryService {
+public class SubcategoryService implements ISubcategoryService {
 
-    private final SubCategoryRepo subCategoryRepo;
+    private final SubcategoryRepo subCategoryRepo;
 
     @Override
     public Subcategory create(Subcategory subCategory) {

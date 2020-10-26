@@ -1,9 +1,8 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.payload.OrderDetail;
 import com.github.admins.payload.OrderStatus;
-import com.github.admins.services.impl.OrderService;
+import com.github.admins.services.impl.OrdersService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +13,10 @@ import java.util.Optional;
 
 @FeignClient(
         name = "orders-service",
-        fallback = OrderService.class,
+        fallback = OrdersService.class,
         contextId = "orderId"
 )
-public interface IOrderService {
+public interface IOrdersService {
 
     @GetMapping(
             path = "/v1/fetch/{status}",
@@ -39,12 +38,12 @@ public interface IOrderService {
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<OrderDetail> readById(@RequestParam(name = "orderId") Long orderId);
+    Optional<OrderDetailDto> readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
             path = "/v1/edit"
     )
-    void update(@RequestBody OrderDetail o);
+    void update(@RequestBody OrderDetailDto o);
 
     @PutMapping(
             path = "/v1/edit/{productId}/{orderStatus}"

@@ -6,7 +6,7 @@ import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.ViewDto;
 import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.OrderStatus;
-import com.github.admins.services.IOrderService;
+import com.github.admins.services.IOrdersService;
 import com.github.admins.services.IStatisticsService;
 import com.github.admins.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -24,7 +24,7 @@ public class StatisticsController implements IStatisticsController {
 
     private final IStatisticsService statisticsService;
 
-    private final IOrderService orderService;
+    private final IOrdersService orderService;
 
     @Override
     @HystrixCommand

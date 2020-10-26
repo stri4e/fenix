@@ -1,6 +1,5 @@
 package com.github.admins.controllers.impl;
 
-import com.github.admins.payload.Product;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.Header;

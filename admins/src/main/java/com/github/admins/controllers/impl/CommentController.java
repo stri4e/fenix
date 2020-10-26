@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.github.admins.utils.TransferObj.fromComment;
-
 @RestController
 @RequestMapping(path = "/v1/comment")
 @RequiredArgsConstructor
@@ -23,8 +21,8 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto findById(Long id) {
-        return fromComment(this.commentService.readById(id)
-                .orElseThrow(NotFound::new));
+        return this.commentService.readById(id)
+                .orElseThrow(NotFound::new);
     }
 
     @Override

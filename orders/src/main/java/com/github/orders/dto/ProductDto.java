@@ -96,7 +96,7 @@ public class ProductDto implements Serializable, Cloneable {
     @ApiModelProperty(
             value = "Product comments"
     )
-    @JsonProperty(value = "categoryName")
-    private String categoryName;
+    @JsonProperty(value = "subcategoryName")
+    private String subcategoryName;
 
 }

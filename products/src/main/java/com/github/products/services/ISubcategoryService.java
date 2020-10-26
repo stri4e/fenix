@@ -5,7 +5,7 @@ import com.github.products.entity.Subcategory;
 
 import java.util.List;
 
-public interface ISubCategoryService {
+public interface ISubcategoryService {
 
     Subcategory create(Subcategory subCategory);
 

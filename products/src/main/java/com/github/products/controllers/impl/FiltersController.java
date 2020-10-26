@@ -5,7 +5,7 @@ import com.github.products.dto.FilterDto;
 import com.github.products.entity.Filter;
 import com.github.products.entity.Subcategory;
 import com.github.products.services.IFiltersService;
-import com.github.products.services.ISubCategoryService;
+import com.github.products.services.ISubcategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ public class FiltersController implements IFiltersController {
 
     private final IFiltersService filtersService;
 
-    private final ISubCategoryService subCategoryService;
+    private final ISubcategoryService subCategoryService;
 
     @Override
     public FilterDto save(String subcategoryName, FilterDto payload) {
