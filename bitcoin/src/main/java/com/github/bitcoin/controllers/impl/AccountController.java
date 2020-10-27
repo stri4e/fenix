@@ -8,10 +8,12 @@ import com.github.bitcoin.entity.EntityStatus;
 import com.github.bitcoin.exceptions.NotFound;
 import com.github.bitcoin.services.IAccountService;
 import com.github.bitcoin.services.IAddressService;
+import com.github.bitcoin.utils.Logging;
 import com.github.bitcoin.utils.TransferObj;
 import com.github.facade.bitcoin.IFacadeBitcoin;
 import com.github.facade.bitcoin.models.ChainAddress;
 import com.github.facade.bitcoin.models.KeysBag;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -39,6 +41,8 @@ public class AccountController implements IAccountController {
     private final IAddressService addressService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<AccountDto> findByStatus(EntityStatus status, Pageable pageable) {
         Page<Account> accounts = this.accountService.readAllByStatus(status);
         return new PageImpl<>(
@@ -50,6 +54,8 @@ public class AccountController implements IAccountController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void save(Long userId) {
         KeysBag keys = this.facadeBitcoin.generateKeys();
         List<ChainAddress> chainAddresses =
@@ -74,6 +80,8 @@ public class AccountController implements IAccountController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public String findAvailableAddress(Long userId) {
         Account account = this.accountService.readByUserId(userId);
         var result = account.getAddresses().stream()
@@ -87,6 +95,8 @@ public class AccountController implements IAccountController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(String address) {
         this.addressService.updateStatus(address, EntityStatus.off);
     }

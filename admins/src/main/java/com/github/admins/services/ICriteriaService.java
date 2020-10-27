@@ -1,13 +1,21 @@
-package com.github.products.controllers;
+package com.github.admins.services;
 
-import com.github.products.dto.CriteriaDto;
+import com.github.admins.dto.CriteriaDto;
+import com.github.admins.services.impl.CriteriaService;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ICriteriaController {
+@FeignClient(
+        name = "products-service",
+        fallback = CriteriaService.class,
+        contextId = "criteriaId"
+)
+public interface ICriteriaService {
 
     @PostMapping(
             path = "/edit/to/filters/{filterId}",
@@ -15,7 +23,7 @@ public interface ICriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    CriteriaDto saveToFilters(
+    Optional<CriteriaDto> createToFilters(
             @PathVariable(name = "filterId") Long filterId,
             @RequestBody CriteriaDto payload
     );
@@ -26,7 +34,7 @@ public interface ICriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void saveToProducts(
+    void createToProducts(
             @PathVariable(name = "productId") Long productId,
             @RequestBody List<Long> payload
     );
@@ -35,7 +43,7 @@ public interface ICriteriaController {
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    CriteriaDto findById(@PathVariable Long id);
+    Optional<CriteriaDto> readById(@PathVariable Long id);
 
     @PutMapping(
             path = "/edit",
@@ -59,7 +67,7 @@ public interface ICriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void removeInProducts(
+    void deleteInProducts(
             @PathVariable(name = "productId") Long productId,
             @PathVariable(name = "criteriaId")  Long criteriaId
     );
@@ -79,7 +87,7 @@ public interface ICriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void removeInFilters(
+    void deleteInFilters(
             @PathVariable(name = "filterId") Long filterId,
             @PathVariable(name = "criteriaId")  Long criteriaId
     );
@@ -88,6 +96,6 @@ public interface ICriteriaController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void remove(@PathVariable Long id);
+    void delete(@PathVariable Long id);
 
 }

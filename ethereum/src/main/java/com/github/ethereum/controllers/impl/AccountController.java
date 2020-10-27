@@ -6,9 +6,11 @@ import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.exceptions.NoContent;
 import com.github.ethereum.services.IAccountService;
+import com.github.ethereum.utils.Logging;
 import com.github.ethereum.utils.TransferObj;
 import com.github.facade.ethrereum.IFacadeEthereum;
 import com.github.facade.ethrereum.model.KeyPair;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +33,8 @@ public class AccountController implements IAccountController {
     private final IAccountService accountService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<AccountDto> findByStatus(EntityStatus status, Pageable pageable) {
         Page<Account> accounts = this.accountService.readAllByStatus(status);
         return new PageImpl<>(
@@ -42,6 +46,8 @@ public class AccountController implements IAccountController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public String findAvailableAddress(Long userId) {
         Account account = this.accountService
                 .readByUserIdAndByStatus(userId, EntityStatus.off);
@@ -63,6 +69,8 @@ public class AccountController implements IAccountController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(String address) {
         this.accountService.updateStatus(address, EntityStatus.off);
     }

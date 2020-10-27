@@ -8,10 +8,12 @@ import com.github.ethereum.services.IAccountService;
 import com.github.ethereum.services.IContractService;
 import com.github.ethereum.services.IFeeService;
 import com.github.ethereum.services.ITransactionService;
+import com.github.ethereum.utils.Logging;
 import com.github.ethereum.utils.TransferObj;
 import com.github.facade.ethrereum.IFacadeEthereum;
 import com.github.facade.ethrereum.model.KeyPair;
 import com.github.facade.ethrereum.model.TransactionData;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,6 +42,8 @@ public class TransactionController implements ITransactionController {
     private final IFeeService feeService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public TransactionDto sendTransaction(Receipt payload) {
         Contract contract = this.contractService.readByName(DEFAULT_CONTRACT_NAME);
         Account account = this.accountService.readByAddress(payload.getFrom());
@@ -60,6 +64,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public TransactionDto sendContract(String address, Receipt payload) {
         Contract contract = this.contractService.readByName(address);
         Account account = this.accountService.readByAddress(payload.getFrom());
@@ -80,6 +86,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<TransactionDto> findAllByStatus(EntityStatus status, Pageable pageable) {
         Page<Transaction> transactions = this.transactionService.readAllByStatus(status);
         return new PageImpl<>(

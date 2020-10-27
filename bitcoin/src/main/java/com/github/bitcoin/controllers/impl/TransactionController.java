@@ -7,11 +7,13 @@ import com.github.bitcoin.dto.TrialTransactionDto;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.exceptions.SendTransactionFailed;
 import com.github.bitcoin.services.*;
+import com.github.bitcoin.utils.Logging;
 import com.github.bitcoin.utils.TransferObj;
 import com.github.facade.bitcoin.IFacadeBitcoin;
 import com.github.facade.bitcoin.models.ResponseTrx;
 import com.github.facade.bitcoin.models.UnspentOutput;
 import com.github.facade.bitcoin.transaction.NewTransaction;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -48,6 +50,8 @@ public class TransactionController implements ITransactionController {
     private final IFeePerKbService feePerKbService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<TrialTransactionDto> findTrialByStatus(EntityStatus status) {
         return this.trialTransactionService.readByStatus(status).stream()
                 .map(TransferObj::fromTrialTransaction)
@@ -55,6 +59,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public TrialTransactionDto generateTransaction(Receipt payload) {
         FeePerKb feePerKb = this.feePerKbService.readActual();
         Address address = this.addressService.readByAddress(payload.getFrom());
@@ -85,6 +91,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void sendTransaction(TrialTransaction payload) {
         var hash = payload.getHash();
         TrialTransaction trx = this.trialTransactionService.readByHash(hash);
@@ -122,6 +130,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void canceledTransaction(@Valid TrialTransaction payload) {
         var hash = payload.getHash();
         TrialTransaction trx = this.trialTransactionService.readByHash(payload.getHash());
@@ -130,6 +140,8 @@ public class TransactionController implements ITransactionController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<TransactionDto> findAllByStatus(EntityStatus status, Pageable pageable) {
         Page<Transaction> transactions = this.transactionService.readAllByStatus(status);
         return new PageImpl<>(

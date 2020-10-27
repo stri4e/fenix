@@ -1,6 +1,6 @@
-package com.github.products.controllers;
+package com.github.admins.controllers;
 
-import com.github.products.dto.CriteriaDto;
+import com.github.admins.dto.CriteriaDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 public interface ICriteriaController {
 
     @PostMapping(
-            path = "/edit/to/filters/{filterId}",
+            path = "/to/filters/{filterId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -21,7 +21,7 @@ public interface ICriteriaController {
     );
 
     @PostMapping(
-            path = "/edit/to/products/{productId}",
+            path = "/to/products/{productId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -32,20 +32,20 @@ public interface ICriteriaController {
     );
 
     @GetMapping(
-            path = "/fetch/{id}",
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     CriteriaDto findById(@PathVariable Long id);
 
     @PutMapping(
-            path = "/edit",
+            path = "/",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody CriteriaDto payload);
 
     @PutMapping(
-            path = "/edit/in/products/{productId}/{criteriaId}",
+            path = "/in/products/{productId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -55,7 +55,7 @@ public interface ICriteriaController {
     );
 
     @DeleteMapping(
-            path = "/edit/in/products/{productId}/{criteriaId}",
+            path = "/in/products/{productId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -65,7 +65,7 @@ public interface ICriteriaController {
     );
 
     @PutMapping(
-            path = "/edit/in/filters/{filterId}/{criteriaId}",
+            path = "/in/filters/{filterId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -75,7 +75,7 @@ public interface ICriteriaController {
     );
 
     @DeleteMapping(
-            path = "/edit/in/filters/{filterId}/{criteriaId}",
+            path = "/in/filters/{filterId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -85,7 +85,7 @@ public interface ICriteriaController {
     );
 
     @DeleteMapping(
-            path = "/edit/{id}"
+            path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable Long id);

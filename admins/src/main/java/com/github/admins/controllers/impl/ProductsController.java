@@ -23,6 +23,8 @@ public class ProductsController implements IProductsController {
     private final IProductService productService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public ProductDto save(String subcategoryName, String brandName, @Valid ProductDto payload) {
         return this.productService.create(subcategoryName, brandName, payload)
                 .orElseThrow(BadRequest::new);

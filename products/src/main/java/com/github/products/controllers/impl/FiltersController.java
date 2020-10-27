@@ -6,6 +6,8 @@ import com.github.products.entity.Filter;
 import com.github.products.entity.Subcategory;
 import com.github.products.services.IFiltersService;
 import com.github.products.services.ISubcategoryService;
+import com.github.products.utils.Logging;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,8 @@ public class FiltersController implements IFiltersController {
     private final ISubcategoryService subCategoryService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public FilterDto save(String subcategoryName, FilterDto payload) {
         Subcategory subcategory = this.subCategoryService
                 .readByName(subcategoryName);
@@ -32,11 +36,15 @@ public class FiltersController implements IFiltersController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public FilterDto findById(Long id) {
         return fromFilter(this.filtersService.readById(id));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void update(FilterDto payload) {
         Filter filter = this.filtersService.readById(payload.getId());
         filter.setTitle(payload.getTitle());
@@ -44,6 +52,8 @@ public class FiltersController implements IFiltersController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         this.filtersService.delete(id);
     }

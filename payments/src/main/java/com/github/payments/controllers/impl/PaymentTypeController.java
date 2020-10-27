@@ -5,7 +5,9 @@ import com.github.payments.dto.PaymentTypesDto;
 import com.github.payments.entity.EntityStatus;
 import com.github.payments.entity.PaymentTypes;
 import com.github.payments.service.IPaymentTypesService;
+import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +26,15 @@ public class PaymentTypeController implements IPaymentTypeController {
     private final IPaymentTypesService paymentTypesService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public PaymentTypesDto save(PaymentTypesDto payload) {
         return fromPaymentType(this.paymentTypesService.create(toPaymentType(payload)));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<PaymentTypesDto> findAll() {
         return this.paymentTypesService.readAll().stream()
                 .map(TransferObj::fromPaymentType)
@@ -36,6 +42,8 @@ public class PaymentTypeController implements IPaymentTypeController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<PaymentTypesDto> findAllByStatus(EntityStatus status) {
         return this.paymentTypesService.readAllByStatus(status).stream()
                 .map(TransferObj::fromPaymentType)
@@ -43,6 +51,8 @@ public class PaymentTypeController implements IPaymentTypeController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void update(PaymentTypesDto payload) {
         PaymentTypes payment = this.paymentTypesService.readByAlias(payload.getAlias());
         payment.setAlias(payload.getAlias());
@@ -50,6 +60,8 @@ public class PaymentTypeController implements IPaymentTypeController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         this.paymentTypesService.remove(id);
     }

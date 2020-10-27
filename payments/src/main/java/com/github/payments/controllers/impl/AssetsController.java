@@ -5,7 +5,9 @@ import com.github.payments.dto.AssetDto;
 import com.github.payments.entity.Asset;
 import com.github.payments.entity.EntityStatus;
 import com.github.payments.service.IAssetsService;
+import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,8 @@ public class AssetsController implements IAssetsController {
     private final IAssetsService assetsService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<AssetDto> findAssets() {
         return this.assetsService.readByStatus(EntityStatus.on)
                 .stream()
@@ -32,6 +36,8 @@ public class AssetsController implements IAssetsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<AssetDto> findAssetsByStatus(EntityStatus status) {
         return this.assetsService.readByStatus(status)
                 .stream()
@@ -40,16 +46,22 @@ public class AssetsController implements IAssetsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public AssetDto findAsset(Long id) {
         return fromAsset(this.assetsService.readById(id));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public AssetDto save(AssetDto payload) {
         return fromAsset(this.assetsService.create(toAsset(payload)));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void update(AssetDto payload) {
         Asset asset = this.assetsService.readById(payload.getId());
         asset.setOwner(payload.getOwner());
@@ -61,6 +73,8 @@ public class AssetsController implements IAssetsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         this.assetsService.remove(id);
     }

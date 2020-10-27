@@ -7,7 +7,9 @@ import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
 import com.github.products.services.ICategoryService;
 import com.github.products.services.ISubcategoryService;
+import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ public class SubcategoryController implements ISubcategoryController {
     private final ISubcategoryService subCategoryService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         Category category = this.categoryService.readByName(categoryName);
         Subcategory tmp = toSubCategory(payload).forCreate(category);
@@ -39,6 +43,8 @@ public class SubcategoryController implements ISubcategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Object findByParams(String name, EntityStatus status) {
         if (StringUtils.hasText(name)) {
             return fromSubCategory(this.subCategoryService.readByName(name));
@@ -50,6 +56,8 @@ public class SubcategoryController implements ISubcategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<SubcategoryDto> findAllByCategoryName(String categoryName) {
         return this.subCategoryService.readAllByCategoryName(categoryName).stream()
                 .map(TransferObj::fromSubCategory)
@@ -57,6 +65,8 @@ public class SubcategoryController implements ISubcategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void update(SubcategoryDto payload) {
         Subcategory subCategory = this.subCategoryService.readById(payload.getId());
         subCategory.setName(payload.getName());
@@ -64,6 +74,8 @@ public class SubcategoryController implements ISubcategoryController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         this.subCategoryService.delete(id);
     }

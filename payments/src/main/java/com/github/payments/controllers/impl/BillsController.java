@@ -5,7 +5,9 @@ import com.github.payments.dto.BillDto;
 import com.github.payments.entity.*;
 import com.github.payments.payload.Report;
 import com.github.payments.service.*;
+import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +44,8 @@ public class BillsController implements IBillsController {
     private final ICryptoCurrenciesService cryptoCurrenciesService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public BillDto saveForDef(BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
@@ -53,6 +57,8 @@ public class BillsController implements IBillsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public BillDto saveForOther(Long userId, BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
@@ -64,6 +70,8 @@ public class BillsController implements IBillsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Object findByParams(Long id, EntityStatus status) {
         if (Objects.isNull(id)) {
             return this.billService.readByStatus(status).stream()
@@ -74,6 +82,8 @@ public class BillsController implements IBillsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Report updateCrypto(String address, BigInteger value, String transfer) {
         Bill bill = this.billService.readByByAddressAndStatus(address, EntityStatus.on);
         var amount = bill.getAmount();
@@ -94,6 +104,8 @@ public class BillsController implements IBillsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateMastercard(Long billId, BigInteger value, String transfer) {
         Bill bill = this.billService.readById(billId);
         var amount = bill.getAmount();
@@ -106,6 +118,8 @@ public class BillsController implements IBillsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         Bill bill = this.billService.readById(id);
         Asset asset = bill.getAsset();

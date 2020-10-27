@@ -62,6 +62,8 @@ public class ProductsController implements IProductsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<ProductDto>
     findProductsByPageAndFilters(String subcategory, List<Long> criteria, Pageable pageable) {
         List<Criteria> crs = this.criteriaService.readAll(criteria);

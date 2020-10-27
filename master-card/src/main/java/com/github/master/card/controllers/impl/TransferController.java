@@ -9,6 +9,8 @@ import com.github.master.card.services.IAccountService;
 import com.github.master.card.services.IBillService;
 import com.github.master.card.services.IMasterCardService;
 import com.github.master.card.services.ITransactionService;
+import com.github.master.card.utils.Logging;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,8 @@ public class TransferController implements ITransferController {
     private final IBillService billService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void sendTransfer(Long billId, Receipt payload) {
         Account account = this.accountService.readActive();
         var amount = payload.getAmount();

@@ -4,7 +4,9 @@ import com.github.payments.controllers.IAccountantController;
 import com.github.payments.dto.AccountantDto;
 import com.github.payments.entity.Accountant;
 import com.github.payments.service.IAccountantService;
+import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,16 +22,22 @@ public class AccountantController implements IAccountantController {
     private final IAccountantService accountantService;
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public AccountantDto save(AccountantDto payload) {
         return fromAccountant(this.accountantService.create(toAccountant(payload)));
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public AccountantDto findActive() {
         return fromAccountant(this.accountantService.readActive());
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void update(AccountantDto payload) {
         Accountant accountant = this.accountantService.readActive();
         accountant.setFirsName(payload.getFirsName());
@@ -39,6 +47,8 @@ public class AccountantController implements IAccountantController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         this.accountantService.delete(id);
     }
