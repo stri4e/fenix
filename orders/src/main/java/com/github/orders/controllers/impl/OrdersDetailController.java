@@ -59,7 +59,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto>
-    fetchOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
+    findOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
         List<OrderDetail> orders = this.orderService.read(status, start, end);
         return orders.stream()
                 .map(this::collect)
@@ -69,7 +69,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> userOrders(Long userId) {
+    public List<OrderDetailDto> findUserOrders(Long userId) {
         List<OrderDetail> orders = this.orderService.readUserId(userId);
         return orders.stream()
                 .map(this::collect)
@@ -79,7 +79,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> fetchBindingOrders(Long orderId) {
+    public List<OrderDetailDto> findBindingOrders(Long orderId) {
         OrderDetail order = this.orderService.readById(orderId);
         List<OrderDetail> orders = this.orderService.readUserId(order.getUserId());
         return orders.stream()

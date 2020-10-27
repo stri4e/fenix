@@ -43,19 +43,19 @@ public interface IOrdersDetailController {
             )
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> userOrders(
+    List<OrderDetailDto> findUserOrders(
             @ApiIgnore @RequestAttribute(name = "userId") Long userId
     );
 
     @GetMapping(path = "/fetch/binding/{orderId}")
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> fetchBindingOrders(
+    List<OrderDetailDto> findBindingOrders(
             @PathVariable(name = "orderId") Long orderId
     );
 
     @GetMapping(path = "/fetch/{status}/time")
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> fetchOrdersInTime(
+    List<OrderDetailDto> findOrdersInTime(
             @PathVariable OrderStatus status,
             @RequestParam("start") LocalDateTime start,
             @RequestParam("end") LocalDateTime end
