@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.orders.utils.TransferObj.*;
@@ -43,16 +44,20 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void saveOrders(Long userId, OrderDetailDto payload) {
+    public void save(Long userId, OrderDetailDto payload) {
         Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
         Delivery delivery = this.deliveryService.create(toDelivery(payload.getDelivery()));
         BillDto bill = this.billService.create(payload.getBill());
         OrderDetail tmp = toOrderDetail(customer, payload, delivery, userId, bill.getId());
         OrderDetail order = this.orderService.crete(tmp);
-        this.ordersNotify.orderNotify(fromOrderDetail(order, payload.getProducts(), bill));
+        CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(
+                fromOrderDetail(order, payload.getProducts(), bill))
+        );
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto>
     fetchOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
         List<OrderDetail> orders = this.orderService.read(status, start, end);
@@ -62,6 +67,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> userOrders(Long userId) {
         List<OrderDetail> orders = this.orderService.readUserId(userId);
         return orders.stream()
@@ -70,6 +77,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto> fetchBindingOrders(Long orderId) {
         OrderDetail order = this.orderService.readById(orderId);
         List<OrderDetail> orders = this.orderService.readUserId(order.getUserId());
@@ -121,11 +130,15 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updateOderPaid(Long billId) {
         this.orderService.updateOrderPaid(billId);
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
         OrderDetail order = this.orderService.readById(id);
         this.billService.remove(order.getBillId());

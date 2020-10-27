@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -31,5 +32,9 @@ public class DeliveryDto implements Serializable, Cloneable {
     @NotBlank
     @JsonProperty(value = "address")
     private String address;
+
+    @NotBlank
+    @JsonProperty(value = "amount")
+    private BigDecimal amount;
 
 }

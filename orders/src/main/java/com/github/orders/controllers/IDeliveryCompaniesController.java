@@ -1,7 +1,6 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.CompanyDto;
-import com.github.orders.entity.Company;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +36,6 @@ public interface IDeliveryCompaniesController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void delete(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

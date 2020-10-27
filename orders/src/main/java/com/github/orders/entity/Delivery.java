@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class Delivery implements Serializable, Cloneable {
     private static final long serialVersionUID = 1655627397181362589L;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -48,6 +49,15 @@ public class Delivery implements Serializable, Cloneable {
     )
     private String address;
 
+    @Column(
+            name = "amount",
+            precision = 8,
+            scale = 3,
+            columnDefinition="DECIMAL(8, 3)",
+            nullable = false
+    )
+    private BigDecimal amount;
+
     @CreationTimestamp
     @Column(
             name = "create_at",
@@ -64,11 +74,12 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, String address) {
+    public Delivery(Long id, DeliveryType type, String companyName, String address, BigDecimal amount) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
         this.address = address;
+        this.amount = amount;
     }
 
 }

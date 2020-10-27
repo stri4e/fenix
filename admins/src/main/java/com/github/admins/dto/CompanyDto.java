@@ -22,16 +22,4 @@ public class CompanyDto implements Serializable, Cloneable {
     @JsonProperty(value = "name")
     private String name;
 
-    @JsonProperty(value = "branches")
-    private Set<BranchDto> branches;
-
-    @JsonProperty(value = "cities")
-    private Set<String> cities;
-
-    @JsonProperty(value = "homePrice")
-    private BigDecimal homePrice;
-
-    @JsonProperty(value = "branchPrice")
-    private BigDecimal branchPrice;
-
 }

@@ -61,42 +61,14 @@ public class TransferObj {
     public static Company toCompany(CompanyDto data) {
         return new Company(
                 data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::toBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                toPrice(data.getPrice())
+                data.getName()
         );
     }
 
     public static CompanyDto fromCompany(Company data) {
         return new CompanyDto(
                 data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::fromBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                fromPrice(data.getPrice())
-        );
-    }
-
-    public static Branch toBranch(BranchDto data) {
-        return new Branch(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
-        );
-    }
-
-    public static BranchDto fromBranch(Branch data) {
-        return new BranchDto(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
+                data.getName()
         );
     }
 
@@ -105,7 +77,8 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getAddress()
+                data.getAddress(),
+                data.getAmount()
         );
     }
 
@@ -114,23 +87,8 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getAddress()
-        );
-    }
-
-    public static Price toPrice(PriceDto data) {
-        return new Price(
-                data.getId(),
-                data.getToHome(),
-                data.getToBranch()
-        );
-    }
-
-    public static PriceDto fromPrice(Price data) {
-        return new PriceDto(
-                data.getId(),
-                data.getToHome(),
-                data.getToBranch()
+                data.getAddress(),
+                data.getAmount()
         );
     }
 

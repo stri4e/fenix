@@ -26,7 +26,7 @@ public class Company implements Serializable, Cloneable {
     private static final long serialVersionUID = -3032898280129319548L;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -38,29 +38,6 @@ public class Company implements Serializable, Cloneable {
             length = 100
     )
     private String name;
-
-    @OneToMany(
-            fetch = FetchType.EAGER,
-            targetEntity = Branch.class
-    )
-    @JoinColumn(
-            name = "brances_id"
-    )
-    private Set<Branch> branches = new HashSet<>();
-
-    @ElementCollection(
-            fetch = FetchType.EAGER
-    )
-    private Set<String> cities = new HashSet<>();
-
-    @OneToOne(
-            fetch = FetchType.EAGER,
-            targetEntity = Price.class
-    )
-    @JoinColumn(
-            name = "price_id"
-    )
-    private Price price;
 
     @Column(
             name = "status",
@@ -84,21 +61,9 @@ public class Company implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Company(
-            Long id, String name,
-            Set<Branch> branches, Set<String> cities,
-            Price price) {
+    public Company(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.branches = branches;
-        this.cities = cities;
-        this.price = price;
-    }
-
-    public void addBranch(Branch b) {
-        if (Objects.nonNull(b)) {
-            this.branches.add(b);
-        }
     }
 
 }

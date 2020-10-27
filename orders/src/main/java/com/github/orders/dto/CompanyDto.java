@@ -21,13 +21,4 @@ public class CompanyDto implements Serializable, Cloneable {
     @JsonProperty(value = "name")
     private String name;
 
-    @JsonProperty(value = "branches")
-    private Set<BranchDto> branches;
-
-    @JsonProperty(value = "cities")
-    private Set<String> cities;
-
-    @JsonProperty(value = "price")
-    private PriceDto price;
-
 }

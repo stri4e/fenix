@@ -31,7 +31,7 @@ public class Customer implements Serializable, Cloneable {
             strategy = GenerationType.IDENTITY
     )
     @Column(
-            name = "id",
+            name = "ID",
             unique = true
     )
     private Long id;

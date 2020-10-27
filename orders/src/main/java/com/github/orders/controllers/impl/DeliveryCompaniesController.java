@@ -44,12 +44,11 @@ public class DeliveryCompaniesController implements IDeliveryCompaniesController
     public void update(CompanyDto payload) {
         Company company = this.companyService.readById(payload.getId());
         company.setName(payload.getName());
-        company.setCities(payload.getCities());
         this.companyService.update(company);
     }
 
     @Override
-    public void delete(Long id) {
+    public void remove(Long id) {
         this.companyService.remove(id);
     }
 }
