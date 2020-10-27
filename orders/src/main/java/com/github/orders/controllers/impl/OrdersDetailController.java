@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
 import static com.github.orders.utils.TransferObj.*;
 
 @RestController
@@ -56,7 +57,7 @@ public class OrdersDetailController implements IOrdersDetailController {
         OrderDetailDto result = fromOrderDetail(order, payload.getProducts(), bill);
         CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(result));
         CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
-                EmailNotification.registrationOrderNotify(result)
+                registrationOrderNotify(result)
         ));
     }
 
