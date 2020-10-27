@@ -9,6 +9,7 @@ import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
+import com.github.orders.payload.EmailNotification;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -41,6 +42,8 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IBillService billService;
 
+    private final IEmailService emailService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -50,9 +53,11 @@ public class OrdersDetailController implements IOrdersDetailController {
         BillDto bill = this.billService.create(payload.getBill());
         OrderDetail tmp = toOrderDetail(customer, payload, delivery, userId, bill.getId());
         OrderDetail order = this.orderService.crete(tmp);
-        CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(
-                fromOrderDetail(order, payload.getProducts(), bill))
-        );
+        OrderDetailDto result = fromOrderDetail(order, payload.getProducts(), bill);
+        CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(result));
+        CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
+                EmailNotification.registrationOrderNotify(result)
+        ));
     }
 
     @Override

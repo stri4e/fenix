@@ -35,6 +35,9 @@ public class EmailControllers implements IEmailController {
     private static final String
             LOGIN_TEMPLATE_NAME = "login-notification-email-template.ftl";
 
+    private static final String
+            REGISTRATION_ORDERS_TEMPLATE_NAME = "registration-orders-email-template.ftl";
+
     private final EmailService emailService;
 
     @Override
@@ -63,6 +66,15 @@ public class EmailControllers implements IEmailController {
         Mail mail = new Mail(
                 payload.getEmail(), "todo.list@gmail.com",
                 LOGIN_NOTIFICATION_REQUEST, payload.getInformation()
+        );
+        this.emailService.sendEmail(mail, LOGIN_TEMPLATE_NAME);
+    }
+
+    @Override
+    public void registrationOrderNotify(@Valid EmailNotification payload) {
+        Mail mail = new Mail(
+                payload.getEmail(), "todo.list@gmail.com",
+                REGISTRATION_ORDERS_TEMPLATE_NAME, payload.getInformation()
         );
         this.emailService.sendEmail(mail, LOGIN_TEMPLATE_NAME);
     }
