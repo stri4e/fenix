@@ -1,5 +1,5 @@
 package com.github.websocket.payload;
 
-public enum EntityStauts {
+public enum EntityStatus {
     on, off
 }

@@ -6,11 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDto {
+public class CommentDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -2623463337274004203L;
 
     @JsonProperty(value = "id")
     private Long id;

@@ -1,6 +1,7 @@
 package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.websocket.payload.BillType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

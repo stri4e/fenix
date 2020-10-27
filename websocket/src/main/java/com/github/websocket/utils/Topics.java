@@ -2,9 +2,13 @@ package com.github.websocket.utils;
 
 public enum Topics {
 
-    orders("/topic/orders");
+    orders("/topic/orders"),
 
-    private String url;
+    bills("/topic/bill"),
+
+    commons("/topic/common");
+
+    private final String url;
 
     Topics(String url) {
         this.url = url;

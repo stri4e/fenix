@@ -1,6 +1,7 @@
-package com.github.websocket.payload;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.websocket.payload.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,30 +13,26 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetail implements Serializable, Cloneable {
+@NoArgsConstructor
+public class OrderDetailDto implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = -8001976834441332571L;
+    private static final long serialVersionUID = 942104612974879832L;
 
     @JsonProperty(value = "id")
     private Long id;
 
     @NotNull
     @JsonProperty(value = "customer")
-    private Customer customer;
+    private CustomerDto customer;
 
     @NotEmpty
-    @JsonProperty(value = "productIds")
-    private List<Long> productIds;
+    @JsonProperty(value = "products")
+    private List<ProductDto> products;
 
     @NotNull
     @JsonProperty(value = "amount")
     private BigDecimal amount;
-
-    @NotNull
-    @JsonProperty(value = "userId")
-    private Long userId;
 
     @NotNull
     @JsonProperty(value = "status")
@@ -43,6 +40,10 @@ public class OrderDetail implements Serializable, Cloneable {
 
     @NotNull
     @JsonProperty(value = "delivery")
-    private Delivery delivery;
+    private DeliveryDto delivery;
+
+    @NotNull
+    @JsonProperty(value = "bill")
+    private BillDto bill;
 
 }
