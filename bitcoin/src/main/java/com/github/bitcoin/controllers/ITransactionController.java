@@ -5,6 +5,7 @@ import com.github.bitcoin.dto.TransactionDto;
 import com.github.bitcoin.dto.TrialTransactionDto;
 import com.github.bitcoin.entity.EntityStatus;
 import com.github.bitcoin.entity.TrialTransaction;
+import com.github.facade.bitcoin.transaction.Claim;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,11 +29,12 @@ public interface ITransactionController {
     );
 
     @PostMapping(
-            path = "/edit/generate",
+            path = "/edit/generate/{claim}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    TrialTransactionDto generateTransaction(@Valid @RequestBody Receipt payload);
+    TrialTransactionDto generateTransaction(@PathVariable Claim claim,
+                                            @Valid @RequestBody Receipt payload);
 
     @PostMapping(
             path = "/edit/send",

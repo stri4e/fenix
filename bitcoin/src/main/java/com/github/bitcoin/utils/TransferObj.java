@@ -4,6 +4,7 @@ import com.github.bitcoin.dto.*;
 import com.github.bitcoin.entity.*;
 import com.github.bitcoin.payload.Receipt;
 import com.github.facade.bitcoin.models.*;
+import com.github.facade.bitcoin.transaction.Claim;
 import com.github.facade.bitcoin.transaction.NewTransaction;
 import com.github.facade.bitcoin.utils.Network;
 
@@ -146,7 +147,8 @@ public class TransferObj {
     transaction(Account account, Address address,
                 Receipt payload, BigDecimal feePerKb,
                 List<UnspentOutput> unspentOutputs,
-                Network network, String derivation) {
+                Network network, String derivation,
+                Claim claim) {
         return new NewTransaction.Builder()
                 .parameters(network)
                 .deterministic(derivation)
@@ -157,8 +159,7 @@ public class TransferObj {
                 .amount(new BigDecimal(payload.getValue()))
                 .outputs(unspentOutputs)
                 .feePerKb(feePerKb)
-                .calcUnspentOutput()
-                .transaction()
+                .transaction(claim)
                 .build();
     }
 

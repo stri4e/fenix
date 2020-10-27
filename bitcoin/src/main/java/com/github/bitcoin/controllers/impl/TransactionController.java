@@ -12,6 +12,7 @@ import com.github.bitcoin.utils.TransferObj;
 import com.github.facade.bitcoin.IFacadeBitcoin;
 import com.github.facade.bitcoin.models.ResponseTrx;
 import com.github.facade.bitcoin.models.UnspentOutput;
+import com.github.facade.bitcoin.transaction.Claim;
 import com.github.facade.bitcoin.transaction.NewTransaction;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,7 @@ public class TransactionController implements ITransactionController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public TrialTransactionDto generateTransaction(Receipt payload) {
+    public TrialTransactionDto generateTransaction(Claim claim, Receipt payload) {
         FeePerKb feePerKb = this.feePerKbService.readActual();
         Address address = this.addressService.readByAddress(payload.getFrom());
         Account account = address.getAccount();
@@ -71,7 +72,8 @@ public class TransactionController implements ITransactionController {
                 .collect(Collectors.toList());
         NewTransaction transaction = transaction(
                 account, address, payload, new BigDecimal(feePerKb.getFee()),
-                unspentOutputs, this.facadeBitcoin.getNetwork(), this.facadeBitcoin.getDerivation()
+                unspentOutputs, this.facadeBitcoin.getNetwork(),
+                this.facadeBitcoin.getDerivation(), claim
         );
         List<UnspentOut> spentOuts = unspentOutputs.stream()
                 .map(o -> findByIndexAndHash(o.getIndex(), o.getTxHash(), outs))
