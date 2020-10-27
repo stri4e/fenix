@@ -22,7 +22,6 @@ public interface IPaymentTypeService {
             path = "/v1/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @ResponseStatus(code = HttpStatus.OK)
     Optional<List<PaymentTypesDto>> findAllByStatus(
             @PathVariable(value = "status") EntityStatus status
     );
@@ -30,13 +29,11 @@ public interface IPaymentTypeService {
     @PutMapping(
             path = "/v1/edit"
     )
-    @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody PaymentTypesDto payload);
 
     @DeleteMapping(
             path = "/v1/edit/{id}"
     )
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable(value = "id") Long id);
 
 }

@@ -24,7 +24,6 @@ public interface ISubcategoryService {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @ResponseStatus(code = HttpStatus.CREATED)
     Optional<SubcategoryDto> create(
             @PathVariable(name = "categoryName") String categoryName,
             @Valid @RequestBody SubcategoryDto payload
@@ -34,7 +33,6 @@ public interface ISubcategoryService {
             path = "/v1/subcategories/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @ResponseStatus(code = HttpStatus.OK)
     Optional<SubcategoryDto> readByName(
             @RequestParam(name = "name", required = false) String name
     );
@@ -42,13 +40,11 @@ public interface ISubcategoryService {
     @PutMapping(
             path = "/v1/subcategories/edit"
     )
-    @ResponseStatus(code = HttpStatus.OK)
     void update(@Valid @RequestBody SubcategoryDto payload);
 
     @DeleteMapping(
             path = "/v1/subcategories/edit/{id}"
     )
-    @ResponseStatus(code = HttpStatus.OK)
     void delete(@PathVariable Long id);
 
 }
