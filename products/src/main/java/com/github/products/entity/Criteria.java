@@ -9,18 +9,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "filters", schema = "public")
-public class Filter implements Serializable, Cloneable {
+@Table(name = "criteria", schema = "public")
+public class Criteria implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 7706390004430335311L;
+    private static final long serialVersionUID = 8592780795812353558L;
 
     @Id
     @Column(name = "ID")
@@ -30,23 +27,11 @@ public class Filter implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "title",
+            name = "value",
             nullable = false,
-            length = 50
+            length = 100
     )
-    private String title;
-
-    @OneToMany(
-            targetEntity = Criteria.class,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "criteria_id",
-            foreignKey = @ForeignKey(
-                    name = "filters_criteria_fk"
-            )
-    )
-    private List<Criteria> criteria = new ArrayList<>();
+    private String value;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -67,15 +52,13 @@ public class Filter implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Filter(Long id, String title) {
-        this.id = id;
-        this.title = title;
+    public Criteria(String value) {
+        this.value = value;
     }
 
-    public void addCriteria(Criteria criteria) {
-        if (Objects.nonNull(criteria)) {
-            this.criteria.add(criteria);
-        }
+    public Criteria(Long id, String value) {
+        this.id = id;
+        this.value = value;
     }
 
 }

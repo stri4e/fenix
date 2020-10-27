@@ -1,12 +1,9 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.controllers.IProductController;
+import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
-import com.github.products.services.IBrandService;
-import com.github.products.services.IProductService;
-import com.github.products.services.ISpecificationService;
-import com.github.products.services.ISubcategoryService;
+import com.github.products.services.*;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -14,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,11 +24,11 @@ import static com.github.products.utils.TransferObj.toProduct;
 @RestController
 @RequestMapping(path = "/v1")
 @RequiredArgsConstructor
-public class ProductController implements IProductController {
+public class ProductsController implements IProductsController {
 
     private final IProductService productService;
 
-    private final ISpecificationService specificationService;
+    private final ICriteriaService criteriaService;
 
     private final ISubcategoryService subCategoryService;
 
@@ -67,18 +63,9 @@ public class ProductController implements IProductController {
 
     @Override
     public Page<ProductDto>
-    findProductsByPageAndFilters(String subcategory,
-                                 MultiValueMap<String, String> filters,
-                                 Pageable pageable) {
-        Map<String, List<String>> fs = filters.get("filter").stream()
-                .collect(Collectors.toMap(k -> k.substring(0, k.indexOf(":")),
-                        v -> Arrays.asList(v.substring(v.indexOf(":") + 1).split(","))));
-        List<Specification> specifications = fs.keySet().stream()
-                .flatMap(k -> fs.get(k).stream()
-                        .map(s -> this.specificationService.readByParams(k, s))
-                ).flatMap(Collection::stream).collect(Collectors.toList());
-        Page<Product> products = this.productService
-                .readByParams(subcategory, specifications, pageable);
+    findProductsByPageAndFilters(String subcategory, List<Long> criteria, Pageable pageable) {
+        List<Criteria> crs = this.criteriaService.readAll(criteria);
+        Page<Product> products = this.productService.readByParams(subcategory, crs, pageable);
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)
@@ -139,7 +126,7 @@ public class ProductController implements IProductController {
         product.setDescription(payload.getDescription());
         product.setPreviewImage(payload.getPreviewImage());
         product.setImages(payload.getImages());
-        this.productService.updateProduct(product);
+        this.productService.update(product);
     }
 
     @Override

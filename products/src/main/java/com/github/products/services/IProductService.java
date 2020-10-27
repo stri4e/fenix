@@ -1,5 +1,6 @@
 package com.github.products.services;
 
+import com.github.products.entity.Criteria;
 import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Specification;
@@ -19,7 +20,7 @@ public interface IProductService {
 
     Page<Product> readByParams(
             String subcategoryName,
-            List<Specification> specifications,
+            List<Criteria> criteria,
             Pageable pageable
     );
 
@@ -33,7 +34,7 @@ public interface IProductService {
 
     List<Product> readAllByIds(List<Long> ids);
 
-    void updateProduct(Product p);
+    void update(Product p);
 
     void updateStatus(EntityStatus status, Long id);
 

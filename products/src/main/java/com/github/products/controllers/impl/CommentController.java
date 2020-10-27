@@ -8,7 +8,6 @@ import com.github.products.exceptions.BadRequest;
 import com.github.products.services.ICommentService;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
-import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +39,7 @@ public class CommentController implements ICommentController {
         Product product = this.productService.readById(productId);
         Comment comment = this.commentService.create(tc);
         product.addComment(comment);
-        this.productService.updateProduct(product);
+        this.productService.update(product);
         return fromComment(comment);
     }
 

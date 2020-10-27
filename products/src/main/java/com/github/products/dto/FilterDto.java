@@ -36,6 +36,6 @@ public class FilterDto implements Serializable, Cloneable {
             value = "criteria"
     )
     @JsonProperty(value = "criteria")
-    private List<String> criteria;
+    private List<CriteriaDto> criteria;
 
 }

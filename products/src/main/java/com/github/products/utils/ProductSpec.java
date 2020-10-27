@@ -1,5 +1,6 @@
 package com.github.products.utils;
 
+import com.github.products.entity.Criteria;
 import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,13 +23,12 @@ public class ProductSpec {
         return ((root, query, cb) -> cb.equal(root.get("subcategory").get("name"), category));
     }
 
-    public static Specification<Product> selectByAndIn(String subcategory,
-                                                       List<com.github.products.entity.Specification> specifications) {
+    public static Specification<Product> selectCriteriaIn(String subcategory, List<Criteria> criteria) {
         return ((root, query, cb) -> {
             query.distinct(Boolean.TRUE);
             return cb.and(
                     cb.equal(root.get("subcategory").get("name"), subcategory),
-                    root.join("specifications").in(specifications)
+                    root.join("criteria").in(criteria)
             );
         });
     }

@@ -51,6 +51,18 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     private Set<Comment> comments = new HashSet<>();
 
+    @OneToMany(
+            targetEntity = Criteria.class,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "criteria_id",
+            foreignKey = @ForeignKey(
+                    name = "product_criteria_fk"
+            )
+    )
+    private Set<Criteria> criteria = new HashSet<>();
+
     @ManyToOne(
             targetEntity = Subcategory.class,
             fetch = FetchType.EAGER
@@ -84,6 +96,18 @@ public class Product extends Item implements Serializable, Cloneable {
     public void addSpecification(Specification s) {
         if (Objects.nonNull(s)) {
             this.specifications.add(s);
+        }
+    }
+
+    public void addCriteria(Criteria c) {
+        if (Objects.nonNull(c)) {
+            this.criteria.add(c);
+        }
+    }
+
+    public void addCriteria(List<Criteria> c) {
+        if (Objects.nonNull(c)) {
+            this.criteria.addAll(c);
         }
     }
 

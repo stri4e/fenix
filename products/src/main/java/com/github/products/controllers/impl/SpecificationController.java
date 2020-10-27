@@ -7,7 +7,6 @@ import com.github.products.entity.Specification;
 import com.github.products.services.IProductService;
 import com.github.products.services.ISpecificationService;
 import com.github.products.utils.Logging;
-import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,7 @@ public class SpecificationController implements ISpecificationController {
         Specification tmp = toSpecification(payload);
         Specification specification = this.specificationService.create(tmp);
         product.addSpecification(specification);
-        this.productService.updateProduct(product);
+        this.productService.update(product);
         return fromSpecification(specification);
     }
 

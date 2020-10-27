@@ -1,8 +1,8 @@
 package com.github.products.services.impl;
 
+import com.github.products.entity.Criteria;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Product;
-import com.github.products.entity.Specification;
 import com.github.products.exceptions.BadRequest;
 import com.github.products.exceptions.NotFound;
 import com.github.products.repository.ProductRepo;
@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
-import static com.github.products.utils.ProductSpec.selectByAndIn;
+import static com.github.products.utils.ProductSpec.selectCriteriaIn;
 
 @Service
 @Transactional
@@ -55,8 +55,8 @@ public class ProductService implements IProductService {
 
     @Override
     public Page<Product>
-    readByParams(String subcategoryName, List<Specification> specifications, Pageable pageable) {
-        return this.productRepo.findAll(selectByAndIn(subcategoryName, specifications), pageable);
+    readByParams(String subcategoryName, List<Criteria> criteria, Pageable pageable) {
+        return this.productRepo.findAll(selectCriteriaIn(subcategoryName, criteria), pageable);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class ProductService implements IProductService {
                     @CacheEvict(value = "products_by_category", allEntries = true),
             }
     )
-    public void updateProduct(Product p) {
+    public void update(Product p) {
         this.productRepo.save(p);
     }
 

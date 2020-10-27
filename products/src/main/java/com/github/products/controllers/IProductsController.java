@@ -9,14 +9,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-public interface IProductController {
+public interface IProductsController {
 
     @GetMapping(path = "/page")
     Page<ProductDto> findProductsByPage(
@@ -38,7 +37,7 @@ public interface IProductController {
     @GetMapping(path = "/page/{subcategory}/filters")
     Page<ProductDto> findProductsByPageAndFilters(
             @PathVariable String subcategory,
-            @RequestParam MultiValueMap<String, String> filters,
+            @RequestParam(name = "criteria") List<Long> criteria,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
@@ -83,7 +82,7 @@ public interface IProductController {
     @DeleteMapping(
             path = "/edit/{id}/{status}"
     )
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void updateStatusProduct(
             @PathVariable Long id,
             @PathVariable EntityStatus status

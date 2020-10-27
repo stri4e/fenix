@@ -40,7 +40,6 @@ public class FiltersController implements IFiltersController {
     public void update(FilterDto payload) {
         Filter filter = this.filtersService.readById(payload.getId());
         filter.setTitle(payload.getTitle());
-        filter.setCriteria(payload.getCriteria());
         this.filtersService.update(filter);
     }
 

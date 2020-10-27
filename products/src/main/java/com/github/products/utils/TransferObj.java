@@ -92,14 +92,16 @@ public class TransferObj {
     }
 
     public static Filter toFilter(FilterDto data) {
-        return new Filter(data.getId(), data.getTitle(), data.getCriteria());
+        return new Filter(data.getId(), data.getTitle());
     }
 
     public static FilterDto fromFilter(Filter data) {
         return new FilterDto(
                 data.getId(),
                 data.getTitle(),
-                data.getCriteria()
+                data.getCriteria().stream()
+                        .map(TransferObj::fromCriteria)
+                        .collect(Collectors.toList())
         );
     }
 
@@ -114,6 +116,20 @@ public class TransferObj {
         return new BrandDto(
                 data.getId(),
                 data.getName()
+        );
+    }
+
+    public static Criteria toCriteria(CriteriaDto data) {
+        return new Criteria(
+                data.getId(),
+                data.getValue()
+        );
+    }
+
+    public static CriteriaDto fromCriteria(Criteria data) {
+        return new CriteriaDto(
+                data.getId(),
+                data.getValue()
         );
     }
 
