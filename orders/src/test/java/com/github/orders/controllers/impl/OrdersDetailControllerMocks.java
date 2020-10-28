@@ -6,13 +6,15 @@ import com.github.orders.entity.DeliveryType;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.google.common.collect.Lists;
+import org.apache.commons.math.stat.descriptive.summary.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class OrdersDetailControllerMocks {
 
-    public static final Long USER_ID = 1L;
+    public static final UUID USER_ID = UUID.fromString("9da421d7-33e4-4319-9288-0f503bd20c3d");
 
     public static final Long ORDER_ID = 1L;
 
@@ -129,23 +131,7 @@ public class OrdersDetailControllerMocks {
                     Lists.newArrayList("1", "2", "3")
             )
     );
-
-    public static OrderDto orderDetailEntryDto() {
-        return new OrderDto(
-                ORDER_ID,
-                customerDto(),
-                PRODUCTS_DTO,
-                AMOUNT,
-                OrderStatus.open,
-                delivery(),
-                null
-        );
-    }
-
-    public static PurchaseDto purchaseDto() {
-        return new PurchaseDto(USER_ID, orderDetailEntryDto());
-    }
-
+    
     public static DeliveryDto delivery() {
         return new DeliveryDto(
                 1L,

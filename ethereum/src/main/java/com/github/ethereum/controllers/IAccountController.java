@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 public interface IAccountController {
 
     @GetMapping(
@@ -28,7 +30,7 @@ public interface IAccountController {
     @GetMapping(
             path = "/address"
     )
-    String findAvailableAddress(@RequestAttribute Long userId);
+    String findAvailableAddress(@RequestAttribute UUID userId);
 
     @DeleteMapping(
             path = "/{address}"

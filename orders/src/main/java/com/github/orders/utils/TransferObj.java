@@ -4,6 +4,7 @@ import com.github.orders.dto.*;
 import com.github.orders.entity.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TransferObj {
@@ -18,7 +19,7 @@ public class TransferObj {
     }
 
     public static OrderDetail toOrderDetail(
-            Customer customer, OrderDetailDto data, Delivery delivery, Long userId, Long billId) {
+            Customer customer, OrderDetailDto data, Delivery delivery, UUID userId, Long billId) {
 
         List<Long> r = data.getProducts().stream()
                 .map(ProductDto::getId)

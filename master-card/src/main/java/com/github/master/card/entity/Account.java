@@ -23,8 +23,13 @@ public class Account implements Serializable, Cloneable {
     private static final long serialVersionUID = 6259420060663577603L;
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(
+            generator = "UUID"
+    )
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private UUID id;
 
     @Column(

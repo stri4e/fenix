@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -76,7 +77,7 @@ public class OrderDetail implements Serializable, Cloneable {
             name = "user_id",
             nullable = false
     )
-    private Long userId;
+    private UUID userId;
 
     @Column(
             name = "bill_id",
@@ -105,7 +106,7 @@ public class OrderDetail implements Serializable, Cloneable {
 
     public OrderDetail(
             Long id, Customer customer, List<Long> productIds,
-            BigDecimal amount, Long userId, Long billId, OrderStatus status) {
+            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
         this.id = id;
         this.customer = customer;
         this.productIds = productIds;
@@ -117,7 +118,7 @@ public class OrderDetail implements Serializable, Cloneable {
 
     public OrderDetail(
             Customer customer, List<Long> productIds,
-            BigDecimal amount, Delivery delivery, Long userId, Long billId, OrderStatus status) {
+            BigDecimal amount, Delivery delivery, UUID userId, Long billId, OrderStatus status) {
         this.customer = customer;
         this.productIds = productIds;
         this.amount = amount;
@@ -129,7 +130,7 @@ public class OrderDetail implements Serializable, Cloneable {
 
     public OrderDetail(
             Long id, Customer customer, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
+            BigDecimal amount, UUID userId, OrderStatus status) {
         this.id = id;
         this.customer = customer;
         this.productIds = productIds;
@@ -140,7 +141,7 @@ public class OrderDetail implements Serializable, Cloneable {
 
     public OrderDetail(
             Customer customer, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
+            BigDecimal amount, UUID userId, OrderStatus status) {
         this.customer = customer;
         this.productIds = productIds;
         this.amount = amount;

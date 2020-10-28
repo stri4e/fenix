@@ -13,12 +13,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface AccountRepo extends JpaRepository<Account, Long>,
         PagingAndSortingRepository<Account, Long>, JpaSpecificationExecutor<Account> {
 
-    Account findFirstByUserIdAndStatus(Long userId, EntityStatus status);
+    Account findFirstByUserIdAndStatus(UUID userId, EntityStatus status);
 
     Optional<Account> findByAddress(String address);
 

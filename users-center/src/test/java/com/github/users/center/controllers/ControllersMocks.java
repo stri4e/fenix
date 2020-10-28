@@ -8,12 +8,13 @@ import com.github.users.center.entity.Role;
 import com.github.users.center.entity.User;
 
 import java.util.Collections;
+import java.util.UUID;
 
 public class ControllersMocks {
 
-    public static final Long ID = 1L;
+    public static final UUID ID = UUID.fromString("0158fe0e-0423-4d51-a4db-4802127fea63");
 
-    public static final Long ID_ANOTHER = 2L;
+    public static final Long ROLE_ID = 1L;
 
     public static final String EMAIL = "email@gmail.com";
 
@@ -127,7 +128,7 @@ public class ControllersMocks {
 
     public static Role role() {
         Role r = new Role(ROLE_ADMIN);
-        r.setId(ID);
+        r.setId(ROLE_ID);
         return r;
     }
 

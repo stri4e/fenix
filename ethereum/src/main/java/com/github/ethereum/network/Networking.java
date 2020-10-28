@@ -1,7 +1,7 @@
 package com.github.ethereum.network;
 
 import com.github.ethereum.services.INetworkService;
-import com.github.wrapper.ethrereum.facade.IFacadeEthereum;
+import com.github.facade.ethrereum.IFacadeEthereum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

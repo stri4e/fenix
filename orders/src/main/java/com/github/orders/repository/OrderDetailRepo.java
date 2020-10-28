@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface OrderDetailRepo extends
         PagingAndSortingRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
 
-    List<OrderDetail> findByUserId(Long userId);
+    List<OrderDetail> findByUserId(UUID userId);
 
     List<OrderDetail> findByStatus(OrderStatus status);
 

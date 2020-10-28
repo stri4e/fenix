@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -34,7 +35,7 @@ public class RefreshSession implements Serializable, Cloneable {
             name = "user_id",
             nullable = false
     )
-    private Long userId;
+    private UUID userId;
 
     @Column(
             name = "refresh_token",
@@ -78,7 +79,7 @@ public class RefreshSession implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public RefreshSession(Long userId,
+    public RefreshSession(UUID userId,
                           String refreshToken,
                           String fingerprint,
                           String ip,
@@ -91,7 +92,7 @@ public class RefreshSession implements Serializable, Cloneable {
     }
 
     public RefreshSession(Long id,
-                          Long userId,
+                          UUID userId,
                           String refreshToken,
                           String fingerprint,
                           String ip,

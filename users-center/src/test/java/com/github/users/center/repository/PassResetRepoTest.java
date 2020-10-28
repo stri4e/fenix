@@ -1,6 +1,5 @@
 package com.github.users.center.repository;
 
-import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.User;
 import org.junit.jupiter.api.Test;
@@ -33,9 +32,12 @@ class PassResetRepoTest {
     public void createRT() {
         User user = user();
         PassResetToken data = passResetToken();
-        PassResetToken exp = passResetTokenExp();
-        this.ur.save(user);
-        PassResetToken act = this.ptr.save(data);
+        User u = this.ur.save(user);
+        data.setUser(u);
+        PassResetToken exp = this.ptr.save(data);
+        PassResetToken act = this.ptr.findByToken(exp.getToken())
+                .orElse(null);
+        assertNotNull(exp);
         assertNotNull(act);
         assertEquals(exp, act);
     }
@@ -44,7 +46,8 @@ class PassResetRepoTest {
     void findByToken() {
         User user = user();
         PassResetToken data = passResetToken();
-        this.ur.save(user);
+        User u = this.ur.save(user);
+        data.setUser(u);
         PassResetToken exp = this.ptr.save(data);
         PassResetToken act = this.ptr.findByToken(exp.getToken())
                 .orElse(null);

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class LoginDto {
 
     @JsonProperty(value = "userId")
     @NotNull(message = "Required field not null")
-    private Long userId;
+    private UUID userId;
 
     @JsonProperty(value = "device")
     @NotBlank(message = "Required field not blank")

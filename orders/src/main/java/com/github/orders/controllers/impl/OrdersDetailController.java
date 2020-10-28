@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void save(Long userId, OrderDetailDto payload) {
+    public void save(UUID userId, OrderDetailDto payload) {
         Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
         Delivery delivery = this.deliveryService.create(toDelivery(payload.getDelivery()));
         BillDto bill = this.billService.create(payload.getBill());
@@ -75,7 +76,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> findUserOrders(Long userId) {
+    public List<OrderDetailDto> findUserOrders(UUID userId) {
         List<OrderDetail> orders = this.orderService.readUserId(userId);
         return orders.stream()
                 .map(this::collect)

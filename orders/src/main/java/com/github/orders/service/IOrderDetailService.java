@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface IOrderDetailService {
 
@@ -17,7 +18,7 @@ public interface IOrderDetailService {
 
     OrderDetail readById(Long orderId);
 
-    List<OrderDetail> readUserId(Long userId);
+    List<OrderDetail> readUserId(UUID userId);
 
     List<OrderDetail> readByStatus(OrderStatus status);
 

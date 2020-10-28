@@ -4,12 +4,14 @@ import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 public class JwtTokenProvider {
 
-    public Long getUserFromJwt(String token) {
-        return Long.parseLong(subject(token));
+    public UUID getUserFromJwt(String token) {
+        return UUID.fromString(subject(token));
     }
 
     private String subject(String token) {

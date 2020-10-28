@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,7 +57,7 @@ public class AccountController implements IAccountController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void save(Long userId) {
+    public void save(UUID userId) {
         KeysBag keys = this.facadeBitcoin.generateKeys();
         List<ChainAddress> chainAddresses =
                 this.facadeBitcoin.generateAddresses(keys, ZERO, TEN);
@@ -82,7 +83,7 @@ public class AccountController implements IAccountController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public String findAvailableAddress(Long userId) {
+    public String findAvailableAddress(UUID userId) {
         Account account = this.accountService.readByUserId(userId);
         var result = account.getAddresses().stream()
                 .filter(address -> EntityStatus.off.equals(address.getStatus()))

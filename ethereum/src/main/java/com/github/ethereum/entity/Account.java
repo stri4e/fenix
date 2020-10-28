@@ -33,7 +33,7 @@ public class Account implements Serializable, Cloneable {
             nullable = false,
             updatable = false
     )
-    private Long userId;
+    private UUID userId;
 
     @Column(
             name = "private_key",
@@ -106,7 +106,7 @@ public class Account implements Serializable, Cloneable {
 
     public Account(
             Long id,
-            Long userId,
+            UUID userId,
             BigInteger privateKey,
             BigInteger publicKey,
             String address,
@@ -122,7 +122,7 @@ public class Account implements Serializable, Cloneable {
     }
 
     public Account(
-            Long userId,
+            UUID userId,
             BigInteger privateKey,
             BigInteger publicKey,
             String address,

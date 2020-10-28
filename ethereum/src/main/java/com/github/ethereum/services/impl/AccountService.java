@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 import static com.github.ethereum.utils.AccountSpec.byUserId;
 
@@ -27,7 +28,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> readByUserId(Long userId) {
+    public List<Account> readByUserId(UUID userId) {
         return this.accountRepo.findAll(byUserId(userId));
     }
 
@@ -37,7 +38,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account readByUserIdAndByStatus(Long userId, EntityStatus status) {
+    public Account readByUserIdAndByStatus(UUID userId, EntityStatus status) {
         return this.accountRepo.findFirstByUserIdAndStatus(userId, status);
     }
 

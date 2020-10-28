@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -109,13 +106,13 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public Long fetchUser(String token) {
+    public UUID fetchUser(String token) {
         var keyId = getKeyId(token);
         Claims claims = Jwts.parser()
                 .setSigningKey(this.keysStore.get(keyId))
                 .parseClaimsJws(token)
                 .getBody();
-        return Long.parseLong(claims.getSubject());
+        return UUID.fromString(claims.getSubject());
     }
 
     public String fetchFingerprint(String token) {

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -21,10 +23,10 @@ public class JwtTokenProviderTest {
 
     @Test
     public void createUserAccessToken() {
-        Long exp = 1L;
+        UUID exp =  UUID.fromString("0158fe0e-0423-4d51-a4db-4802127fea63");
         var user = UtilsMocks.userExp();
         String token = this.jwtTokenProvider.userAccessToken(user);
-        Long act = TestUtils.parserToken(token);
+        UUID act = TestUtils.parserUserToken(token);
         assertEquals(exp, act);
     }
 
@@ -36,10 +38,10 @@ public class JwtTokenProviderTest {
 
     @Test
     public void createAdminAccessToken() {
-        Long exp = 1L;
+        UUID exp =  UUID.fromString("0158fe0e-0423-4d51-a4db-4802127fea63");
         var user = UtilsMocks.userExp();
         String token = this.jwtTokenProvider.adminAccessToken(user);
-        Long act = TestUtils.parserToken(token);
+        UUID act = TestUtils.parserAdminToken(token);
         assertEquals(exp, act);
     }
 

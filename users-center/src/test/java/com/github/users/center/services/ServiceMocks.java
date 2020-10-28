@@ -7,12 +7,17 @@ import com.github.users.center.entity.User;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.UUID;
 
 public class ServiceMocks {
 
-    public static final Long ID = 1L;
+    public static final UUID ID = UUID.fromString("DK001101-0000-1000-8040-23805F9B34FB");
 
-    public static final Long ID_ANOTHER = 2L;
+    public static final Long ROLE_ID = 1L;
+
+    public static final Long CONFIRM_ID = 1L;
+
+    public static final Long RESET_PASS_ID = 1L;
 
     public static final String EMAIL = "email@gmail.com";
 
@@ -94,7 +99,7 @@ public class ServiceMocks {
 
     public static Role role() {
         Role r = new Role(ROLE_ADMIN);
-        r.setId(ID);
+        r.setId(ROLE_ID);
         return r;
     }
 
@@ -104,7 +109,7 @@ public class ServiceMocks {
 
     public static ConfirmToken confirmTokenExp() {
         ConfirmToken c = new ConfirmToken();
-        c.setId(ID);
+        c.setId(CONFIRM_ID);
         c.setToken(TOKEN);
         c.setUser(userExp());
         c.setClientUrl(LOCALHOST_AUTH_FRONT);
@@ -125,7 +130,7 @@ public class ServiceMocks {
 
     public static PassResetToken passResetTokenExp() {
         PassResetToken t = new PassResetToken();
-        t.setId(ID);
+        t.setId(RESET_PASS_ID);
         t.setToken(TOKEN);
         t.setNewPass(NEW_PASS);
         t.setExpiryDate(30);
@@ -135,7 +140,7 @@ public class ServiceMocks {
 
     public static PassResetToken passResetToken() {
         PassResetToken t = new PassResetToken();
-        t.setId(ID);
+        t.setId(RESET_PASS_ID);
         t.setToken(TOKEN);
         t.setNewPass(NEW_PASS);
         t.setExpiryDate(30);

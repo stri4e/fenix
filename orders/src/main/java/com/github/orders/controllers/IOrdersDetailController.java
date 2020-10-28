@@ -13,6 +13,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface IOrdersDetailController {
 
@@ -28,7 +29,7 @@ public interface IOrdersDetailController {
             )
     )
     void save(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId,
+            @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
             @RequestBody @Valid OrderDetailDto payload
     );
 
@@ -44,7 +45,7 @@ public interface IOrdersDetailController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     List<OrderDetailDto> findUserOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId
+            @ApiIgnore @RequestAttribute(name = "userId") UUID userId
     );
 
     @GetMapping(path = "/fetch/binding/{orderId}")
