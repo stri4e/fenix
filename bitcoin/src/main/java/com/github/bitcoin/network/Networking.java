@@ -16,7 +16,7 @@ public class Networking implements ApplicationRunner {
 
     private final INetworkService networkService;
 
-    @Value(value = "${api.url}")
+    @Value(value = "${bitcoin.api.url}")
     private String apiUrl;
 
     @Override

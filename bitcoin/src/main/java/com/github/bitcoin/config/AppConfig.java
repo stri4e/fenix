@@ -1,9 +1,9 @@
 package com.github.bitcoin.config;
 
-import com.github.wrapper.bitcoin.facade.IFacadeBitcoin;
-import com.github.wrapper.bitcoin.facade.impl.FacadeBitcoin;
-import com.github.wrapper.bitcoin.utils.Network;
-import com.github.wrapper.bitcoin.utils.WrapUtils;
+import com.github.facade.bitcoin.FacadeBitcoin;
+import com.github.facade.bitcoin.IFacadeBitcoin;
+import com.github.facade.bitcoin.utils.Network;
+import com.github.facade.bitcoin.utils.WrapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +16,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.github.bitcoin.repository")
 public class AppConfig {
 
-    @Value(value = "app.wallet.name")
+    @Value(value = "bitcoin.wallet.name")
     private String walletName;
 
-    @Value(value = "app.request.period")
+    @Value(value = "bitcoin.request.period")
     private Integer requestPeriod;
 
     @Bean
