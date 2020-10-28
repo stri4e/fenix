@@ -78,7 +78,7 @@ public class AdminController implements IAdminController, Serializable {
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var accessToken = this.jwtTokenProvider.adminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
-                    .refreshSession(fingerprint, location, user, ADMIN_SCOPE);
+                    .refreshAdminSession(fingerprint, location, user, ADMIN_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
             CompletableFuture.runAsync(() -> logins(user, location, device));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
@@ -99,7 +99,7 @@ public class AdminController implements IAdminController, Serializable {
                 User user = this.userService.readById(userId);
                 var accessToken = this.jwtTokenProvider.adminAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider
-                        .refreshSession(fingerprint, session.getIp(), user, ADMIN_SCOPE);
+                        .refreshAdminSession(fingerprint, session.getIp(), user, ADMIN_SCOPE);
                 return jwtRefreshResponse(session, accessToken, newSession);
             }
         }

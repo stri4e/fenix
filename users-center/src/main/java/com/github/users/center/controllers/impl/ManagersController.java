@@ -77,7 +77,7 @@ public class ManagersController implements IManagersController {
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
-                    .refreshSession(fingerprint, location, user, MANAGER_SCOPE);
+                    .refreshManagerSession(fingerprint, location, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
             CompletableFuture.runAsync(() -> logins(user, location, device));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
@@ -98,7 +98,7 @@ public class ManagersController implements IManagersController {
                 User user = this.userService.readById(userId);
                 var accessToken = this.jwtTokenProvider.managerAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider
-                        .refreshSession(fingerprint, session.getIp(), user, MANAGER_SCOPE);
+                        .refreshManagerSession(fingerprint, session.getIp(), user, MANAGER_SCOPE);
                 return jwtRefreshResponse(session, accessToken, newSession);
             }
         }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,11 @@ public class JwtTokenProvider {
 
     private static final String AUTHORITIES = "AUTHORITIES";
 
-    @Value("${app.user.secret.key}")
-    private String userSecretKey;
+    @Value(value = "#{${keys.role}}")
+    private Map<String, String> keysRole;
+
+    @Value(value = "#{${keys.store}}")
+    private Map<String, String> keysStore;
 
     @Value("${app.user.expire.time}")
     private int userExpireTime;
@@ -34,22 +38,22 @@ public class JwtTokenProvider {
     @Value("${app.refresh.expire.time}")
     private int refreshExpireTime;
 
-    @Value("${app.refresh.key}")
-    private String refreshKey;
-
     public String userAccessToken(User user) {
-        return accessToken(user, this.userExpireTime);
+        var keyId = this.keysRole.get("user");
+        return accessToken(user, this.userExpireTime, keyId, this.keysStore.get(keyId));
     }
 
     public String adminAccessToken(User user) {
-        return accessToken(user, this.adminExpireTime);
+        var keyId = this.keysRole.get("admin");
+        return accessToken(user, this.adminExpireTime, keyId, this.keysStore.get(keyId));
     }
 
     public String managerAccessToken(User user) {
-        return accessToken(user, this.managerExpireTime);
+        var keyId = this.keysRole.get("manager");
+        return accessToken(user, this.managerExpireTime, keyId, this.keysStore.get(keyId));
     }
 
-    private String accessToken(User user, int expireTime) {
+    private String accessToken(User user, int expireTime, String keyId, String key) {
         if (Objects.nonNull(user)) {
             var now = new Date();
             var date = new Date(now.getTime() + expireTime);
@@ -61,23 +65,34 @@ public class JwtTokenProvider {
                     .claim(AUTHORITIES, authorities)
                     .claim("firstName", user.getFName())
                     .claim("lastName", user.getLName())
+                    .setHeaderParam(JwsHeader.KEY_ID, keyId)
                     .setIssuedAt(new Date())
                     .setExpiration(date)
-                    .signWith(SignatureAlgorithm.HS512, this.userSecretKey)
+                    .signWith(SignatureAlgorithm.HS512, key)
                     .compact();
         }
         return null;
     }
 
     public RefreshSession
-    refreshSession(String fingerprint, String location, User user, String scope) {
+    refreshAdminSession(String fingerprint, String location, User user, String scope) {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
-        var token = refreshToken(fingerprint, expire, user, scope);
+        var keyId = this.keysRole.get("refresh_admin");
+        var token = refreshToken(fingerprint, expire, user, scope, keyId, this.keysStore.get(keyId));
         return new RefreshSession(user.getId(), token, fingerprint, location, expire);
     }
 
-    private String refreshToken(String fingerprint, Date expire, User user, String scope) {
+    public RefreshSession
+    refreshManagerSession(String fingerprint, String location, User user, String scope) {
+        var now = new Date();
+        var expire = new Date(now.getTime() + this.refreshExpireTime);
+        var keyId = this.keysRole.get("refresh_manager");
+        var token = refreshToken(fingerprint, expire, user, scope, keyId, this.keysStore.get(keyId));
+        return new RefreshSession(user.getId(), token, fingerprint, location, expire);
+    }
+
+    private String refreshToken(String fingerprint, Date expire, User user, String scope, String keyId, String key) {
         if (Objects.nonNull(user)) {
             return Jwts.builder()
                     .setSubject(user.getId().toString())
@@ -85,25 +100,28 @@ public class JwtTokenProvider {
                     .claim("firstName", user.getFName())
                     .claim("lastName", user.getLName())
                     .claim("scope", scope)
+                    .setHeaderParam(JwsHeader.KEY_ID, keyId)
                     .setIssuedAt(new Date())
                     .setExpiration(expire)
-                    .signWith(SignatureAlgorithm.HS512, this.refreshKey)
+                    .signWith(SignatureAlgorithm.HS512, key)
                     .compact();
         }
         return null;
     }
 
     public Long fetchUser(String token) {
+        var keyId = getKeyId(token);
         Claims claims = Jwts.parser()
-                .setSigningKey(this.refreshKey)
+                .setSigningKey(this.keysStore.get(keyId))
                 .parseClaimsJws(token)
                 .getBody();
         return Long.parseLong(claims.getSubject());
     }
 
     public String fetchFingerprint(String token) {
+        var keyId = getKeyId(token);
         Claims claims = Jwts.parser()
-                .setSigningKey(this.refreshKey)
+                .setSigningKey(this.keysStore.get(keyId))
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("fingerprint", String.class);
@@ -111,7 +129,8 @@ public class JwtTokenProvider {
 
     public boolean validateRefreshToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(this.refreshKey).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(this.keysStore.get(getKeyId(authToken)))
+                    .parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
@@ -125,6 +144,13 @@ public class JwtTokenProvider {
             log.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    private String getKeyId(String token) {
+        var signatureIndex = token.lastIndexOf('.');
+        var nonSignedToken = token.substring(0, signatureIndex + 1);
+        Header<?> h = Jwts.parser().parseClaimsJwt(nonSignedToken).getHeader();
+        return  (String) h.get(JwsHeader.KEY_ID);
     }
 
 }
