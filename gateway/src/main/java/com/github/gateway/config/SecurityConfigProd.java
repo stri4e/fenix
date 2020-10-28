@@ -42,7 +42,9 @@ public class SecurityConfigProd {
             "/users/v1/managers/reg",
             "/statistics/**",
             "/websocket/**",
-            "/users/v1/notification/listening/ending"
+            "/users/v1/notification/listening/ending",
+            "/ethereum/**",
+            "/bitcoin/**"
     };
 
     private static final String [] SERVICE_ACCESS = new String[] {

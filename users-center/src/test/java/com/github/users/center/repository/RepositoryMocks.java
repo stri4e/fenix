@@ -74,7 +74,7 @@ public class RepositoryMocks {
         u.setEmail(EMAIL);
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
-        u.setIsLocked(Boolean.FALSE);
+        u.setLocked(Boolean.FALSE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
@@ -88,7 +88,7 @@ public class RepositoryMocks {
         u.setEmail(EMAIL);
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
-        u.setIsLocked(Boolean.FALSE);
+        u.setLocked(Boolean.FALSE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
