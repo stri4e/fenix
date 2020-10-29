@@ -18,7 +18,7 @@ func NewViewRepo(database *gorm.DB) *ViewRepo {
 	return &ViewRepo{database: database}
 }
 
-func (repo ViewRepo) FindByUserId(userId uint) ([]*entity.View, error) {
+func (repo ViewRepo) FindByUserId(userId string) ([]*entity.View, error) {
 	var views []*entity.View
 	err := repo.database.
 		Preload(ViewProductColumn).
@@ -40,7 +40,7 @@ func (repo ViewRepo) FindBetweenTime(start string, end string) ([]*entity.View, 
 	return views, err
 }
 
-func (repo ViewRepo) FindViews(userId uint) ([]*entity.View, error) {
+func (repo ViewRepo) FindViews(userId string) ([]*entity.View, error) {
 	var views []*entity.View
 	err := repo.database.
 		Preload(ViewProductColumn).

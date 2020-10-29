@@ -6,8 +6,8 @@ import (
 
 type View struct {
 	gorm.Model
-	UserId    uint `gorm:"column:user_id"`
-	ProductId uint `gorm:"column:product_id"`
+	UserId    string `gorm:"column:user_id"`
+	ProductId uint   `gorm:"column:product_id"`
 }
 
 func (purchase *View) TableName() string {

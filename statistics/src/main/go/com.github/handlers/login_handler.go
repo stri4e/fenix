@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"net/http"
-	"strconv"
 )
 
 type LoginHandler struct {
@@ -23,10 +22,9 @@ func (handler *LoginHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 	utils.Block{
 		Try: func() {
 			vars := mux.Vars(r)
-			result := vars["userId"]
-			userId, err := strconv.ParseUint(result, BaseUint, BitSize)
-			utils.ThrowIfErr(err, http.StatusBadRequest, "Arguments must be a number.")
-			logins, err := handler.controller.FindByUserId(uint(userId))
+			userId := vars["userId"]
+			utils.ThrowIfNil(userId, http.StatusBadRequest, "Request path is required.")
+			logins, err := handler.controller.FindByUserId(userId)
 			utils.ThrowIfErr(err, http.StatusNotFound, "Logins not found.")
 			ResponseSender(w, logins, http.StatusOK)
 		}, Catch: func(e utils.Exception) {

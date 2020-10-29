@@ -13,7 +13,7 @@ func NewViewService(repo *repository.ViewRepo) *ViewService {
 	return &ViewService{repo: repo}
 }
 
-func (service ViewService) ReadByUserId(userId uint) ([]*entity.View, error) {
+func (service ViewService) ReadByUserId(userId string) ([]*entity.View, error) {
 	return service.repo.FindByUserId(userId)
 }
 

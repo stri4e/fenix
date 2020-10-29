@@ -22,11 +22,9 @@ func (handler *ViewsHandler) FindByUserId(w http.ResponseWriter, r *http.Request
 	utils.Block{
 		Try: func() {
 			vars := mux.Vars(r)
-			strUserId := vars["userId"]
-			utils.ThrowIfNil(strUserId, http.StatusBadRequest, "Request path is required.")
-			userId, err := strconv.ParseUint(strUserId, BaseUint, BitSize)
-			utils.ThrowIfErr(err, http.StatusBadRequest, "Arguments must be a number.")
-			products, err := handler.controller.FindByUserId(uint(userId))
+			userId := vars["userId"]
+			utils.ThrowIfNil(userId, http.StatusBadRequest, "Request path is required.")
+			products, err := handler.controller.FindByUserId(userId)
 			utils.ThrowIfErr(err, http.StatusNotFound, "Views not found.")
 			ResponseSender(w, products, http.StatusOK)
 		}, Catch: func(e utils.Exception) {
