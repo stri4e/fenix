@@ -3,7 +3,6 @@ package controllers
 import (
 	"../dto"
 	"../services"
-	"../utils"
 )
 
 type CategoryController struct {
@@ -26,11 +25,7 @@ func NewCategoryController(categoryService *services.CategoryService) *CategoryC
 // @Failure 403
 // @Router /v1/category/{categoryName} [get]
 func (controller *CategoryController) FindByCategoryName(categoryName string) (*dto.CategoryDto, error) {
-	category, err := controller.categoryService.GetByCategoryName(categoryName)
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromCategory(category), nil
+	return controller.categoryService.ReadByName(categoryName)
 }
 
 // SaveCategory godoc
@@ -45,11 +40,7 @@ func (controller *CategoryController) FindByCategoryName(categoryName string) (*
 // @Failure 403
 // @Router /v1/category [post]
 func (controller *CategoryController) SaveCategory(payload *dto.CategoryDto) (*dto.CategoryDto, error) {
-	category, err := controller.categoryService.CreateCategory(utils.ToCategory(payload))
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromCategory(category), nil
+	return controller.categoryService.CreateCategory(payload)
 }
 
 // UpdateCategory godoc
@@ -64,5 +55,5 @@ func (controller *CategoryController) SaveCategory(payload *dto.CategoryDto) (*d
 // @Failure 404
 // @Router /v1/category [put]
 func (controller *CategoryController) UpdateCategory(payload *dto.CategoryDto) error {
-	return controller.categoryService.UpdateCategory(utils.ToCategory(payload))
+	return controller.categoryService.UpdateCategory(payload)
 }

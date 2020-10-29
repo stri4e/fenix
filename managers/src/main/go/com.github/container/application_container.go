@@ -30,6 +30,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewCategoryService)
 	err = container.Provide(services.NewProductService)
 	err = container.Provide(services.NewSpecificationService)
+	err = container.Provide(services.NewSubcategoryService)
+	err = container.Provide(services.NewFilterService)
+	err = container.Provide(services.NewCriteriaService)
 
 	err = container.Provide(controllers.NewPurchasesController)
 	err = container.Provide(controllers.NewUserOrdersController)
@@ -37,6 +40,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(controllers.NewCategoryController)
 	err = container.Provide(controllers.NewProductController)
 	err = container.Provide(controllers.NewSpecificationController)
+	err = container.Provide(controllers.NewSubcategoryController)
+	err = container.Provide(controllers.NewFilterController)
+	err = container.Provide(controllers.NewCriteriaController)
 
 	err = container.Provide(handlers.NewRestHandler)
 	err = container.Provide(handlers.NewPurchasesHandler)
@@ -45,6 +51,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(handlers.NewCategoryHandler)
 	err = container.Provide(handlers.NewProductHandler)
 	err = container.Provide(handlers.NewSpecificationHandler)
+	err = container.Provide(handlers.NewSubcategoryHandler)
+	err = container.Provide(handlers.NewFilterHandler)
+	err = container.Provide(handlers.NewCriteriaHandler)
 	err = container.Provide(handlers.NewTracer)
 
 	err = container.Provide(server.NewServer)

@@ -54,11 +54,11 @@ func (handler *ProductHandler) SaveProduct(w http.ResponseWriter, r *http.Reques
 	utils.Block{
 		Try: func() {
 			vars := mux.Vars(r)
-			categoryName := vars["categoryName"]
+			subcategoryName := vars["subcategoryName"]
 			var payload dto.ProductDto
 			err := json.NewDecoder(r.Body).Decode(&payload)
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't deserialize ProductDto.")
-			product, err := handler.controller.SaveProduct(categoryName, &payload)
+			product, err := handler.controller.SaveProduct(subcategoryName, &payload)
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't save ProductDto.")
 			log.WithFields(log.Fields{"ProductName": payload.Name}).
 				Debug("Enter: create new product")

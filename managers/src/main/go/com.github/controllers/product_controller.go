@@ -3,7 +3,6 @@ package controllers
 import (
 	"../dto"
 	"../services"
-	"../utils"
 )
 
 type ProductController struct {
@@ -31,19 +30,9 @@ func NewProductController(
 // @Success 200 {object} dto.ProductDto
 // @Failure 400
 // @Failure 403
-// @Router /v1/products/{categoryName} [post]
-func (controller *ProductController) SaveProduct(categoryName string, payload *dto.ProductDto) (*dto.ProductDto, error) {
-	category, err := controller.categoryService.GetByCategoryName(categoryName)
-	if err != nil {
-		return nil, err
-	}
-	product := utils.ToProduct(payload)
-	product.Category = category
-	result, err := controller.productService.CreateProduct(product)
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromProduct(result), nil
+// @Router /v1/products/{subcategoryName} [post]
+func (controller *ProductController) SaveProduct(subcategoryName string, payload *dto.ProductDto) (*dto.ProductDto, error) {
+	return controller.productService.Create(subcategoryName, payload)
 }
 
 // FindById godoc
@@ -58,11 +47,7 @@ func (controller *ProductController) SaveProduct(categoryName string, payload *d
 // @Failure 403
 // @Router /v1/products/{productId} [get]
 func (controller *ProductController) FindById(productId uint) (*dto.ProductDto, error) {
-	product, err := controller.productService.ReadById(productId)
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromProduct(product), nil
+	return controller.productService.ReadById(productId)
 }
 
 // FindAllUnPublish godoc
@@ -75,16 +60,8 @@ func (controller *ProductController) FindById(productId uint) (*dto.ProductDto, 
 // @Failure 400
 // @Failure 403
 // @Router /v1/products/un-publish [get]
-func (controller *ProductController) FindAllUnPublish() ([]*dto.ProductDto, error) {
-	products, err := controller.productService.ReadAllUnPublish()
-	if err != nil {
-		return nil, err
-	}
-	var result []*dto.ProductDto
-	for _, p := range *products {
-		result = append(result, utils.FromProduct(&p))
-	}
-	return result, nil
+func (controller *ProductController) FindAllUnPublish() (*[]dto.ProductDto, error) {
+	return controller.productService.ReadAllUnPublish()
 }
 
 // UpdateProduct godoc
@@ -99,7 +76,7 @@ func (controller *ProductController) FindAllUnPublish() ([]*dto.ProductDto, erro
 // @Failure 404
 // @Router /v1/products [put]
 func (controller *ProductController) UpdateProduct(payload *dto.ProductDto) error {
-	return controller.productService.UpdateProduct(utils.ToProduct(payload))
+	return controller.productService.UpdateProduct(payload)
 }
 
 // UpdateStatusProduct godoc

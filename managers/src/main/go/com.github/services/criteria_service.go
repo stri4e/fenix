@@ -2,7 +2,6 @@ package services
 
 import (
 	"../dto"
-	"../utils"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
@@ -10,46 +9,24 @@ import (
 	"strconv"
 )
 
-type ProductService struct {
+type CriteriaService struct {
 	eureka *EurekaService
 }
 
-func NewProductService(eureka *EurekaService) *ProductService {
-	return &ProductService{eureka: eureka}
+func NewCriteriaService(eureka *EurekaService) *CriteriaService {
+	return &CriteriaService{eureka: eureka}
 }
 
-func (service *ProductService) ReadProducts(products []uint) (*[]dto.ProductDto, error) {
+func (service *CriteriaService) CreateToFilter(filterId uint, criteria *dto.CriteriaDto) (*dto.CriteriaDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new([]dto.ProductDto)
-		client := sling.New()
-		for _, id := range products {
-			client.QueryStruct(&utils.Ids{Ids: id})
-		}
-		for _, instance := range instances {
-			client := client.Get(instance.HomePageUrl).Path("/v1/fetch")
-			resp, err := client.ReceiveSuccess(result)
-			if err != nil {
-				return nil, err
-			}
-			if resp.StatusCode == http.StatusOK {
-				return result, nil
-			}
-		}
-	}
-	return nil, err
-}
-
-func (service *ProductService) Create(subcategory string, product *dto.ProductDto) (*dto.ProductDto, error) {
-	instances, err := service.getInstances()
-	if err == nil {
-		result := new(dto.ProductDto)
+		result := new(dto.CriteriaDto)
 		client := sling.New()
 		for _, instance := range instances {
 			resp, err := client.Post(instance.HomePageUrl).
-				Path("/v1/edit").
-				Path(subcategory).
-				BodyJSON(product).
+				Path("/v1/criteria/edit/to/filters").
+				Path(strconv.Itoa(int(filterId))).
+				BodyJSON(criteria).
 				ReceiveSuccess(result)
 			if err != nil {
 				return nil, err
@@ -62,62 +39,20 @@ func (service *ProductService) Create(subcategory string, product *dto.ProductDt
 	return nil, err
 }
 
-func (service *ProductService) ReadById(productId uint) (*dto.ProductDto, error) {
-	instances, err := service.getInstances()
-	if err == nil {
-		result := new(dto.ProductDto)
-		client := sling.New()
-		for _, instance := range instances {
-			client := client.Get(instance.HomePageUrl).
-				Path("/v1/fetch").
-				Path(strconv.Itoa(int(productId)))
-			resp, err := client.ReceiveSuccess(result)
-			if err != nil {
-				return nil, err
-			}
-			if resp.StatusCode == http.StatusOK {
-				return result, nil
-			}
-		}
-	}
-	return nil, err
-}
-
-func (service *ProductService) ReadAllUnPublish() (*[]dto.ProductDto, error) {
-	instances, err := service.getInstances()
-	if err == nil {
-		result := new([]dto.ProductDto)
-		client := sling.New()
-		for _, instance := range instances {
-			client := client.Get(instance.HomePageUrl).
-				Path("/v1/fetch/un-publish")
-			resp, err := client.ReceiveSuccess(result)
-			if err != nil {
-				return nil, err
-			}
-			if resp.StatusCode == http.StatusOK {
-				return result, nil
-			}
-		}
-	}
-	return nil, err
-}
-
-func (service *ProductService) UpdateStatusProduct(productId uint, status string) error {
+func (service *CriteriaService) CreateToProducts(productId uint, criteria []uint) error {
 	instances, err := service.getInstances()
 	if err == nil {
 		client := sling.New()
 		for _, instance := range instances {
-			resp, err := client.Delete(instance.HomePageUrl).
-				Path("/v1/edit/").
+			resp, err := client.Post(instance.HomePageUrl).
+				Path("/v1/criteria/edit/to/products").
 				Path(strconv.Itoa(int(productId))).
-				Path("/").
-				Path(status).
+				BodyJSON(criteria).
 				Receive(nil, nil)
 			if err != nil {
 				return err
 			}
-			if resp.StatusCode == http.StatusOK {
+			if resp.StatusCode == http.StatusCreated {
 				return nil
 			}
 		}
@@ -125,14 +60,35 @@ func (service *ProductService) UpdateStatusProduct(productId uint, status string
 	return err
 }
 
-func (service *ProductService) UpdateProduct(product *dto.ProductDto) error {
+func (service *CriteriaService) ReadById(id uint) (*dto.CriteriaDto, error) {
+	instances, err := service.getInstances()
+	if err == nil {
+		result := new(dto.CriteriaDto)
+		client := sling.New()
+		for _, instance := range instances {
+			client := client.Get(instance.HomePageUrl).
+				Path("/v1/criteria/fetch").
+				Path(strconv.Itoa(int(id)))
+			resp, err := client.ReceiveSuccess(result)
+			if err != nil {
+				return nil, err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return result, nil
+			}
+		}
+	}
+	return nil, err
+}
+
+func (service *CriteriaService) Update(criteria *dto.CriteriaDto) error {
 	instances, err := service.getInstances()
 	if err == nil {
 		client := sling.New()
 		for _, instance := range instances {
 			resp, err := client.Put(instance.HomePageUrl).
-				BodyJSON(product).
-				Path("/v1/edit/").
+				BodyJSON(criteria).
+				Path("/v1/criteria/edit").
 				Receive(nil, nil)
 			if err != nil {
 				return err
@@ -145,7 +101,49 @@ func (service *ProductService) UpdateProduct(product *dto.ProductDto) error {
 	return err
 }
 
-func (service *ProductService) getInstances() ([]*fargo.Instance, error) {
+func (service *CriteriaService) UpdateInProduct(productId uint, criteriaId uint) error {
+	instances, err := service.getInstances()
+	if err == nil {
+		client := sling.New()
+		for _, instance := range instances {
+			resp, err := client.Put(instance.HomePageUrl).
+				Path("/v1/criteria/edit/in/products").
+				Path(strconv.Itoa(int(productId))).
+				Path(strconv.Itoa(int(criteriaId))).
+				Receive(nil, nil)
+			if err != nil {
+				return err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return nil
+			}
+		}
+	}
+	return err
+}
+
+func (service *CriteriaService) UpdateInFilters(filterId uint, criteriaId uint) error {
+	instances, err := service.getInstances()
+	if err == nil {
+		client := sling.New()
+		for _, instance := range instances {
+			resp, err := client.Put(instance.HomePageUrl).
+				Path("/v1/criteria/edit/in/filters").
+				Path(strconv.Itoa(int(filterId))).
+				Path(strconv.Itoa(int(criteriaId))).
+				Receive(nil, nil)
+			if err != nil {
+				return err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return nil
+			}
+		}
+	}
+	return err
+}
+
+func (service *CriteriaService) getInstances() ([]*fargo.Instance, error) {
 	apps, err := service.eureka.connection.GetApps()
 	if err != nil {
 		return nil, err

@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface ICriteriaService {
 
     @PostMapping(
-            path = "/edit/to/filters/{filterId}",
+            path = "/v1/criteria/edit/to/filters/{filterId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -29,7 +29,7 @@ public interface ICriteriaService {
     );
 
     @PostMapping(
-            path = "/edit/to/products/{productId}",
+            path = "/v1/criteria/edit/to/products/{productId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -40,20 +40,20 @@ public interface ICriteriaService {
     );
 
     @GetMapping(
-            path = "/fetch/{id}",
+            path = "/v1/criteria/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<CriteriaDto> readById(@PathVariable Long id);
 
     @PutMapping(
-            path = "/edit",
+            path = "/v1/criteria/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody CriteriaDto payload);
 
     @PutMapping(
-            path = "/edit/in/products/{productId}/{criteriaId}",
+            path = "/v1/criteria/edit/in/products/{productId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -63,7 +63,7 @@ public interface ICriteriaService {
     );
 
     @DeleteMapping(
-            path = "/edit/in/products/{productId}/{criteriaId}",
+            path = "/v1/criteria/edit/in/products/{productId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -73,7 +73,7 @@ public interface ICriteriaService {
     );
 
     @PutMapping(
-            path = "/edit/in/filters/{filterId}/{criteriaId}",
+            path = "/v1/criteria/edit/in/filters/{filterId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -83,7 +83,7 @@ public interface ICriteriaService {
     );
 
     @DeleteMapping(
-            path = "/edit/in/filters/{filterId}/{criteriaId}",
+            path = "/v1/criteria/edit/in/filters/{filterId}/{criteriaId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -93,7 +93,7 @@ public interface ICriteriaService {
     );
 
     @DeleteMapping(
-            path = "/edit/{id}"
+            path = "/v1/criteria/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long id);

@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface IFiltersService {
 
     @PostMapping(
-            path = "/edit/{subcategoryName}",
+            path = "/v1/filters/edit/{subcategoryName}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<FilterDto> create(
@@ -25,18 +25,18 @@ public interface IFiltersService {
     );
 
     @GetMapping(
-            path = "/fetch/{id}",
+            path = "/v1/filters/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<FilterDto> readById(@PathVariable(name = "id") Long id);
 
     @PutMapping(
-            path = "/edit"
+            path = "/v1/filters/edit"
     )
     void update(@RequestBody FilterDto payload);
 
     @DeleteMapping(
-            path = "/edit/{id}"
+            path = "/v1/filters/edit/{id}"
     )
     void delete(@PathVariable(name = "id") Long id);
 

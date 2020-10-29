@@ -1,7 +1,7 @@
 package services
 
 import (
-	"../payload"
+	"../dto"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
@@ -17,14 +17,15 @@ func NewSpecificationService(eureka *EurekaService) *SpecificationService {
 	return &SpecificationService{eureka: eureka}
 }
 
-func (service *SpecificationService) Create(specification *payload.Specification) (*payload.Specification, error) {
+func (service *SpecificationService) Create(productId uint, specification *dto.SpecificationDto) (*dto.SpecificationDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Specification)
+		result := new(dto.SpecificationDto)
 		client := sling.New()
 		for _, instance := range instances {
 			resp, err := client.Post(instance.HomePageUrl).
 				Path("/v1/specification/edit").
+				Path(strconv.Itoa(int(productId))).
 				BodyJSON(specification).
 				ReceiveSuccess(result)
 			if err != nil {
@@ -38,10 +39,10 @@ func (service *SpecificationService) Create(specification *payload.Specification
 	return nil, err
 }
 
-func (service *SpecificationService) ReadById(specId uint) (*payload.Specification, error) {
+func (service *SpecificationService) ReadById(specId uint) (*dto.SpecificationDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Specification)
+		result := new(dto.SpecificationDto)
 		client := sling.New()
 		for _, instance := range instances {
 			client := client.Get(instance.HomePageUrl).
@@ -59,7 +60,7 @@ func (service *SpecificationService) ReadById(specId uint) (*payload.Specificati
 	return nil, err
 }
 
-func (service *SpecificationService) Update(specification *payload.Specification) error {
+func (service *SpecificationService) Update(specification *dto.SpecificationDto) error {
 	instances, err := service.getInstances()
 	if err == nil {
 		client := sling.New()

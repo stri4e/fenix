@@ -9,14 +9,17 @@ import (
 )
 
 type RestHandler struct {
-	ordersHandler    *PurchasesHandler
-	userOrderHandler *UserOrderHandler
-	managerHandler   *ManagerHandler
-	categoryHandler  *CategoryHandler
-	productHandler   *ProductHandler
-	specHandler      *SpecificationHandler
-	config           *config.Config
-	tracer           *Tracer
+	ordersHandler      *PurchasesHandler
+	userOrderHandler   *UserOrderHandler
+	managerHandler     *ManagerHandler
+	categoryHandler    *CategoryHandler
+	productHandler     *ProductHandler
+	specHandler        *SpecificationHandler
+	subcategoryHandler *SubcategoryHandler
+	filterHandler      *FilterHandler
+	criteriaHandler    *CriteriaHandler
+	config             *config.Config
+	tracer             *Tracer
 }
 
 func NewRestHandler(
@@ -26,18 +29,23 @@ func NewRestHandler(
 	categoryHandler *CategoryHandler,
 	productHandler *ProductHandler,
 	specHandler *SpecificationHandler,
+	subcategoryHandler *SubcategoryHandler,
+	filterHandler *FilterHandler,
+	criteriaHandler *CriteriaHandler,
 	config *config.Config,
-	tracer *Tracer,
-) *RestHandler {
+	tracer *Tracer) *RestHandler {
 	return &RestHandler{
-		ordersHandler:    ordersHandler,
-		userOrderHandler: userOrderHandler,
-		managerHandler:   managerHandler,
-		categoryHandler:  categoryHandler,
-		productHandler:   productHandler,
-		specHandler:      specHandler,
-		config:           config,
-		tracer:           tracer,
+		ordersHandler:      ordersHandler,
+		userOrderHandler:   userOrderHandler,
+		managerHandler:     managerHandler,
+		categoryHandler:    categoryHandler,
+		productHandler:     productHandler,
+		specHandler:        specHandler,
+		subcategoryHandler: subcategoryHandler,
+		filterHandler:      filterHandler,
+		criteriaHandler:    criteriaHandler,
+		config:             config,
+		tracer:             tracer,
 	}
 }
 
@@ -62,7 +70,7 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodPost)
 	router.HandleFunc("/v1/category", handler.categoryHandler.UpdateCategory).
 		Methods(http.MethodPut)
-	router.HandleFunc("/v1/products/{categoryName}", handler.productHandler.SaveProduct).
+	router.HandleFunc("/v1/products/{subcategoryName}", handler.productHandler.SaveProduct).
 		Methods(http.MethodPost)
 	router.HandleFunc("/v1/products/{productId}", handler.productHandler.FindProductById).
 		Methods(http.MethodGet)
@@ -78,6 +86,31 @@ func (handler *RestHandler) Handler() http.Handler {
 		Methods(http.MethodGet)
 	router.HandleFunc("/v1/specifications", handler.specHandler.UpdateSpecification).
 		Methods(http.MethodPut)
+	router.HandleFunc("/v1/subcategory/{categoryName}", handler.subcategoryHandler.SaveSubcategory).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/subcategory/{subcategoryName}", handler.subcategoryHandler.FindSubcategoryByName).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/subcategory", handler.subcategoryHandler.UpdateSubcategory).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/filters/{subcategoryName}", handler.filterHandler.SaveFilter).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/filters/{filterId}", handler.filterHandler.FindFilterById).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/filters", handler.filterHandler.UpdateFilter).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/criteria/to/filters/{filterId}", handler.criteriaHandler.SaveToFilter).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/criteria/to/products/{productId}", handler.criteriaHandler.SaveToProducts).
+		Methods(http.MethodPost)
+	router.HandleFunc("/v1/criteria/{criteriaId}", handler.criteriaHandler.FindCriteriaById).
+		Methods(http.MethodGet)
+	router.HandleFunc("/v1/criteria", handler.criteriaHandler.UpdateCriteria).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/criteria/in/product/{productId}/{criteriaId}", handler.criteriaHandler.UpdateInProduct).
+		Methods(http.MethodPut)
+	router.HandleFunc("/v1/criteria/in/filters/{filterId}/{criteriaId}", handler.criteriaHandler.UpdateInFilters).
+		Methods(http.MethodPut)
+
 	if handler.config.IsSwaggerEnable {
 		router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 	}
