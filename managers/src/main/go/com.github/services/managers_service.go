@@ -17,10 +17,10 @@ func (service *ManagersService) FirstOrCreateManager(manager *entity.Manager) (*
 	return service.repo.FirstOrCreateManager(manager)
 }
 
-func (service *ManagersService) ReadByManagerIdAndStatus(managerId uint, status string) (*entity.Manager, error) {
+func (service *ManagersService) ReadByManagerIdAndStatus(managerId string, status string) (*entity.Manager, error) {
 	return service.repo.FindByManagerIdAndStatus(managerId, status)
 }
 
-func (service *ManagersService) ReadByManagerID(managerId uint) (*entity.Manager, error) {
+func (service *ManagersService) ReadByManagerID(managerId string) (*entity.Manager, error) {
 	return service.repo.FindByManagerID(managerId)
 }

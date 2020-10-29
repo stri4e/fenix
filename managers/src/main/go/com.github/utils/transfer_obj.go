@@ -6,7 +6,7 @@ import (
 	"../payload"
 )
 
-func ToPurchase(managerId uint, data *dto.PurchaseDto) *entity.Purchase {
+func ToPurchase(managerId string, data *dto.PurchaseDto) *entity.Purchase {
 	return &entity.Purchase{ManagerId: managerId, OrderId: data.OrderId, Status: data.Status}
 }
 

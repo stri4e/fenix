@@ -42,7 +42,7 @@ func NewPurchasesController(
 // @Failure 403
 // @Router /v1 [post]
 // @Param Authorization header string true "Bearer"
-func (controller *PurchasesController) SavePurchases(mangerId uint, firstName string, lastName string, payload *dto.PurchaseDto) error {
+func (controller *PurchasesController) SavePurchases(mangerId string, firstName string, lastName string, payload *dto.PurchaseDto) error {
 	manager, err := controller.managerService.FirstOrCreateManager(
 		&entity.Manager{ManagerId: mangerId, FirstName: firstName, LastName: lastName})
 	if err != nil {
@@ -73,7 +73,7 @@ func (controller *PurchasesController) SavePurchases(mangerId uint, firstName st
 // @Failure 400
 // @Failure 403
 // @Router /v1/{status} [get]
-func (controller *PurchasesController) FindPurchases(managerId uint, status string) (*[]dto.OrderDto, error) {
+func (controller *PurchasesController) FindPurchases(managerId string, status string) (*[]dto.OrderDto, error) {
 	manager, err := controller.managerService.ReadByManagerIdAndStatus(managerId, status)
 	if err != nil {
 		return nil, err
