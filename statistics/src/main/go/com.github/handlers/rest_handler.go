@@ -10,23 +10,25 @@ import (
 )
 
 type RestHandler struct {
-	loginHandler *LoginHandler
-	viewsHandler *ViewsHandler
-	config       *config.Config
-	tracer       *Tracer
+	loginHandler          *LoginHandler
+	viewsHandler          *ViewsHandler
+	popularProductHandler *PopularProductHandler
+	config                *config.Config
+	tracer                *Tracer
 }
 
 func NewRestHandler(
 	loginHandler *LoginHandler,
 	viewsHandler *ViewsHandler,
+	popularProductHandler *PopularProductHandler,
 	config *config.Config,
 	tracer *Tracer) *RestHandler {
 	return &RestHandler{
-		loginHandler: loginHandler,
-		viewsHandler: viewsHandler,
-		config:       config,
-		tracer:       tracer,
-	}
+		loginHandler:          loginHandler,
+		viewsHandler:          viewsHandler,
+		popularProductHandler: popularProductHandler,
+		config:                config,
+		tracer:                tracer}
 }
 
 func (handler *RestHandler) Handler() http.Handler {
@@ -55,6 +57,13 @@ func (handler *RestHandler) Handler() http.Handler {
 	router.
 		HandleFunc("/v1/views", handler.viewsHandler.CreateViews).
 		Methods(http.MethodPost)
+
+	router.
+		HandleFunc("/v1/popular/view/{productId}", handler.popularProductHandler.UpdatePercentView).
+		Methods(http.MethodPut)
+	router.
+		HandleFunc("/v1/popular/bought", handler.popularProductHandler.UpdatePercentBought).
+		Methods(http.MethodPut)
 
 	router.Handle("/metrics", promhttp.Handler())
 	if handler.config.IsSwaggerEnable {
