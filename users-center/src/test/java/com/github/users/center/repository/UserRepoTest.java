@@ -1,6 +1,8 @@
 package com.github.users.center.repository;
 
+import com.github.users.center.entity.Role;
 import com.github.users.center.entity.User;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,13 @@ class UserRepoTest {
         User exp = userExp();
         User act = this.userRepo.save(user);
         assertNotNull(act);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "createAt", "updateAt", "roles")
+                .isEqualTo(exp);
+        Assertions.assertThat(act.getRoles())
+                .usingElementComparatorIgnoringFields("createAt", "updateAt")
+                .contains(exp.getRoles().toArray(new Role[]{}));
     }
 
     @Test
@@ -42,7 +50,13 @@ class UserRepoTest {
         User act = this.userRepo.findById(data.getId())
                 .orElse(null);
         assertNotNull(act);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "createAt", "updateAt", "roles")
+                .isEqualTo(exp);
+        Assertions.assertThat(act.getRoles())
+                .usingElementComparatorIgnoringFields("createAt", "updateAt")
+                .contains(exp.getRoles().toArray(new Role[]{}));
     }
 
     @Test
@@ -53,7 +67,13 @@ class UserRepoTest {
         User act = this.userRepo.findByEmail(data.getEmail())
                 .orElse(null);
         assertNotNull(act);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "createAt", "updateAt", "roles")
+                .isEqualTo(exp);
+        Assertions.assertThat(act.getRoles())
+                .usingElementComparatorIgnoringFields("createAt", "updateAt")
+                .contains(exp.getRoles().toArray(new Role[]{}));
     }
 
     @Test
@@ -64,7 +84,13 @@ class UserRepoTest {
         User act = this.userRepo.findByLogin(data.getLogin())
                 .orElse(null);
         assertNotNull(act);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "createAt", "updateAt", "roles")
+                .isEqualTo(exp);
+        Assertions.assertThat(act.getRoles())
+                .usingElementComparatorIgnoringFields("createAt", "updateAt")
+                .contains(exp.getRoles().toArray(new Role[]{}));
     }
 
     @Test
@@ -76,7 +102,13 @@ class UserRepoTest {
                 data.getEmail(), data.getLogin()
         ).orElse(null);
         assertNotNull(act);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "createAt", "updateAt", "roles")
+                .isEqualTo(exp);
+        Assertions.assertThat(act.getRoles())
+                .usingElementComparatorIgnoringFields("createAt", "updateAt")
+                .contains(exp.getRoles().toArray(new Role[]{}));
     }
 
     @Test

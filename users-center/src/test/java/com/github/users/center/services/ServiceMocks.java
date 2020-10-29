@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class ServiceMocks {
 
-    public static final UUID ID = UUID.fromString("DK001101-0000-1000-8040-23805F9B34FB");
+    public static final UUID ID = UUID.fromString("e26d55e2-62b8-49d1-913e-152db045759e");
 
     public static final Long ROLE_ID = 1L;
 

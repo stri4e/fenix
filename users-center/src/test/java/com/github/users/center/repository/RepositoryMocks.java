@@ -3,6 +3,8 @@ package com.github.users.center.repository;
 import com.github.users.center.entity.*;
 import org.assertj.core.util.Lists;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -163,7 +165,9 @@ public class RepositoryMocks {
                 REFRESH_TOKEN,
                 FINGER_PRINT,
                 IP,
-                EXPIRE_IN
+                EXPIRE_IN,
+                LocalDateTime.parse("2020-10-29T10:19:28.377428"),
+                LocalDateTime.parse("2020-10-29T10:19:28.377428")
         );
     }
 
@@ -174,7 +178,9 @@ public class RepositoryMocks {
                 REFRESH_TOKEN,
                 FINGER_PRINT,
                 IP,
-                EXPIRE_IN
+                EXPIRE_IN,
+                LocalDateTime.parse("2020-10-29T10:19:28.377428"),
+                LocalDateTime.parse("2020-10-29T10:19:28.377428")
         );
     }
 

@@ -91,6 +91,22 @@ public class RefreshSession implements Serializable, Cloneable {
         this.expireIn = expireIn;
     }
 
+    public RefreshSession(UUID userId,
+                          String refreshToken,
+                          String fingerprint,
+                          String ip,
+                          Date expireIn,
+                          LocalDateTime createAt,
+                          LocalDateTime updateAt) {
+        this.userId = userId;
+        this.refreshToken = refreshToken;
+        this.fingerprint = fingerprint;
+        this.ip = ip;
+        this.expireIn = expireIn;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+    }
+
     public RefreshSession(Long id,
                           UUID userId,
                           String refreshToken,

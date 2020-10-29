@@ -10,6 +10,7 @@ import com.github.users.center.entity.User;
 import com.github.users.center.payload.JwtAuthResponse;
 import com.github.users.center.repository.ConfirmTokenRepo;
 import com.github.users.center.repository.PassResetRepo;
+import com.github.users.center.repository.UserRepo;
 import com.github.users.center.services.IUserService;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,6 +58,9 @@ public class UsersControllerTest extends UsersTestBase {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private PassResetRepo passResetRepo;
@@ -227,7 +231,6 @@ public class UsersControllerTest extends UsersTestBase {
         UserAuthDto payload = ControllersMocks.userAuthDtoNotValid();
         User userForAuth = ControllersMocks.userForAuth();
         this.userService.create(userForAuth);
-        this.userService.create(userForAuth);
         HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserAuthDto> entity = new HttpEntity<>(payload, headers);
         ResponseEntity<JwtAuthResponse> result = this.restTemplate
@@ -262,7 +265,8 @@ public class UsersControllerTest extends UsersTestBase {
         PassResetToken pr = ControllersMocks.passResetToken();
         pr.setExpiryDate(10);
         pr.setNewPass("new_password");
-        this.userService.create(user);
+        User u = this.userRepo.save(user);
+        pr.setUser(u);
         PassResetToken passReset = this.passResetRepo.save(pr);
         String url = String.format(
                 "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
@@ -279,7 +283,8 @@ public class UsersControllerTest extends UsersTestBase {
         PassResetToken pr = ControllersMocks.passResetToken();
         pr.setExpiryDate(1);
         pr.setExpireTime(new Date(1597128681L));
-        this.userService.create(user);
+        User u = this.userRepo.save(user);
+        pr.setUser(u);
         PassResetToken passReset = this.passResetRepo.save(pr);
         String url = String.format(
                 "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
