@@ -308,17 +308,17 @@ var doc = `{
                     "example": "192.168.1.1"
                 },
                 "userId": {
-                    "type": "integer",
-                    "example": 12
+                    "type": "string",
+                    "example": "12"
                 }
             }
         },
         "dto.ProductDto": {
             "type": "object",
             "properties": {
-                "category": {
+                "brandName": {
                     "type": "string",
-                    "example": "phone"
+                    "example": "IPhone"
                 },
                 "comments": {
                     "type": "array",
@@ -361,6 +361,10 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/dto.SpecificationDto"
                     }
+                },
+                "subcategoryName": {
+                    "type": "string",
+                    "example": "phone"
                 }
             }
         },

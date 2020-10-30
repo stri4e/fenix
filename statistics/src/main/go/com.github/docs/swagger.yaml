@@ -27,13 +27,13 @@ definitions:
         example: 192.168.1.1
         type: string
       userId:
-        example: 12
-        type: integer
+        example: "12"
+        type: string
     type: object
   dto.ProductDto:
     properties:
-      category:
-        example: phone
+      brandName:
+        example: IPhone
         type: string
       comments:
         items:
@@ -65,6 +65,9 @@ definitions:
         items:
           $ref: '#/definitions/dto.SpecificationDto'
         type: array
+      subcategoryName:
+        example: phone
+        type: string
     type: object
   dto.SpecificationDto:
     properties:
