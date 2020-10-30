@@ -140,6 +140,8 @@ public class ProductsController implements IProductsController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void updatePercentBoughtProduct(List<PercentBoughtDto> payload) {
         payload.forEach(b -> this.productService.updatePercentBought(
                 b.getProductId(), b.getPercentBought())
