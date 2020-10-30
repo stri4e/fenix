@@ -234,6 +234,229 @@ var doc = `{
                 }
             }
         },
+        "/v1/criteria": {
+            "put": {
+                "description": "Update criteria information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "filters"
+                ],
+                "summary": "Update criteria",
+                "parameters": [
+                    {
+                        "description": "Update criteria",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/criteria/in/filters/{filterId}/{criteriaId}": {
+            "put": {
+                "description": "Update criteria information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "criteria"
+                ],
+                "summary": "Update criteria",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Criteria ID",
+                        "name": "criteriaId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/criteria/in/product/{productId}/{criteriaId}": {
+            "put": {
+                "description": "Update criteria information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "criteria"
+                ],
+                "summary": "Update criteria",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Criteria ID",
+                        "name": "criteriaId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/criteria/to/filters/{filterId}": {
+            "post": {
+                "description": "Save criteria to filter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "criteria"
+                ],
+                "summary": "Save criteria to filter",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Filter Id",
+                        "name": "filterId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create filter",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/criteria/to/products/{productId}": {
+            "post": {
+                "description": "Save criteria to product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "criteria"
+                ],
+                "summary": "Save criteria to product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product Id",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create criteria",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/criteria/{criteriaId}": {
+            "get": {
+                "description": "Get criteria",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "criteria"
+                ],
+                "summary": "Get criteria",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Criteria ID",
+                        "name": "criteriaId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
         "/v1/fetch/{orderId}": {
             "get": {
                 "description": "Get manager by order id",
@@ -261,6 +484,114 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.ManagerDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/filters": {
+            "put": {
+                "description": "Update filters information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "filters"
+                ],
+                "summary": "Update filters",
+                "parameters": [
+                    {
+                        "description": "Update filter",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FilterDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/filters/{filterId}": {
+            "get": {
+                "description": "Get filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "filters"
+                ],
+                "summary": "Get filters",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Filter ID",
+                        "name": "filterId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FilterDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/filters/{subcategoryName}": {
+            "post": {
+                "description": "Save filters",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "filters"
+                ],
+                "summary": "Save filters",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subcategory Name",
+                        "name": "subcategoryName",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create filter",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FilterDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.FilterDto"
                         }
                     },
                     "400": {},
@@ -312,49 +643,6 @@ var doc = `{
                     "products"
                 ],
                 "summary": "Get product",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.ProductDto"
-                        }
-                    },
-                    "400": {},
-                    "403": {}
-                }
-            }
-        },
-        "/v1/products/{categoryName}": {
-            "post": {
-                "description": "Save product",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "products"
-                ],
-                "summary": "Save product",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Category Name",
-                        "name": "categoryName",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Create products",
-                        "name": "account",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ProductDto"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -434,6 +722,49 @@ var doc = `{
                     "200": {},
                     "403": {},
                     "404": {}
+                }
+            }
+        },
+        "/v1/products/{subcategoryName}": {
+            "post": {
+                "description": "Save product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Save product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category Name",
+                        "name": "categoryName",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create products",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
                 }
             }
         },
@@ -545,6 +876,114 @@ var doc = `{
                 }
             }
         },
+        "/v1/subcategory": {
+            "put": {
+                "description": "Update subcategory information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subcategory"
+                ],
+                "summary": "Update subcategory",
+                "parameters": [
+                    {
+                        "description": "Update subcategory",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubcategoryDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {},
+                    "403": {},
+                    "404": {}
+                }
+            }
+        },
+        "/v1/subcategory/{categoryName}": {
+            "post": {
+                "description": "Save subcategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subcategory"
+                ],
+                "summary": "Save subcategory",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subcategory Name",
+                        "name": "subcategoryName",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Create subcategory",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubcategoryDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubcategoryDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
+        "/v1/subcategory/{subcategoryName}": {
+            "get": {
+                "description": "Get subcategory",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subcategory"
+                ],
+                "summary": "Get subcategory",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Subcategory Name",
+                        "name": "subcategoryName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubcategoryDto"
+                        }
+                    },
+                    "400": {},
+                    "403": {}
+                }
+            }
+        },
         "/v1/{orderId}/{status}": {
             "put": {
                 "description": "Update order by status",
@@ -627,6 +1066,42 @@ var doc = `{
                 "name": {
                     "type": "string",
                     "example": "Phone"
+                },
+                "subcategories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.SubcategoryDto"
+                    }
+                }
+            }
+        },
+        "dto.CommentDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "This is comment description"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "comment author"
+                }
+            }
+        },
+        "dto.CriteriaDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "value": {
+                    "type": "string",
+                    "example": "60#"
                 }
             }
         },
@@ -680,6 +1155,25 @@ var doc = `{
                 }
             }
         },
+        "dto.FilterDto": {
+            "type": "object",
+            "properties": {
+                "criteria": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CriteriaDto"
+                    }
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "filter_title"
+                }
+            }
+        },
         "dto.ManagerDto": {
             "type": "object",
             "properties": {
@@ -725,6 +1219,16 @@ var doc = `{
         "dto.ProductDto": {
             "type": "object",
             "properties": {
+                "brandName": {
+                    "type": "string",
+                    "example": "IPhone"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CommentDto"
+                    }
+                },
                 "description": {
                     "type": "string",
                     "example": "This is phone"
@@ -754,6 +1258,16 @@ var doc = `{
                 "quantity": {
                     "type": "integer",
                     "example": 10
+                },
+                "specifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.SpecificationDto"
+                    }
+                },
+                "subcategoryName": {
+                    "type": "string",
+                    "example": "phone"
                 }
             }
         },
@@ -784,6 +1298,25 @@ var doc = `{
                 "name": {
                     "type": "string",
                     "example": "settings"
+                }
+            }
+        },
+        "dto.SubcategoryDto": {
+            "type": "object",
+            "properties": {
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.FilterDto"
+                    }
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Phone"
                 }
             }
         }

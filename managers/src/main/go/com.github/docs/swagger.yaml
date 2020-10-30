@@ -8,6 +8,31 @@ definitions:
       name:
         example: Phone
         type: string
+      subcategories:
+        items:
+          $ref: '#/definitions/dto.SubcategoryDto'
+        type: array
+    type: object
+  dto.CommentDto:
+    properties:
+      description:
+        example: This is comment description
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: comment author
+        type: string
+    type: object
+  dto.CriteriaDto:
+    properties:
+      id:
+        example: 1
+        type: integer
+      value:
+        example: 60#
+        type: string
     type: object
   dto.CustomerDto:
     properties:
@@ -45,6 +70,19 @@ definitions:
         example: home
         type: string
     type: object
+  dto.FilterDto:
+    properties:
+      criteria:
+        items:
+          $ref: '#/definitions/dto.CriteriaDto'
+        type: array
+      id:
+        example: 1
+        type: integer
+      title:
+        example: filter_title
+        type: string
+    type: object
   dto.ManagerDto:
     properties:
       firstName:
@@ -76,6 +114,13 @@ definitions:
     type: object
   dto.ProductDto:
     properties:
+      brandName:
+        example: IPhone
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/dto.CommentDto'
+        type: array
       description:
         example: This is phone
         type: string
@@ -98,6 +143,13 @@ definitions:
       quantity:
         example: 10
         type: integer
+      specifications:
+        items:
+          $ref: '#/definitions/dto.SpecificationDto'
+        type: array
+      subcategoryName:
+        example: phone
+        type: string
     type: object
   dto.PurchaseDto:
     properties:
@@ -118,6 +170,19 @@ definitions:
         type: integer
       name:
         example: settings
+        type: string
+    type: object
+  dto.SubcategoryDto:
+    properties:
+      filters:
+        items:
+          $ref: '#/definitions/dto.FilterDto'
+        type: array
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Phone
         type: string
     type: object
 info:
@@ -317,6 +382,158 @@ paths:
       summary: Get category by category name
       tags:
       - products category
+  /v1/criteria:
+    put:
+      consumes:
+      - application/json
+      description: Update criteria information
+      parameters:
+      - description: Update criteria
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CriteriaDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update criteria
+      tags:
+      - filters
+  /v1/criteria/{criteriaId}:
+    get:
+      consumes:
+      - application/json
+      description: Get criteria
+      parameters:
+      - description: Criteria ID
+        in: path
+        name: criteriaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CriteriaDto'
+        "400": {}
+        "403": {}
+      summary: Get criteria
+      tags:
+      - criteria
+  /v1/criteria/in/filters/{filterId}/{criteriaId}:
+    put:
+      consumes:
+      - application/json
+      description: Update criteria information
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Criteria ID
+        in: path
+        name: criteriaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update criteria
+      tags:
+      - criteria
+  /v1/criteria/in/product/{productId}/{criteriaId}:
+    put:
+      consumes:
+      - application/json
+      description: Update criteria information
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Criteria ID
+        in: path
+        name: criteriaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update criteria
+      tags:
+      - criteria
+  /v1/criteria/to/filters/{filterId}:
+    post:
+      consumes:
+      - application/json
+      description: Save criteria to filter
+      parameters:
+      - description: Filter Id
+        in: path
+        name: filterId
+        required: true
+        type: integer
+      - description: Create filter
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CriteriaDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CriteriaDto'
+        "400": {}
+        "403": {}
+      summary: Save criteria to filter
+      tags:
+      - criteria
+  /v1/criteria/to/products/{productId}:
+    post:
+      consumes:
+      - application/json
+      description: Save criteria to product
+      parameters:
+      - description: Product Id
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Create criteria
+        in: body
+        name: account
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CriteriaDto'
+        "400": {}
+        "403": {}
+      summary: Save criteria to product
+      tags:
+      - criteria
   /v1/fetch/{orderId}:
     get:
       consumes:
@@ -340,6 +557,79 @@ paths:
       summary: Get manager by order id
       tags:
       - manager
+  /v1/filters:
+    put:
+      consumes:
+      - application/json
+      description: Update filters information
+      parameters:
+      - description: Update filter
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FilterDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update filters
+      tags:
+      - filters
+  /v1/filters/{filterId}:
+    get:
+      consumes:
+      - application/json
+      description: Get filters
+      parameters:
+      - description: Filter ID
+        in: path
+        name: filterId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FilterDto'
+        "400": {}
+        "403": {}
+      summary: Get filters
+      tags:
+      - filters
+  /v1/filters/{subcategoryName}:
+    post:
+      consumes:
+      - application/json
+      description: Save filters
+      parameters:
+      - description: Subcategory Name
+        in: path
+        name: subcategoryName
+        required: true
+        type: string
+      - description: Create filter
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FilterDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.FilterDto'
+        "400": {}
+        "403": {}
+      summary: Save filters
+      tags:
+      - filters
   /v1/products:
     put:
       consumes:
@@ -359,35 +649,6 @@ paths:
         "403": {}
         "404": {}
       summary: Update Product
-      tags:
-      - products
-  /v1/products/{categoryName}:
-    post:
-      consumes:
-      - application/json
-      description: Save product
-      parameters:
-      - description: Category Name
-        in: path
-        name: categoryName
-        required: true
-        type: string
-      - description: Create products
-        in: body
-        name: account
-        required: true
-        schema:
-          $ref: '#/definitions/dto.ProductDto'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.ProductDto'
-        "400": {}
-        "403": {}
-      summary: Save product
       tags:
       - products
   /v1/products/{productId}:
@@ -436,6 +697,35 @@ paths:
         "403": {}
         "404": {}
       summary: Change Product
+      tags:
+      - products
+  /v1/products/{subcategoryName}:
+    post:
+      consumes:
+      - application/json
+      description: Save product
+      parameters:
+      - description: Category Name
+        in: path
+        name: categoryName
+        required: true
+        type: string
+      - description: Create products
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductDto'
+        "400": {}
+        "403": {}
+      summary: Save product
       tags:
       - products
   /v1/products/un-publish:
@@ -528,4 +818,77 @@ paths:
       summary: Get specification
       tags:
       - specification
+  /v1/subcategory:
+    put:
+      consumes:
+      - application/json
+      description: Update subcategory information
+      parameters:
+      - description: Update subcategory
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SubcategoryDto'
+      produces:
+      - application/json
+      responses:
+        "200": {}
+        "403": {}
+        "404": {}
+      summary: Update subcategory
+      tags:
+      - subcategory
+  /v1/subcategory/{categoryName}:
+    post:
+      consumes:
+      - application/json
+      description: Save subcategory
+      parameters:
+      - description: Subcategory Name
+        in: path
+        name: subcategoryName
+        required: true
+        type: string
+      - description: Create subcategory
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SubcategoryDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubcategoryDto'
+        "400": {}
+        "403": {}
+      summary: Save subcategory
+      tags:
+      - subcategory
+  /v1/subcategory/{subcategoryName}:
+    get:
+      consumes:
+      - application/json
+      description: Get subcategory
+      parameters:
+      - description: Subcategory Name
+        in: path
+        name: subcategoryName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SubcategoryDto'
+        "400": {}
+        "403": {}
+      summary: Get subcategory
+      tags:
+      - subcategory
 swagger: "2.0"
