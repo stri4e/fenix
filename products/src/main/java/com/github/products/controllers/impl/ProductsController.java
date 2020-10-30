@@ -1,6 +1,7 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
+import com.github.products.dto.PercentBoughtDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
 import com.github.products.services.*;
@@ -136,6 +137,11 @@ public class ProductsController implements IProductsController {
     @Logging(isTime = true, isReturn = false)
     public void updateStatusProduct(Long id, EntityStatus status) {
         this.productService.updateStatus(status, id);
+    }
+
+    @Override
+    public void updatePercentBoughtProduct(List<PercentBoughtDto> payload) {
+
     }
 
 }

@@ -62,6 +62,14 @@ public abstract class Item implements Serializable, Cloneable {
     )
     private List<String> images = new ArrayList<>();
 
+    @Column(
+            name = "percent_bought",
+            precision = 8,
+            scale = 3,
+            columnDefinition="DECIMAL(8, 3)"
+    )
+    private Double percentBought = 0.0;
+
     @CreationTimestamp
     @Column(
             name = "create_at",

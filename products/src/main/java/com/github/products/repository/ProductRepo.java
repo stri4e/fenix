@@ -26,12 +26,18 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
 
     List<Product> findByNameContainingOrDescriptionContaining(String name, String description);
 
-    Page<Product> findDistinctBySubcategoryNameAndSpecificationsIn(String subcategoryName, Collection<Specification> specifications, Pageable pageable);
-
     @Modifying
     @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")
     void updateStatus(
             @Param(value = "status") EntityStatus status,
-            @Param(value = "id") Long id);
+            @Param(value = "id") Long id
+    );
+
+    @Modifying
+    @Query(value = "UPDATE Product p SET p.percentBought =:percentBought WHERE p.id =:id")
+    void updatePercentBough(
+            @Param(value = "id") Long id,
+            @Param(value = "percentBought") Double percentBought
+    );
 
 }
