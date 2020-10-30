@@ -1,50 +1,54 @@
 package controllers
 
 import (
+	"../dto"
 	"../entity"
 	"../services"
 )
 
 type PopularProductController struct {
-	service *services.PopularProductService
+	popularService *services.PopularProductService
+	productService *services.ProductService
 }
 
 func NewPopularProductController(service *services.PopularProductService) *PopularProductController {
-	return &PopularProductController{service: service}
+	return &PopularProductController{popularService: service}
 }
 
 func (controller *PopularProductController) UpdatePercentView(productId uint) error {
-	total, err := controller.service.TotalSumView()
+	total, err := controller.popularService.TotalSumView()
 	if err != nil {
 		return err
 	}
 	var coefficient = float32(total) / 100
-	product, err := controller.service.ReadOrCreate(&entity.PopularProduct{ProductId: productId})
+	product, err := controller.popularService.ReadOrCreate(&entity.PopularProduct{ProductId: productId})
 	if err != nil {
 		return err
 	}
 	var percent = float32(product.ViewCount) / coefficient
 	viewCount := product.ViewCount + 1
-	return controller.service.UpdatePercentView(viewCount, percent, productId)
+	return controller.popularService.UpdatePercentView(viewCount, percent, productId)
 }
 
 func (controller *PopularProductController) UpdatePercentBought(productIds []uint) error {
-	total, err := controller.service.TotalSumBought()
+	total, err := controller.popularService.TotalSumBought()
 	if err != nil {
 		return err
 	}
+	var percentsBought []dto.PercentBoughtDto
 	for _, id := range productIds {
-		product, err := controller.service.ReadOrCreate(&entity.PopularProduct{ProductId: id})
+		product, err := controller.popularService.ReadOrCreate(&entity.PopularProduct{ProductId: id})
 		if err != nil {
 			return err
 		}
 		var coefficient = float32(total) / 100
 		boughtCount := product.BoughtCount + 1
 		var percent = float32(boughtCount) / coefficient
-		err = controller.service.UpdatePercentBought(boughtCount, percent, product.ProductId)
+		percentsBought = append(percentsBought, dto.PercentBoughtDto{ProductId: id, PercentBought: percent})
+		err = controller.popularService.UpdatePercentBought(boughtCount, percent, product.ProductId)
 		if err != nil {
 			return err
 		}
 	}
-	return nil
+	return controller.productService.UpdatePercentsBought(&percentsBought)
 }

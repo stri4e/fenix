@@ -39,6 +39,26 @@ func (service *ProductService) GetProducts(products []uint) (*[]dto.ProductDto, 
 	return nil, err
 }
 
+func (service *ProductService) UpdatePercentsBought(percentsBought *[]dto.PercentBoughtDto) error {
+	instances, err := service.getInstances()
+	if err == nil {
+		client := sling.New()
+		for _, instance := range instances {
+			resp, err := client.Put(instance.HomePageUrl).
+				BodyJSON(percentsBought).
+				Path("/v1/edit/percent/bought").
+				Receive(nil, nil)
+			if err != nil {
+				return err
+			}
+			if resp.StatusCode == http.StatusOK {
+				return nil
+			}
+		}
+	}
+	return err
+}
+
 func (service *ProductService) getInstances() ([]*fargo.Instance, error) {
 	apps, err := service.eureka.connection.GetApps()
 	if err != nil {
