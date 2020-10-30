@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 public interface ICommentController {
 
     @PostMapping(
@@ -17,7 +19,7 @@ public interface ICommentController {
     @ResponseStatus(code = HttpStatus.CREATED)
     CommentDto save(
             @PathVariable Long productId,
-            @RequestBody CommentDto payload
+            @Valid @RequestBody CommentDto payload
     );
 
     @GetMapping(

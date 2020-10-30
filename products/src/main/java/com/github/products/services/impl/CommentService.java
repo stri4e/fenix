@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Objects;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "comment")
 public class CommentService implements ICommentService {
@@ -24,18 +26,12 @@ public class CommentService implements ICommentService {
             put = @CachePut(value = "comment", key = "#c.id")
     )
     public Comment create(Comment c) {
-        if (Objects.isNull(c)) {
-            throw new BadRequest();
-        }
         return this.commentRepo.save(c);
     }
 
     @Override
     @Cacheable(value = "comment", key = "#id")
     public Comment readById(Long id) {
-        if (Objects.isNull(id)) {
-            throw new BadRequest();
-        }
         return this.commentRepo.findById(id)
                 .orElseThrow(NotFound::new);
     }
@@ -45,9 +41,6 @@ public class CommentService implements ICommentService {
             @CacheEvict(value = "comment", key = "#id")
     })
     public void remove(Long id) {
-        if (Objects.isNull(id)) {
-            throw new BadRequest();
-        }
         this.commentRepo.updateStatus(id, EntityStatus.off);
     }
 

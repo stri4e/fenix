@@ -18,8 +18,6 @@ public interface SubcategoryRepo extends JpaRepository<Subcategory, Long> {
 
     List<Subcategory> findAllByStatus(EntityStatus status);
 
-    List<Subcategory> findAllByStatusAndCategoryName(EntityStatus status, String name);
-
     @Modifying
     @Query(value = "update Subcategory sc set sc.status=:status where sc.id=:id")
     void updateStatus(

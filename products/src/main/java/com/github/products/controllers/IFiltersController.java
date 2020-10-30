@@ -4,6 +4,8 @@ import com.github.products.dto.FilterDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 public interface IFiltersController {
 
     @PostMapping(
@@ -12,7 +14,7 @@ public interface IFiltersController {
     )
     FilterDto save(
             @PathVariable(name = "subcategoryName") String subcategoryName,
-            @RequestBody FilterDto payload
+            @Valid @RequestBody FilterDto payload
     );
 
     @GetMapping(
@@ -24,7 +26,7 @@ public interface IFiltersController {
     @PutMapping(
             path = "/edit"
     )
-    void update(@RequestBody FilterDto payload);
+    void update(@Valid @RequestBody FilterDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

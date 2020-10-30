@@ -41,13 +41,6 @@ public class SubcategoryService implements ISubcategoryService {
     }
 
     @Override
-    public List<Subcategory> readAllByCategoryName(String categoryName) {
-        return this.subCategoryRepo.findAllByStatusAndCategoryName(
-                EntityStatus.on, categoryName
-        );
-    }
-
-    @Override
     public void update(Subcategory subCategory) {
         this.subCategoryRepo.save(subCategory);
     }

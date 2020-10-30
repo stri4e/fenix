@@ -9,9 +9,9 @@ public interface IBrandService {
 
     Brand create(Brand brand);
 
-    Brand findByName(String name);
+    Brand readByName(String name);
 
-    Brand findById(Long id);
+    Brand readById(Long id);
 
     List<Brand> readAllByStatus(EntityStatus status);
 

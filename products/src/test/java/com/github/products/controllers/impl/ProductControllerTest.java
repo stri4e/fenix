@@ -1,10 +1,13 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.ProductsConstant;
-import com.github.products.entity.Category;
+import com.github.products.dto.ProductDto;
+import com.github.products.entity.Brand;
 import com.github.products.entity.Product;
-import com.github.products.repository.CategoryRepo;
+import com.github.products.entity.Subcategory;
+import com.github.products.repository.BrandRepo;
 import com.github.products.repository.ProductRepo;
+import com.github.products.repository.SubcategoryRepo;
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +44,10 @@ public class ProductControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private BrandRepo brandRepo;
+
+    @Autowired
+    private SubcategoryRepo subcategoryRepo;
 
     @Autowired
     private ProductRepo productRepo;
@@ -59,55 +65,52 @@ public class ProductControllerTest {
 
     @Test
     public void save() {
-        Product exp = ProductControllerMocks.responseProduct();
-        Product payload = ProductControllerMocks.requestProduct();
-        Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        payload.setSubcategory(category);
-        String url = String.format("%s%s", this.productUrl, "/edit");
-        ResponseEntity<Product> response = this.restTemplate.exchange(
-                url, HttpMethod.POST, new HttpEntity<>(payload), Product.class
+        this.brandRepo.save(ProductControllerMocks.brand());
+        Subcategory subcategoryData = ProductControllerMocks.subcategoryForSave();
+        this.subcategoryRepo.save(subcategoryData);
+        ProductDto exp = ProductControllerMocks.responseProduct1();
+        ProductDto payload = ProductControllerMocks.requestProduct1();
+        String url = String.format("%s%s", this.productUrl, "/edit/IPhone/OLX");
+        ResponseEntity<ProductDto> response = this.restTemplate.exchange(
+                url, HttpMethod.POST, new HttpEntity<>(payload), ProductDto.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.CREATED));
-        Product act = response.getBody();
+        ProductDto act = response.getBody();
         assertNotNull(act);
-        assertEquals(exp.getId(), act.getId());
-        assertEquals(exp.getName(), act.getName());
-        assertEquals(exp.getQuantity(), act.getQuantity());
-        assertEquals(exp.getDescription(), act.getDescription());
-        assertEquals(exp.getPreviewImage(), act.getPreviewImage());
+        assertEquals(exp, act);
     }
 
     @Test
     public void findByParams() {
         Product product = ProductControllerMocks.requestProduct();
-        Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setSubcategory(category);
+        Brand brand = this.brandRepo.save(ProductControllerMocks.brand());
+        Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
+        product.setSubcategory(subcategory);
+        product.setBrand(brand);
         this.productRepo.save(product);
-        Product exp = ProductControllerMocks.responseProduct();
+        ProductDto exp = ProductControllerMocks.responseProduct1();
         String url = String.format("%s%s", this.productUrl, "/fetch?id=1");
-        ResponseEntity<Product> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, Product.class
+        ResponseEntity<ProductDto> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, ProductDto.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-        Product act = response.getBody();
+        ProductDto act = response.getBody();
         assertNotNull(act);
-        assertEquals(exp.getId(), act.getId());
-        assertEquals(exp.getName(), act.getName());
-        assertEquals(exp.getQuantity(), act.getQuantity());
-        assertEquals(exp.getDescription(), act.getDescription());
-        assertEquals(exp.getPreviewImage(), act.getPreviewImage());
+        assertEquals(exp, act);
     }
 
     @Test
     public void update() {
         Product product = ProductControllerMocks.requestProduct();
-        Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setSubcategory(category);
+        Brand brand = this.brandRepo.save(ProductControllerMocks.brand());
+        Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
+        product.setSubcategory(subcategory);
+        product.setBrand(brand);
         this.productRepo.save(product);
-        Product payload = ProductControllerMocks.responseProductForUpdate();
+        ProductDto payload = ProductControllerMocks.responseProductForUpdate1();
         String url = String.format("%s%s", this.productUrl, "/edit");
-        ResponseEntity<Product> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(payload), Product.class
+        ResponseEntity<ProductDto> response = this.restTemplate.exchange(
+                url, HttpMethod.PUT, new HttpEntity<>(payload), ProductDto.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
     }
@@ -115,12 +118,14 @@ public class ProductControllerTest {
     @Test
     public void updateStatus() {
         Product product = ProductControllerMocks.requestProduct();
-        Category category = this.categoryRepo.save(ProductControllerMocks.categoryForSave());
-        product.setSubcategory(category);
+        Brand brand = this.brandRepo.save(ProductControllerMocks.brand());
+        Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
+        product.setSubcategory(subcategory);
+        product.setBrand(brand);
         this.productRepo.save(product);
-        String url = String.format("%s%s", this.productUrl, "/edit/1/used");
-        ResponseEntity<Product> response = this.restTemplate.exchange(
-                url, HttpMethod.DELETE, null, Product.class
+        String url = String.format("%s%s", this.productUrl, "/edit/1/on");
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
     }

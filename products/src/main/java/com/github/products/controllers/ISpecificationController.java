@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 public interface ISpecificationController {
 
     @PostMapping(
@@ -15,7 +17,7 @@ public interface ISpecificationController {
     @ResponseStatus(code = HttpStatus.CREATED)
     SpecificationDto save(
             @PathVariable(name = "productId") Long productId,
-            @RequestBody SpecificationDto payload
+            @Valid @RequestBody SpecificationDto payload
     );
 
     @GetMapping(
@@ -30,7 +32,7 @@ public interface ISpecificationController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody SpecificationDto payload);
+    void update(@Valid @RequestBody SpecificationDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

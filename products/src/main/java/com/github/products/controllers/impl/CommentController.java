@@ -32,9 +32,6 @@ public class CommentController implements ICommentController {
     @Logging(isTime = true, isReturn = false)
     public CommentDto
     save(Long productId, CommentDto payload) {
-        if (Objects.isNull(productId) || Objects.isNull(payload)) {
-            throw new BadRequest();
-        }
         Comment tc = toComment(payload);
         Product product = this.productService.readById(productId);
         Comment comment = this.commentService.create(tc);

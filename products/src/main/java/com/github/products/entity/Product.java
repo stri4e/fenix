@@ -53,7 +53,7 @@ public class Product extends Item implements Serializable, Cloneable {
 
     @OneToMany(
             targetEntity = Criteria.class,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinColumn(
             name = "criteria_id",

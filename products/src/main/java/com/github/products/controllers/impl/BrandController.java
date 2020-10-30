@@ -36,7 +36,7 @@ public class BrandController implements IBrandController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public BrandDto findByName(String name) {
-        return fromBrand(this.brandService.findByName(name));
+        return fromBrand(this.brandService.readByName(name));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BrandController implements IBrandController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(BrandDto payload) {
-        Brand brand = this.brandService.findById(payload.getId());
+        Brand brand = this.brandService.readById(payload.getId());
         brand.setName(payload.getName());
         this.brandService.update(brand);
     }

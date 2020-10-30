@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface ICriteriaController {
@@ -17,7 +18,7 @@ public interface ICriteriaController {
     @ResponseStatus(code = HttpStatus.CREATED)
     CriteriaDto saveToFilters(
             @PathVariable(name = "filterId") Long filterId,
-            @RequestBody CriteriaDto payload
+            @Valid @RequestBody CriteriaDto payload
     );
 
     @PostMapping(
@@ -28,7 +29,7 @@ public interface ICriteriaController {
     @ResponseStatus(code = HttpStatus.CREATED)
     void saveToProducts(
             @PathVariable(name = "productId") Long productId,
-            @RequestBody List<Long> payload
+            @Valid @RequestBody List<Long> payload
     );
 
     @GetMapping(
@@ -42,7 +43,7 @@ public interface ICriteriaController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody CriteriaDto payload);
+    void update(@Valid @RequestBody CriteriaDto payload);
 
     @PutMapping(
             path = "/edit/in/products/{productId}/{criteriaId}",

@@ -72,6 +72,17 @@ public class Filter implements Serializable, Cloneable {
         this.title = title;
     }
 
+    public Filter(String title, List<Criteria> criteria) {
+        this.title = title;
+        this.criteria = criteria;
+    }
+
+    public Filter(Long id, String title, List<Criteria> criteria) {
+        this.id = id;
+        this.title = title;
+        this.criteria = criteria;
+    }
+
     public void addCriteria(Criteria criteria) {
         if (Objects.nonNull(criteria)) {
             this.criteria.add(criteria);

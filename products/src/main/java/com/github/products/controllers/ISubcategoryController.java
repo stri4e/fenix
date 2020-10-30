@@ -32,15 +32,6 @@ public interface ISubcategoryController {
             @RequestParam(name = "status", required = false) EntityStatus status
     );
 
-    @GetMapping(
-            path = "/{categoryName}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    List<SubcategoryDto> findAllByCategoryName(
-            @PathVariable(name = "categoryName") String categoryName
-    );
-
     @PutMapping(
             path = "/edit"
     )

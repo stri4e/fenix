@@ -24,13 +24,13 @@ public class BrandService implements IBrandService {
     }
 
     @Override
-    public Brand findByName(String name) {
+    public Brand readByName(String name) {
         return this.brandRepo.findByName(name)
                 .orElseThrow(NotFound::new);
     }
 
     @Override
-    public Brand findById(Long id) {
+    public Brand readById(Long id) {
         return this.brandRepo.findById(id)
                 .orElseThrow(NotFound::new);
     }

@@ -3,6 +3,7 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "categories", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
@@ -53,7 +55,11 @@ public class Category implements Serializable, Cloneable {
 
     @OneToMany(
             targetEntity = Subcategory.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
     )
     @JoinColumn(
             name = "subcaretory_id",

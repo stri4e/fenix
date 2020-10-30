@@ -93,7 +93,7 @@ public class ProductsController implements IProductsController {
     @Logging(isTime = true, isReturn = false)
     public ProductDto save(String subcategoryName, String brandName, @Valid ProductDto payload) {
         Subcategory category = this.subCategoryService.readByName(subcategoryName);
-        Brand brand = this.brandService.findByName(brandName);
+        Brand brand = this.brandService.readByName(brandName);
         Product tmp = toProduct(payload);
         tmp.setSubcategory(category);
         tmp.setBrand(brand);

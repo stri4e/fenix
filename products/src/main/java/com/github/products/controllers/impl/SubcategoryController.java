@@ -28,15 +28,15 @@ public class SubcategoryController implements ISubcategoryController {
 
     private final ICategoryService categoryService;
 
-    private final ISubcategoryService subCategoryService;
+    private final ISubcategoryService subcategoryService;
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         Category category = this.categoryService.readByName(categoryName);
-        Subcategory tmp = toSubCategory(payload).forCreate(category);
-        Subcategory subcategory = this.subCategoryService.create(tmp);
+        Subcategory tmp = toSubCategory(payload);
+        Subcategory subcategory = this.subcategoryService.create(tmp);
         category.addSubcategory(subcategory);
         this.categoryService.update(category);
         return fromSubCategory(subcategory);
@@ -47,9 +47,9 @@ public class SubcategoryController implements ISubcategoryController {
     @Logging(isTime = true, isReturn = false)
     public Object findByParams(String name, EntityStatus status) {
         if (StringUtils.hasText(name)) {
-            return fromSubCategory(this.subCategoryService.readByName(name));
+            return fromSubCategory(this.subcategoryService.readByName(name));
         } else {
-            return this.subCategoryService.readAllByStatus(status).stream()
+            return this.subcategoryService.readAllByStatus(status).stream()
                     .map(TransferObj::fromSubCategory)
                     .collect(Collectors.toList());
         }
@@ -58,25 +58,16 @@ public class SubcategoryController implements ISubcategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<SubcategoryDto> findAllByCategoryName(String categoryName) {
-        return this.subCategoryService.readAllByCategoryName(categoryName).stream()
-                .map(TransferObj::fromSubCategory)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
     public void update(SubcategoryDto payload) {
-        Subcategory subCategory = this.subCategoryService.readById(payload.getId());
+        Subcategory subCategory = this.subcategoryService.readById(payload.getId());
         subCategory.setName(payload.getName());
-        this.subCategoryService.update(subCategory);
+        this.subcategoryService.update(subCategory);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        this.subCategoryService.delete(id);
+        this.subcategoryService.delete(id);
     }
 }

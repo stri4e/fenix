@@ -15,8 +15,6 @@ public interface ISubcategoryService {
 
     Subcategory readById(Long id);
 
-    List<Subcategory> readAllByCategoryName(String categoryName);
-
     void update(Subcategory subCategory);
 
     void delete(Long id);

@@ -72,6 +72,7 @@ public class ProductDto implements Serializable, Cloneable {
             value = "Product preview image"
     )
     @JsonProperty(value = "previewImage")
+    @NotBlank(message = "Preview Image is required.")
     private String previewImage;
 
     @ApiModelProperty(
@@ -96,6 +97,7 @@ public class ProductDto implements Serializable, Cloneable {
             value = "Product comments"
     )
     @JsonProperty(value = "subcategoryName")
+    @NotBlank(message = "Subcategory Name is required.")
     private String subcategoryName;
 
 }

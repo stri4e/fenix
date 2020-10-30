@@ -3,6 +3,7 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +16,7 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "sub_categories", schema = "public")
 public class Subcategory implements Serializable, Cloneable {
 
@@ -46,16 +48,6 @@ public class Subcategory implements Serializable, Cloneable {
     )
     private Set<Filter> filters = new HashSet<>();
 
-    @ManyToOne(
-            targetEntity = Category.class,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(
-            nullable = false,
-            name = "categories_id"
-    )
-    private Category category;
-
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
@@ -80,9 +72,8 @@ public class Subcategory implements Serializable, Cloneable {
         this.name = name;
     }
 
-    public Subcategory forCreate(Category category) {
-        this.category = category;
-        return this;
+    public Subcategory(String name) {
+        this.name = name;
     }
 
     public void addFilter(Filter filter) {

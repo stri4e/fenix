@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IBrandController {
@@ -15,7 +16,7 @@ public interface IBrandController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BrandDto save(@RequestBody BrandDto payload);
+    BrandDto save(@Valid @RequestBody BrandDto payload);
 
     @GetMapping(
             path = "/fetch/{name}",
@@ -34,7 +35,7 @@ public interface IBrandController {
     @PutMapping(
             path = "/edit"
     )
-    void update(@RequestBody BrandDto payload);
+    void update(@Valid @RequestBody BrandDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

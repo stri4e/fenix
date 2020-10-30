@@ -54,7 +54,7 @@ public interface IProductsController {
 
     @PostMapping(
             path = "/edit/{subcategory_name}/{brand_name}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
+            //consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -78,12 +78,12 @@ public interface IProductsController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateProduct(@RequestBody ProductDto payload);
+    void updateProduct(@Valid @RequestBody ProductDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}/{status}"
     )
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @ResponseStatus(code = HttpStatus.OK)
     void updateStatusProduct(
             @PathVariable Long id,
             @PathVariable EntityStatus status
