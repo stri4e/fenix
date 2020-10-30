@@ -39,8 +39,8 @@ func (controller *PopularProductController) UpdatePercentBought(productIds []uin
 			return err
 		}
 		var coefficient = float32(total) / 100
-		var percent = float32(product.BoughtCount) / coefficient
 		boughtCount := product.BoughtCount + 1
+		var percent = float32(boughtCount) / coefficient
 		err = controller.service.UpdatePercentBought(boughtCount, percent, product.ProductId)
 		if err != nil {
 			return err
