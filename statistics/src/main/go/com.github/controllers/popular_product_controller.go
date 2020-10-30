@@ -33,11 +33,11 @@ func (controller *PopularProductController) UpdatePercentBought(productIds []uin
 	if err != nil {
 		return err
 	}
-	products, err := controller.service.ReadByIds(productIds)
-	if err != nil {
-		return err
-	}
-	for _, product := range products {
+	for _, id := range productIds {
+		product, err := controller.service.ReadOrCreate(&entity.PopularProduct{ProductId: id})
+		if err != nil {
+			return err
+		}
 		var coefficient = float32(total) / 100
 		var percent = float32(product.BoughtCount) / coefficient
 		boughtCount := product.BoughtCount + 1
