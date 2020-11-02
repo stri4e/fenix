@@ -1,6 +1,6 @@
 package com.github.products.controllers;
 
-import com.github.products.dto.PercentBoughtDto;
+import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Page;
@@ -90,10 +90,10 @@ public interface IProductsController {
     );
 
     @PutMapping(
-            path = "/edit/percent/bought",
+            path = "/edit/bought/count",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updatePercentBoughtProduct(@RequestBody List<PercentBoughtDto> payload);
+    void updateBoughtCount(@RequestBody List<BoughtCountDto> payload);
 
 }

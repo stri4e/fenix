@@ -1,7 +1,7 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
-import com.github.products.dto.PercentBoughtDto;
+import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
 import com.github.products.services.*;
@@ -142,9 +142,9 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updatePercentBoughtProduct(List<PercentBoughtDto> payload) {
-        payload.forEach(b -> this.productService.updatePercentBought(
-                b.getProductId(), b.getPercentBought())
+    public void updateBoughtCount(List<BoughtCountDto> payload) {
+        payload.forEach(b -> this.productService.updateBoughtCount(
+                b.getProductId(), b.getBoughtCount())
         );
     }
 

@@ -31,10 +31,10 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     );
 
     @Modifying
-    @Query(value = "UPDATE Product p SET p.percentBought =:percentBought WHERE p.id =:id")
-    void updatePercentBough(
+    @Query(value = "UPDATE Product p SET p.boughtCount =:boughtCount WHERE p.id =:id")
+    void updateBoughCount(
             @Param(value = "id") Long id,
-            @Param(value = "percentBought") Double percentBought
+            @Param(value = "boughtCount") Integer boughtCount
     );
 
 }

@@ -35,7 +35,7 @@ func (controller *PopularProductController) UpdatePercentBought(productIds []uin
 	if err != nil {
 		return err
 	}
-	var percentsBought []dto.PercentBoughtDto
+	var percentsBought []dto.BoughtCountDto
 	for _, id := range productIds {
 		product, err := controller.popularService.ReadOrCreate(&entity.PopularProduct{ProductId: id})
 		if err != nil {
@@ -44,7 +44,7 @@ func (controller *PopularProductController) UpdatePercentBought(productIds []uin
 		var coefficient = float32(total) / 100
 		boughtCount := product.BoughtCount + 1
 		var percent = float32(boughtCount) / coefficient
-		percentsBought = append(percentsBought, dto.PercentBoughtDto{ProductId: id, PercentBought: percent})
+		percentsBought = append(percentsBought, dto.BoughtCountDto{ProductId: id, Count: boughtCount})
 		err = controller.popularService.UpdatePercentBought(boughtCount, percent, product.ProductId)
 		if err != nil {
 			return err

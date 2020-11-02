@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keeps statistic bought information.")
-public class PercentBoughtDto {
+public class BoughtCountDto {
 
     @ApiModelProperty(
             value = "Product id",
@@ -21,10 +21,10 @@ public class PercentBoughtDto {
     private Long productId;
 
     @ApiModelProperty(
-            value = "Product percent bought",
+            value = "Product bought count",
             example = "1.2"
     )
-    @JsonProperty(value = "productId")
-    private Double percentBought;
+    @JsonProperty(value = "boughtCount")
+    private int boughtCount;
 
 }
