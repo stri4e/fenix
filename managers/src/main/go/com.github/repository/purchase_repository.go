@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"../entity"
 	"github.com/jinzhu/gorm"
+	"managers/src/main/go/com.github/entity"
 )
 
 type PurchaseRepository struct {

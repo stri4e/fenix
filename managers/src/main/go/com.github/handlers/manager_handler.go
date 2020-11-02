@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"../controllers"
-	"../utils"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/controllers"
+	"managers/src/main/go/com.github/utils"
 	"net/http"
 	"strconv"
 )

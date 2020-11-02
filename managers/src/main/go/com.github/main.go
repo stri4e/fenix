@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./container"
-	"./server"
+	"managers/src/main/go/com.github/container"
+	"managers/src/main/go/com.github/server"
 )
 
 // @title Managers API

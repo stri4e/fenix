@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"../dto"
-	"../services"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/services"
 )
 
 type SubcategoryController struct {

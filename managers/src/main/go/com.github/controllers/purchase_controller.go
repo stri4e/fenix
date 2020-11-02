@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"../dto"
-	"../entity"
-	"../services"
-	"../utils"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/entity"
+	"managers/src/main/go/com.github/services"
+	"managers/src/main/go/com.github/utils"
 )
 
 const (

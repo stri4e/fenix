@@ -1,9 +1,9 @@
 package logger
 
 import (
-	"../config"
 	"github.com/cheshir/logrustash"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/config"
 	"time"
 )
 

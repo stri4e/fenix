@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"../models"
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
+	"managers/src/main/go/com.github/models"
 )
 
 func GetToken(data string) *models.TokenClaims {

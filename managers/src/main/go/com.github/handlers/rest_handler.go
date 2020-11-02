@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"../config"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	httpSwagger "github.com/swaggo/http-swagger"
+	"managers/src/main/go/com.github/config"
 	"net/http"
 )
 

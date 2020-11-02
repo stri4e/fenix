@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"../dto"
-	"../entity"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/entity"
 )
 
 func ToPurchase(managerId string, data *dto.PurchaseDto) *entity.Purchase {

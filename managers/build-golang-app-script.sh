@@ -10,6 +10,12 @@ echo "Create build dir."
 
 cp -r src/main/resources build/src/main
 
+echo "Download dependency start"
+
+go mod download
+
+echo "Download dependency end"
+
 echo "Add configs folder."
 
 go build -o build/"${PWD##*/}" src/main/go/com.github/main.go
