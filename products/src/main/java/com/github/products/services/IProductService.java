@@ -14,8 +14,8 @@ public interface IProductService {
 
     Page<Product> read(Pageable pageable);
 
-    Page<Product> readAllByCategory(
-            String category, Pageable pageable
+    Page<Product> readAllBySubcategory(
+            String subcategory, Pageable pageable
     );
 
     Page<Product> readByParams(
@@ -30,7 +30,7 @@ public interface IProductService {
 
     Product readById(Long id);
 
-    List<Product> readAllUnPublish();
+    List<Product> readAllOff();
 
     List<Product> readAllByIds(List<Long> ids);
 

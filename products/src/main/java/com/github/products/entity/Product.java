@@ -51,14 +51,19 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToMany(
+    @ManyToMany(
             targetEntity = Criteria.class,
             fetch = FetchType.EAGER
     )
-    @JoinColumn(
-            name = "criteria_id",
-            foreignKey = @ForeignKey(
-                    name = "product_criteria_fk"
+    @JoinTable(
+            name = "products_criteria",
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "criteria_id",
+                    referencedColumnName = "id"
             )
     )
     private Set<Criteria> criteria = new HashSet<>();

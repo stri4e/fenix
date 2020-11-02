@@ -4,7 +4,10 @@ import com.github.products.controllers.IProductsController;
 import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
-import com.github.products.services.*;
+import com.github.products.services.IBrandService;
+import com.github.products.services.ICriteriaService;
+import com.github.products.services.IProductService;
+import com.github.products.services.ISubcategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -16,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromProduct;
@@ -51,9 +55,9 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Page<ProductDto> findProductsByPage(String category, Pageable pageable) {
+    public Page<ProductDto> findProductsByPage(String subcategory, Pageable pageable) {
         Page<Product> products = this.productService
-                .readAllByCategory(category, pageable);
+                .readAllBySubcategory(subcategory, pageable);
         return new PageImpl<>(
                 products.stream()
                         .map(TransferObj::fromProduct)
@@ -113,7 +117,7 @@ public class ProductsController implements IProductsController {
                     .map(TransferObj::fromProduct)
                     .collect(Collectors.toList());
         }
-        return this.productService.readAllUnPublish().stream()
+        return this.productService.readAllOff().stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
     }

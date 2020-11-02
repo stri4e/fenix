@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 
 public class ProductSpec {
 
-    public static Specification<Product> statusUsed() {
+    public static Specification<Product> statusOn() {
         return (root, query, cb) -> cb.equal(root.get("status"), EntityStatus.on);
     }
 
-    public static Specification<Product> statusUnUsed() {
+    public static Specification<Product> statusOff() {
         return (root, query, cb) -> cb.equal(root.get("status"), EntityStatus.off);
     }
 
-    public static Specification<Product> subcategory(String category) {
-        return ((root, query, cb) -> cb.equal(root.get("subcategory").get("name"), category));
+    public static Specification<Product> bySubcategory(String subcategory) {
+        return ((root, query, cb) -> cb.equal(root.get("subcategory").get("name"), subcategory));
     }
 
     public static Specification<Product> selectCriteriaIn(String subcategory, List<Criteria> criteria) {

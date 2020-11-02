@@ -22,12 +22,14 @@ public interface IBrandController {
             path = "/fetch/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(code = HttpStatus.OK)
     BrandDto findByName(@PathVariable(name = "name") String name);
 
     @GetMapping(
             path = "/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(code = HttpStatus.OK)
     List<BrandDto> findAllByStatus(
             @PathVariable(name = "status") EntityStatus status
     );
@@ -35,6 +37,7 @@ public interface IBrandController {
     @PutMapping(
             path = "/edit"
     )
+    @ResponseStatus(code = HttpStatus.OK)
     void update(@Valid @RequestBody BrandDto payload);
 
     @DeleteMapping(

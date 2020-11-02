@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromSubCategory;
@@ -70,4 +69,5 @@ public class SubcategoryController implements ISubcategoryController {
     public void remove(Long id) {
         this.subcategoryService.delete(id);
     }
+
 }

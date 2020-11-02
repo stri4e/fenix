@@ -57,4 +57,5 @@ public class FiltersController implements IFiltersController {
     public void remove(Long id) {
         this.filtersService.delete(id);
     }
+
 }

@@ -18,12 +18,11 @@ import java.util.List;
 
 public interface IProductsController {
 
-    @GetMapping(path = "/page")
+    @GetMapping(path = "/page/popular")
     Page<ProductDto> findProductsByPage(
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "subcategory_name", direction = Sort.Direction.ASC),
-                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "boughtCount", direction = Sort.Direction.ASC),
             }) Pageable pageable);
 
     @GetMapping(path = "/page/{subcategory}")
@@ -31,7 +30,7 @@ public interface IProductsController {
             @PathVariable String subcategory,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
 
@@ -41,7 +40,7 @@ public interface IProductsController {
             @RequestParam(name = "criteria") List<Long> criteria,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "create_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
 
@@ -54,7 +53,6 @@ public interface IProductsController {
 
     @PostMapping(
             path = "/edit/{subcategory_name}/{brand_name}",
-            //consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)

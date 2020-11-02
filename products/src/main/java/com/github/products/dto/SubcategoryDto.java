@@ -38,4 +38,17 @@ public class SubcategoryDto implements Serializable, Cloneable {
     @JsonProperty(value = "filters")
     private List<FilterDto> filters;
 
+    public SubcategoryDto(String name) {
+        this.name = name;
+    }
+
+    public SubcategoryDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public SubcategoryDto(String name, List<FilterDto> filters) {
+        this.name = name;
+        this.filters = filters;
+    }
 }

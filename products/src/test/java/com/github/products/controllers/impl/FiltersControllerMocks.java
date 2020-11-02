@@ -1,8 +1,11 @@
 package com.github.products.controllers.impl;
 
+import com.github.products.dto.FilterDto;
 import com.github.products.entity.Criteria;
 import com.github.products.entity.Filter;
+import com.github.products.entity.Subcategory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FiltersControllerMocks {
@@ -14,6 +17,8 @@ public class FiltersControllerMocks {
     public static Long FILTER_ID = 1L;
 
     public static String FILTER_TITLE = "Phone";
+
+    public static String FILTER_TITLE_FOR_UPDATE = "Phone1";
 
     public static Long FILTER_ID_ONE = 1L;
 
@@ -59,15 +64,46 @@ public class FiltersControllerMocks {
 
     public static String CRITERIA_VALUE_FIVE = "1150";
 
+    public static String SUBCATEGORY_NAME = "IPhone";
+
     //==================================================
     //============= FILTER FOR SAVE ====================
     //==================================================
 
-    public static Filter filterForSave() {
-        return new Filter(
+    public static FilterDto requestFilterPayload() {
+        return new FilterDto(
+                null,
+                FILTER_TITLE,
+                null
+        );
+    }
+
+    public static FilterDto requestFilterPayloadForUpdate() {
+        return new FilterDto(
                 FILTER_ID,
                 FILTER_TITLE,
-                criteriaForSave
+                null
+        );
+    }
+
+    public static FilterDto filterEquals() {
+        return new FilterDto(
+                FILTER_ID,
+                FILTER_TITLE,
+                new ArrayList<>()
+        );
+    }
+
+    public static Subcategory subcategoryForSave() {
+        return new Subcategory(
+                SUBCATEGORY_NAME
+        );
+    }
+
+    public static Filter filterForSave() {
+        return new Filter(
+                FILTER_TITLE,
+                null
         );
     }
 
