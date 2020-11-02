@@ -1,8 +1,8 @@
 package services
 
 import (
-	"../entity"
-	"../repository"
+	"statistics/src/main/go/com.github/entity"
+	"statistics/src/main/go/com.github/repository"
 )
 
 type ViewService struct {

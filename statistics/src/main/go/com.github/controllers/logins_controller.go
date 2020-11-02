@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"../dto"
-	"../services"
-	"../utils"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/services"
+	"statistics/src/main/go/com.github/utils"
 )
 
 type LoginsController struct {

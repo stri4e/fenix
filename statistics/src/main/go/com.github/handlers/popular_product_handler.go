@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"../controllers"
-	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
+	"statistics/src/main/go/com.github/controllers"
+	"statistics/src/main/go/com.github/utils"
 	"strconv"
 )
 

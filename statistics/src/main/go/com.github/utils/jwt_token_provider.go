@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"../models"
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
+	"statistics/src/main/go/com.github/models"
 )
 
 func GetSubject(data string) (string, error) {

@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"../dto"
-	"../entity"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/entity"
 )
 
 // ===========================================================

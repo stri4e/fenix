@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"../controllers"
-	"../utils"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
+	"statistics/src/main/go/com.github/controllers"
+	"statistics/src/main/go/com.github/utils"
 	"strconv"
 )
 

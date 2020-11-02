@@ -1,6 +1,6 @@
 package utils
 
-import "../models"
+import "statistics/src/main/go/com.github/models"
 
 type Block struct {
 	Try        func()

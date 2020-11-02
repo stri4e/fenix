@@ -1,15 +1,15 @@
 package container
 
 import (
-	"../config"
-	"../controllers"
-	"../handlers"
-	"../logger"
-	"../migration"
-	"../repository"
-	"../server"
-	"../services"
 	"go.uber.org/dig"
+	"statistics/src/main/go/com.github/config"
+	"statistics/src/main/go/com.github/controllers"
+	"statistics/src/main/go/com.github/handlers"
+	"statistics/src/main/go/com.github/logger"
+	"statistics/src/main/go/com.github/migration"
+	"statistics/src/main/go/com.github/repository"
+	"statistics/src/main/go/com.github/server"
+	"statistics/src/main/go/com.github/services"
 )
 
 func BuildContainer() *dig.Container {

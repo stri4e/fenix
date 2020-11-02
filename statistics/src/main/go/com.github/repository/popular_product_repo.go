@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"../entity"
 	"github.com/jinzhu/gorm"
+	"statistics/src/main/go/com.github/entity"
 )
 
 type PopularProductRepo struct {

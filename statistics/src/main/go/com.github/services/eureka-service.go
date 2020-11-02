@@ -1,9 +1,9 @@
 package services
 
 import (
-	"../config"
 	"github.com/hudl/fargo"
 	log "github.com/sirupsen/logrus"
+	"statistics/src/main/go/com.github/config"
 	"strconv"
 	"time"
 )
@@ -62,7 +62,7 @@ func heartBeat(ec *fargo.EurekaConnection, i *fargo.Instance) {
 	}
 }
 
-func (service *EurekaService) registerInstance(i *fargo.Instance)  {
+func (service *EurekaService) registerInstance(i *fargo.Instance) {
 	var err error
 	regTicker := time.NewTicker(time.Duration(30*1000) * time.Millisecond)
 	heartBeatTicker := time.Tick(time.Duration(30*1000) * time.Millisecond)
@@ -75,7 +75,7 @@ func (service *EurekaService) registerInstance(i *fargo.Instance)  {
 				regTicker.Stop()
 				log.Debug("Register ticker is finished.")
 			}
-		case <- heartBeatTicker:
+		case <-heartBeatTicker:
 			if err == nil {
 				if err := service.connection.HeartBeatInstance(i); err != nil {
 					log.Warn("Enter: Lost connection to eureka")

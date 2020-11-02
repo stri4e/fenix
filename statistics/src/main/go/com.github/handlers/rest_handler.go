@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"../config"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
+	"statistics/src/main/go/com.github/config"
 )
 
 type RestHandler struct {

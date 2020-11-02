@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"../controllers"
-	"../dto"
-	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"statistics/src/main/go/com.github/controllers"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/utils"
 )
 
 type LoginHandler struct {

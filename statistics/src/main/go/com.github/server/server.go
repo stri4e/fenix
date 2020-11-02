@@ -1,14 +1,14 @@
 package server
 
 import (
-	"../config"
-	"../docs"
-	"../handlers"
-	"../logger"
-	"../migration"
-	"../services"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"statistics/src/main/go/com.github/config"
+	"statistics/src/main/go/com.github/docs"
+	"statistics/src/main/go/com.github/handlers"
+	"statistics/src/main/go/com.github/logger"
+	"statistics/src/main/go/com.github/migration"
+	"statistics/src/main/go/com.github/services"
 )
 
 type Server struct {

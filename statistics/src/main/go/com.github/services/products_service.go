@@ -1,12 +1,12 @@
 package services
 
 import (
-	"../dto"
-	"../utils"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
 	"net/http"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/utils"
 )
 
 type ProductService struct {

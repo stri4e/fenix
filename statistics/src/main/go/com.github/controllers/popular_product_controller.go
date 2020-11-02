@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"../dto"
-	"../entity"
-	"../services"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/entity"
+	"statistics/src/main/go/com.github/services"
 )
 
 type PopularProductController struct {

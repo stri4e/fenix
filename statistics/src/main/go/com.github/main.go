@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./container"
-	"./server"
+	"statistics/src/main/go/com.github/container"
+	"statistics/src/main/go/com.github/server"
 )
 
 // @title Statistics API

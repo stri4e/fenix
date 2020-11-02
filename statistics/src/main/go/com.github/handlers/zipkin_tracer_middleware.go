@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"../config"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/middleware/http"
 	"github.com/openzipkin/zipkin-go/model"
 	httpreporter "github.com/openzipkin/zipkin-go/reporter/http"
 	"log"
 	"net/http"
+	"statistics/src/main/go/com.github/config"
 	"strconv"
 )
 
