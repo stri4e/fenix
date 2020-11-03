@@ -29,6 +29,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 import static com.github.orders.OrdersConstant.LOCALHOST;
@@ -104,7 +106,8 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/open");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<OrderDetailDto> act = response.getBody();
@@ -131,6 +134,56 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     }
 
     @Test
+    public void findOrdersInTime() {
+        readProductsByIds();
+        readBillById();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(order);
+        LocalDateTime start = LocalDateTime.now()
+                .minus(30L, ChronoField.MINUTE_OF_HOUR.getBaseUnit());
+        LocalDateTime end = LocalDateTime.now();
+        String url = String.format(
+                "%s%s%s%s%s",
+                this.orderUrl,
+                "/fetch/open/?start=",
+                start.toString(),
+                "&end=",
+                end.toString()
+        );
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void findByUserId() {
+        readProductsByIds();
+        readBillById();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(order);
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                this.orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
     public void findByIds() {
         readProductsByIds();
         readBillById();
@@ -143,7 +196,8 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch?ids=1");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<OrderDetailDto> act = response.getBody();
@@ -163,7 +217,8 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/binding/1");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<OrderDetailDto> act = response.getBody();
@@ -214,6 +269,22 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
                 url, HttpMethod.PUT, null, Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void remove() {
+        removeBillById();
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        orderForSave.setCustomer(this.customerRepo.save(customer));
+        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(orderForSave);
+        String url = String.format("%s%s", this.orderUrl, "/1");
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
+        );
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
 }

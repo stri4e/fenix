@@ -22,7 +22,7 @@ public interface IBillService {
     BillDto findById(@RequestParam(name = "id") Long id);
 
     @DeleteMapping(
-            path = "/{id}"
+            path = "/v1/{id}"
     )
     void remove(@PathVariable(name = "id") Long id);
 

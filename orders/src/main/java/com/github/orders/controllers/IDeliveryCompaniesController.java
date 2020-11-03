@@ -29,7 +29,7 @@ public interface IDeliveryCompaniesController {
     @PutMapping(
             path = "/edit"
     )
-    @ResponseStatus(code = HttpStatus.CREATED)
+    @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody CompanyDto payload);
 
     @DeleteMapping(

@@ -106,4 +106,16 @@ public class OrdersDetailTestBase {
         );
     }
 
+    public void removeBillById() {
+        this.client.when(
+                HttpRequest.request()
+                        .withMethod(RequestMethod.DELETE.name())
+                        .withPath("/v1/1"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(HttpStatus.NO_CONTENT.value())
+        );
+    }
+
 }

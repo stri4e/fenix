@@ -9,7 +9,6 @@ import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
-import com.github.orders.payload.EmailNotification;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
 import static com.github.orders.utils.TransferObj.*;
+import static java.time.LocalDateTime.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,16 +62,16 @@ public class OrdersDetailController implements IOrdersDetailController {
         ));
     }
 
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto>
-    findOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
-        List<OrderDetail> orders = this.orderService.read(status, start, end);
-        return orders.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    @HystrixCommand
+//    @Logging(isTime = true, isReturn = false)
+//    public List<OrderDetailDto>
+//    findOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
+//        List<OrderDetail> orders = this.orderService.read(status, start, end);
+//        return orders.stream()
+//                .map(this::collect)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     @HystrixCommand
@@ -97,8 +97,14 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> findAllByStatus(OrderStatus status) {
-        List<OrderDetail> orders = this.orderService.readByStatus(status);
+    public List<OrderDetailDto>
+    findAllByStatus(OrderStatus status, String start, String end) {
+        List<OrderDetail> orders;
+        if (Objects.nonNull(start) && Objects.nonNull(end)) {
+            orders = this.orderService.read(status, parse(start), parse(end));
+        } else {
+            orders = this.orderService.readByStatus(status);
+        }
         return orders.stream()
                 .map(this::collect)
                 .collect(Collectors.toList());

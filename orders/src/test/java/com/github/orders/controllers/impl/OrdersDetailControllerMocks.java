@@ -159,18 +159,6 @@ public class OrdersDetailControllerMocks {
         );
     }
 
-    public static OrderDetail expOrder() {
-        return new OrderDetail(
-                ORDER_ID,
-                customer(),
-                PRODUCT_IDS,
-                AMOUNT,
-                USER_ID,
-                BILL_ID,
-                OrderStatus.open
-        );
-    }
-
     public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
             new ProductDto(
                     1L,
