@@ -1,7 +1,12 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.entity.Criteria;
+import com.github.products.dto.CriteriaDto;
+import com.github.products.dto.FilterDto;
+import com.github.products.entity.*;
+import org.assertj.core.util.Lists;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaControllerMocks {
@@ -13,6 +18,8 @@ public class CriteriaControllerMocks {
     public static Long CRITERIA_ID_ONE = 1L;
 
     public static String CRITERIA_VALUE_ONE = "50";
+
+    public static String CRITERIA_VALUE_FOR_UPDATE = "323150";
 
     public static Long CRITERIA_ID_TWO = 2L;
 
@@ -30,9 +37,77 @@ public class CriteriaControllerMocks {
 
     public static String CRITERIA_VALUE_FIVE = "1150";
 
+    public static String FILTER_TITLE = "Phone";
+
+    public static final String PRODUCT_NAME = "Nokia";
+
+    public static final BigDecimal PRODUCT_PRICE = new BigDecimal("12.200");
+
+    public static final Integer PRODUCT_QUANTITY = 25;
+
+    public static final String PRODUCT_DESCRIPTION = "This is good product.";
+
+    public static final String PRODUCT_PREVIEW_IMAGE = "img";
+
+    public static final List<String> IMAGES = Lists.newArrayList("1", "2", "3");
+
+    public static final String BRAND_NAME = "OLX";
+
+    public static String SUBCATEGORY_NAME = "IPhone";
+
+    public static List<Long> IDS = List.of(1L, 2L, 3L, 4L, 5L);
+
+    public static Product productForCreate() {
+        Product p = new Product();
+        p.setName(PRODUCT_NAME);
+        p.setPrice(PRODUCT_PRICE);
+        p.setQuantity(PRODUCT_QUANTITY);
+        p.setDescription(PRODUCT_DESCRIPTION);
+        p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
+        p.setImages(IMAGES);
+        return p;
+    }
+
+    public static Brand brandForSave() {
+        return new Brand(
+                BRAND_NAME
+        );
+    }
+
+    public static Subcategory subcategoryForSave() {
+        return new Subcategory(
+                SUBCATEGORY_NAME
+        );
+    }
+
     public static Criteria criteriaForSave() {
         return new Criteria(
                 CRITERIA_VALUE
+        );
+    }
+
+    public static CriteriaDto requestCriteria() {
+        return new CriteriaDto(
+                CRITERIA_VALUE_ONE
+        );
+    }
+
+    public static CriteriaDto criteriaForUpdate() {
+        return new CriteriaDto(
+                CRITERIA_ID, CRITERIA_VALUE_FOR_UPDATE
+        );
+    }
+
+    public static CriteriaDto responseForEquals() {
+        return new CriteriaDto(
+               CRITERIA_ID, CRITERIA_VALUE_ONE
+        );
+    }
+
+    public static Filter filterForSave() {
+        return new Filter(
+                FILTER_TITLE,
+                new ArrayList<>()
         );
     }
 
