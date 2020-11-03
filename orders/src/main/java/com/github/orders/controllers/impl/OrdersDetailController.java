@@ -62,17 +62,6 @@ public class OrdersDetailController implements IOrdersDetailController {
         ));
     }
 
-//    @Override
-//    @HystrixCommand
-//    @Logging(isTime = true, isReturn = false)
-//    public List<OrderDetailDto>
-//    findOrdersInTime(OrderStatus status, LocalDateTime start, LocalDateTime end) {
-//        List<OrderDetail> orders = this.orderService.read(status, start, end);
-//        return orders.stream()
-//                .map(this::collect)
-//                .collect(Collectors.toList());
-//    }
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)

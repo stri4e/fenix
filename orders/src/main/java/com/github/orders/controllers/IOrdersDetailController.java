@@ -54,14 +54,6 @@ public interface IOrdersDetailController {
             @PathVariable(name = "orderId") Long orderId
     );
 
-//    @GetMapping(path = "/fetch/{status}/time")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    List<OrderDetailDto> findOrdersInTime(
-//            @PathVariable OrderStatus status,
-//            @RequestParam("start") LocalDateTime start,
-//            @RequestParam("end") LocalDateTime end
-//    );
-
     @GetMapping(
             path = "/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
