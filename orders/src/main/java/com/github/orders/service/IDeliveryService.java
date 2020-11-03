@@ -6,4 +6,6 @@ public interface IDeliveryService {
 
     Delivery create(Delivery d);
 
+    Delivery readById(Long id);
+
 }

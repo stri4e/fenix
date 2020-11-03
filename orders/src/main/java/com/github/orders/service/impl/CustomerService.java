@@ -2,6 +2,7 @@ package com.github.orders.service.impl;
 
 import com.github.orders.entity.Customer;
 import com.github.orders.exceptions.BadRequest;
+import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.CustomerRepo;
 import com.github.orders.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,12 @@ public class CustomerService implements ICustomerService {
             throw new BadRequest();
         }
         return this.customerRepo.save(o);
+    }
+
+    @Override
+    public Customer readById(Long id) {
+        return this.customerRepo.findById(id)
+                .orElseThrow(NotFound::new);
     }
 
 }

@@ -1,14 +1,12 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.*;
-import com.github.orders.entity.Customer;
-import com.github.orders.entity.DeliveryType;
-import com.github.orders.entity.OrderDetail;
-import com.github.orders.entity.OrderStatus;
+import com.github.orders.entity.*;
 import com.google.common.collect.Lists;
-import org.apache.commons.math.stat.descriptive.summary.Product;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +30,8 @@ public class OrdersDetailControllerMocks {
 
     public static final List<Long> PRODUCT_IDS = Lists.newArrayList(1L, 2L, 3L);
 
+    public static final Long BILL_ID = 1L;
+
     public static CustomerDto customerDto() {
         return new CustomerDto(
                 CUSTOMER_ID,
@@ -43,15 +43,110 @@ public class OrdersDetailControllerMocks {
     }
 
     public static OrderDetailDto orderDetailDto() {
-        return new OrderDetailDto(ORDER_ID, customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open, delivery(), null);
+        return new OrderDetailDto(
+                ORDER_ID,
+                customerDto(),
+                PRODUCTS_DTO,
+                AMOUNT,
+                OrderStatus.open,
+                delivery(),
+                requestBill()
+        );
+    }
+
+    public static OrderDetailDto orderForExpected() {
+        return new OrderDetailDto(
+                ORDER_ID,
+                customerDto(),
+                PRODUCTS_DTO,
+                AMOUNT,
+                OrderStatus.open,
+                delivery(),
+                responseBill()
+        );
+    }
+
+    public static OrderDetailDto orderForUpdate() {
+        return new OrderDetailDto(
+                ORDER_ID,
+                customerDto(),
+                PRODUCTS_DTO,
+                AMOUNT,
+                OrderStatus.close,
+                delivery(),
+                responseBill()
+        );
+    }
+
+    public static BillDto responseBill() {
+        return new BillDto(
+                1L,
+                BigInteger.valueOf(60L),
+                BigInteger.valueOf(54L),
+                "ethereum",
+                "address",
+                new ArrayList<>(),
+                "crypto",
+                BillType.def,
+                new WhoDto(
+                        1L,
+                        "Vasia",
+                        "Pupkin",
+                        "Galicin"
+                ),
+                new WhomDto(
+                        1L,
+                        "Kolia",
+                        "Zupkin",
+                        "Shmiga"
+                )
+        );
+    }
+
+    public static BillDto requestBill() {
+        return new BillDto(
+                BigInteger.valueOf(60L),
+                BigInteger.valueOf(54L),
+                "ethereum",
+                "address",
+                new ArrayList<>(),
+                "crypto",
+                BillType.def,
+                new WhoDto(
+                        1L,
+                        "Vasia",
+                        "Pupkin",
+                        "Galicin"
+                ),
+                new WhomDto(
+                        1L,
+                        "Kolia",
+                        "Zupkin",
+                        "Shmiga"
+                )
+        );
     }
 
     public static OrderDetailDto payload() {
-        return new OrderDetailDto(customerDto(), PRODUCT_IDS, AMOUNT, OrderStatus.open);
+        return new OrderDetailDto(
+                customerDto(),
+                PRODUCTS_DTO,
+                AMOUNT,
+                OrderStatus.open,
+                delivery(),
+                requestBill()
+        );
     }
 
     public static OrderDetail orderDetail() {
-        return new OrderDetail(customer(), PRODUCT_IDS, AMOUNT, USER_ID, OrderStatus.open);
+        return new OrderDetail(
+                customer(),
+                PRODUCT_IDS,
+                AMOUNT,
+                USER_ID,
+                BILL_ID,
+                OrderStatus.open
+        );
     }
 
     public static Customer customer() {
@@ -65,79 +160,76 @@ public class OrdersDetailControllerMocks {
     }
 
     public static OrderDetail expOrder() {
-        return new OrderDetail(ORDER_ID, customer(), PRODUCT_IDS, AMOUNT, USER_ID, OrderStatus.open);
+        return new OrderDetail(
+                ORDER_ID,
+                customer(),
+                PRODUCT_IDS,
+                AMOUNT,
+                USER_ID,
+                BILL_ID,
+                OrderStatus.open
+        );
     }
-
-    public static OrderDetail orderDetailForUpdate() {
-        return new OrderDetail(customer(), PRODUCT_IDS, BigDecimal.ONE, USER_ID, OrderStatus.open);
-    }
-
-    public static final List<Product> PRODUCTS = com.google.common.collect.Lists.newArrayList(
-            new Product(
-                    1L,
-                    "Nokia",
-                    new BigDecimal("12.2"),
-                    25,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3")
-            ),
-            new Product(
-                    2L,
-                    "IPhone",
-                    new BigDecimal("100.2"),
-                    100,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3")
-            ),
-            new Product(
-                    3L,
-                    "Sumsung",
-                    new BigDecimal("50.2"),
-                    500,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3")
-            )
-    );
 
     public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
             new ProductDto(
                     1L,
+                    "Brand1",
                     "Nokia",
                     new BigDecimal("12.2"),
                     25,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                   null,
+                    null,
+                    "subcategory1"
             ),
             new ProductDto(
                     2L,
+                    "Brand2",
                     "IPhone",
                     new BigDecimal("100.2"),
                     100,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory1"
             ),
             new ProductDto(
                     3L,
+                    "Brand3",
                     "Sumsung",
                     new BigDecimal("50.2"),
                     500,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory1"
             )
     );
-    
+
     public static DeliveryDto delivery() {
         return new DeliveryDto(
                 1L,
                 DeliveryType.home,
                 "Nowa poshta",
-                null
+                "xz street",
+                new BigDecimal("50.200")
+        );
+    }
+
+    public static Delivery deliveryForSave() {
+        return new Delivery(
+                1L,
+                DeliveryType.home,
+                "Nowa poshta",
+                "xz street",
+                new BigDecimal("50.200")
         );
     }
 

@@ -23,6 +23,55 @@ public class OrdersDetailTestBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.GET.name())
+                        .withPath("/v1/bills/fetch")
+                        .withQueryStringParameter("id", "1"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(HttpStatus.OK.value())
+                        .withHeader(
+                                Header.header(
+                                        HttpHeaders.CONTENT_TYPE,
+                                        MediaType.APPLICATION_JSON_VALUE
+                                )
+                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.responseBill()))
+        );
+
+        this.client.when(
+                HttpRequest.request()
+                        .withMethod(RequestMethod.POST.name())
+                        .withPath("/v1/bills/def")
+                        .withBody(JsonBody.json(OrdersDetailControllerMocks.requestBill())),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(HttpStatus.CREATED.value())
+                        .withHeader(
+                                Header.header(
+                                        HttpHeaders.CONTENT_TYPE,
+                                        MediaType.APPLICATION_JSON_VALUE
+                                )
+                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.responseBill()))
+        );
+
+        this.client.when(
+                HttpRequest.request()
+                        .withMethod(RequestMethod.POST.name())
+                        .withPath("/v1/push")
+                        .withBody(JsonBody.json(
+                                OrdersDetailControllerMocks.orderDetailDto())
+                        ),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(HttpStatus.CREATED.value())
+        );
+    }
+
+    public void readProductsByIds() {
+        this.client.when(
+                HttpRequest.request()
+                        .withMethod(RequestMethod.GET.name())
                         .withPath("/v1/fetch")
                         .withQueryStringParameter("ids", "1", "2", "3"),
                 Times.exactly(1)
@@ -34,20 +83,26 @@ public class OrdersDetailTestBase {
                                         HttpHeaders.CONTENT_TYPE,
                                         MediaType.APPLICATION_JSON_VALUE
                                 )
-                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.PRODUCTS))
+                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.PRODUCTS_DTO))
         );
+    }
 
+    public void readBillById() {
         this.client.when(
                 HttpRequest.request()
-                        .withMethod(RequestMethod.POST.name())
-                        .withPath("/v1/push")
-                        .withBody(JsonBody.json(
-                                OrdersDetailControllerMocks.orderDetailEntryDto())
-                        ),
+                        .withMethod(RequestMethod.GET.name())
+                        .withPath("/v1/bills/fetch")
+                        .withQueryStringParameter("id", "1"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()
-                        .withStatusCode(HttpStatus.CREATED.value())
+                        .withStatusCode(HttpStatus.OK.value())
+                        .withHeader(
+                                Header.header(
+                                        HttpHeaders.CONTENT_TYPE,
+                                        MediaType.APPLICATION_JSON_VALUE
+                                )
+                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.responseBill()))
         );
     }
 

@@ -6,4 +6,6 @@ public interface ICustomerService {
 
     Customer create(Customer o);
 
+    Customer readById(Long id);
+
 }

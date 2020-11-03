@@ -33,8 +33,7 @@ import java.util.UUID;
 })
 @Table(
         name = "order_details",
-        schema = "public",
-        indexes = @Index(columnList = "userId", name = "order_user_idx")
+        schema = "public"
 )
 public class OrderDetail implements Serializable, Cloneable {
 
@@ -118,6 +117,18 @@ public class OrderDetail implements Serializable, Cloneable {
 
     public OrderDetail(
             Customer customer, List<Long> productIds,
+            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
+        this.id = id;
+        this.customer = customer;
+        this.productIds = productIds;
+        this.amount = amount;
+        this.userId = userId;
+        this.billId = billId;
+        this.status = status;
+    }
+
+    public OrderDetail(
+            Customer customer, List<Long> productIds,
             BigDecimal amount, Delivery delivery, UUID userId, Long billId, OrderStatus status) {
         this.customer = customer;
         this.productIds = productIds;
@@ -128,16 +139,17 @@ public class OrderDetail implements Serializable, Cloneable {
         this.status = status;
     }
 
-    public OrderDetail(
-            Long id, Customer customer, List<Long> productIds,
-            BigDecimal amount, UUID userId, OrderStatus status) {
-        this.id = id;
-        this.customer = customer;
-        this.productIds = productIds;
-        this.amount = amount;
-        this.userId = userId;
-        this.status = status;
-    }
+//    public OrderDetail(
+//            Long id, Customer customer, List<Long> productIds,
+//            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
+//        this.id = id;
+//        this.customer = customer;
+//        this.productIds = productIds;
+//        this.amount = amount;
+//        this.userId = userId;
+//        this.billId = billId;
+//        this.status = status;
+//    }
 
     public OrderDetail(
             Customer customer, List<Long> productIds,

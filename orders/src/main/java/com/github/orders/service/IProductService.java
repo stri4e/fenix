@@ -20,6 +20,6 @@ public interface IProductService {
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<ProductDto>> readByIds(@RequestParam List<Long> ids);
+    Optional<List<ProductDto>> readByIds(@RequestParam(name = "ids") List<Long> ids);
 
 }

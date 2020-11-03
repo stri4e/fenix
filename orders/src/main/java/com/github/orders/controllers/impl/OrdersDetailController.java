@@ -125,8 +125,23 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOrder(OrderDetail payload) {
-        this.orderService.update(payload);
+    public void updateOrder(OrderDetailDto payload) {
+        OrderDetail order = this.orderService.readById(payload.getId());
+        Delivery delivery = this.deliveryService.readById(payload.getDelivery().getId());
+        Customer customer = this.customerService.readById(payload.getCustomer().getId());
+        delivery.setType(payload.getDelivery().getType());
+        delivery.setAmount(payload.getAmount());
+        delivery.setAddress(payload.getDelivery().getAddress());
+        delivery.setCompanyName(payload.getDelivery().getCompanyName());
+        customer.setCustomerAddress(payload.getCustomer().getCustomerAddress());
+        customer.setCustomerEmail(payload.getCustomer().getCustomerEmail());
+        customer.setCustomerName(payload.getCustomer().getCustomerName());
+        customer.setCustomerPhone(payload.getCustomer().getCustomerPhone());
+        order.setDelivery(delivery);
+        order.setCustomer(customer);
+        order.setAmount(payload.getAmount());
+        order.setStatus(payload.getStatus());
+        this.orderService.update(order);
     }
 
     @Override

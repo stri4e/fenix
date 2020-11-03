@@ -74,14 +74,14 @@ public interface IOrdersDetailController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Object findByParams(@RequestParam(name = "orderId") Long orderId,
-                        @RequestParam(name = "ids") List<Long> ids);
+    Object findByParams(@RequestParam(name = "orderId", required = false) Long orderId,
+                        @RequestParam(name = "ids", required = false) List<Long> ids);
 
     @PutMapping(
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOrder(@RequestBody OrderDetail o);
+    void updateOrder(@RequestBody OrderDetailDto o);
 
     @PutMapping(
             path = "/edit/{orderId}/{orderStatus}"

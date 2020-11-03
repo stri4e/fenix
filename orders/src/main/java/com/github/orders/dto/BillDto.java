@@ -38,7 +38,7 @@ public class BillDto implements Serializable, Cloneable {
     @JsonProperty(value = "address")
     private String address;
 
-    @JsonProperty(value = "billType")
+    @JsonProperty(value = "transfers")
     private List<String> transfers = new ArrayList<>();
 
     @NotBlank
@@ -67,5 +67,25 @@ public class BillDto implements Serializable, Cloneable {
         this.address = address;
         this.paymentType = paymentType;
         this.billType = billType;
+    }
+
+    public BillDto(@NotNull BigInteger amount,
+                   @NotNull BigInteger amountPaid,
+                   @NotBlank String assetName,
+                   @NotBlank String address,
+                   List<String> transfers,
+                   @NotBlank String paymentType,
+                   @NotNull BillType billType,
+                   @NotNull WhoDto who,
+                   @NotNull WhomDto whom) {
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.assetName = assetName;
+        this.address = address;
+        this.transfers = transfers;
+        this.paymentType = paymentType;
+        this.billType = billType;
+        this.who = who;
+        this.whom = whom;
     }
 }

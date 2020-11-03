@@ -82,4 +82,17 @@ public class OrderDetailDto implements Serializable, Cloneable {
         this.delivery = delivery;
     }
 
+    public OrderDetailDto(@NotNull CustomerDto customer,
+                          @NotEmpty List<ProductDto> products,
+                          @NotNull BigDecimal amount,
+                          @NotNull OrderStatus status,
+                          @NotNull DeliveryDto delivery,
+                          @NotNull BillDto bill) {
+        this.customer = customer;
+        this.products = products;
+        this.amount = amount;
+        this.status = status;
+        this.delivery = delivery;
+        this.bill = bill;
+    }
 }

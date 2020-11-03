@@ -2,8 +2,10 @@ package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.entity.Customer;
+import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.repository.CustomerRepo;
+import com.github.orders.repository.DeliveryRepo;
 import com.github.orders.repository.OrderDetailRepo;
 import org.assertj.core.util.Lists;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -54,6 +56,9 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Autowired
     private CustomerRepo customerRepo;
 
+    @Autowired
+    private DeliveryRepo deliveryRepo;
+
     private String orderUrl;
 
     private static ClientAndServer mockServer;
@@ -88,57 +93,125 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
 
     @Test
     public void findAllByStatus() {
-        List<OrderDetail> exp = Lists.newArrayList(OrdersDetailControllerMocks.expOrder());
+        readProductsByIds();
+        readBillById();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/open");
-        ResponseEntity<List<OrderDto>> response = this.restTemplate.exchange(
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        List<OrderDto> act = response.getBody();
+        List<OrderDetailDto> act = response.getBody();
         assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
     }
 
     @Test
     public void findByOrderId() {
-        OrderDetail exp = OrdersDetailControllerMocks.expOrder();
+        readProductsByIds();
+        readBillById();
+        OrderDetailDto exp = OrdersDetailControllerMocks.orderForExpected();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch?orderId=1");
-        ResponseEntity<OrderDetail> response = this.restTemplate
-                .getForEntity(url, OrderDetail.class);
+        ResponseEntity<OrderDetailDto> response = this.restTemplate
+                .getForEntity(url, OrderDetailDto.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        OrderDetail act = response.getBody();
+        OrderDetailDto act = response.getBody();
         assertEquals(exp, act);
     }
 
     @Test
-    public void update() {
-        OrderDetail order = OrdersDetailControllerMocks.orderDetailForUpdate();
+    public void findByIds() {
+        readProductsByIds();
+        readBillById();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
+        String url = String.format("%s%s", this.orderUrl, "/fetch?ids=1");
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void findBindingOrders() {
+        readProductsByIds();
+        readBillById();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        order.setCustomer(this.customerRepo.save(customer));
+        order.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(order);
+        String url = String.format("%s%s", this.orderUrl, "/fetch/binding/1");
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void update() {
+        OrderDetailDto payload = OrdersDetailControllerMocks.orderForUpdate();
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        orderForSave.setCustomer(this.customerRepo.save(customer));
+        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(orderForSave);
         String url = String.format("%s%s", this.orderUrl, "/edit");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(order), Void.class
+                url, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void updateOrderStatus() {
-        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
-        this.orderRepo.save(order);
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        orderForSave.setCustomer(this.customerRepo.save(customer));
+        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(orderForSave);
         String url = String.format("%s%s", this.orderUrl, "/edit/1/close");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(order), Void.class
+                url, HttpMethod.PUT, null, Void.class
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void updateOderPaid() {
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
+        Customer customer = OrdersDetailControllerMocks.customer();
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        orderForSave.setCustomer(this.customerRepo.save(customer));
+        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
+        this.orderRepo.save(orderForSave);
+        String url = String.format("%s%s", this.orderUrl, "/edit/paid/1");
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.PUT, null, Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
