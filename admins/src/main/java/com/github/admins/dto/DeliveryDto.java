@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -18,13 +21,20 @@ public class DeliveryDto implements Serializable, Cloneable {
     @JsonProperty(value = "id")
     private Long id;
 
+    @NotNull
     @JsonProperty(value = "type")
     private DeliveryType type;
 
+    @NotBlank
     @JsonProperty(value = "companyName")
     private String companyName;
 
-    @JsonProperty(value = "branchAddress")
-    private String branchAddress;
+    @NotBlank
+    @JsonProperty(value = "address")
+    private String address;
+
+    @NotBlank
+    @JsonProperty(value = "amount")
+    private BigDecimal amount;
 
 }

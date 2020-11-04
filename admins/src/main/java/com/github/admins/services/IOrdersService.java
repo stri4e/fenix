@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +29,8 @@ public interface IOrdersService {
     )
     Optional<List<OrderDetailDto>> findByStatusInTime(
             @PathVariable OrderStatus status,
-            @RequestParam(name = "start") LocalDateTime start,
-            @RequestParam(name = "end") LocalDateTime end
+            @RequestParam(name = "start") String start,
+            @RequestParam(name = "end") String end
     );
 
     @GetMapping(

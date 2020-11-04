@@ -31,7 +31,6 @@ public interface IDeliveryCompaniesService {
     @PutMapping(
             path = "/v1/delivery/company/edit"
     )
-    @ResponseStatus(code = HttpStatus.CREATED)
     void update(@RequestBody CompanyDto payload);
 
     @DeleteMapping(

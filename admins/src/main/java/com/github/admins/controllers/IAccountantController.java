@@ -1,27 +1,24 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.AccountantDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 public interface IAccountantController {
 
-    @PostMapping(
-            path = "/",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    AccountantDto save(AccountantDto payload);
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
+    AccountantDto save(@RequestBody AccountantDto payload);
 
-    @PutMapping(
-            path = "/"
-    )
-    void update(AccountantDto payload);
+    @PutMapping
+    @ResponseStatus(code = HttpStatus.OK)
+    void update(@RequestBody AccountantDto payload);
 
     @DeleteMapping(
-            path = "/"
+            path = "/{id}"
     )
-    void remove(Long id);
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    void remove(@PathVariable(value = "id") Long id);
 
 }

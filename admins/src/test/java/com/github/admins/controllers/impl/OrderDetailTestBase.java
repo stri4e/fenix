@@ -67,25 +67,25 @@ public class OrderDetailTestBase {
                         .withHeader(Header.header(
                                 HttpHeaders.CONTENT_TYPE,
                                 MediaType.APPLICATION_JSON_VALUE
-                        )).withBody(JsonBody.json(ORDERS_CLOSE))
+                        )).withBody(JsonBody.json(ORDERS_CLOSE_DTO))
         );
 
-        this.client.when(
-                HttpRequest.request()
-                        .withMethod(RequestMethod.GET.name())
-                        .withPath("/v1/fetch")
-                        .withQueryStringParameter("ids", "1", "2", "3", "4", "5"),
-                Times.exactly(1)
-        ).respond(
-                HttpResponse.response()
-                        .withStatusCode(HttpStatus.OK.value())
-                        .withHeader(
-                                Header.header(
-                                        HttpHeaders.CONTENT_TYPE,
-                                        MediaType.APPLICATION_JSON_VALUE
-                                )
-                        ).withBody(JsonBody.json(PRODUCTS))
-        );
+//        this.client.when(
+//                HttpRequest.request()
+//                        .withMethod(RequestMethod.GET.name())
+//                        .withPath("/v1/fetch")
+//                        .withQueryStringParameter("ids", "1", "2", "3", "4", "5"),
+//                Times.exactly(1)
+//        ).respond(
+//                HttpResponse.response()
+//                        .withStatusCode(HttpStatus.OK.value())
+//                        .withHeader(
+//                                Header.header(
+//                                        HttpHeaders.CONTENT_TYPE,
+//                                        MediaType.APPLICATION_JSON_VALUE
+//                                )
+//                        ).withBody(JsonBody.json(PRODUCTS))
+//        );
 
     }
 

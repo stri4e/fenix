@@ -1,5 +1,6 @@
 package com.github.admins.controllers.impl;
 
+import com.github.admins.dto.ProductDto;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.Header;
@@ -11,37 +12,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import static com.github.admins.controllers.impl.CustomProductControllerMocks.*;
+import static com.github.admins.controllers.impl.ProductControllerMocks.*;
 
-public class CustomProductTestBase {
+public class ProductTestBase {
 
     private final MockServerClient client;
 
-    public CustomProductTestBase() {
+    public ProductTestBase() {
         this.client = new MockServerClient("127.0.0.1", 2222);
     }
 
     public void create() {
-        Product requestPayload = requestProductPayload();
-        Product responseProduct = responseProductPayload();
-        this.client.when(
-                HttpRequest.request()
-                        .withMethod(RequestMethod.GET.name())
-                        .withPath("/v1/categories/fetch/Phone"),
-                Times.exactly(1)
-        ).respond(
-                HttpResponse.response()
-                        .withStatusCode(HttpStatus.OK.value())
-                        .withHeader(Header.header(
-                                HttpHeaders.CONTENT_TYPE,
-                                MediaType.APPLICATION_JSON_VALUE
-                        )).withBody(JsonBody.json(categoryResponsePayload()))
-        );
+        ProductDto requestPayload = requestProductPayload();
+        ProductDto responseProduct = responseProductPayload();
 
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.POST.name())
-                        .withPath("/v1/edit")
+                        .withPath("/v1/edit/Phone/IPhone")
                         .withBody(JsonBody.json(requestPayload)),
                 Times.exactly(1)
         ).respond(
@@ -55,7 +43,7 @@ public class CustomProductTestBase {
     }
 
     public void readById() {
-        Product responseProduct = responseProductPayload();
+        ProductDto responseProduct = responseProductPayload();
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.GET.name())
@@ -87,7 +75,7 @@ public class CustomProductTestBase {
                                         HttpHeaders.CONTENT_TYPE,
                                         MediaType.APPLICATION_JSON_VALUE
                                 )
-                        ).withBody(JsonBody.json(PRODUCTS_UN_PUBLISH))
+                        ).withBody(JsonBody.json(PRODUCTS))
         );
     }
 
@@ -113,7 +101,7 @@ public class CustomProductTestBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.DELETE.name())
-                        .withPath("/v1/edit/1/used"),
+                        .withPath("/v1/edit/1/on"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()

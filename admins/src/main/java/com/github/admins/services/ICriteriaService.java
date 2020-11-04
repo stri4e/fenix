@@ -63,8 +63,7 @@ public interface ICriteriaService {
     );
 
     @DeleteMapping(
-            path = "/v1/criteria/edit/in/products/{productId}/{criteriaId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/v1/criteria/edit/in/products/{productId}/{criteriaId}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void deleteInProducts(

@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class CustomProductControllerTest extends CustomProductTestBase {
+public class ProductsControllerTest extends ProductTestBase {
 
     @LocalServerPort
     private int port;
@@ -67,9 +67,9 @@ public class CustomProductControllerTest extends CustomProductTestBase {
     @Test
     public void save() {
         create();
-        String url = String.format("%s%s", this.productUrl, "/Phone");
-        ProductDto exp = CustomProductControllerMocks.productDto();
-        ProductDto payload = CustomProductControllerMocks.productDtoWithoutId();
+        String url = String.format("%s%s%s", this.productUrl, "/Phone", "/IPhone");
+        ProductDto exp = ProductControllerMocks.productDto();
+        ProductDto payload = ProductControllerMocks.requestProductPayload();
         ResponseEntity<ProductDto> response = this.restTemplate
                 .postForEntity(url, payload, ProductDto.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -80,7 +80,7 @@ public class CustomProductControllerTest extends CustomProductTestBase {
     @Test
     public void findById() {
         readById();
-        ProductDto exp = CustomProductControllerMocks.productDto();
+        ProductDto exp = ProductControllerMocks.productDto();
         String url = String.format("%s%s", this.productUrl, "/1");
         ResponseEntity<ProductDto> response = this.restTemplate
                 .getForEntity(url, ProductDto.class);
@@ -93,7 +93,7 @@ public class CustomProductControllerTest extends CustomProductTestBase {
     public void findAllUnPublish() {
         readAllUnpublish();
         String url = String.format("%s%s", this.productUrl, "/un-publish");
-        List<ProductDto> exp = CustomProductControllerMocks.PRODUCTS;
+        List<ProductDto> exp = ProductControllerMocks.PRODUCTS;
         ResponseEntity<List<ProductDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {
@@ -106,7 +106,7 @@ public class CustomProductControllerTest extends CustomProductTestBase {
     @Test
     public void updateProduct() {
         update();
-        ProductDto payload = CustomProductControllerMocks.getProductDtoForUpdate();
+        ProductDto payload = ProductControllerMocks.getProductDtoForUpdate();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.productUrl, HttpMethod.PUT, new HttpEntity<>(payload),
                 new ParameterizedTypeReference<>() {}
@@ -117,7 +117,7 @@ public class CustomProductControllerTest extends CustomProductTestBase {
     @Test
     public void changeStatusProduct() {
         changeStatus();
-        String url = String.format("%s%s", this.productUrl, "/1/used");
+        String url = String.format("%s%s", this.productUrl, "/1/on");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.DELETE, null,
                 new ParameterizedTypeReference<>() {}

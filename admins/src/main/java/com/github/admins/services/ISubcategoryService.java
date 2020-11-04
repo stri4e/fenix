@@ -1,11 +1,8 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.SubcategoryDto;
-import com.github.admins.payload.EntityStatus;
-import com.github.admins.services.impl.CategoryService;
 import com.github.admins.services.impl.SubcategoryService;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +31,7 @@ public interface ISubcategoryService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<SubcategoryDto> readByName(
-            @RequestParam(name = "name", required = false) String name
+            @RequestParam(name = "name") String name
     );
 
     @PutMapping(

@@ -19,7 +19,7 @@ public class PaymentTypesDto implements Serializable, Cloneable {
     private Long id;
 
     @NotBlank
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "alias")
     private String alias;
 
 }

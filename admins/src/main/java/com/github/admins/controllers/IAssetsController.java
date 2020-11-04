@@ -20,22 +20,19 @@ public interface IAssetsController {
     );
 
     @GetMapping(
-            path = "/{id}",
+            path = "/one/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     AssetDto findAsset(@PathVariable(name = "id") Long id);
 
     @PostMapping(
-            path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     AssetDto save(@RequestBody AssetDto payload);
 
-    @PutMapping(
-            path = "/"
-    )
+    @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody AssetDto payload);
 

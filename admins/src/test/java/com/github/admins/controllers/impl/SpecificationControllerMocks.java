@@ -1,5 +1,6 @@
 package com.github.admins.controllers.impl;
 
+import com.github.admins.dto.ProductDto;
 import com.github.admins.dto.SpecificationDto;
 
 import java.math.BigDecimal;
@@ -57,23 +58,23 @@ public class SpecificationControllerMocks {
         );
     }
 
-    public static Specification requestPayload() {
-        return new Specification(
+    public static SpecificationDto requestPayload() {
+        return new SpecificationDto(
                 SPECIFICATION_NAME,
                 SPECIFICATION_DESCRIPTION
         );
     }
 
-    public static Specification responsePayload() {
-        return new Specification(
+    public static SpecificationDto responsePayload() {
+        return new SpecificationDto(
                 ID,
                 SPECIFICATION_NAME,
                 SPECIFICATION_DESCRIPTION
         );
     }
 
-    public static Product product() {
-        Product p = new Product();
+    public static ProductDto product() {
+        ProductDto p = new ProductDto();
         p.setId(PRODUCT_ID);
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);

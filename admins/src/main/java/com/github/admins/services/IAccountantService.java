@@ -4,9 +4,7 @@ import com.github.admins.dto.AccountantDto;
 import com.github.admins.services.impl.AccountantService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -21,16 +19,16 @@ public interface IAccountantService {
             path = "/v1/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<AccountantDto> save(AccountantDto payload);
+    Optional<AccountantDto> save(@RequestBody AccountantDto payload);
 
     @PutMapping(
             path = "/v1/edit"
     )
-    void update(AccountantDto payload);
+    void update(@RequestBody AccountantDto payload);
 
     @DeleteMapping(
-            path = "/v1/edit"
+            path = "/v1/edit/{id}"
     )
-    void remove(Long id);
+    void remove(@PathVariable Long id);
 
 }

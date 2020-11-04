@@ -50,11 +50,6 @@ public class OrderDetailDto implements Serializable, Cloneable {
     )
     private BigDecimal amount;
 
-    @JsonProperty(
-            value = "userId"
-    )
-    private Long userId;
-
     @NotNull(
             message = "Order status is required."
     )

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/v1/delivery/company")
 @RequiredArgsConstructor
+@RequestMapping(path = "/v1/delivery/company")
 public class DeliveryCompanyController implements IDeliveryCompanyController {
 
     private final IDeliveryCompaniesService deliveryCompaniesService;

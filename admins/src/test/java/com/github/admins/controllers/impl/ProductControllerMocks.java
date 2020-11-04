@@ -1,5 +1,6 @@
 package com.github.admins.controllers.impl;
 
+import com.github.admins.dto.CategoryDto;
 import com.github.admins.dto.ProductDto;
 import com.google.common.collect.Lists;
 
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomProductControllerMocks {
+public class ProductControllerMocks {
 
     public static final Long PRODUCT_ID = 1L;
 
@@ -41,7 +42,10 @@ public class CustomProductControllerMocks {
                 25,
                 "This is good product.",
                 "img",
-                IMAGES
+                IMAGES,
+                null,
+                null,
+                null
         ),
         new ProductDto(
                 2L,
@@ -50,7 +54,10 @@ public class CustomProductControllerMocks {
                 100,
                 "This is good product.",
                 "img",
-                IMAGES
+                IMAGES,
+                null,
+                null,
+                null
         ),
         new ProductDto(
                 3L,
@@ -59,7 +66,10 @@ public class CustomProductControllerMocks {
                 500,
                 "This is good product.",
                 "img",
-                IMAGES
+                IMAGES,
+                null,
+                null,
+                null
         ),
         new ProductDto(
                 4L,
@@ -68,7 +78,10 @@ public class CustomProductControllerMocks {
                 100,
                 "This is good product.",
                 "img",
-                IMAGES
+                IMAGES,
+                null,
+                null,
+                null
         ),
         new ProductDto(
                 5L,
@@ -77,56 +90,11 @@ public class CustomProductControllerMocks {
                 560,
                 "This is good product.",
                 "img",
-                IMAGES
+                IMAGES,
+                null,
+                null,
+                null
         )
-    );
-
-    public static final List<Product> PRODUCTS_UN_PUBLISH = Lists.newArrayList(
-            new Product(
-                    1L,
-                    "Nokia",
-                    new BigDecimal("12.2"),
-                    25,
-                    "This is good product.",
-                    "img",
-                    IMAGES
-            ),
-            new Product(
-                    2L,
-                    "IPhone",
-                    new BigDecimal("100.2"),
-                    100,
-                    "This is good product.",
-                    "img",
-                    IMAGES
-            ),
-            new Product(
-                    3L,
-                    "Sumsung",
-                    new BigDecimal("50.2"),
-                    500,
-                    "This is good product.",
-                    "img",
-                    IMAGES
-            ),
-            new Product(
-                    4L,
-                    "Xiaomi",
-                    new BigDecimal("14.2"),
-                    100,
-                    "This is good product.",
-                    "img",
-                    IMAGES
-            ),
-            new Product(
-                    5L,
-                    "Huawei",
-                    new BigDecimal("24.2"),
-                    560,
-                    "This is good product.",
-                    "img",
-                    IMAGES
-            )
     );
 
     public static ProductDto productDtoWithoutId() {
@@ -149,6 +117,7 @@ public class CustomProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
+        p.setSubcategoryName(CATEGORY_NAME);
         return p;
     }
 
@@ -164,8 +133,8 @@ public class CustomProductControllerMocks {
         return p;
     }
 
-    public static Product requestProductForUpdate() {
-        Product p = new Product();
+    public static ProductDto requestProductForUpdate() {
+        ProductDto p = new ProductDto();
         p.setId(PRODUCT_ID);
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
@@ -176,20 +145,20 @@ public class CustomProductControllerMocks {
         return p;
     }
 
-    public static Product requestProductPayload() {
-        Product p = new Product();
+    public static ProductDto requestProductPayload() {
+        ProductDto p = new ProductDto();
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
         p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setCategory(categoryResponsePayload());
+        p.setSubcategoryName(CATEGORY_NAME);
         return p;
     }
 
-    public static Product responseProductPayload() {
-        Product p = new Product();
+    public static ProductDto responseProductPayload() {
+        ProductDto p = new ProductDto();
         p.setId(PRODUCT_ID);
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
@@ -197,12 +166,12 @@ public class CustomProductControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setCategory(categoryResponsePayload());
+        p.setSubcategoryName(CATEGORY_NAME);
         return p;
     }
 
-    public static Category categoryResponsePayload() {
-        return new Category(CATEGORY_ID, CATEGORY_NAME);
+    public static CategoryDto categoryResponsePayload() {
+        return new CategoryDto(CATEGORY_ID, CATEGORY_NAME);
     }
 
 }

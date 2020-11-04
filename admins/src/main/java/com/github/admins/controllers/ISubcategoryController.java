@@ -16,12 +16,11 @@ public interface ISubcategoryController {
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     SubcategoryDto save(
-            @PathVariable(name = "categoryName") String categoryName,
+            @PathVariable(name = "categoryName") String subcategoryName,
             @Valid @RequestBody SubcategoryDto payload
     );
 
     @GetMapping(
-            path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -29,9 +28,7 @@ public interface ISubcategoryController {
             @RequestParam(name = "name", required = false) String name
     );
 
-    @PutMapping(
-            path = "/"
-    )
+    @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
     void update(@Valid @RequestBody SubcategoryDto payload);
 

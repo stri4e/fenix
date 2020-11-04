@@ -5,7 +5,6 @@ import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrdersService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class OrdersService implements IOrdersService {
 
     @Override
     public Optional<List<OrderDetailDto>> findByStatusInTime(
-            OrderStatus status, LocalDateTime start, LocalDateTime end) {
+            OrderStatus status, String start, String end) {
         return Optional.empty();
     }
 

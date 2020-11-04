@@ -19,15 +19,11 @@ public interface IPaymentTypeController {
             @PathVariable(value = "status") EntityStatus status
     );
 
-    @PutMapping(
-            path = "/v1/edit"
-    )
+    @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody PaymentTypesDto payload);
 
-    @DeleteMapping(
-            path = "/v1/edit/{id}"
-    )
+    @DeleteMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable(value = "id") Long id);
 

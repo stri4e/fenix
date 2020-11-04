@@ -17,7 +17,6 @@ public interface IDeliveryCompanyController {
     CompanyDto findById(@PathVariable(name = "id") Long id);
 
     @PutMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
     void update(@RequestBody CompanyDto payload);
 
     @DeleteMapping(path = "/{id}")

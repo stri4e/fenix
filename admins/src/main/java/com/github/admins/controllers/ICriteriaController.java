@@ -38,15 +38,13 @@ public interface ICriteriaController {
     CriteriaDto findById(@PathVariable Long id);
 
     @PutMapping(
-            path = "/",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody CriteriaDto payload);
 
     @PutMapping(
-            path = "/in/products/{productId}/{criteriaId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/in/products/{productId}/{criteriaId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateInProducts(
@@ -55,8 +53,7 @@ public interface ICriteriaController {
     );
 
     @DeleteMapping(
-            path = "/in/products/{productId}/{criteriaId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/in/products/{productId}/{criteriaId}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void removeInProducts(
@@ -65,8 +62,7 @@ public interface ICriteriaController {
     );
 
     @PutMapping(
-            path = "/in/filters/{filterId}/{criteriaId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/in/filters/{filterId}/{criteriaId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateInFilters(
@@ -75,8 +71,7 @@ public interface ICriteriaController {
     );
 
     @DeleteMapping(
-            path = "/in/filters/{filterId}/{criteriaId}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            path = "/in/filters/{filterId}/{criteriaId}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void removeInFilters(

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public interface IManagerController {
 
     @GetMapping(
-            path = "/v1/fetch/{orderId}",
+            path = "/{orderId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)

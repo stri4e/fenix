@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/criteria")
 @RequiredArgsConstructor
+@RequestMapping(path = "/v1/criteria")
 public class CriteriaController implements ICriteriaController {
 
     private final ICriteriaService criteriaService;

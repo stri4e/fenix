@@ -1,13 +1,12 @@
 package com.github.admins.controllers.impl;
 
-
-import com.github.admins.dto.CustomerDto;
-import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.dto.ProductDto;
+import com.github.admins.dto.*;
 import com.github.admins.payload.*;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailControllerMocks {
@@ -24,25 +23,27 @@ public class OrderDetailControllerMocks {
                 ),
                 PRODUCTS_DTO,
                 new BigDecimal("220.254"),
-                2L,
-                OrderStatus.open
+                OrderStatus.open,
+                delivery(),
+                bill()
         );
     }
 
-    public static OrderDetail orderDetail() {
-        return new OrderDetail(
+    public static OrderDetailDto orderDetail() {
+        return new OrderDetailDto(
                 2L,
-                new Customer(
+                new CustomerDto(
                         2L,
                         "Zigmud Tupizin",
                         "River street 8",
                         "zigmud@gmail.com",
                         "+8934223"
                 ),
-                Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                PRODUCTS_DTO,
                 new BigDecimal("220.254"),
-                2L,
-                OrderStatus.open
+                OrderStatus.open,
+                delivery(),
+                bill()
         );
     }
 
@@ -54,7 +55,10 @@ public class OrderDetailControllerMocks {
                     25,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory"
             ),
             new ProductDto(
                     2L,
@@ -63,7 +67,10 @@ public class OrderDetailControllerMocks {
                     100,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory"
             ),
             new ProductDto(
                     3L,
@@ -72,7 +79,10 @@ public class OrderDetailControllerMocks {
                     500,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory"
             ),
             new ProductDto(
                     4L,
@@ -81,7 +91,10 @@ public class OrderDetailControllerMocks {
                     100,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory"
             ),
             new ProductDto(
                     5L,
@@ -90,7 +103,10 @@ public class OrderDetailControllerMocks {
                     560,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    null,
+                    null,
+                    "subcategory"
             )
     );
 
@@ -106,8 +122,9 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
-                    5L,
-                    OrderStatus.close
+                    OrderStatus.close,
+                    delivery(),
+                    bill()
             )
     );
 
@@ -123,8 +140,9 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
-                    1L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             ),
             new OrderDetailDto(
                     2L,
@@ -137,8 +155,9 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
-                    2L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             ),
             new OrderDetailDto(
                     4L,
@@ -151,8 +170,9 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
-                    4L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             )
     );
 
@@ -168,136 +188,192 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("569.205"),
-                    3L,
-                    OrderStatus.handling
+                    OrderStatus.handling,
+                    delivery(),
+                    bill()
             )
     );
 
-    public static final List<OrderDetail> ORDERS_OPEN = Lists.newArrayList(
-            new OrderDetail(
+    public static final List<OrderDetailDto> ORDERS_OPEN = Lists.newArrayList(
+            new OrderDetailDto(
                     1L,
-                    new Customer(
+                    new CustomerDto(
                             1L,
                             "Albert Albert",
                             "Bolotnaj street 8",
                             "albert@yandex.ru",
                             "+89752323"
                     ),
-                    Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                    PRODUCTS_DTO,
                     new BigDecimal("12.2"),
-                    1L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             ),
-            new OrderDetail(
+            new OrderDetailDto(
                     2L,
-                    new Customer(
+                    new CustomerDto(
                             2L,
                             "Zigmud Tupizin",
                             "River street 8",
                             "zigmud@gmail.com",
                             "+8934223"
                     ),
-                    Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                    PRODUCTS_DTO,
                     new BigDecimal("220.254"),
-                    2L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             ),
-            new OrderDetail(
+            new OrderDetailDto(
                     4L,
-                    new Customer(
+                    new CustomerDto(
                             4L,
                             "Jolobock Ivanich",
                             "Tupizina street 8",
                             "jolobock@gmail.com",
                             "+87892323"
                     ),
-                    Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                    PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
-                    4L,
-                    OrderStatus.open
+                    OrderStatus.open,
+                    delivery(),
+                    bill()
             )
     );
 
-    public static final List<OrderDetail> ORDERS_CLOSE = Lists.newArrayList(
-            new OrderDetail(
+    public static final List<OrderDetailDto> ORDERS_CLOSE = Lists.newArrayList(
+            new OrderDetailDto(
                     5L,
-                    new Customer(
+                    new CustomerDto(
                             5L,
                             "Kozulinskiy Peronion",
                             "Bolotnaj street 18",
                             "kozulinskiy@yandex.com",
                             "+897543223"
                     ),
-                    Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                    PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
-                    5L,
-                    OrderStatus.close
+                    OrderStatus.close,
+                    delivery(),
+                    bill()
             )
     );
 
-    public static final List<OrderDetail> ORDERS_HANDLING = Lists.newArrayList(
-            new OrderDetail(
+    public static final List<OrderDetailDto> ORDERS_HANDLING = Lists.newArrayList(
+            new OrderDetailDto(
                     3L,
-                    new Customer(
+                    new CustomerDto(
                             3L,
                             "Klava Marinez",
                             "Suspect street 8",
                             "klava@rambler.ru",
                             "+897527896"
                     ),
-                    Lists.newArrayList(1L, 2L, 3L, 4L, 5L),
+                    PRODUCTS_DTO,
                     new BigDecimal("569.205"),
-                    3L,
-                    OrderStatus.handling
+                    OrderStatus.handling,
+                    delivery(),
+                    bill()
             )
     );
 
-    public static final List<Product> PRODUCTS = Lists.newArrayList(
-            new Product(
+    public static final List<ProductDto> PRODUCTS = Lists.newArrayList(
+            new ProductDto(
                     1L,
                     "Nokia",
                     new BigDecimal("12.2"),
                     25,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    "subcategory"
             ),
-            new Product(
+            new ProductDto(
                     2L,
                     "IPhone",
                     new BigDecimal("100.2"),
                     100,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    "subcategory"
             ),
-            new Product(
+            new ProductDto(
                     3L,
                     "Sumsung",
                     new BigDecimal("50.2"),
                     500,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    "subcategory"
             ),
-            new Product(
+            new ProductDto(
                     4L,
                     "Xiaomi",
                     new BigDecimal("14.2"),
                     100,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    "subcategory"
             ),
-            new Product(
+            new ProductDto(
                     5L,
                     "Huawei",
                     new BigDecimal("24.2"),
                     560,
                     "This is good product.",
                     "img",
-                    Lists.newArrayList("1", "2", "3")
+                    Lists.newArrayList("1", "2", "3"),
+                    new ArrayList<>(),
+                    new ArrayList<>(),
+                    "subcategory"
             )
     );
+
+    public static BillDto bill() {
+        return new BillDto(
+                1L,
+                BigInteger.valueOf(60L),
+                BigInteger.valueOf(54L),
+                "ethereum",
+                "address",
+                new ArrayList<>(),
+                "crypto",
+                BillType.def,
+                new WhoDto(
+                        1L,
+                        "Vasia",
+                        "Pupkin",
+                        "Galicin"
+                ),
+                new WhomDto(
+                        1L,
+                        "Kolia",
+                        "Zupkin",
+                        "Shmiga"
+                )
+        );
+    }
+
+    public static DeliveryDto delivery() {
+        return new DeliveryDto(
+                1L,
+                DeliveryType.home,
+                "Nowa poshta",
+                "xz street",
+                new BigDecimal("50.2")
+        );
+    }
 
 }

@@ -19,12 +19,12 @@ public class CategoryControllerMocks {
         add(new CategoryDto(5L, "Sport"));
     }};
 
-    public static final List<Category> CATEGORIES = new ArrayList<>() {{
-        add(new Category(1L, "Phone"));
-        add(new Category(2L, "Computer"));
-        add(new Category(3L, "Soft"));
-        add(new Category(4L, "Instruments"));
-        add(new Category(5L, "Sport"));
+    public static final List<CategoryDto> CATEGORIES = new ArrayList<>() {{
+        add(new CategoryDto(1L, "Phone"));
+        add(new CategoryDto(2L, "Computer"));
+        add(new CategoryDto(3L, "Soft"));
+        add(new CategoryDto(4L, "Instruments"));
+        add(new CategoryDto(5L, "Sport"));
     }};
 
     public static CategoryDto categoryDto() {
@@ -39,8 +39,8 @@ public class CategoryControllerMocks {
         return new CategoryDto();
     }
 
-    public static Category payload() {
-        return new Category(CATEGORY_DTO_ID, CATEGORY_DTO_NAME);
+    public static CategoryDto payload() {
+        return new CategoryDto(CATEGORY_DTO_ID, CATEGORY_DTO_NAME);
     }
 
 }

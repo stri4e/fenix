@@ -4,7 +4,6 @@ import com.github.admins.dto.PaymentTypesDto;
 import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.BillsService;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
