@@ -4,10 +4,8 @@ import com.github.payments.service.IBitcoinService;
 import com.github.payments.service.ICryptoCurrenciesService;
 import com.github.payments.service.ICryptoCurrencyMapper;
 import com.github.payments.service.IEthereumService;
-import com.github.payments.utils.Fallback;
-import com.github.payments.utils.Logging;
+import com.github.payments.utils.DefaultMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -22,13 +20,13 @@ public class CryptoCurrenciesService implements ICryptoCurrenciesService {
 
     private final IEthereumService ethereumService;
 
-    private final Fallback fallback;
+    private final DefaultMapper defaultMapper;
 
     private final Map<String, ICryptoCurrencyMapper> mapper = new HashMap<>();
 
     @Override
     public ICryptoCurrencyMapper chooser(String name) {
-        return this.mapper.getOrDefault(name, this.fallback);
+        return this.mapper.getOrDefault(name, this.defaultMapper);
     }
 
     @PostConstruct
