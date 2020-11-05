@@ -4,7 +4,7 @@ public enum Topics {
 
     orders("/topic/orders"),
 
-    bills("/topic/bill"),
+    bills("/topic/bills/"),
 
     commons("/topic/common");
 

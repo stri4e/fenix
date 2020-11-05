@@ -21,7 +21,7 @@ public class BillsController {
     @HystrixCommand
     @ResponseStatus(HttpStatus.CREATED)
     @Logging(isTime = true, isReturn = false)
-    void billNotify(@PathVariable String ending, @RequestBody BillDto payload) {
+    void billNotify(@PathVariable(name = "ending") String ending, @RequestBody BillDto payload) {
         this.broker.sendBill(ending, payload);
     }
 

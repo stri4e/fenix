@@ -1,7 +1,6 @@
 package com.github.websocket.network;
 
 import com.github.websocket.utils.Logging;
-import com.github.websocket.utils.Topics;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
