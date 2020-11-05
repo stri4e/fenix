@@ -9,15 +9,12 @@ import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.payments.utils.TransferObj.*;
@@ -47,8 +44,6 @@ public class BillsController implements IBillsController {
     private final IWhoService whoService;
 
     private final ICryptoCurrenciesService cryptoCurrenciesService;
-
-    private final Map<String, ICryptoCurrencyMapper> cryptoMap;
 
     @Override
     @HystrixCommand

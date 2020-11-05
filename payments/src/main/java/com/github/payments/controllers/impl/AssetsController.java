@@ -2,7 +2,6 @@ package com.github.payments.controllers.impl;
 
 import com.github.payments.controllers.IAssetsController;
 import com.github.payments.dto.AssetDto;
-import com.github.payments.entity.Asset;
 import com.github.payments.entity.EntityStatus;
 import com.github.payments.service.IAssetsService;
 import com.github.payments.utils.Logging;

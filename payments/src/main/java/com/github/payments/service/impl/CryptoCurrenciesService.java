@@ -37,11 +37,4 @@ public class CryptoCurrenciesService implements ICryptoCurrenciesService {
         this.mapper.put("btc", this.bitcoinService);
     }
 
-//    public static class FallBack implements ICryptoCurrencyMapper {
-//
-//        @Override
-//        public void remove(String address) {
-//        }
-//    }
-
 }
