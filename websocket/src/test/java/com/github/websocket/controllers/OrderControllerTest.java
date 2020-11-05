@@ -1,6 +1,5 @@
 package com.github.websocket.controllers;
 
-import com.github.websocket.dto.BillDto;
 import com.github.websocket.dto.OrderDetailDto;
 import org.junit.After;
 import org.junit.Before;
@@ -19,14 +18,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static com.github.websocket.WsConstant.LOCALHOST_HTTP;
 import static com.github.websocket.WsConstant.LOCALHOST_WS;
-import static com.github.websocket.controllers.BillsControllerMocks.STOMP_SESSION_ID;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
