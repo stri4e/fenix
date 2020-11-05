@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.UUID;
 
 public interface IBillsController {
 
@@ -23,7 +24,7 @@ public interface IBillsController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto saveForOther(@RequestAttribute Long userId, @RequestBody BillDto payload);
+    BillDto saveForOther(@RequestAttribute UUID userId, @RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

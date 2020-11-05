@@ -29,8 +29,8 @@ public class AccountantService implements IAccountantService {
     }
 
     @Override
-    public void update(Accountant accountant) {
-        this.accountantRepo.save(accountant);
+    public void update(Long id, String firsName, String lastName, String patronymic) {
+        this.accountantRepo.update(id, firsName, lastName, patronymic);
     }
 
     @Override

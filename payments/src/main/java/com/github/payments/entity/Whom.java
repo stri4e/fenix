@@ -66,11 +66,16 @@ public class Whom implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Whom(Long id, String firsName, String lastName, String patronymic) {
-        this.id = id;
+    public Whom(String firsName, String lastName, String patronymic) {
         this.firsName = firsName;
         this.lastName = lastName;
         this.patronymic = patronymic;
     }
 
+    public Whom(Long id,String firsName, String lastName, String patronymic) {
+        this.id = id;
+        this.firsName = firsName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+    }
 }

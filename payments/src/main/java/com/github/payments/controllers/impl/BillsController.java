@@ -9,14 +9,19 @@ import com.github.payments.utils.Logging;
 import com.github.payments.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.payments.utils.TransferObj.*;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,6 +48,8 @@ public class BillsController implements IBillsController {
 
     private final ICryptoCurrenciesService cryptoCurrenciesService;
 
+    private final Map<String, ICryptoCurrencyMapper> cryptoMap;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -59,11 +66,13 @@ public class BillsController implements IBillsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public BillDto saveForOther(Long userId, BillDto payload) {
+    public BillDto saveForOther(UUID userId, BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
         Asset asset = this.assetsService.readByName(payload.getAssetName());
-        Bill tmp = toBill(payload).forCreate(asset, type);
+        Whom whom = this.whomService.create(toWhom(payload.getWhom()));
+        Who who = this.whoService.create(toWho(payload.getWho()));
+        Bill tmp = toBill(payload).forCreate(asset, type).forCreate(who, whom);
         Bill bill = this.billService.create(tmp);
         this.aliasService.create(new Alias(bill, userId));
         return fromBill(bill);
@@ -88,19 +97,12 @@ public class BillsController implements IBillsController {
         Bill bill = this.billService.readByByAddressAndStatus(address, EntityStatus.on);
         var amount = bill.getAmount();
         var amountPaid = bill.getAmountPaid().add(value);
-        if (amount.equals(amountPaid)) {
-            bill.forUpdate(EntityStatus.off, amountPaid, transfer);
-            var different = amount.subtract(amountPaid);
-            this.billService.update(bill);
-            this.ordersService.update(bill.getId());
-            billNotify(bill);
-            return new Report(amount, amountPaid, different);
-        } else {
-            var different = amount.subtract(amountPaid);
-            bill.forUpdate(EntityStatus.on, amountPaid, transfer);
-            billNotify(bill);
-            return new Report(amount, amountPaid, different);
-        }
+        var different = amount.subtract(amountPaid);
+        bill.different(different).forUpdate(amountPaid, transfer);
+        this.billService.update(bill);
+        this.ordersService.update(bill.getId());
+        runAsync(() -> billNotify(bill));
+        return new Report(amount, amountPaid, different);
     }
 
     @Override
@@ -110,11 +112,10 @@ public class BillsController implements IBillsController {
         Bill bill = this.billService.readById(billId);
         var amount = bill.getAmount();
         var amountPaid = bill.getAmountPaid().add(value);
-        if (amount.equals(amountPaid)) {
-            bill.forUpdate(EntityStatus.off, amountPaid, transfer);
-            this.billService.update(bill);
-            this.ordersService.update(bill.getId());
-        }
+        var different = amount.subtract(amountPaid);
+        bill.different(different).forUpdate(amountPaid, transfer);
+        this.billService.update(bill);
+        this.ordersService.update(bill.getId());
     }
 
     @Override
@@ -123,18 +124,18 @@ public class BillsController implements IBillsController {
     public void remove(Long id) {
         Bill bill = this.billService.readById(id);
         Asset asset = bill.getAsset();
-        this.cryptoCurrenciesService.remove(
-                asset.getName(), bill.getAddress()
-        );
+        this.cryptoCurrenciesService.chooser(asset.getName())
+                .remove(bill.getAddress());
         this.billService.remove(id);
     }
 
     private void billNotify(Bill bill) {
         if (bill.isOther()) {
             Alias notify = this.aliasService.findByBillId(bill.getId());
-            var ending = this.usersAliasService.findEndingUrl(notify.getId())
+            var ending = this.usersAliasService.findEndingUrl(notify.getUserId())
                     .orElse("default");
             this.billPushService.billNotify(ending, fromBill(bill));
         }
     }
+
 }

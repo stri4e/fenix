@@ -24,7 +24,8 @@ public class CurrentRateService implements ICurrentRateService {
 
     @Override
     public List<CurrentRate> readAll() {
-        return this.currentRateRepo
-                .findAllByCreateAt_Hour(BigInteger.TEN.intValue());
+//        return this.currentRateRepo
+//                .findAllByCreateAt_Hour(BigInteger.TEN.intValue());
+        return null;
     }
 }

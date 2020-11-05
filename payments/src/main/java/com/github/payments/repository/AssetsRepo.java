@@ -25,4 +25,15 @@ public interface AssetsRepo extends JpaRepository<Asset, Long> {
     @Query(value = "update Asset a set a.status=:status where a.id=:id")
     void update(@Param(value = "id") Long id, @Param(value = "status") EntityStatus status);
 
+    @Modifying
+    @Query(value = "update Asset a set a.owner=:owner, a.name=:name, a.fullName=:fullName, a.pow=:pow, a.assetType=:assetType where a.id=:id")
+    void update(
+            @Param(value = "id") Long id,
+            @Param(value = "owner") String owner,
+            @Param(value = "name") String name,
+            @Param(value = "fullName") String fullName,
+            @Param(value = "pow") Integer pow,
+            @Param(value = "assetType") AssetType assetType
+    );
+
 }

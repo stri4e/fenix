@@ -102,6 +102,14 @@ public class Asset implements Serializable, Cloneable {
         this.status = status;
     }
 
+    public Asset(String owner, String name, String fullName, Integer pow, AssetType assetType) {
+        this.owner = owner;
+        this.name = name;
+        this.fullName = fullName;
+        this.pow = pow;
+        this.assetType = assetType;
+    }
+
     public Asset(Long id, String owner, String name, String fullName, Integer pow, AssetType assetType) {
         this.id = id;
         this.owner = owner;

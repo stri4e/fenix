@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CurrentRateRepo extends JpaRepository<CurrentRate, Long> {
 
-    List<CurrentRate> findAllByCreateAt_Hour(Integer hour);
+//    List<CurrentRate> findAllByCreateAt_Hour(Integer hour);
 
 }

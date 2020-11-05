@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -38,7 +39,7 @@ public class Alias implements Serializable, Cloneable {
             name = "user_id",
             nullable = false
     )
-    private Long userId;
+    private UUID userId;
 
     @Column(
             name = "status",
@@ -62,7 +63,7 @@ public class Alias implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Alias(Bill bill, Long userId) {
+    public Alias(Bill bill, UUID userId) {
         this.bill = bill;
         this.userId = userId;
     }

@@ -41,7 +41,9 @@ public class Bill implements Serializable, Cloneable {
     )
     private BigInteger amountPaid = BigInteger.ZERO;
 
-    @OneToOne
+    @OneToOne(
+            targetEntity = Asset.class
+    )
     @JoinColumn(
             name = "asset_id",
             foreignKey = @ForeignKey(
@@ -62,8 +64,7 @@ public class Bill implements Serializable, Cloneable {
     private List<String> transfers = new ArrayList<>();
 
     @OneToOne(
-            targetEntity = PaymentTypes.class,
-            cascade = CascadeType.ALL
+            targetEntity = PaymentTypes.class
     )
     @JoinColumn(
             name = "payment_type_id",
@@ -81,25 +82,23 @@ public class Bill implements Serializable, Cloneable {
     private BillType billType;
 
     @OneToOne(
-            targetEntity = Who.class,
-            cascade = CascadeType.ALL
+            targetEntity = Who.class
     )
     @JoinColumn(
             name = "who_id",
             foreignKey = @ForeignKey(
-                    name = "bill_payment_type_fk"
+                    name = "bill_who_fk"
             )
     )
     private Who who;
 
     @OneToOne(
-            targetEntity = Whom.class,
-            cascade = CascadeType.ALL
+            targetEntity = Whom.class
     )
     @JoinColumn(
             name = "whom_id",
             foreignKey = @ForeignKey(
-                    name = "bill_payment_type_fk"
+                    name = "bill_whom_fk"
             )
     )
     private Whom whom;
@@ -126,8 +125,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public void forUpdate(EntityStatus status, BigInteger amountPaid, String transfer) {
-        this.status = status;
+    public void forUpdate(BigInteger amountPaid, String transfer) {
         this.amountPaid = amountPaid;
         this.transfers.add(transfer);
     }
@@ -144,6 +142,11 @@ public class Bill implements Serializable, Cloneable {
         return this;
     }
 
+    public Bill different(BigInteger different) {
+        this.status = different.equals(BigInteger.ONE) ? EntityStatus.off : EntityStatus.on;
+        return this;
+    }
+
     public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType, List<String> transfers) {
         this.id = id;
         this.amount = amount;
@@ -151,6 +154,18 @@ public class Bill implements Serializable, Cloneable {
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
         this.billType = billType;
+    }
+
+    public Bill(BigInteger amount, BigInteger amountPaid, Asset asset, String address, List<String> transfers, PaymentTypes paymentType, BillType billType, Who who, Whom whom) {
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.asset = asset;
+        this.address = address;
+        this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
+        this.paymentType = paymentType;
+        this.billType = billType;
+        this.who = who;
+        this.whom = whom;
     }
 
     public boolean isOther() {

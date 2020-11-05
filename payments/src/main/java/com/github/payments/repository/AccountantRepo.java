@@ -22,4 +22,12 @@ public interface AccountantRepo extends JpaRepository<Accountant, Long> {
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Accountant a set a.firsName=:firsName, a.lastName=:lastName, a.patronymic=:patronymic where a.id=:id")
+    void update(@Param(value = "id") Long id,
+                @Param(value = "firsName") String firsName,
+                @Param(value = "lastName") String lastName,
+                @Param(value = "patronymic") String patronymic
+    );
+
 }

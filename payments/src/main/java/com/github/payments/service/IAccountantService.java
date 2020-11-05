@@ -8,7 +8,7 @@ public interface IAccountantService {
 
     Accountant readActive();
 
-    void update(Accountant accountant);
+    void update(Long id, String firsName, String lastName, String patronymic);
 
     void delete(Long id);
 

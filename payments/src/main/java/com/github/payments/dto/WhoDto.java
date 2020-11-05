@@ -30,4 +30,11 @@ public class WhoDto implements Serializable, Cloneable {
     @JsonProperty(value = "patronymic")
     private String patronymic;
 
+    public WhoDto(@NotBlank String firsName,
+                  @NotBlank String lastName,
+                  @NotBlank String patronymic) {
+        this.firsName = firsName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+    }
 }

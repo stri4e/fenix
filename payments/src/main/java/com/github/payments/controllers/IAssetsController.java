@@ -10,10 +10,7 @@ import java.util.List;
 
 public interface IAssetsController {
 
-    @GetMapping(
-            path = "/",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
     List<AssetDto> findAssets();
 

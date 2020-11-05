@@ -63,13 +63,11 @@ public class AssetsController implements IAssetsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(AssetDto payload) {
-        Asset asset = this.assetsService.readById(payload.getId());
-        asset.setOwner(payload.getOwner());
-        asset.setName(payload.getName());
-        asset.setFullName(payload.getFullName());
-        asset.setPow(payload.getPow());
-        asset.setAssetType(payload.getAssetType());
-        this.assetsService.update(asset);
+        this.assetsService.update(
+                payload.getId(), payload.getOwner(),
+                payload.getName(), payload.getFullName(),
+                payload.getPow(), payload.getAssetType()
+        );
     }
 
     @Override

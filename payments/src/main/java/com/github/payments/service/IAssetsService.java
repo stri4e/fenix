@@ -18,7 +18,11 @@ public interface IAssetsService {
 
     Asset create(Asset asset);
 
-    void update(Asset asset);
+    void update(
+            Long id, String owner,
+            String name, String fullName,
+            Integer pow, AssetType assetType
+    );
 
     void remove(Long id);
 

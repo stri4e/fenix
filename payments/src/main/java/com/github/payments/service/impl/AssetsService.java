@@ -47,8 +47,8 @@ public class AssetsService implements IAssetsService {
     }
 
     @Override
-    public void update(Asset asset) {
-        this.assetsRepo.save(asset);
+    public void update(Long id, String owner, String name, String fullName, Integer pow, AssetType assetType) {
+        this.assetsRepo.update(id, owner, name, fullName, pow, assetType);
     }
 
     @Override
