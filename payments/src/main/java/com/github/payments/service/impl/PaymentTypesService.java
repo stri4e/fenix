@@ -45,6 +45,11 @@ public class PaymentTypesService implements IPaymentTypesService {
     }
 
     @Override
+    public void updateAlias(Long id, String alias) {
+        this.paymentTypesRepo.updateAlias(id, alias);
+    }
+
+    @Override
     public void remove(Long id) {
         this.paymentTypesRepo.update(id, EntityStatus.off);
     }

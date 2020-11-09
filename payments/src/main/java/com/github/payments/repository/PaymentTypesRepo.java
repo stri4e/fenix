@@ -23,4 +23,9 @@ public interface PaymentTypesRepo extends JpaRepository<PaymentTypes, Long> {
     void update(@Param(value = "id") Long id,
                 @Param(value = "status") EntityStatus status);
 
+    @Modifying
+    @Query(value = "update PaymentTypes pt set pt.alias=:alias where pt.id=:id")
+    void updateAlias(@Param(value = "id") Long id,
+                @Param(value = "alias") String alias);
+
 }

@@ -17,6 +17,8 @@ public interface IPaymentTypesService {
 
     void update(PaymentTypes paymentTypes);
 
+    void updateAlias(Long id, String alias);
+
     void remove(Long id);
 
 }

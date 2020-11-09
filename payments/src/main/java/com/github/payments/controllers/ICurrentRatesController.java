@@ -9,7 +9,6 @@ import java.util.List;
 public interface ICurrentRatesController {
 
     @GetMapping(
-            path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<CurrentRateDto> findAll();

@@ -41,8 +41,8 @@ public class Rate implements Serializable, Cloneable {
     @Column(
             name = "rate",
             precision = 32,
-            scale = 8,
-            columnDefinition="DECIMAL(32, 8)",
+            scale = 13,
+            columnDefinition="DECIMAL(32, 13)",
             nullable = false
     )
     private Double rate;
@@ -75,4 +75,11 @@ public class Rate implements Serializable, Cloneable {
         this.rate = rate;
         this.status = status;
     }
+
+    public Rate(String time, String assetNameQuote, Double rate) {
+        this.time = time;
+        this.assetNameQuote = assetNameQuote;
+        this.rate = rate;
+    }
+
 }

@@ -11,14 +11,12 @@ import java.util.List;
 public interface IPaymentTypeController {
 
     @PostMapping(
-            path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     PaymentTypesDto save(@RequestBody PaymentTypesDto payload);
 
     @GetMapping(
-            path = "/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)

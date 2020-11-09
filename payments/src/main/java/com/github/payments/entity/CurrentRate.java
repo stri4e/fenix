@@ -35,7 +35,9 @@ public class CurrentRate implements Serializable, Cloneable {
     )
     private String assetName;
 
-    @OneToMany
+    @OneToMany(
+            targetEntity = Rate.class
+    )
     @JoinColumn(
             name = "rate_id",
             foreignKey = @ForeignKey(
@@ -70,4 +72,11 @@ public class CurrentRate implements Serializable, Cloneable {
         this.assetName = assetName;
         this.rates = rates;
     }
+
+    public CurrentRate(String assetName, List<Rate> rates, LocalDateTime createAt) {
+        this.assetName = assetName;
+        this.rates = rates;
+        this.createAt = createAt;
+    }
+
 }

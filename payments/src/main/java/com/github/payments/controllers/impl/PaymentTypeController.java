@@ -54,9 +54,9 @@ public class PaymentTypeController implements IPaymentTypeController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(PaymentTypesDto payload) {
-        PaymentTypes payment = this.paymentTypesService.readByAlias(payload.getAlias());
-        payment.setAlias(payload.getAlias());
-        this.paymentTypesService.update(payment);
+        this.paymentTypesService.updateAlias(
+                payload.getId(), payload.getAlias()
+        );
     }
 
     @Override

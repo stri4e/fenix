@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -24,8 +26,8 @@ public class CurrentRateService implements ICurrentRateService {
 
     @Override
     public List<CurrentRate> readAll() {
-//        return this.currentRateRepo
-//                .findAllByCreateAt_Hour(BigInteger.TEN.intValue());
-        return null;
+        LocalDateTime now = LocalDateTime.now();
+        return this.currentRateRepo
+                .findAllByCreateAtLessThan(now);
     }
 }
