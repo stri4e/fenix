@@ -41,13 +41,13 @@ public interface ITransactionController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void sendTransaction(@Valid @RequestBody TrialTransaction payload);
+    void sendTransaction(@Valid @RequestBody TrialTransactionDto payload);
 
     @PutMapping(
             path = "/edit/canceled"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void canceledTransaction(@Valid @RequestBody TrialTransaction payload);
+    void canceledTransaction(@Valid @RequestBody TrialTransactionDto payload);
 
     @GetMapping(
             path = "/fetch/{status}",

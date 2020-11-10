@@ -66,7 +66,10 @@ public class Address implements Serializable, Cloneable {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "outs_id"
+            name = "outs_id",
+            foreignKey = @ForeignKey(
+                    name = "transaction_outs_fk"
+            )
     )
     private List<UnspentOut> outs = new ArrayList<>();
 

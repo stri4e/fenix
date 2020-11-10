@@ -56,13 +56,13 @@ public class TrialTransaction implements Serializable, Cloneable {
     private BigInteger fee = BigInteger.ZERO;
 
     @Column(
-            name = "from",
+            name = "address_from",
             nullable = false
     )
     private String from;
 
     @Column(
-            name = "to",
+            name = "address_to",
             nullable = false
     )
     private String to;

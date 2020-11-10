@@ -95,7 +95,7 @@ public class TransactionController implements ITransactionController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void sendTransaction(TrialTransaction payload) {
+    public void sendTransaction(TrialTransactionDto payload) {
         var hash = payload.getHash();
         TrialTransaction trx = this.trialTransactionService.readByHash(hash);
         ResponseTrx response = this.facadeBitcoin.send(trx.getSignedTrx());
@@ -134,7 +134,7 @@ public class TransactionController implements ITransactionController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void canceledTransaction(@Valid TrialTransaction payload) {
+    public void canceledTransaction(@Valid TrialTransactionDto payload) {
         var hash = payload.getHash();
         TrialTransaction trx = this.trialTransactionService.readByHash(payload.getHash());
         trx.getUnspentOuts().forEach(o -> this.unspentOutService.update(o, EntityStatus.on));

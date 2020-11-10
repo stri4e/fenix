@@ -32,10 +32,6 @@ public class FeePerKb implements Serializable, Cloneable {
     )
     private BigInteger fee;
 
-    @Column(
-            name = "status",
-            nullable = false
-    )
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 

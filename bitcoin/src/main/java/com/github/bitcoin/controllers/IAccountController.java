@@ -23,13 +23,11 @@ public interface IAccountController {
             @PathVariable(name = "status") EntityStatus status,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "update_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "updateAt", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
 
-    @PostMapping(
-            path = "/"
-    )
+    @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
     void save(@RequestAttribute UUID userId);
 

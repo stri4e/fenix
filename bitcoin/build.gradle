@@ -47,7 +47,7 @@ dependencies {
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
 	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
 
-	implementation 'com.github.HellcrowAndrey:facade-bitcoin:0.0.9'
+	implementation 'com.github.HellcrowAndrey:facade-bitcoin:1.0.1'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 	compileOnly 'org.projectlombok:lombok'

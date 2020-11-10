@@ -22,7 +22,7 @@ public class Networking implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         this.facadeBitcoin.networking();
-        this.facadeBitcoin.fetchBlock(
+        this.facadeBitcoin.addBlockListener(
                 this.networkService.findLastHeight(this.apiUrl),
                 this.apiUrl,
                 this.networkService::handlerBlock
