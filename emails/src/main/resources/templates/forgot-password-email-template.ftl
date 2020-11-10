@@ -16,20 +16,24 @@
 </head>
 <body style="margin: 0; padding: 0;">
 
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
-    <tr>
-        <td align="center" bgcolor="#eaeaea" style="padding: 40px 0 30px 0;">
-            <p>Todo-List.com</p>
-        </td>
-    </tr>
-    <tr>
-        <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
-            <p>${'Dear ' + firstName + ' ' + lastName}</p>
-            <p>
-                You've requested a password reset.
-                <a href="${redirectUrl}">reset your password</a>
-            </p>
-            <p>Thanks</p>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+        <tr>
+            <td align="center" bgcolor="#eaeaea" style="padding: 40px 0 30px 0;">
+                <p>Ragnaros</p>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#eaeaea" style="padding: 40px 30px 40px 30px;">
+                <p>${'Dear ' + firstName + ' ' + lastName}</p>
+                <div>
+                    <p>You've requested for reset password.</p>
+                    <form action="${redirectUrl}" method="post">
+                        <button type="submit">
+                            <a>Pleas confirm reset your password.</a>
+                        </button>
+                    </form>
+                </div>
+                <p>Thanks</p>
         </td>
     </tr>
 </table>

@@ -20,7 +20,7 @@ public interface IUsersController {
                    @Valid @RequestBody UserRegDto payload
     );
 
-    @GetMapping(path = "/confirm-account")
+    @PostMapping(path = "/confirm-account")
     ResponseEntity<Void> confirmAccount(@RequestParam String token);
 
     @PostMapping(path = "/auth")
@@ -39,7 +39,7 @@ public interface IUsersController {
             @Valid @RequestBody ForgotPassDto payload
     );
 
-    @DeleteMapping(path = "/reset-pass")
+    @PostMapping(path = "/reset-pass")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void resetPass(@RequestParam String token);
 
