@@ -19,7 +19,7 @@
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
     <tr>
         <td align="center" bgcolor="#eaeaea" style="padding: 40px 0 30px 0;">
-            <p>Ragnaros</p>
+            <p>Monster</p>
         </td>
     </tr>
     <tr>

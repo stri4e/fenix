@@ -17,7 +17,6 @@ public interface IManagersController {
     @ResponseStatus(code = HttpStatus.CREATED)
     void submitReg(
             @ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
-            @ApiIgnore @RequestHeader(name = "X-Forwarded-Prefix") String prefix,
             @Valid @RequestBody UserRegDto payload
     );
 

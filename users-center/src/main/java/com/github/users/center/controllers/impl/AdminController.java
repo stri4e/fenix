@@ -55,7 +55,7 @@ public class AdminController implements IAdminController, Serializable {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, String prefix, @Valid UserRegDto payload) {
+    public void submitReg(String clientUrl, @Valid UserRegDto payload) {
         if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             throw new Conflict();
         }
@@ -64,7 +64,7 @@ public class AdminController implements IAdminController, Serializable {
         this.userService.create(user);
         var ct = new ConfirmToken(clientUrl, user);
         this.confirmService.create(ct);
-        CompletableFuture.runAsync(() -> registration(user, clientUrl, prefix, ct));
+        CompletableFuture.runAsync(() -> registration(user, clientUrl, ct));
     }
 
     @Override
@@ -138,10 +138,10 @@ public class AdminController implements IAdminController, Serializable {
         return session;
     }
 
-    private void registration(User user, String clientUrl, String prefix, ConfirmToken ct) {
+    private void registration(User user, String clientUrl, ConfirmToken ct) {
         EmailNotification notification = EmailNotification.userChangeNotify(
                 user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, prefix, "/v1/confirm-account", ct.getToken()
+                clientUrl, "/emails/v1/pages", ct.getToken()
         );
         this.emailService.submitReg(notification);
     }

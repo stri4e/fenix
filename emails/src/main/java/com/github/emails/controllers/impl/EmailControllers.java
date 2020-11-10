@@ -1,5 +1,6 @@
-package com.github.emails.controllers;
+package com.github.emails.controllers.impl;
 
+import com.github.emails.controllers.IEmailController;
 import com.github.emails.models.Mail;
 import com.github.emails.payload.EmailNotification;
 import com.github.emails.services.EmailService;

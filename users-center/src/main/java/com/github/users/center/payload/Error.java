@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Error {
+
     private int status;
+
     private String message;
 
-    public Error(int status) {
-        this.status = status;
-    }
 }

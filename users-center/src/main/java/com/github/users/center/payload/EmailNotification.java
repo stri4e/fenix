@@ -55,10 +55,10 @@ public class EmailNotification {
 
     public static EmailNotification
     userChangeNotify(String email, String fName, String lName,
-                     String clientUrl, String prefix, String path, String token) {
+                     String clientUrl, String path, String token) {
         var url = UriComponentsBuilder.newInstance()
                 .uri(URI.create(clientUrl))
-                .path(prefix).path(path)
+                .path(path)
                 .queryParam("token", token)
                 .build().toString();
         Map<String, Object> information = new HashMap<>();
