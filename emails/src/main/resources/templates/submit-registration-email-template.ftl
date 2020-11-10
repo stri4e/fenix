@@ -22,7 +22,7 @@
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
         <tr>
             <td align="center" bgcolor="#eaeaea" style="padding: 40px 0 30px 0;">
-                <p>Ragnaros</p>
+                <p>Monster</p>
             </td>
         </tr>
         <tr>
@@ -30,13 +30,9 @@
                 <p>${'Dear ' + firstName + ' ' + lastName}</p>
                 <div>
                     <p>You've request for confirmation account.</p>
-                    <form action="${redirectUrl}" method="post">
-                        <button type="submit">
-                            <a>Pleas confirm your account.</a>
-                        </button>
-                    </form>
+                    <a href="${redirectUrl}">Pleas confirm your account.</a>
+                    <p>Thanks</p>
                 </div>
-                <p>Thanks</p>
             </td>
         </tr>
     </table>
