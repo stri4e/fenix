@@ -37,8 +37,7 @@ public class ContractController implements IContractController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<ContractDto> findAll() {
-        return this.contractService
-                .readAllContracts()
+        return this.contractService.readAllContracts()
                 .stream().map(TransferObj::fromContract)
                 .collect(Collectors.toList());
     }
@@ -47,10 +46,11 @@ public class ContractController implements IContractController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(ContractDto payload) {
-        Contract contract = this.contractService.readById(payload.getId());
-        contract.setName(payload.getName());
-        contract.setAddress(payload.getAddress());
-        this.contractService.update(contract);
+        this.contractService.update(
+                payload.getId(),
+                payload.getName(),
+                payload.getAddress()
+        );
     }
 
     @Override

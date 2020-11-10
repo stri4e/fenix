@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "transactions", schema = "public")
+@Table(name = "transactions_tab", schema = "public")
 public class Transaction implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -2402664008533667615L;
@@ -61,7 +61,7 @@ public class Transaction implements Serializable, Cloneable {
     )
     private BigInteger gasLimit;
 
-    @ManyToOne(
+    @OneToOne(
             targetEntity = Contract.class,
             fetch = FetchType.EAGER
     )
@@ -69,13 +69,13 @@ public class Transaction implements Serializable, Cloneable {
     private Contract contract;
 
     @Column(
-            name = "from",
+            name = "address_from",
             nullable = false
     )
     private String from;
 
     @Column(
-            name = "to",
+            name = "address_to",
             nullable = false
     )
     private String to;
@@ -92,11 +92,9 @@ public class Transaction implements Serializable, Cloneable {
     )
     private BigInteger fee;
 
-    @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
     private TransactionType type;
 
-    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 

@@ -18,8 +18,8 @@ public class CurrencyService implements ICurrencyService {
     private final CurrencyRepo currencyRepo;
 
     @Override
-    public void update(Currency currency) {
-        this.currencyRepo.save(currency);
+    public void update(Long id, String name, String fullName, String addressRegex, Integer pow) {
+        this.currencyRepo.update(id, name, fullName, addressRegex, pow);
     }
 
     @Override

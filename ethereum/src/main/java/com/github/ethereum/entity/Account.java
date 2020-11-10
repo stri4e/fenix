@@ -37,6 +37,7 @@ public class Account implements Serializable, Cloneable {
 
     @Column(
             name = "private_key",
+            precision = 128,
             nullable = false,
             updatable = false,
             unique = true
@@ -45,6 +46,7 @@ public class Account implements Serializable, Cloneable {
 
     @Column(
             name = "public_key",
+            precision = 192,
             nullable = false,
             updatable = false,
             unique = true
@@ -77,7 +79,7 @@ public class Account implements Serializable, Cloneable {
     @JoinColumn(
             name = "transaction_id",
             foreignKey = @ForeignKey(
-                    name = "account_transaction_fk"
+                    name = "accounts_transactions_fk"
             )
     )
     private Set<Transaction> transactions = new HashSet<>();
@@ -87,7 +89,7 @@ public class Account implements Serializable, Cloneable {
             nullable = false
     )
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status = EntityStatus.on;
+    private EntityStatus status = EntityStatus.off;
 
     @CreationTimestamp
     @Column(
@@ -134,6 +136,21 @@ public class Account implements Serializable, Cloneable {
         this.address = address;
         this.currencyBalance = currencyBalance;
         this.status = status;
+    }
+
+    public Account(
+            UUID userId,
+            BigInteger privateKey,
+            BigInteger publicKey,
+            String address,
+            BigInteger currencyBalance,
+            Map<String, BigInteger> contractBalance) {
+        this.userId = userId;
+        this.privateKey = privateKey;
+        this.publicKey = publicKey;
+        this.address = address;
+        this.currencyBalance = currencyBalance;
+        this.contractBalance = contractBalance;
     }
 
     public void addContractBal(String contractName, BigInteger newBal) {

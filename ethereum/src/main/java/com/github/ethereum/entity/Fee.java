@@ -1,6 +1,8 @@
 package com.github.ethereum.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "fees", schema = "public")
 public class Fee implements Serializable, Cloneable {
 
@@ -61,11 +65,9 @@ public class Fee implements Serializable, Cloneable {
         this.status = status;
     }
 
-    public Fee(Long id, BigInteger fee, BigInteger gasPrice, EntityStatus status) {
-        this.id = id;
+    public Fee(BigInteger fee, BigInteger gasPrice) {
         this.fee = fee;
         this.gasPrice = gasPrice;
-        this.status = status;
     }
 
 }

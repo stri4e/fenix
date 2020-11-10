@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface ICurrencyController {
 
-    @PutMapping(
-            path = "/edit"
-    )
+    @PutMapping(path = "/edit")
     @ResponseStatus(code = HttpStatus.OK)
     void update(@RequestBody CurrencyDto payload);
 

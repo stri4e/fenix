@@ -3,6 +3,7 @@ package com.github.ethereum.services;
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.entity.Transaction;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ITransactionService {
 
     List<Transaction> readAll();
 
-    Page<Transaction> readAllByStatus(EntityStatus status);
+    Page<Transaction> readAllByStatus(Pageable pageable, EntityStatus status);
 
     Transaction readByHash(String hash);
 

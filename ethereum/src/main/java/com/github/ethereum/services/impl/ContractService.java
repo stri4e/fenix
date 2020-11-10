@@ -52,8 +52,8 @@ public class ContractService implements IContractService {
     }
 
     @Override
-    public void update(Contract contract) {
-        this.contractRepo.save(contract);
+    public void update(Long id, String name, String address) {
+        this.contractRepo.updateContract(id, name, address);
     }
 
     @Override

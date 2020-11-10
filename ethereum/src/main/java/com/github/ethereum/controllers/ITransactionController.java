@@ -8,11 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 public interface ITransactionController {
 
@@ -20,15 +20,17 @@ public interface ITransactionController {
             path = "/edit/trx",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    TransactionDto sendTransaction(@RequestBody Receipt payload);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    TransactionDto sendTransaction(@Valid @RequestBody Receipt payload);
 
     @PostMapping(
             path = "/edit/contract/{address}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(value = HttpStatus.CREATED)
     TransactionDto sendContract(
             @PathVariable(name = "address") String address,
-            @RequestBody Receipt payload
+            @Valid @RequestBody Receipt payload
     );
 
     @GetMapping(
@@ -39,7 +41,7 @@ public interface ITransactionController {
             @PathVariable EntityStatus status,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "update_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "updateAt", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
 

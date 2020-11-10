@@ -8,6 +8,7 @@ import com.github.ethereum.services.ITransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -37,9 +38,9 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    @Cacheable(value = "transactions", unless = "#result.size() == 0", key = "#status")
-    public Page<Transaction> readAllByStatus(EntityStatus status) {
-        return this.transactionRepo.findByStatus(status);
+    @Cacheable(value = "transactions", unless = "#result.getTotalElements() == 0", key = "#status")
+    public Page<Transaction> readAllByStatus(Pageable pageable, EntityStatus status) {
+        return this.transactionRepo.findByStatus(pageable, status);
     }
 
     @Override

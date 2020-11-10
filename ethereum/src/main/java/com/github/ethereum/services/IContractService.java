@@ -19,7 +19,7 @@ public interface IContractService {
 
     Contract readByAddress(String address);
 
-    void update(Contract contract);
+    void update(Long id, String name, String address);
 
     void updateStatus(Long id, EntityStatus status);
 

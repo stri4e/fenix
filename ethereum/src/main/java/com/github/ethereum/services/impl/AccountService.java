@@ -7,6 +7,7 @@ import com.github.ethereum.repository.AccountRepo;
 import com.github.ethereum.services.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,12 +40,13 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account readByUserIdAndByStatus(UUID userId, EntityStatus status) {
-        return this.accountRepo.findFirstByUserIdAndStatus(userId, status);
+        return this.accountRepo.findFirstByUserIdAndStatus(userId, status)
+                .orElseThrow(NotFound::new);
     }
 
     @Override
-    public Page<Account> readAllByStatus(EntityStatus status) {
-        return this.accountRepo.findAllByStatus(status);
+    public Page<Account> readAllByStatus(Pageable pageable, EntityStatus status) {
+        return this.accountRepo.findAllByStatus(pageable, status);
     }
 
     @Override
@@ -61,6 +63,11 @@ public class AccountService implements IAccountService {
     @Override
     public void updateStatus(String address, EntityStatus status) {
         this.accountRepo.updateStatus(address, status);
+    }
+
+    @Override
+    public int countAccountByUserId(UUID userId) {
+        return this.accountRepo.countAccountByUserId(userId);
     }
 
 }

@@ -19,18 +19,32 @@ public interface IAccountController {
             path = "/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @ResponseStatus(value = HttpStatus.OK)
     Page<AccountDto> findByStatus(
             @PathVariable(name = "status") EntityStatus status,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "update_at", direction = Sort.Direction.ASC),
+                    @SortDefault(sort = "updateAt", direction = Sort.Direction.ASC),
             }) Pageable pageable
     );
+
+    @PostMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(value = HttpStatus.CREATED)
+    AccountDto save(@RequestAttribute UUID userId);
 
     @GetMapping(
             path = "/address"
     )
+    @ResponseStatus(value = HttpStatus.OK)
     String findAvailableAddress(@RequestAttribute UUID userId);
+
+    @PutMapping(
+            path = "/{address}"
+    )
+    @ResponseStatus(value = HttpStatus.OK)
+    void activateAddress(@PathVariable(name = "address") String address);
 
     @DeleteMapping(
             path = "/{address}"

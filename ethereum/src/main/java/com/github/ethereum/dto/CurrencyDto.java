@@ -16,6 +16,9 @@ public class CurrencyDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5693842243570892367L;
 
+    @JsonProperty(value = "id")
+    private Long id;
+
     @NotBlank
     @JsonProperty(value = "name")
     private String name;

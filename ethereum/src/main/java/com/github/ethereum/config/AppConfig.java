@@ -18,9 +18,12 @@ public class AppConfig {
     @Value(value = "${ethereum.api.url}")
     private String ethereumApiUrl;
 
+    @Value(value = "${ethereum.api.time}")
+    private Integer time;
+
     @Bean
     public IFacadeEthereum ethereum() {
-        return new FacadeEthereum(this.ethereumApiUrl);
+        return new FacadeEthereum(this.ethereumApiUrl, this.time);
     }
 
 }

@@ -28,4 +28,12 @@ public interface ContractRepo extends JpaRepository<Contract, Long> {
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query("update Contract c set c.name=:name, c.address=:address where c.id=:id")
+    void updateContract(
+            @Param(value = "id") Long id,
+            @Param(value = "name") String name,
+            @Param(value = "address") String address
+    );
+
 }

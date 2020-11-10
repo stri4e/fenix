@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static com.github.ethereum.entity.Contract.DEFAULT_CONTRACT_NAME;
 import static com.github.ethereum.utils.TransferObj.fromTransaction;
+import static com.github.ethereum.utils.TransferObj.toOutgoingTransaction;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class TransactionController implements ITransactionController {
                 payload.getValue(), fee.getFee()
         );
         Transaction transaction = this.transactionService.create(
-                TransferObj.toOutgoingTransaction(response, contract)
+                toOutgoingTransaction(response, contract)
         );
         account.addTransaction(transaction);
         this.accountService.update(account);
@@ -67,7 +68,7 @@ public class TransactionController implements ITransactionController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public TransactionDto sendContract(String address, Receipt payload) {
-        Contract contract = this.contractService.readByName(address);
+        Contract contract = this.contractService.readByAddress(address);
         Account account = this.accountService.readByAddress(payload.getFrom());
         Fee fee = this.feeService.readByStatus(EntityStatus.on);
         KeyPair keys = new KeyPair(
@@ -78,7 +79,7 @@ public class TransactionController implements ITransactionController {
                 payload.getValue(), fee.getFee()
         );
         Transaction transaction = this.transactionService.create(
-                TransferObj.toOutgoingTransaction(response, contract)
+                toOutgoingTransaction(response, contract)
         );
         account.addTransaction(transaction);
         this.accountService.update(account);
@@ -89,7 +90,7 @@ public class TransactionController implements ITransactionController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<TransactionDto> findAllByStatus(EntityStatus status, Pageable pageable) {
-        Page<Transaction> transactions = this.transactionService.readAllByStatus(status);
+        Page<Transaction> transactions = this.transactionService.readAllByStatus(pageable, status);
         return new PageImpl<>(
                 transactions.stream()
                         .map(TransferObj::fromTransaction)

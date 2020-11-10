@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "contracts", schema = "public")
+@Table(name = "contracts_tab", schema = "public")
 public class Contract implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1028569186091960062L;
@@ -91,7 +91,6 @@ public class Contract implements Serializable, Cloneable {
         this.name = name;
         this.fullName = fullName;
         this.address = address;
-        this.status = EntityStatus.on;
         this.pow = pow;
     }
 

@@ -1,9 +1,9 @@
 package com.github.ethereum.handlers;
 
 import com.github.ethereum.payload.Error;
-import com.github.wrapper.ethrereum.exceptions.BalanceException;
-import com.github.wrapper.ethrereum.exceptions.BroadcastException;
-import com.github.wrapper.ethrereum.exceptions.NonceException;
+import com.github.facade.ethrereum.exceptions.BalanceException;
+import com.github.facade.ethrereum.exceptions.BroadcastException;
+import com.github.facade.ethrereum.exceptions.NonceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

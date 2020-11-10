@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface IFeeController {
 
-    @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
     FeeDto findFee();
 

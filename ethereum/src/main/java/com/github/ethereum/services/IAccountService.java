@@ -3,6 +3,7 @@ package com.github.ethereum.services;
 import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public interface IAccountService {
 
     List<String> readAddressesByStatus(EntityStatus status);
 
-    Page<Account> readAllByStatus(EntityStatus status);
+    Page<Account> readAllByStatus(Pageable pageable, EntityStatus status);
 
     Account readByUserIdAndByStatus(UUID userId, EntityStatus status);
 
@@ -24,5 +25,7 @@ public interface IAccountService {
     void update(Account account);
 
     void updateStatus(String address, EntityStatus status);
+
+    int countAccountByUserId(UUID userId);
 
 }

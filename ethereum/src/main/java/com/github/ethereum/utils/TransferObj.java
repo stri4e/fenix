@@ -103,6 +103,7 @@ public class TransferObj {
 
     public static CurrencyDto fromCurrency(Currency data) {
         return new CurrencyDto(
+                data.getId(),
                 data.getName(),
                 data.getFullName(),
                 data.getAddressRegex(),

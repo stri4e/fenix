@@ -4,6 +4,7 @@ import com.github.ethereum.controllers.IAccountController;
 import com.github.ethereum.dto.AccountDto;
 import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
+import com.github.ethereum.exceptions.Conflict;
 import com.github.ethereum.exceptions.NoContent;
 import com.github.ethereum.services.IAccountService;
 import com.github.ethereum.utils.Logging;
@@ -24,6 +25,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.github.ethereum.utils.TransferObj.fromAccount;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/accounts")
@@ -37,7 +40,7 @@ public class AccountController implements IAccountController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<AccountDto> findByStatus(EntityStatus status, Pageable pageable) {
-        Page<Account> accounts = this.accountService.readAllByStatus(status);
+        Page<Account> accounts = this.accountService.readAllByStatus(pageable, status);
         return new PageImpl<>(
                 accounts.stream()
                         .map(TransferObj::fromAccount)
@@ -49,24 +52,34 @@ public class AccountController implements IAccountController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public String findAvailableAddress(UUID userId) {
-        Account account = this.accountService
-                .readByUserIdAndByStatus(userId, EntityStatus.off);
-        if (Objects.isNull(account)) {
-            List<Account> accounts = this.accountService.readByUserId(userId);
-            if (accounts.size() < BigInteger.TEN.intValue()) {
-                KeyPair keys = this.facadeEthereum.generateKeys();
-                Account tmp = new Account(
-                        userId, keys.getPrivateKey(),
-                        keys.getPublicKey(), keys.getAddress(),
-                        BigInteger.ZERO, EntityStatus.on
-                );
-                account = this.accountService.create(tmp);
-            } else {
-                throw new NoContent("Max limit of accounts.");
-            }
+    public AccountDto save(UUID userId) {
+        int count = this.accountService.countAccountByUserId(userId);
+        if (count < BigInteger.TEN.intValue()) {
+            KeyPair keys = this.facadeEthereum.generateKeys();
+            Account tmp = new Account(
+                    userId, keys.getPrivateKey(),
+                    keys.getPublicKey(), keys.getAddress(),
+                    BigInteger.ZERO, EntityStatus.on
+            );
+            return fromAccount(this.accountService.create(tmp));
         }
-        return account.getAddress();
+        throw new Conflict("Max limit of accounts.");
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public String findAvailableAddress(UUID userId) {
+        return this.accountService
+                .readByUserIdAndByStatus(userId, EntityStatus.off)
+                .getAddress();
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void activateAddress(String address) {
+        this.accountService.updateStatus(address, EntityStatus.on);
     }
 
     @Override

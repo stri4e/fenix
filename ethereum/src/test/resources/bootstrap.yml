@@ -2,7 +2,7 @@ spring:
   zipkin:
     enabled: false
   application:
-    name: ethereum-service
+    name: ethereum
   cloud:
     config:
       enabled: false

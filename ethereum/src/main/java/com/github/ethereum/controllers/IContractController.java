@@ -30,7 +30,7 @@ public interface IContractController {
     void update(@RequestBody ContractDto payload);
 
     @DeleteMapping(
-            path = "/fetch/{id}"
+            path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void delete(@PathVariable(name = "id") Long id);

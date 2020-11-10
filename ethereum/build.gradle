@@ -52,6 +52,13 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation 'com.github.HellcrowAndrey:facade-ethrereum:0.0.9'
 
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
+
+	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
+
+	testImplementation group: 'org.mock-server', name: 'mockserver-netty', version: '5.11.1'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
