@@ -38,7 +38,7 @@ public class AppConfig {
     @Profile(value = {"test"})
     public IFacadeBitcoin facadeTestBitcoin() {
         return new FacadeBitcoin(
-                Network.TEST,
+                Network.REGTEST,
                 WrapUtils.DETERMINISTIC_PATH_TEST,
                 ".",
                 this.walletName,

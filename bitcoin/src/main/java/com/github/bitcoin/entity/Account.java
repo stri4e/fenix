@@ -1,8 +1,6 @@
 package com.github.bitcoin.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,6 +14,8 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "addresses")
+@ToString(exclude = "addresses")
 @Table(name = "accounts", schema = "public")
 public class Account implements Serializable, Cloneable {
 
@@ -124,11 +124,13 @@ public class Account implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Account(String mnemonic,
+    public Account(UUID userId,
+                   String mnemonic,
                    String privateKey,
                    String publicKey,
                    String chainCode,
                    Long timeStamp) {
+        this.userId = userId;
         this.mnemonic = mnemonic;
         this.privateKey = privateKey;
         this.publicKey = publicKey;

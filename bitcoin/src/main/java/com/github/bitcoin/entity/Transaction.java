@@ -11,7 +11,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -64,12 +66,12 @@ public class Transaction implements Serializable, Cloneable {
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private List<String> inputs = new ArrayList<>();
+    private Set<String> inputs = new HashSet<>();
 
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private List<String> outputs = new ArrayList<>();
+    private Set<String> outputs = new HashSet<>();
 
     @Column(
             name = "status",
@@ -101,7 +103,7 @@ public class Transaction implements Serializable, Cloneable {
     private LocalDateTime updateAt;
 
     public Transaction(Long id, Long blockHeight, String blockHash, String hash,
-                       Integer confirmations, List<String> inputs, List<String> outputs) {
+                       Integer confirmations, Set<String> inputs, Set<String> outputs) {
         this.id = id;
         this.blockHeight = blockHeight;
         this.blockHash = blockHash;
@@ -112,8 +114,8 @@ public class Transaction implements Serializable, Cloneable {
     }
 
     public Transaction(Long blockHeight, String blockHash, String hash,
-                       Integer confirmations, List<String> inputs,
-                       List<String> outputs,TransactionType type) {
+                       Integer confirmations, Set<String> inputs,
+                       Set<String> outputs,TransactionType type) {
         this.blockHeight = blockHeight;
         this.blockHash = blockHash;
         this.hash = hash;
@@ -123,7 +125,7 @@ public class Transaction implements Serializable, Cloneable {
         this.type = type;
     }
 
-    public Transaction(String hash, BigInteger value, List<String> inputs, List<String> outputs, TransactionType type) {
+    public Transaction(String hash, BigInteger value, Set<String> inputs, Set<String> outputs, TransactionType type) {
         this.hash = hash;
         this.value = value;
         this.inputs = inputs;

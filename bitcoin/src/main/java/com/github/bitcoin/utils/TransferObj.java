@@ -10,6 +10,7 @@ import com.github.facade.bitcoin.utils.Network;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,8 @@ public class TransferObj {
                 data.getHash(),
                 data.getConfirmations(),
                 data.getValue(),
-                data.getInputs(),
-                data.getOutputs()
+                new ArrayList<>(data.getInputs()),
+                new ArrayList<>(data.getOutputs())
         );
     }
 
@@ -99,10 +100,10 @@ public class TransferObj {
                 data.getConfirmation(),
                 data.getInputs().stream()
                         .map(TInput::getAddress)
-                        .collect(Collectors.toList()),
+                        .collect(Collectors.toSet()),
                 data.getOutputs().stream()
                         .map(TOutput::getAddress)
-                        .collect(Collectors.toList()),
+                        .collect(Collectors.toSet()),
                 type
         );
     }

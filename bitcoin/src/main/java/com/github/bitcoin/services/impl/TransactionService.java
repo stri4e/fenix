@@ -7,6 +7,7 @@ import com.github.bitcoin.repository.TransactionRepo;
 import com.github.bitcoin.services.ITransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,8 +25,8 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public Page<Transaction> readAllByStatus(EntityStatus status) {
-        return this.transactionRepo.findAllByStatus(status);
+    public Page<Transaction> readAllByStatus(EntityStatus status, Pageable pageable) {
+        return this.transactionRepo.findAllByStatus(status, pageable);
     }
 
     @Override

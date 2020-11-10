@@ -37,6 +37,6 @@ public class FeePerKbyteController implements IFeePerKbyteController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(FeePerKbDto payload) {
-        this.feePerKbService.update(toFeePerKb(payload));
+        this.feePerKbService.update(payload.getId(), payload.getFee());
     }
 }

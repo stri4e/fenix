@@ -14,10 +14,10 @@ public interface ICurrencyController {
 
     @PutMapping(path = "/edit")
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@Valid @RequestBody CurrencyDto payload);
+    void updateCurrency(@Valid @RequestBody CurrencyDto payload);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    CurrencyDto find();
+    CurrencyDto findCurrency();
 
 }

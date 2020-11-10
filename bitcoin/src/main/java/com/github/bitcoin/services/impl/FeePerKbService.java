@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 
 @Service
 @Transactional
@@ -29,7 +30,7 @@ public class FeePerKbService implements IFeePerKbService {
     }
 
     @Override
-    public void update(FeePerKb feePerKb) {
-        this.feePerKbRepo.save(feePerKb);
+    public void update(Long id, BigInteger fee) {
+        this.feePerKbRepo.update(id, fee);
     }
 }

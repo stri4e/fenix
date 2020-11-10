@@ -1,8 +1,6 @@
 package com.github.bitcoin.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,6 +16,8 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "account")
+@EqualsAndHashCode(exclude = "account")
 @Table(name = "addresses", schema = "public")
 public class Address implements Serializable, Cloneable {
 
@@ -78,7 +78,7 @@ public class Address implements Serializable, Cloneable {
             nullable = false
     )
     @Enumerated(value = EnumType.STRING)
-    private EntityStatus status = EntityStatus.on;
+    private EntityStatus status = EntityStatus.off;
 
     @CreationTimestamp
     @Column(

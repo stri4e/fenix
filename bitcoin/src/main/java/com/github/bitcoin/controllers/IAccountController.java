@@ -27,7 +27,7 @@ public interface IAccountController {
             }) Pageable pageable
     );
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     void save(@RequestAttribute UUID userId);
 
@@ -36,6 +36,12 @@ public interface IAccountController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     String findAvailableAddress(@RequestAttribute UUID userId);
+
+    @PutMapping(
+            path = "/{address}"
+    )
+    @ResponseStatus(value = HttpStatus.OK)
+    void activateAddress(@PathVariable(name = "address") String address);
 
     @DeleteMapping(
             path = "/{address}"

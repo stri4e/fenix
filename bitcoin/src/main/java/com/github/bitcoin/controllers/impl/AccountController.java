@@ -33,7 +33,7 @@ public class AccountController implements IAccountController {
 
     private static final int ZERO = 0;
 
-    private static final int TEN = 10;
+    private static final int NINE = 9;
 
     private final IFacadeBitcoin facadeBitcoin;
 
@@ -45,7 +45,7 @@ public class AccountController implements IAccountController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<AccountDto> findByStatus(EntityStatus status, Pageable pageable) {
-        Page<Account> accounts = this.accountService.readAllByStatus(status);
+        Page<Account> accounts = this.accountService.readAllByStatus(status, pageable);
         return new PageImpl<>(
                 accounts.stream()
                         .map(TransferObj::fromAccount)
@@ -60,9 +60,10 @@ public class AccountController implements IAccountController {
     public void save(UUID userId) {
         KeysBag keys = this.facadeBitcoin.generateKeys();
         List<ChainAddress> chainAddresses =
-                this.facadeBitcoin.generateAddresses(keys, ZERO, TEN);
+                this.facadeBitcoin.generateAddresses(keys, ZERO, NINE);
         Account account = this.accountService.create(
                 new Account(
+                        userId,
                         keys.getMnemonic(),
                         keys.getPrivateKey(),
                         keys.getPublicKey(),
@@ -85,14 +86,19 @@ public class AccountController implements IAccountController {
     @Logging(isTime = true, isReturn = false)
     public String findAvailableAddress(UUID userId) {
         Account account = this.accountService.readByUserId(userId);
-        var result = account.getAddresses().stream()
+        return account.getAddresses().stream()
                 .filter(address -> EntityStatus.off.equals(address.getStatus()))
                 .map(Address::getAddress)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(NotFound::new);
-        this.addressService.updateStatus(result, EntityStatus.on);
-        return result;
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void activateAddress(String address) {
+        this.addressService.updateStatus(address, EntityStatus.on);
     }
 
     @Override

@@ -23,14 +23,14 @@ public class CurrencyController implements ICurrencyController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void update(CurrencyDto payload) {
+    public void updateCurrency(CurrencyDto payload) {
         this.currencyService.update(toCurrency(payload));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public CurrencyDto find() {
+    public CurrencyDto findCurrency() {
         return fromCurrency(this.currencyService.read());
     }
 

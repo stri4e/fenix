@@ -2,8 +2,8 @@ package com.github.bitcoin.handlers;
 
 import com.github.bitcoin.exceptions.SendTransactionFailed;
 import com.github.bitcoin.payload.Error;
-import com.github.wrapper.bitcoin.exceptions.ErrorFee;
-import com.github.wrapper.bitcoin.exceptions.NotEnoughMoney;
+import com.github.facade.bitcoin.exceptions.ErrorFee;
+import com.github.facade.bitcoin.exceptions.NotEnoughMoney;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

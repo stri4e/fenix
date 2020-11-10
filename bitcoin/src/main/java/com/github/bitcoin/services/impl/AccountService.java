@@ -8,6 +8,7 @@ import com.github.bitcoin.repository.AccountRepo;
 import com.github.bitcoin.services.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,8 +22,8 @@ public class AccountService implements IAccountService {
     private final AccountRepo accountRepo;
 
     @Override
-    public Page<Account> readAllByStatus(EntityStatus status) {
-        return this.accountRepo.findAllByStatus(status);
+    public Page<Account> readAllByStatus(EntityStatus status, Pageable pageable) {
+        return this.accountRepo.findAllByStatus(status, pageable);
     }
 
     @Override

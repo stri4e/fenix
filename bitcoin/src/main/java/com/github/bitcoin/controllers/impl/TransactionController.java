@@ -114,11 +114,11 @@ public class TransactionController implements ITransactionController {
 
     private Transaction doTransaction(TrialTransaction trx) {
         var isZero = trx.getChange().equals(BigInteger.ZERO);
-        List<String> outputs = isZero ? List.of(trx.getTo()) : List.of(trx.getTo(), trx.getFrom());
+        Set<String> outputs = isZero ? Set.of(trx.getTo()) : Set.of(trx.getTo(), trx.getFrom());
         return new Transaction(
                 trx.getHash(),
                 trx.getValue(),
-                List.of(trx.getFrom()),
+                Set.of(trx.getFrom()),
                 outputs,
                 TransactionType.outgoing
         );
@@ -145,7 +145,7 @@ public class TransactionController implements ITransactionController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<TransactionDto> findAllByStatus(EntityStatus status, Pageable pageable) {
-        Page<Transaction> transactions = this.transactionService.readAllByStatus(status);
+        Page<Transaction> transactions = this.transactionService.readAllByStatus(status, pageable);
         return new PageImpl<>(
                 transactions.stream()
                         .map(TransferObj::fromTransaction)
