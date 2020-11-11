@@ -40,11 +40,6 @@ public interface IOrdersService {
     Optional<OrderDetailDto> readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/v1/edit"
-    )
-    void update(@RequestBody OrderDetailDto o);
-
-    @PutMapping(
             path = "/v1/edit/{productId}/{orderStatus}"
     )
     void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);

@@ -1,6 +1,5 @@
 package com.github.admins.controllers.impl;
 
-import com.github.admins.dto.AccountantDto;
 import com.github.admins.dto.LockedDto;
 import com.github.admins.dto.UserRegDto;
 import org.mockserver.client.MockServerClient;
@@ -66,7 +65,7 @@ public class UsersControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())
-                        .withPath("/v1/managers/fetch/locked")
+                        .withPath("/v1/managers/edit/locked")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(
@@ -85,7 +84,7 @@ public class UsersControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())
-                        .withPath("/v1/admins/fetch/locked")
+                        .withPath("/v1/admins/edit/locked")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(

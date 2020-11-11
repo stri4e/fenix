@@ -28,11 +28,6 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
-    public void update(OrderDetailDto o) {
-
-    }
-
-    @Override
     public void update(Long productId, OrderStatus orderStatus) {
 
     }

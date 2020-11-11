@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,13 +34,6 @@ public class OrderDetailController implements IOrderDetailController {
     public OrderDetailDto findById(Long orderId) {
         return this.orderService.readById(orderId)
                 .orElseThrow(NotFound::new);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateOrder(@Valid OrderDetailDto payload) {
-        this.orderService.update(payload);
     }
 
     @Override
