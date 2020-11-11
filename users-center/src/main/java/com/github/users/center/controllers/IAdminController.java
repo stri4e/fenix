@@ -40,7 +40,7 @@ public interface IAdminController {
     );
 
     @PutMapping(
-            path = "/fetch/locked"
+            path = "/edit/locked"
     )
     void lockedUser(@RequestBody LockedDto payload);
 

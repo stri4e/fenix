@@ -3,8 +3,8 @@ package com.github.users.center.controllers;
 import com.github.users.center.dto.ForgotPassDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
-import com.github.users.center.payload.ConfirmReport;
 import com.github.users.center.payload.JwtAuthResponse;
+import com.github.users.center.payload.RenderTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -20,7 +20,7 @@ public interface IUsersController {
     );
 
     @PostMapping(path = "/edit/confirm-account/{token}")
-    ConfirmReport confirmAccount(@PathVariable(name = "token") String token);
+    RenderTemplate confirmAccount(@PathVariable(name = "token") String token);
 
     @PostMapping(path = "/auth")
     @ResponseStatus(code = HttpStatus.OK)
@@ -39,6 +39,6 @@ public interface IUsersController {
 
     @PostMapping(path = "/edit/reset-pass/{token}")
     @ResponseStatus(code = HttpStatus.OK)
-    ConfirmReport resetPass(@PathVariable(name = "token") String token);
+    RenderTemplate resetPass(@PathVariable(name = "token") String token);
 
 }

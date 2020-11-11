@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface ISuccessErrorPagesController {
 
-    @GetMapping(path = "/confirm-account")
+    @GetMapping(path = "/confirm-account/{token}")
     String confirmAccount(@PathVariable String token);
 
-    @GetMapping(path = "/reset-pass")
+    @GetMapping(path = "/reset-pass/{token}")
     String resetPass(@PathVariable String token);
 
 }

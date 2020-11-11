@@ -1,6 +1,6 @@
 package com.github.emails.services;
 
-import com.github.emails.payload.ConfirmReport;
+import com.github.emails.payload.RenderTemplate;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface IUsersCenterService {
 
     @PostMapping(path = "/v1/edit/confirm-account")
-    Optional<ConfirmReport> confirmAccount(String token);
+    Optional<RenderTemplate> confirmAccount(String token);
 
     @PostMapping(path = "/v1/edit/confirm-account")
-    Optional<ConfirmReport> resetPassword(String token);
+    Optional<RenderTemplate> resetPassword(String token);
 
 }

@@ -26,7 +26,7 @@ public interface IOrdersDetailController {
                     example = "Bearer access_token"
             )
     )
-    void save(
+    OrderDetailDto save(
             @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
             @RequestBody @Valid OrderDetailDto payload
     );

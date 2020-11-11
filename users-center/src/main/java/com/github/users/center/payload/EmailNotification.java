@@ -59,7 +59,7 @@ public class EmailNotification {
         var url = UriComponentsBuilder.newInstance()
                 .uri(URI.create(clientUrl))
                 .path(path)
-                .queryParam("token", token)
+                .path(token)
                 .build().toString();
         Map<String, Object> information = new HashMap<>();
         information.put("firstName", fName);

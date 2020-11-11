@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -49,7 +48,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void save(UUID userId, OrderDetailDto payload) {
+    public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
         Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
         Delivery delivery = this.deliveryService.create(toDelivery(payload.getDelivery()));
         BillDto bill = this.billService.create(payload.getBill());
@@ -60,6 +59,7 @@ public class OrdersDetailController implements IOrdersDetailController {
         CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
                 registrationOrderNotify(result)
         ));
+        return result;
     }
 
     @Override
@@ -124,18 +124,22 @@ public class OrdersDetailController implements IOrdersDetailController {
         OrderDetail order = this.orderService.readById(payload.getId());
         Delivery delivery = this.deliveryService.readById(payload.getDelivery().getId());
         Customer customer = this.customerService.readById(payload.getCustomer().getId());
+
         delivery.setType(payload.getDelivery().getType());
         delivery.setAmount(payload.getAmount());
         delivery.setAddress(payload.getDelivery().getAddress());
         delivery.setCompanyName(payload.getDelivery().getCompanyName());
+
         customer.setCustomerAddress(payload.getCustomer().getCustomerAddress());
         customer.setCustomerEmail(payload.getCustomer().getCustomerEmail());
         customer.setCustomerName(payload.getCustomer().getCustomerName());
         customer.setCustomerPhone(payload.getCustomer().getCustomerPhone());
+
         order.setDelivery(delivery);
         order.setCustomer(customer);
         order.setAmount(payload.getAmount());
         order.setStatus(payload.getStatus());
+
         this.orderService.update(order);
     }
 

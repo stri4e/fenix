@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -34,9 +33,7 @@ import static com.github.users.center.utils.UsersUtils.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/admins")
-public class AdminController implements IAdminController, Serializable {
-
-    private final static long serialVersionUID = 5551087240799808634L;
+public class AdminController implements IAdminController {
 
     private final IUserService userService;
 
@@ -141,7 +138,7 @@ public class AdminController implements IAdminController, Serializable {
     private void registration(User user, String clientUrl, ConfirmToken ct) {
         EmailNotification notification = EmailNotification.userChangeNotify(
                 user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, "/emails/v1/pages", ct.getToken()
+                clientUrl, "/emails/v1/pages/confirm-account/", ct.getToken()
         );
         this.emailService.submitReg(notification);
     }

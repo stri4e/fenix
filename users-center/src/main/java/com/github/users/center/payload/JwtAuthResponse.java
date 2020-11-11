@@ -12,6 +12,7 @@ import static com.github.users.center.payload.TokenType.TYPE_HTTP_TOKEN;
 public class JwtAuthResponse {
 
     private String tokenType;
+
     private String accessToken;
 
     public JwtAuthResponse(String tokenType) {

@@ -1,10 +1,10 @@
 package com.github.users.center.services;
 
-import com.github.users.center.entity.Notification;
+import com.github.users.center.entity.NotificationPrefix;
 
 public interface INotificationService {
 
-    void save(Notification notification);
+    void save(NotificationPrefix notificationPrefix);
 
     String ending(Long userId);
 

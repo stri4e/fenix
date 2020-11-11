@@ -35,8 +35,6 @@ import static com.github.users.center.utils.UsersUtils.*;
 @RequestMapping(path = "/v1/managers")
 public class ManagersController implements IManagersController {
 
-    private static final long serialVersionUID = 7320210790321457692L;
-
     private final IUserService userService;
 
     private final IConfirmService confirmService;
@@ -140,7 +138,7 @@ public class ManagersController implements IManagersController {
     private void registration(User user, String clientUrl, ConfirmToken ct) {
         EmailNotification notification = EmailNotification.userChangeNotify(
                 user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, "/emails/v1/pages", ct.getToken()
+                clientUrl, "/emails/v1/pages/confirm-account/", ct.getToken()
         );
         this.emailService.submitReg(notification);
     }
