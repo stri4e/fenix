@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -52,11 +53,21 @@ public class Delivery implements Serializable, Cloneable {
     @Column(
             name = "amount",
             precision = 8,
-            scale = 3,
-            columnDefinition="DECIMAL(8, 3)",
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
             nullable = false
     )
     private BigDecimal amount;
+
+    @Column(
+            name = "user_id",
+            nullable = false,
+            unique = true
+    )
+    private UUID userId;
+
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -74,12 +85,13 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, String address, BigDecimal amount) {
+    public Delivery(Long id, DeliveryType type, String companyName, String address, BigDecimal amount, UUID userId) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
         this.address = address;
         this.amount = amount;
+        this.userId = userId;
     }
 
 }

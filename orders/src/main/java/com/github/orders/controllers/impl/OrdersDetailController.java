@@ -49,8 +49,10 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
-        Customer customer = this.customerService.create(toCustomer(payload.getCustomer()));
-        Delivery delivery = this.deliveryService.create(toDelivery(payload.getDelivery()));
+        Customer customer = this.customerService.createOrUpdate(
+                toCustomer(payload.getCustomer(), userId));
+        Delivery delivery = this.deliveryService.createOrUpdate(
+                toDelivery(payload.getDelivery(), userId));
         BillDto bill = this.billService.create(payload.getBill());
         OrderDetail tmp = toOrderDetail(customer, payload, delivery, userId, bill.getId());
         OrderDetail order = this.orderService.crete(tmp);
@@ -120,32 +122,6 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOrder(OrderDetailDto payload) {
-        OrderDetail order = this.orderService.readById(payload.getId());
-        Delivery delivery = this.deliveryService.readById(payload.getDelivery().getId());
-        Customer customer = this.customerService.readById(payload.getCustomer().getId());
-
-        delivery.setType(payload.getDelivery().getType());
-        delivery.setAmount(payload.getAmount());
-        delivery.setAddress(payload.getDelivery().getAddress());
-        delivery.setCompanyName(payload.getDelivery().getCompanyName());
-
-        customer.setCustomerAddress(payload.getCustomer().getCustomerAddress());
-        customer.setCustomerEmail(payload.getCustomer().getCustomerEmail());
-        customer.setCustomerName(payload.getCustomer().getCustomerName());
-        customer.setCustomerPhone(payload.getCustomer().getCustomerPhone());
-
-        order.setDelivery(delivery);
-        order.setCustomer(customer);
-        order.setAmount(payload.getAmount());
-        order.setStatus(payload.getStatus());
-
-        this.orderService.update(order);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
     public void updateOderStatus(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
     }
@@ -153,7 +129,7 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOderPaid(Long billId) {
+    public void updateOrderPaid(Long billId) {
         this.orderService.updateOrderPaid(billId);
     }
 

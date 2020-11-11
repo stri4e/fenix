@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Customer toCustomer(CustomerDto data) {
+    public static Customer toCustomer(CustomerDto data, UUID userId) {
         return new Customer(
+                data.getId(),
                 data.getCustomerName(),
                 data.getCustomerAddress(),
                 data.getCustomerEmail(),
-                data.getCustomerPhone()
+                data.getCustomerPhone(),
+                userId
         );
     }
 
@@ -73,13 +75,14 @@ public class TransferObj {
         );
     }
 
-    public static Delivery toDelivery(DeliveryDto data) {
+    public static Delivery toDelivery(DeliveryDto data, UUID userId) {
         return new Delivery(
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
                 data.getAddress(),
-                data.getAmount()
+                data.getAmount(),
+                userId
         );
     }
 

@@ -59,8 +59,8 @@ public class OrderDetail implements Serializable, Cloneable {
     @Column(
             name = "amount",
             precision = 8,
-            scale = 3,
-            columnDefinition="DECIMAL(8, 3)",
+            scale = 4,
+            columnDefinition="DECIMAL(8, 4)",
             nullable = false
     )
     private BigDecimal amount;
@@ -104,21 +104,8 @@ public class OrderDetail implements Serializable, Cloneable {
     private LocalDateTime updateAt;
 
     public OrderDetail(
-            Long id, Customer customer, List<Long> productIds,
-            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
-        this.id = id;
-        this.customer = customer;
-        this.productIds = productIds;
-        this.amount = amount;
-        this.userId = userId;
-        this.billId = billId;
-        this.status = status;
-    }
-
-    public OrderDetail(
             Customer customer, List<Long> productIds,
             BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
-        this.id = id;
         this.customer = customer;
         this.productIds = productIds;
         this.amount = amount;
@@ -136,28 +123,6 @@ public class OrderDetail implements Serializable, Cloneable {
         this.delivery = delivery;
         this.userId = userId;
         this.billId = billId;
-        this.status = status;
-    }
-
-//    public OrderDetail(
-//            Long id, Customer customer, List<Long> productIds,
-//            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
-//        this.id = id;
-//        this.customer = customer;
-//        this.productIds = productIds;
-//        this.amount = amount;
-//        this.userId = userId;
-//        this.billId = billId;
-//        this.status = status;
-//    }
-
-    public OrderDetail(
-            Customer customer, List<Long> productIds,
-            BigDecimal amount, UUID userId, OrderStatus status) {
-        this.customer = customer;
-        this.productIds = productIds;
-        this.amount = amount;
-        this.userId = userId;
         this.status = status;
     }
 

@@ -72,12 +72,6 @@ public interface IOrdersDetailController {
                         @RequestParam(name = "ids", required = false) List<Long> ids);
 
     @PutMapping(
-            path = "/edit"
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    void updateOrder(@RequestBody OrderDetailDto o);
-
-    @PutMapping(
             path = "/edit/{orderId}/{orderStatus}"
     )
     @ResponseStatus(code = HttpStatus.OK)
@@ -89,7 +83,7 @@ public interface IOrdersDetailController {
             path = "/edit/paid/{billId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOderPaid(@PathVariable(name = "billId") Long billId);
+    void updateOrderPaid(@PathVariable(name = "billId") Long billId);
 
     @DeleteMapping(
             path = "/{id}"

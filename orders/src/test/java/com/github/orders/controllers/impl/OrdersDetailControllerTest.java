@@ -226,22 +226,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     }
 
     @Test
-    public void update() {
-        OrderDetailDto payload = OrdersDetailControllerMocks.orderForUpdate();
-        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        orderForSave.setCustomer(this.customerRepo.save(customer));
-        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
-        this.orderRepo.save(orderForSave);
-        String url = String.format("%s%s", this.orderUrl, "/edit");
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
-        );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
     public void updateOrderStatus() {
         OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();

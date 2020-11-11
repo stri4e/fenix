@@ -18,7 +18,7 @@ public class OrdersDetailControllerMocks {
 
     public static final Long CUSTOMER_ID = 1L;
 
-    public static final BigDecimal AMOUNT = new BigDecimal("1.002");
+    public static final BigDecimal AMOUNT = new BigDecimal("1.0020");
 
     public static final String CUSTOMER_NAME = "Alex";
 
@@ -155,7 +155,8 @@ public class OrdersDetailControllerMocks {
                 CUSTOMER_NAME,
                 CUSTOMER_ADDRESS,
                 CUSTOMER_EMAIL,
-                CUSTOMER_PHONE
+                CUSTOMER_PHONE,
+                USER_ID
         );
     }
 
@@ -207,7 +208,7 @@ public class OrdersDetailControllerMocks {
                 DeliveryType.home,
                 "Nowa poshta",
                 "xz street",
-                new BigDecimal("50.200")
+                new BigDecimal("50.2000")
         );
     }
 
@@ -217,7 +218,8 @@ public class OrdersDetailControllerMocks {
                 DeliveryType.home,
                 "Nowa poshta",
                 "xz street",
-                new BigDecimal("50.200")
+                new BigDecimal("50.2000"),
+                USER_ID
         );
     }
 
