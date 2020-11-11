@@ -1,7 +1,8 @@
-package com.github.orders.controllers.impl;
+package com.github.deliveries.controllers.impl;
 
-import com.github.orders.dto.CompanyDto;
-import com.github.orders.repository.CompanyRepo;
+import com.github.deliveries.controllers.DeliveryCompaniesMocks;
+import com.github.deliveries.dto.CompanyDto;
+import com.github.deliveries.repository.CompanyRepo;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.URL;
 import java.util.List;
 
-import static com.github.orders.OrdersConstant.LOCALHOST;
-import static com.github.orders.controllers.impl.DeliveryCompaniesMocks.COMPANIES_FOR_EQUALS;
-import static com.github.orders.controllers.impl.DeliveryCompaniesMocks.COMPANIES_FOR_SAVE;
+import static com.github.deliveries.controllers.DeliveryCompaniesMocks.COMPANIES_FOR_EQUALS;
+import static com.github.deliveries.controllers.DeliveryCompaniesMocks.COMPANIES_FOR_SAVE;
+import static com.github.deliveries.controllers.DeliveryConstant.LOCALHOST;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -50,7 +51,7 @@ public class DeliveryCompaniesControllerTest {
     @Before
     public void setUp() throws Exception {
         String url = String.format(
-                "%s%d%s", LOCALHOST, port, "/v1/delivery/company"
+                "%s%d%s", LOCALHOST, port, "/v1/companies"
         );
         this.deliveryUrl = new URL(url).toString();
     }

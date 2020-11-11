@@ -1,4 +1,4 @@
-package com.github.orders.dto;
+package com.github.deliveries.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

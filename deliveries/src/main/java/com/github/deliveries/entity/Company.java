@@ -1,4 +1,4 @@
-package com.github.orders.entity;
+package com.github.deliveries.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

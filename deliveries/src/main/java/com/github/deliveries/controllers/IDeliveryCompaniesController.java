@@ -1,6 +1,6 @@
-package com.github.orders.controllers;
+package com.github.deliveries.controllers;
 
-import com.github.orders.dto.CompanyDto;
+import com.github.deliveries.dto.CompanyDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

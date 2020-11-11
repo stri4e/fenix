@@ -1,6 +1,7 @@
-package com.github.orders.service;
+package com.github.deliveries.services;
 
-import com.github.orders.entity.Company;
+
+import com.github.deliveries.entity.Company;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface ICompanyService {
 
     Company readById(Long id);
 
-    void update(Company company);
+    void update(Long id, String name);
 
     void remove(Long id);
 

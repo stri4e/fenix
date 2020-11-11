@@ -56,20 +56,6 @@ public class TransferObj {
         );
     }
 
-    public static Company toCompany(CompanyDto data) {
-        return new Company(
-                data.getId(),
-                data.getName()
-        );
-    }
-
-    public static CompanyDto fromCompany(Company data) {
-        return new CompanyDto(
-                data.getId(),
-                data.getName()
-        );
-    }
-
     public static Delivery toDelivery(DeliveryDto data, UUID userId) {
         return new Delivery(
                 data.getId(),

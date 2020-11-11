@@ -1,7 +1,7 @@
-package com.github.orders.controllers.impl;
+package com.github.deliveries.controllers;
 
-import com.github.orders.dto.CompanyDto;
-import com.github.orders.entity.Company;
+import com.github.deliveries.dto.CompanyDto;
+import com.github.deliveries.entity.Company;
 
 import java.util.List;
 
