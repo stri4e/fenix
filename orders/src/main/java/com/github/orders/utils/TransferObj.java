@@ -22,11 +22,6 @@ public class TransferObj {
 
     public static OrderDetail toOrderDetail(
             Customer customer, OrderDetailDto data, Delivery delivery, UUID userId, Long billId) {
-
-        List<Long> r = data.getProducts().stream()
-                .map(ProductDto::getId)
-                .collect(Collectors.toList());
-
         return new OrderDetail(
                 customer,
                 data.getProducts().stream()

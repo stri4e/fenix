@@ -54,8 +54,8 @@ public class OrdersDetailController implements IOrdersDetailController {
         Delivery delivery = this.deliveryService.createOrUpdate(
                 toDelivery(payload.getDelivery(), userId));
         BillDto bill = this.billService.create(payload.getBill());
-        OrderDetail tmp = toOrderDetail(customer, payload, delivery, userId, bill.getId());
-        OrderDetail order = this.orderService.crete(tmp);
+        OrderDetail order = this.orderService.crete(
+                toOrderDetail(customer, payload, delivery, userId, bill.getId()));
         OrderDetailDto result = fromOrderDetail(order, payload.getProducts(), bill);
         CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(result));
         CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
