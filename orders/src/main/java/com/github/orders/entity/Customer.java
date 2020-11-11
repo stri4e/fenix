@@ -91,16 +91,6 @@ public class Customer implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Customer(String customerName,
-                    String customerAddress,
-                    String customerEmail,
-                    String customerPhone) {
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
-    }
-
     public Customer(Long id,
                     String customerName,
                     String customerAddress,
