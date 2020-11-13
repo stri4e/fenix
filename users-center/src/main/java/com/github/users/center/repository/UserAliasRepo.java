@@ -1,6 +1,6 @@
 package com.github.users.center.repository;
 
-import com.github.users.center.entity.NotificationPrefix;
+import com.github.users.center.entity.UserAlias;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,11 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface NotificationRepo extends JpaRepository<NotificationPrefix, Long> {
+public interface UserAliasRepo extends JpaRepository<UserAlias, Long> {
 
-    Optional<NotificationPrefix> findByUser_Id(Long userId);
+    Optional<UserAlias> findByUser_Id(Long userId);
 
-    @Query(value = "select n.ending from NotificationPrefix n where n.user.id=:userId")
+    @Query(value = "select n.ending from UserAlias n where n.user.id=:userId")
     String findEnding(@Param(value = "userId") UUID userId);
 
 }

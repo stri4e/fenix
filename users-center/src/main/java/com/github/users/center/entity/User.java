@@ -8,7 +8,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -66,17 +65,11 @@ public class User implements Serializable, Cloneable {
             name = "fName",
             nullable = false
     )
-    @NotBlank(
-            message = "First name is required."
-    )
     private String fName;
 
     @Column(
             name = "lName",
             nullable = false
-    )
-    @NotBlank(
-            message = "Last name is required."
     )
     private String lName;
 
@@ -85,9 +78,6 @@ public class User implements Serializable, Cloneable {
             nullable = false,
             unique = true
     )
-    @NotBlank(
-            message = "Login is required."
-    )
     private String login;
 
     @Column(
@@ -95,17 +85,11 @@ public class User implements Serializable, Cloneable {
             nullable = false,
             unique = true
     )
-    @NotBlank(
-            message = "Email is required."
-    )
     private String email;
 
     @Column(
             name = "pass",
             nullable = false
-    )
-    @NotBlank(
-            message = "Password is required."
     )
     private String pass;
 

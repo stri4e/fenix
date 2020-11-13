@@ -6,7 +6,7 @@ import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
-import com.github.users.center.entity.NotificationPrefix;
+import com.github.users.center.entity.UserAlias;
 import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
@@ -51,7 +51,7 @@ public class UsersController implements IUsersController {
 
     private final ILoginsService loginsService;
 
-    private final INotificationService notificationService;
+    private final IUserAliasService notificationService;
 
     @Override
     @HystrixCommand
@@ -77,7 +77,7 @@ public class UsersController implements IUsersController {
         User user = ct.getUser();
         this.userService.updateIsEnable(TRUE, user.getId());
         var prefix = UUID.randomUUID().toString();
-        NotificationPrefix notify = new NotificationPrefix(user, prefix);
+        UserAlias notify = new UserAlias(user, prefix);
         this.notificationService.save(notify);
         return RenderTemplate.success();
     }
