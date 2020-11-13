@@ -101,8 +101,7 @@ public class UsersController implements IUsersController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void
-    processForgotPass(String clientUrl, @Valid ForgotPassDto payload) {
+    public void processForgotPass(String clientUrl, @Valid ForgotPassDto payload) {
         User user = this.userService.readByEmail(payload.getEmail());
         PassResetToken rt = new PassResetToken(user);
         rt.setNewPass(this.passwordEncoder.encode(payload.getPass()));
