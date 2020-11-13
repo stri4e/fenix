@@ -37,7 +37,7 @@
             <p>${os_name}</p>
             <p>${browser_name}</p>
             <p>${browser_version}</p>
-            <p>${location}</p>
+            <p>${ip}</p>
         </td>
     </tr>
 </table>

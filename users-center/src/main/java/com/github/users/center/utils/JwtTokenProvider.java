@@ -72,12 +72,12 @@ public class JwtTokenProvider {
     }
 
     public RefreshSession
-    refreshAdminSession(String fingerprint, String location, User user, String scope) {
+    refreshAdminSession(String fingerprint, String ip, User user, String scope) {
         var now = new Date();
         var expire = new Date(now.getTime() + this.refreshExpireTime);
         var keyId = this.keysRole.get("refresh_admin");
         var token = refreshToken(fingerprint, expire, user, scope, keyId, this.keysStore.get(keyId));
-        return new RefreshSession(user.getId(), token, fingerprint, location, expire);
+        return new RefreshSession(user.getId(), token, fingerprint, ip, expire);
     }
 
     public RefreshSession

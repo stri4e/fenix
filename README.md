@@ -8,6 +8,10 @@ Swagger:
         
         http://127.0.0.1:8081/products/swagger-ui.html#/
 
+Single service:
+    
+        http://localhost:8080/swagger-ui.html
+
 Turbine: 
         
         http://localhost:8281/hystrix

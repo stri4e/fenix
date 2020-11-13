@@ -49,14 +49,14 @@ public class ManagersController implements IManagersController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void submitReg(String clientUrl, @Valid UserRegDto payload) {
+    public void submitReg(String origin, @Valid UserRegDto payload) {
         if (!this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
             User user = toUser(payload, ROLE_MANAGER);
             user.setPass(this.passwordEncoder.encode(user.getPass()));
             this.userService.create(user);
-            ConfirmToken ct = new ConfirmToken(clientUrl, user);
+            ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
-            CompletableFuture.runAsync(() -> registration(user, clientUrl, ct));
+            CompletableFuture.runAsync(() -> registration(user, origin, ct));
         }
         throw new Conflict();
     }
@@ -65,16 +65,16 @@ public class ManagersController implements IManagersController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public JwtRefreshResponse
-    submitAuth(String fingerprint, String location, String device, @Valid UserAuthDto payload) {
+    submitAuth(String ip, String fingerprint, String userAgent, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
         var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
-                    .refreshManagerSession(fingerprint, location, user, MANAGER_SCOPE);
+                    .refreshManagerSession(fingerprint, ip, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
-            CompletableFuture.runAsync(() -> logins(user, location, device));
+            CompletableFuture.runAsync(() -> logins(user, ip, userAgent));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();
@@ -85,20 +85,20 @@ public class ManagersController implements IManagersController {
         this.userService.updateIsLocked(payload.getEmail(), payload.isLocked());
     }
 
-    private void registration(User user, String clientUrl, ConfirmToken ct) {
+    private void registration(User user, String origin, ConfirmToken ct) {
         EmailNotification notification = EmailNotification.userChangeNotify(
                 user.getEmail(), user.getFName(), user.getLName(),
-                clientUrl, "/emails/v1/pages/confirm-account/", ct.getToken()
+                origin, "/emails/v1/pages/confirm-account/", ct.getToken()
         );
         this.emailService.submitReg(notification);
     }
 
-    private void logins(User user, String location, String device) {
+    private void logins(User user, String ip, String userAgent) {
         EmailNotification notification = EmailNotification.loginNotify(
-                user.getEmail(), location, device, user.getFName()
+                user.getEmail(), ip, userAgent, user.getFName()
         );
         this.emailService.loginNotification(notification);
-        LoginDto login = new LoginDto(user.getId(), device, location);
+        LoginDto login = new LoginDto(user.getId(), userAgent, ip);
         this.loginsService.createLogin(login);
     }
 

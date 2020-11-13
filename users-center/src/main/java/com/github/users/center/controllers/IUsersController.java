@@ -15,7 +15,7 @@ public interface IUsersController {
 
     @PostMapping(path = "/reg")
     @ResponseStatus(code = HttpStatus.CREATED)
-    void submitReg(@ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
+    void submitReg(@ApiIgnore @RequestHeader(name = "Origin") String origin,
                    @Valid @RequestBody UserRegDto payload
     );
 
@@ -25,15 +25,15 @@ public interface IUsersController {
     @PostMapping(path = "/auth")
     @ResponseStatus(code = HttpStatus.OK)
     JwtAuthResponse submitAuth(
-            @ApiIgnore @RequestHeader(name = "X-Forwarded-For") String location,
-            @ApiIgnore @RequestHeader(name = "User-Agent") String device,
+            @ApiIgnore @RequestAttribute(name = "ip") String ip,
+            @ApiIgnore @RequestHeader(name = "User-Agent") String userAgent,
             @Valid @RequestBody UserAuthDto payload
     );
 
     @PostMapping(path = "/forgot-pass")
     @ResponseStatus(code = HttpStatus.OK)
     void processForgotPass(
-            @ApiIgnore @RequestHeader(name = "Origin") String clientUrl,
+            @ApiIgnore @RequestHeader(name = "Origin") String origin,
             @Valid @RequestBody ForgotPassDto payload
     );
 

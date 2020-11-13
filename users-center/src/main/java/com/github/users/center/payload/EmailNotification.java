@@ -31,13 +31,13 @@ public class EmailNotification {
     private Map<String, Object> information;
 
     public static EmailNotification
-    loginNotify(String email, String location, String userInfo, String firstName) {
-        return new EmailNotification(email, information(location, userInfo, firstName));
+    loginNotify(String email, String ip, String userAgent, String firstName) {
+        return new EmailNotification(email, information(ip, userAgent, firstName));
     }
 
     private static Map<String, Object>
-    information(String location, String userInfo, String firstName) {
-        UserAgent agent = UserAgent.parseUserAgentString(userInfo);
+    information(String ip, String userAgent, String firstName) {
+        UserAgent agent = UserAgent.parseUserAgentString(userAgent);
         Browser browser = agent.getBrowser();
         Version version = agent.getBrowserVersion();
         OperatingSystem os = agent.getOperatingSystem();
@@ -49,15 +49,15 @@ public class EmailNotification {
         information.put("os_name", os.getName());
         information.put("browser_name", browser.getName());
         information.put("browser_version", version.getVersion());
-        information.put("location", location);
+        information.put("ip", ip);
         return information;
     }
 
     public static EmailNotification
     userChangeNotify(String email, String fName, String lName,
-                     String clientUrl, String path, String token) {
+                     String origin, String path, String token) {
         var url = UriComponentsBuilder.newInstance()
-                .uri(URI.create(clientUrl))
+                .uri(URI.create(origin))
                 .path(path)
                 .path(token)
                 .build().toString();
