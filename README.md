@@ -81,3 +81,12 @@ Start all services use docker-composer:
 Stop all services use docker-composer:
 
         ./run.sh stop_all docker-compose.dev.yml
+
+Meest:
+    
+    https://wiki.meest-group.com/api/ua/v3.0/openAPI#/
+
+Novaposhta:
+
+    https://devcenter.novaposhta.ua/docs/services/
+    
