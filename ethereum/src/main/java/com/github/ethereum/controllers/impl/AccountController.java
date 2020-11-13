@@ -5,7 +5,6 @@ import com.github.ethereum.dto.AccountDto;
 import com.github.ethereum.entity.Account;
 import com.github.ethereum.entity.EntityStatus;
 import com.github.ethereum.exceptions.Conflict;
-import com.github.ethereum.exceptions.NoContent;
 import com.github.ethereum.services.IAccountService;
 import com.github.ethereum.utils.Logging;
 import com.github.ethereum.utils.TransferObj;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
