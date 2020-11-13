@@ -4,10 +4,9 @@ import com.github.deliveries.dto.CompanyDto;
 import com.github.deliveries.dto.MeestSettingsDto;
 import com.github.deliveries.dto.MeestUserDto;
 import com.github.deliveries.dto.NovaposhtaSettingsDto;
-import com.github.deliveries.entity.Company;
-import com.github.deliveries.entity.MeestSettings;
-import com.github.deliveries.entity.MeestUser;
-import com.github.deliveries.entity.NovaposhtaSettings;
+import com.github.deliveries.entity.*;
+
+import java.util.Objects;
 
 public class TransferObj {
 
@@ -51,10 +50,11 @@ public class TransferObj {
     }
 
     public static MeestSettingsDto fromMeestSettings(MeestSettings data) {
+        MeestSession tokens = data.getSession();
         return new MeestSettingsDto(
                 data.getId(),
                 data.getBaseUrl(),
-                data.getTokens().getToken(),
+                Objects.isNull(tokens) ? null : tokens.getToken(),
                 data.getHeader()
         );
     }

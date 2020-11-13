@@ -43,7 +43,7 @@ public class MeestSettings implements Serializable, Cloneable {
     @JoinColumn(
             name = "meest_session_id"
     )
-    private MeestSession tokens;
+    private MeestSession session;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Map<String, String> header = new HashMap<>();

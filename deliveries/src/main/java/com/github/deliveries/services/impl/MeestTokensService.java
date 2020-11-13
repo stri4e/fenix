@@ -4,10 +4,12 @@ import com.github.deliveries.payload.MeestAuthResponse;
 import com.github.deliveries.payload.MeestTokens;
 import com.github.deliveries.payload.MeestUserRequest;
 import com.github.deliveries.services.IMeestTokensService;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 // This service is mocks. Because has not contract with meest
+@Service
 public class MeestTokensService implements IMeestTokensService {
 
     @Override

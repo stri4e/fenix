@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.github.deliveries.utils.TransferObj.fromMeestSettings;
 import static com.github.deliveries.utils.TransferObj.toMeestSettings;
@@ -45,8 +46,8 @@ public class MeestSettingsController implements IMeestSettingsController {
     @Override
     public MeestSettingsDto clientSession() {
         MeestSettings settings = this.meestSettingsService.read();
-        MeestSession session = settings.getTokens();
-        if (session.hashTokens()) {
+        MeestSession session = settings.getSession();
+        if (Objects.nonNull(session) && session.hashTokens()) {
             expired(settings, session);
         } else {
             newSession(settings);
@@ -55,7 +56,6 @@ public class MeestSettingsController implements IMeestSettingsController {
     }
 
     private void newSession(MeestSettings settings) {
-        MeestSession session;
         MeestUser user = this.meestUserService.read();
         MeestUserRequest authReq = new MeestUserRequest(user.getLogin(), user.getPass());
         MeestAuthResponse response = this.meestTokensService.newSession(authReq);
@@ -65,8 +65,8 @@ public class MeestSettingsController implements IMeestSettingsController {
                 token.getRefreshToken(),
                 token.getExpiresIn()
         );
-        session = this.meestSessionService.create(tmp);
-        settings.setTokens(session);
+        MeestSession session = this.meestSessionService.create(tmp);
+        settings.setSession(session);
         this.meestSettingsService.update(settings);
     }
 
@@ -83,7 +83,7 @@ public class MeestSettingsController implements IMeestSettingsController {
                     token.getExpiresIn()
             );
             session = this.meestSessionService.create(tmp);
-            settings.setTokens(session);
+            settings.setSession(session);
             this.meestSettingsService.update(settings);
         }
     }
@@ -100,4 +100,5 @@ public class MeestSettingsController implements IMeestSettingsController {
     public void remove(Long id) {
         this.meestSettingsService.remove(id);
     }
+
 }

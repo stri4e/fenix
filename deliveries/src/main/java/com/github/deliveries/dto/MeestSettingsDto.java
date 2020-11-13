@@ -14,7 +14,6 @@ import java.util.Map;
 @NoArgsConstructor
 public class MeestSettingsDto {
 
-    @NotNull
     @JsonProperty("id")
     private Long id;
 

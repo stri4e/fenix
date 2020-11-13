@@ -5,18 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MeestUserDto {
 
-    @NotNull
+    @NotBlank
     @JsonProperty("login")
     private String login;
 
-    @NotNull
+    @NotBlank
     @JsonProperty("pass")
     private String pass;
 

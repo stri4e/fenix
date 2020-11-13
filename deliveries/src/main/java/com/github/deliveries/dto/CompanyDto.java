@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class CompanyDto implements Serializable, Cloneable {
     @JsonProperty(value = "id")
     private Long id;
 
+    @NotBlank
     @JsonProperty(value = "name")
     private String name;
 

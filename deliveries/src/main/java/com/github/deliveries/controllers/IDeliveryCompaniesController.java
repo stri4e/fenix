@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IDeliveryCompaniesController {
@@ -19,7 +20,7 @@ public interface IDeliveryCompaniesController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    CompanyDto save(@RequestBody CompanyDto payload);
+    CompanyDto save(@Valid @RequestBody CompanyDto payload);
 
     @GetMapping(
             path = "/fetch/{id}"
@@ -30,7 +31,7 @@ public interface IDeliveryCompaniesController {
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody CompanyDto payload);
+    void update(@Valid @RequestBody CompanyDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

@@ -13,7 +13,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class NovaposhtaSettingsDto {
 
-    @NotNull
     @JsonProperty("id")
     private Long id;
 
