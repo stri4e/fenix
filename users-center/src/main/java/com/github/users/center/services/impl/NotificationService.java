@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -21,7 +22,7 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public String ending(Long userId) {
+    public String ending(UUID userId) {
         return this.notificationRepo.findEnding(userId);
     }
 }

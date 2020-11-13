@@ -4,16 +4,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
-public interface IAliasController {
+import java.util.UUID;
+
+public interface IUserAliasController {
 
     @GetMapping(
-            path = "/push/{userId}"
+            path = "/fetch/push/{userId}"
     )
-    String aliasForPush(@PathVariable(name = "userId") Long userId);
+    String aliasForPush(@PathVariable(name = "userId") UUID userId);
 
     @GetMapping(
             path = "/listening"
     )
-    String aliasForListening(@RequestAttribute Long userId);
+    String aliasForListening(@RequestAttribute UUID userId);
 
 }

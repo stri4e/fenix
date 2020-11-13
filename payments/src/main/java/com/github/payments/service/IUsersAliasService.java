@@ -15,7 +15,7 @@ import java.util.UUID;
 )
 public interface IUsersAliasService {
 
-    @GetMapping(path = "/v1/aliases/push/{userId}")
+    @GetMapping(path = "/v1/aliases/fetch/push/{userId}")
     Optional<String> findEndingUrl(@PathVariable(name = "userId") UUID userId);
 
 }

@@ -15,7 +15,6 @@ import com.github.users.center.payload.JwtRefreshResponse;
 import com.github.users.center.services.*;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
-import com.github.users.center.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Comparator;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 
+import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.*;
 
 @RestController
@@ -53,15 +50,15 @@ public class ManagersController implements IManagersController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void submitReg(String clientUrl, @Valid UserRegDto payload) {
-        if (this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
-            throw new Conflict();
+        if (!this.userService.existsByEmailOrLogin(payload.getEmail(), payload.getLogin())) {
+            User user = toUser(payload, ROLE_MANAGER);
+            user.setPass(this.passwordEncoder.encode(user.getPass()));
+            this.userService.create(user);
+            ConfirmToken ct = new ConfirmToken(clientUrl, user);
+            this.confirmService.create(ct);
+            CompletableFuture.runAsync(() -> registration(user, clientUrl, ct));
         }
-        User user = TransferObj.toUser(payload, ROLE_MANAGER);
-        user.setPass(this.passwordEncoder.encode(user.getPass()));
-        this.userService.create(user);
-        var ct = new ConfirmToken(clientUrl, user);
-        this.confirmService.create(ct);
-        CompletableFuture.runAsync(() -> registration(user, clientUrl, ct));
+        throw new Conflict();
     }
 
     @Override
@@ -84,55 +81,8 @@ public class ManagersController implements IManagersController {
     }
 
     @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public JwtRefreshResponse submitRefreshSession(@Valid String refreshToken) {
-        if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
-            var userId = this.jwtTokenProvider.fetchUser(refreshToken);
-            var fingerprint = this.jwtTokenProvider.fetchFingerprint(refreshToken);
-            List<RefreshSession> sessions = this.refreshSessionService.readAllByUserId(userId);
-            RefreshSession session = findSession(sessions, fingerprint);
-            if (!session.isExpired()) {
-                User user = this.userService.readById(userId);
-                var accessToken = this.jwtTokenProvider.managerAccessToken(user);
-                RefreshSession newSession = this.jwtTokenProvider
-                        .refreshManagerSession(fingerprint, session.getIp(), user, MANAGER_SCOPE);
-                return jwtRefreshResponse(session, accessToken, newSession);
-            }
-        }
-        throw new Unauthorized();
-    }
-
-    @Override
     public void lockedUser(LockedDto payload) {
         this.userService.updateIsLocked(payload.getEmail(), payload.isLocked());
-    }
-
-    private JwtRefreshResponse
-    jwtRefreshResponse(RefreshSession session, String accessToken, RefreshSession newSession) {
-        this.refreshSessionService.remove(session.getId());
-        this.refreshSessionService.create(newSession);
-        return new JwtRefreshResponse(
-                accessToken,
-                newSession.getRefreshToken(),
-                newSession.expireIn()
-        );
-    }
-
-    private RefreshSession findSession(List<RefreshSession> rss, String fingerprint) {
-        Predicate<RefreshSession> fp = f -> fingerprint.equals(f.getFingerprint());
-        RefreshSession session;
-        if (rss.size() > MAX_REFRESH_SESSION) {
-            session = rss.stream()
-                    .max(Comparator.comparing(RefreshSession::getExpireIn))
-                    .filter(fp)
-                    .orElseThrow(Unauthorized::new);
-            Predicate<RefreshSession> sp = s -> !s.equals(session);
-            rss.stream().filter(sp).forEach(s -> this.refreshSessionService.remove(s.getId()));
-        } else {
-            session = rss.stream().filter(fp).findFirst().orElseThrow(Unauthorized::new);
-        }
-        return session;
     }
 
     private void registration(User user, String clientUrl, ConfirmToken ct) {

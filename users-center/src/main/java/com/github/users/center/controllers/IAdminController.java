@@ -29,16 +29,6 @@ public interface IAdminController {
             @Valid @RequestBody UserAuthDto payload
     );
 
-    @PostMapping(
-            path = "/refresh-tokens",
-            consumes = MediaType.TEXT_PLAIN_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(code = HttpStatus.CREATED)
-    JwtRefreshResponse submitRefreshSession(
-            @Valid @RequestBody String refreshToken
-    );
-
     @PutMapping(
             path = "/edit/locked"
     )
