@@ -17,7 +17,6 @@ import com.github.users.center.payload.RenderTemplate;
 import com.github.users.center.services.*;
 import com.github.users.center.utils.JwtTokenProvider;
 import com.github.users.center.utils.Logging;
-import com.github.users.center.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,7 +51,7 @@ public class UsersController implements IUsersController {
 
     private final ILoginsService loginsService;
 
-    private final IUserAliasService notificationService;
+    private final IUserAliasService userAliasService;
 
     @Override
     @HystrixCommand
@@ -76,9 +75,9 @@ public class UsersController implements IUsersController {
         ConfirmToken ct = this.confirmService.readByToken(token);
         User user = ct.getUser();
         this.userService.updateIsEnable(TRUE, user.getId());
-        var prefix = UUID.randomUUID().toString();
-        UserAlias notify = new UserAlias(user, prefix);
-        this.notificationService.save(notify);
+        var alias = UUID.randomUUID().toString();
+        UserAlias notify = new UserAlias(user, alias);
+        this.userAliasService.save(notify);
         return RenderTemplate.success();
     }
 

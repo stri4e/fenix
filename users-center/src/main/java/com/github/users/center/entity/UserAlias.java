@@ -38,11 +38,11 @@ public class UserAlias implements Serializable, Cloneable {
     private User user;
 
     @Column(
-            name = "ending",
+            name = "alias",
             nullable = false,
             unique = true
     )
-    private String ending;
+    private String alias;
 
     @CreationTimestamp
     @Column(
@@ -59,8 +59,8 @@ public class UserAlias implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public UserAlias(User user, String ending) {
+    public UserAlias(User user, String alias) {
         this.user = user;
-        this.ending = ending;
+        this.alias = alias;
     }
 }
