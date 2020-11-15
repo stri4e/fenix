@@ -92,7 +92,7 @@ public class UsersController implements IUsersController {
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable()) {
             var token = this.jwtTokenProvider.userAccessToken(user);
-            CompletableFuture.runAsync(() -> logins(user, ip, userAgent));
+            CompletableFuture.runAsync(() -> logins(token, user, ip, userAgent));
             return new JwtAuthResponse(token);
         }
         throw new Unauthorized();
@@ -132,12 +132,12 @@ public class UsersController implements IUsersController {
         this.emailService.submitReg(notification);
     }
 
-    private void logins(User user, String ip, String userAgent) {
+    private void logins(String token, User user, String ip, String userAgent) {
         EmailNotification notification = EmailNotification.loginNotify(
                 user.getEmail(), ip, userAgent, user.getFName()
         );
         this.emailService.loginNotification(notification);
-        LoginDto login = new LoginDto(user.getId(), userAgent, ip);
+        LoginDto login = new LoginDto(token, ip, notification.getInformation());
         this.loginsService.createLogin(login);
     }
 

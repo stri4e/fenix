@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -14,16 +15,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LoginDto {
 
-    @JsonProperty(value = "userId")
+    @JsonProperty(value = "token")
     @NotNull(message = "Required field not null")
-    private UUID userId;
+    private String token;
 
-    @JsonProperty(value = "device")
+    @JsonProperty(value = "ip")
     @NotBlank(message = "Required field not blank")
-    private String device;
+    private String ip;
 
-    @JsonProperty(value = "location")
+    @JsonProperty(value = "information")
     @NotBlank(message = "Required field not blank")
-    private String location;
+    private Map<String, Object> information;
+
 
 }

@@ -74,7 +74,7 @@ public class ManagersController implements IManagersController {
             RefreshSession rs = this.jwtTokenProvider
                     .refreshManagerSession(fingerprint, ip, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
-            CompletableFuture.runAsync(() -> logins(user, ip, userAgent));
+            CompletableFuture.runAsync(() -> logins(accessToken, user, ip, userAgent));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();
@@ -93,12 +93,12 @@ public class ManagersController implements IManagersController {
         this.emailService.submitReg(notification);
     }
 
-    private void logins(User user, String ip, String userAgent) {
+    private void logins(String token, User user, String ip, String userAgent) {
         EmailNotification notification = EmailNotification.loginNotify(
                 user.getEmail(), ip, userAgent, user.getFName()
         );
         this.emailService.loginNotification(notification);
-        LoginDto login = new LoginDto(user.getId(), userAgent, ip);
+        LoginDto login = new LoginDto(token, ip, notification.getInformation());
         this.loginsService.createLogin(login);
     }
 
