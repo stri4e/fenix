@@ -36,15 +36,8 @@ public class UsersController implements IUsersController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateManagersIsLocked(LockedDto payload) {
-        this.usersCenterService.updateManagersIsLocked(payload);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateAdminsIsLocked(LockedDto payload) {
-        this.usersCenterService.updateAdminsIsLocked(payload);
+    public void updateIsLocked(LockedDto payload) {
+        this.usersCenterService.updateIsLocked(payload);
     }
 
 }

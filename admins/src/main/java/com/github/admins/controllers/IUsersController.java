@@ -17,10 +17,7 @@ public interface IUsersController {
     @ResponseStatus(value = HttpStatus.CREATED)
     void managersReg(@Valid @RequestBody UserRegDto payload);
 
-    @PutMapping(path = "/managers/locked")
-    void updateManagersIsLocked(@RequestBody LockedDto payload);
-
-    @PutMapping(path = "/admins/locked")
-    void updateAdminsIsLocked(@RequestBody LockedDto payload);
+    @PutMapping(path = "/locked")
+    void updateIsLocked(@RequestBody LockedDto payload);
 
 }

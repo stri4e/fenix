@@ -19,7 +19,7 @@ public class UsersCenterService implements IUsersCenterService {
     }
 
     @Override
-    public void updateManagersIsLocked(LockedDto payload) {
+    public void updateIsLocked(LockedDto payload) {
 
     }
 

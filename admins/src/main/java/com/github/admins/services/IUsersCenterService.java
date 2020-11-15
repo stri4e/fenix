@@ -31,13 +31,8 @@ public interface IUsersCenterService {
     void createManager(@RequestBody UserRegDto payload);
 
     @PutMapping(
-            path = "/v1/managers/edit/locked"
+            path = "/v1/locked/edit"
     )
-    void updateManagersIsLocked(@RequestBody LockedDto payload);
-
-    @PutMapping(
-            path = "/v1/admins/edit/locked"
-    )
-    void updateAdminsIsLocked(@RequestBody LockedDto payload);
+    void updateIsLocked(@RequestBody LockedDto payload);
 
 }

@@ -1,7 +1,6 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IManagersController;
-import com.github.users.center.dto.LockedDto;
 import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
@@ -25,7 +24,8 @@ import javax.validation.Valid;
 import java.util.concurrent.CompletableFuture;
 
 import static com.github.users.center.utils.TransferObj.toUser;
-import static com.github.users.center.utils.UsersUtils.*;
+import static com.github.users.center.utils.UsersUtils.MANAGER_SCOPE;
+import static com.github.users.center.utils.UsersUtils.ROLE_MANAGER;
 
 @RestController
 @RequiredArgsConstructor
@@ -78,11 +78,6 @@ public class ManagersController implements IManagersController {
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();
-    }
-
-    @Override
-    public void lockedUser(LockedDto payload) {
-        this.userService.updateIsLocked(payload.getEmail(), payload.isLocked());
     }
 
     private void registration(User user, String origin, ConfirmToken ct) {
