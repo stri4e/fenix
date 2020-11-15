@@ -1,6 +1,7 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.controllers.IUsersController;
+import com.github.admins.dto.ForgotPassDto;
 import com.github.admins.dto.LockedDto;
 import com.github.admins.dto.UserRegDto;
 import com.github.admins.services.IUsersCenterService;
@@ -38,6 +39,11 @@ public class UsersController implements IUsersController {
     @Logging(isTime = true, isReturn = false)
     public void updateIsLocked(LockedDto payload) {
         this.usersCenterService.updateIsLocked(payload);
+    }
+
+    @Override
+    public void staffForgotPass(@Valid ForgotPassDto payload) {
+        this.usersCenterService.staffForgotPass(payload);
     }
 
 }

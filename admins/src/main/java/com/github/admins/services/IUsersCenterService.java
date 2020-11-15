@@ -1,13 +1,16 @@
 package com.github.admins.services;
 
+import com.github.admins.dto.ForgotPassDto;
 import com.github.admins.dto.LockedDto;
 import com.github.admins.dto.UserRegDto;
 import com.github.admins.services.impl.UsersCenterService;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.validation.Valid;
 
 @FeignClient(
         name = "users-center",
@@ -34,5 +37,11 @@ public interface IUsersCenterService {
             path = "/v1/locked/edit"
     )
     void updateIsLocked(@RequestBody LockedDto payload);
+
+    @PostMapping(path = "/v1/forgot-pass/edit")
+    @ResponseStatus(code = HttpStatus.OK)
+    void staffForgotPass(
+            @Valid @RequestBody ForgotPassDto payload
+    );
 
 }

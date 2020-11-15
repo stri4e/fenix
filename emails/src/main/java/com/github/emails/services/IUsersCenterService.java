@@ -13,10 +13,10 @@ import java.util.Optional;
 )
 public interface IUsersCenterService {
 
-    @PostMapping(path = "/v1/edit/confirm-account")
+    @PostMapping(path = "/v1/confirm-account/edit")
     Optional<RenderTemplate> confirmAccount(String token);
 
-    @PostMapping(path = "/v1/edit/confirm-account")
+    @PostMapping(path = "/v1/reset-pass/edit")
     Optional<RenderTemplate> resetPassword(String token);
 
 }
