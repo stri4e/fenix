@@ -10,6 +10,7 @@
     <file type="web" url="file://$PROJECT_DIR$/emails" />
     <file type="web" url="file://$PROJECT_DIR$/ethereum" />
     <file type="web" url="file://$PROJECT_DIR$/gateway" />
+    <file type="web" url="file://$PROJECT_DIR$/geolocation" />
     <file type="web" url="file://$PROJECT_DIR$/master-card" />
     <file type="web" url="file://$PROJECT_DIR$/monitoring" />
     <file type="web" url="file://$PROJECT_DIR$/orders" />
