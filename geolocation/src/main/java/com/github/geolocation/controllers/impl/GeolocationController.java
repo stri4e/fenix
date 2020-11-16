@@ -3,6 +3,7 @@ package com.github.geolocation.controllers.impl;
 import com.github.geolocation.controllers.IGeolocationController;
 import com.github.geolocation.dto.GeolocationDto;
 import com.github.geolocation.service.IGeolocationService;
+import com.github.geolocation.utils.Logging;
 import com.github.geolocation.utils.TransferObj;
 import com.maxmind.geoip2.model.CityResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,14 @@ public class GeolocationController implements IGeolocationController {
     private final IGeolocationService geolocationService;
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public GeolocationDto find(String ip) {
         CityResponse data = this.geolocationService.read(ip);
         return TransferObj.fromCityResponse(data);
     }
 
     @Override
+    @Logging(isTime = true, isReturn = false)
     public GeolocationDto findByParams(String ip) {
         CityResponse data = this.geolocationService.read(ip);
         return TransferObj.fromCityResponse(data);

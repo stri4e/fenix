@@ -1,5 +1,6 @@
 package com.github.geolocation.filter;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 @Component
+@Order(value = 0)
 public class RemoteAddressFilter implements Filter {
 
     private static final String[] IP_HEADER_CANDIDATES = {

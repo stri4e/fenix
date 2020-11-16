@@ -10,7 +10,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public interface IGeolocationController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    GeolocationDto find(@ApiIgnore @RequestAttribute String ip);
+    GeolocationDto find(@ApiIgnore @RequestAttribute(name = "ip") String ip);
 
     @GetMapping(
             path = "/edit",

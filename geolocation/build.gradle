@@ -1,6 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.0'
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
 }
 
@@ -16,17 +17,15 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/snapshot' }
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
-    set('springCloudVersion', "2020.0.0-SNAPSHOT")
+    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "Hoxton.SR9")
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
@@ -35,17 +34,13 @@ dependencies {
 
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
-//    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.1'
-//    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
-//    implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
-
-
     implementation 'com.maxmind.geoip2:geoip2:2.15.0'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 dependencyManagement {
