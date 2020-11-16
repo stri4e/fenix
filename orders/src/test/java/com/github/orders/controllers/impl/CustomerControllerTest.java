@@ -1,7 +1,9 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.CustomerDto;
+import com.github.orders.entity.Address;
 import com.github.orders.entity.Customer;
+import com.github.orders.repository.AddressRepo;
 import com.github.orders.repository.CustomerRepo;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +43,9 @@ public class CustomerControllerTest {
     @Autowired
     private CustomerRepo customerRepo;
 
+    @Autowired
+    private AddressRepo addressRepo;
+
     private String customerUrl;
 
     @Before
@@ -54,7 +59,9 @@ public class CustomerControllerTest {
     @Test
     public void findCustomer() {
         CustomerDto exp = CustomerControllerMocks.customerForEquals();
-        Customer data = CustomerControllerMocks.customerForSave();
+        Address address = CustomerControllerMocks.addressForSave();
+        Customer data = CustomerControllerMocks.customerForSave()
+                .address(this.addressRepo.save(address));
         this.customerRepo.save(data);
         ResponseEntity<CustomerDto> response = this.restTemplate.exchange(
                 this.customerUrl, HttpMethod.GET, null, CustomerDto.class
@@ -65,13 +72,27 @@ public class CustomerControllerTest {
     }
 
     @Test
+    public void save() {
+        Address address = CustomerControllerMocks.addressForSave();
+        this.addressRepo.save(address);
+        CustomerDto exp = CustomerControllerMocks.customerForEquals();
+        CustomerDto payload = CustomerControllerMocks.request();
+        ResponseEntity<CustomerDto> response = this.restTemplate.exchange(
+                this.customerUrl, HttpMethod.POST,
+                new HttpEntity<>(payload), CustomerDto.class
+        );
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        CustomerDto act = response.getBody();
+        assertEquals(exp, act);
+    }
+
+    @Test
     public void updateCustomer() {
         CustomerDto payload = CustomerControllerMocks.customerForUpdate();
         Customer data = CustomerControllerMocks.customerForSave();
         this.customerRepo.save(data);
-        String url = String.format("%s%s", this.customerUrl, "/edit");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
+                this.customerUrl, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

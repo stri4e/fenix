@@ -47,12 +47,6 @@ public class Customer implements Serializable, Cloneable {
     private String customerName;
 
     @Column(
-            name = "customer_address",
-            nullable = false
-    )
-    private String customerAddress;
-
-    @Column(
             name = "customer_email",
             length = 128,
             nullable = false
@@ -65,6 +59,18 @@ public class Customer implements Serializable, Cloneable {
             nullable = false
     )
     private String customerPhone;
+
+    @OneToOne(
+            targetEntity = Address.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "address_id",
+            foreignKey = @ForeignKey(
+                    name = "customer_address_fk"
+            )
+    )
+    private Address address;
 
     @Column(
             name = "user_id",
@@ -93,16 +99,19 @@ public class Customer implements Serializable, Cloneable {
 
     public Customer(Long id,
                     String customerName,
-                    String customerAddress,
                     String customerEmail,
                     String customerPhone,
                     UUID userId) {
         this.id = id;
         this.customerName = customerName;
-        this.customerAddress = customerAddress;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
         this.userId = userId;
+    }
+
+    public Customer address(Address address) {
+        this.address = address;
+        return this;
     }
 
 }

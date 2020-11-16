@@ -44,11 +44,17 @@ public class Delivery implements Serializable, Cloneable {
     )
     private String companyName;
 
-    @Column(
-            name = "address",
-            length = 100
+    @OneToOne(
+            targetEntity = Address.class,
+            fetch = FetchType.EAGER
     )
-    private String address;
+    @JoinColumn(
+            name = "address_id",
+            foreignKey = @ForeignKey(
+                    name = "customer_address_fk"
+            )
+    )
+    private Address address;
 
     @Column(
             name = "amount",
@@ -85,13 +91,17 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, String address, BigDecimal amount, UUID userId) {
+    public Delivery(Long id, DeliveryType type, String companyName, BigDecimal amount, UUID userId) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
-        this.address = address;
         this.amount = amount;
         this.userId = userId;
+    }
+
+    public Delivery address(Address address) {
+        this.address = address;
+        return this;
     }
 
 }

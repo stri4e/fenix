@@ -18,13 +18,11 @@ public interface DeliveryRepo extends JpaRepository<Delivery, Long> {
     Optional<Delivery> findByUserId(UUID userId);
 
     @Modifying
-    @Query(value = "update Delivery d set d.type=:type, d.companyName=:companyName," +
-            " d.address=:address, d.amount=:amount where d.id=:id")
+    @Query(value = "update Delivery d set d.type=:type, d.companyName=:companyName, d.amount=:amount where d.id=:id")
     void update(
             @Param(value = "id") Long id,
             @Param(value = "type") DeliveryType type,
             @Param(value = "companyName") String companyName,
-            @Param(value = "address") String address,
             @Param(value = "amount") BigDecimal amount
     );
 

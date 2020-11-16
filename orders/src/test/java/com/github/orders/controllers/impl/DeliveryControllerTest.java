@@ -1,7 +1,9 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.DeliveryDto;
+import com.github.orders.entity.Address;
 import com.github.orders.entity.Delivery;
+import com.github.orders.repository.AddressRepo;
 import com.github.orders.repository.DeliveryRepo;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +43,9 @@ public class DeliveryControllerTest {
     @Autowired
     private DeliveryRepo deliveryRepo;
 
+    @Autowired
+    private AddressRepo addressRepo;
+
     private String deliveryUrl;
 
     @Before
@@ -53,8 +58,10 @@ public class DeliveryControllerTest {
 
     @Test
     public void findDelivery() {
+        Address address = CustomerControllerMocks.addressForSave();
         DeliveryDto exp = DeliveryControllerMocks.deliveryForEquals();
-        Delivery data = DeliveryControllerMocks.deliveryForSave();
+        Delivery data = DeliveryControllerMocks.deliveryForSave()
+                .address(this.addressRepo.save(address));
         this.deliveryRepo.save(data);
         ResponseEntity<DeliveryDto> response = this.restTemplate.exchange(
                 this.deliveryUrl, HttpMethod.GET, null, DeliveryDto.class
@@ -65,13 +72,27 @@ public class DeliveryControllerTest {
     }
 
     @Test
+    public void save() {
+        Address address = CustomerControllerMocks.addressForSave();
+        this.addressRepo.save(address);
+        DeliveryDto exp = DeliveryControllerMocks.deliveryForEquals();
+        DeliveryDto payload = DeliveryControllerMocks.request();
+        ResponseEntity<DeliveryDto> response = this.restTemplate.exchange(
+                this.deliveryUrl, HttpMethod.POST,
+                new HttpEntity<>(payload), DeliveryDto.class
+        );
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        DeliveryDto act = response.getBody();
+        assertEquals(exp, act);
+    }
+
+    @Test
     public void updateDelivery() {
         DeliveryDto payload = DeliveryControllerMocks.deliveryForUpdate();
         Delivery data = DeliveryControllerMocks.deliveryForSave();
         this.deliveryRepo.save(data);
-        String url = String.format("%s%s", this.deliveryUrl, "/edit");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
+                this.deliveryUrl, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

@@ -20,7 +20,7 @@ public class CustomerService implements ICustomerService {
     private final CustomerRepo customerRepo;
 
     @Override
-    public Customer createOrUpdate(Customer o) {
+    public Customer create(Customer o) {
         return this.customerRepo.save(o);
     }
 
@@ -37,9 +37,14 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void update(Long id, String customerName, String customerAddress,
+    public void update(Long id, String customerName,
                        String customerEmail, String customerPhone) {
-        this.customerRepo.update(id, customerName, customerAddress, customerEmail, customerPhone);
+        this.customerRepo.update(id, customerName, customerEmail, customerPhone);
+    }
+
+    @Override
+    public void update(Customer o) {
+        this.customerRepo.save(o);
     }
 
 }

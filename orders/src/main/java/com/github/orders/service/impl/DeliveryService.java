@@ -20,7 +20,7 @@ public class DeliveryService implements IDeliveryService {
     private final DeliveryRepo deliveryRepo;
 
     @Override
-    public Delivery createOrUpdate(Delivery d) {
+    public Delivery create(Delivery d) {
         return this.deliveryRepo.save(d);
     }
 
@@ -37,8 +37,13 @@ public class DeliveryService implements IDeliveryService {
     }
 
     @Override
-    public void update(Long id, DeliveryType type, String companyName, String address, BigDecimal amount) {
-        this.deliveryRepo.update(id, type, companyName, address, amount);
+    public void update(Long id, DeliveryType type, String companyName, BigDecimal amount) {
+        this.deliveryRepo.update(id, type, companyName, amount);
+    }
+
+    @Override
+    public void update(Delivery d) {
+        this.deliveryRepo.save(d);
     }
 
 }

@@ -8,12 +8,14 @@ import java.util.UUID;
 
 public interface IDeliveryService {
 
-    Delivery createOrUpdate(Delivery d);
+    Delivery create(Delivery d);
 
     Delivery readById(Long id);
 
     Delivery readByUserId(UUID userId);
 
-    void update(Long id, DeliveryType type, String companyName, String address, BigDecimal amount);
+    void update(Long id, DeliveryType type, String companyName, BigDecimal amount);
+
+    void update(Delivery d);
 
 }

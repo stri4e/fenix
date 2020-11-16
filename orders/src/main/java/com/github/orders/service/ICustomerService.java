@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface ICustomerService {
 
-    Customer createOrUpdate(Customer o);
+    Customer create(Customer o);
 
     Customer readById(Long id);
 
@@ -15,9 +15,10 @@ public interface ICustomerService {
     void update(
             Long id,
             String customerName,
-            String customerAddress,
             String customerEmail,
             String customerPhone
     );
+
+    void update(Customer o);
 
 }

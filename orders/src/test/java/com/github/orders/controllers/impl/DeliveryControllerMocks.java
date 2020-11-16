@@ -1,6 +1,9 @@
 package com.github.orders.controllers.impl;
 
+import com.github.orders.dto.AddressDto;
 import com.github.orders.dto.DeliveryDto;
+import com.github.orders.entity.Address;
+import com.github.orders.entity.AddressType;
 import com.github.orders.entity.Delivery;
 import com.github.orders.entity.DeliveryType;
 
@@ -16,7 +19,6 @@ public class DeliveryControllerMocks {
                 null,
                 DeliveryType.home,
                 "Novaposhta",
-                "Burbonova street 23",
                 BigDecimal.TEN,
                 USER_ID
         );
@@ -27,7 +29,17 @@ public class DeliveryControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Novaposhta",
-                "Burbonova street 23",
+                address(),
+                new BigDecimal("10.0000")
+        );
+    }
+
+    public static DeliveryDto request() {
+        return new DeliveryDto(
+                1L,
+                DeliveryType.home,
+                "Novaposhta",
+                address(),
                 new BigDecimal("10.0000")
         );
     }
@@ -37,8 +49,37 @@ public class DeliveryControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Misexpres",
-                "Burbonova street 23",
+                address(),
                 new BigDecimal("10.0000")
+        );
+    }
+
+    public static Address addressForSave() {
+        return new Address(
+                null,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer,
+                USER_ID
+        );
+    }
+
+    public static AddressDto address() {
+        return new AddressDto(
+                1L,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer
         );
     }
 

@@ -1,9 +1,11 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.entity.Address;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
+import com.github.orders.repository.AddressRepo;
 import com.github.orders.repository.CustomerRepo;
 import com.github.orders.repository.DeliveryRepo;
 import com.github.orders.repository.OrderDetailRepo;
@@ -61,6 +63,9 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Autowired
     private DeliveryRepo deliveryRepo;
 
+    @Autowired
+    private AddressRepo addressRepo;
+
     private String orderUrl;
 
     private static ClientAndServer mockServer;
@@ -86,6 +91,14 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void save() {
         saveOrder();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
+        Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
+        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
+        this.customerRepo.save(customer);
+        this.deliveryRepo.save(delivery);
         OrderDetailDto payload = OrdersDetailControllerMocks.payload();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.orderUrl, HttpMethod.POST, new HttpEntity<>(payload), Void.class
@@ -98,9 +111,13 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readProductsByIds();
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(addressData);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
@@ -120,8 +137,12 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         OrderDetailDto exp = OrdersDetailControllerMocks.orderForExpected();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
@@ -139,8 +160,12 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
@@ -169,8 +194,12 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
@@ -189,8 +218,12 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
@@ -210,8 +243,12 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        Address addressData = OrdersDetailControllerMocks.addressForSave();
+        Address address = this.addressRepo.save(addressData);
         Customer customer = OrdersDetailControllerMocks.customer();
+        customer.setAddress(address);
         Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
+        delivery.setAddress(address);
         order.setCustomer(this.customerRepo.save(customer));
         order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);

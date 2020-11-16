@@ -13,7 +13,6 @@ public class TransferObj {
         return new Customer(
                 data.getId(),
                 data.getCustomerName(),
-                data.getCustomerAddress(),
                 data.getCustomerEmail(),
                 data.getCustomerPhone(),
                 userId
@@ -46,13 +45,13 @@ public class TransferObj {
         );
     }
 
-    public static CustomerDto fromCustomer(Customer customer) {
+    public static CustomerDto fromCustomer(Customer data) {
         return new CustomerDto(
-                customer.getId(),
-                customer.getCustomerName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerEmail(),
-                customer.getCustomerPhone()
+                data.getId(),
+                data.getCustomerName(),
+                data.getCustomerEmail(),
+                data.getCustomerPhone(),
+                fromAddress(data.getAddress())
         );
     }
 
@@ -61,7 +60,6 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getAddress(),
                 data.getAmount(),
                 userId
         );
@@ -72,8 +70,37 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getAddress(),
+                fromAddress(data.getAddress()),
                 data.getAmount()
+        );
+    }
+
+    public static Address toAddress(AddressDto data, UUID userId) {
+        return new Address(
+                data.getId(),
+                data.getCountry(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getState(),
+                data.getZipCode(),
+                data.getType(),
+                userId
+        );
+    }
+
+    public static AddressDto fromAddress(Address data) {
+        return new AddressDto(
+                data.getId(),
+                data.getCountry(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getState(),
+                data.getZipCode(),
+                data.getType()
         );
     }
 

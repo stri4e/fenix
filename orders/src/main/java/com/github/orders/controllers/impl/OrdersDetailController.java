@@ -1,9 +1,7 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.controllers.IOrdersDetailController;
-import com.github.orders.dto.BillDto;
-import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.ProductDto;
+import com.github.orders.dto.*;
 import com.github.orders.entity.Customer;
 import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
@@ -49,10 +47,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
-        Customer customer = this.customerService.createOrUpdate(
-                toCustomer(payload.getCustomer(), userId));
-        Delivery delivery = this.deliveryService.createOrUpdate(
-                toDelivery(payload.getDelivery(), userId));
+        Customer customer = this.customerService.readById(payload.getCustomer().getId());
+        Delivery delivery = this.deliveryService.readById(payload.getDelivery().getId());
         BillDto bill = this.billService.create(payload.getBill());
         OrderDetail order = this.orderService.crete(
                 toOrderDetail(customer, payload, delivery, userId, bill.getId()));

@@ -36,9 +36,9 @@ public class OrdersDetailControllerMocks {
         return new CustomerDto(
                 CUSTOMER_ID,
                 CUSTOMER_NAME,
-                CUSTOMER_ADDRESS,
                 CUSTOMER_EMAIL,
-                CUSTOMER_PHONE
+                CUSTOMER_PHONE,
+                addressDto()
         );
     }
 
@@ -153,7 +153,6 @@ public class OrdersDetailControllerMocks {
         return new Customer(
                 CUSTOMER_ID,
                 CUSTOMER_NAME,
-                CUSTOMER_ADDRESS,
                 CUSTOMER_EMAIL,
                 CUSTOMER_PHONE,
                 USER_ID
@@ -267,8 +266,9 @@ public class OrdersDetailControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Nowa poshta",
-                "xz street",
+                addressDto(),
                 new BigDecimal("50.2000")
+
         );
     }
 
@@ -277,8 +277,36 @@ public class OrdersDetailControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Nowa poshta",
-                "xz street",
                 new BigDecimal("50.2000"),
+                USER_ID
+        );
+    }
+
+    public static AddressDto addressDto() {
+        return new AddressDto(
+                1L,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer
+        );
+    }
+
+    public static Address addressForSave() {
+        return new Address(
+                null,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer,
                 USER_ID
         );
     }
