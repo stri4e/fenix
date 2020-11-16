@@ -1,11 +1,11 @@
 package services
 
 import (
-	"../dto"
-	"../utils"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/utils"
 	"net/http"
 	"strconv"
 )

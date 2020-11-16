@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +23,8 @@ public interface IStatisticsService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<LoginDto>> findLoginsInTime(
-            @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end
+            @RequestParam String start,
+            @RequestParam String end
     );
 
     @GetMapping(
@@ -33,8 +32,8 @@ public interface IStatisticsService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<ViewDto>> findViewsInTime(
-            @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end
+            @RequestParam String start,
+            @RequestParam String end
     );
 
 }

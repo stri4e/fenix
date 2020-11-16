@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -35,8 +33,7 @@ import java.util.Objects;
 })
 @Table(
         name = "order_details",
-        schema = "public",
-        indexes = @Index(columnList = "userId", name = "order_user_idx")
+        schema = "public"
 )
 public class OrderDetail implements Serializable, Cloneable {
 
@@ -62,8 +59,8 @@ public class OrderDetail implements Serializable, Cloneable {
     @Column(
             name = "amount",
             precision = 8,
-            scale = 3,
-            columnDefinition="DECIMAL(8, 3)",
+            scale = 4,
+            columnDefinition="DECIMAL(8, 4)",
             nullable = false
     )
     private BigDecimal amount;
@@ -76,14 +73,20 @@ public class OrderDetail implements Serializable, Cloneable {
     private Delivery delivery;
 
     @Column(
-            name = "userId",
+            name = "user_id",
             nullable = false
     )
-    private Long userId;
+    private UUID userId;
+
+    @Column(
+            name = "bill_id",
+            nullable = false
+    )
+    private Long billId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.open;
 
     @CreationTimestamp
     @Column(
@@ -101,31 +104,26 @@ public class OrderDetail implements Serializable, Cloneable {
     private LocalDateTime updateAt;
 
     public OrderDetail(
-            Long id, Customer customer, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
-        this.id = id;
+            Customer customer, List<Long> productIds,
+            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
         this.customer = customer;
         this.productIds = productIds;
         this.amount = amount;
         this.userId = userId;
+        this.billId = billId;
         this.status = status;
     }
 
     public OrderDetail(
             Customer customer, List<Long> productIds,
-            BigDecimal amount, Long userId, OrderStatus status) {
+            BigDecimal amount, Delivery delivery, UUID userId, Long billId, OrderStatus status) {
         this.customer = customer;
         this.productIds = productIds;
         this.amount = amount;
+        this.delivery = delivery;
         this.userId = userId;
+        this.billId = billId;
         this.status = status;
-    }
-
-    public void init(Customer customer, Long userId) {
-        if (Objects.nonNull(customer) && Objects.nonNull(userId)) {
-            this.customer = customer;
-            this.userId = userId;
-        }
     }
 
 }

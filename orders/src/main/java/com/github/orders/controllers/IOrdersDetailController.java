@@ -1,24 +1,17 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDto;
-import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface IOrdersDetailController {
 
@@ -33,8 +26,8 @@ public interface IOrdersDetailController {
                     example = "Bearer access_token"
             )
     )
-    void saveOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId,
+    OrderDetailDto save(
+            @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
             @RequestBody @Valid OrderDetailDto payload
     );
 
@@ -49,22 +42,14 @@ public interface IOrdersDetailController {
             )
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> userOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId
+    List<OrderDetailDto> findUserOrders(
+            @ApiIgnore @RequestAttribute(name = "userId") UUID userId
     );
 
     @GetMapping(path = "/fetch/binding/{orderId}")
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchBindingOrders(
+    List<OrderDetailDto> findBindingOrders(
             @PathVariable(name = "orderId") Long orderId
-    );
-
-    @GetMapping(path = "/fetch/{status}/time")
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchOrdersInTime(
-            @PathVariable OrderStatus status,
-            @RequestParam("start") LocalDateTime start,
-            @RequestParam("end") LocalDateTime end
     );
 
     @GetMapping(
@@ -72,21 +57,19 @@ public interface IOrdersDetailController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> findAllByStatus(@PathVariable OrderStatus status);
+    List<OrderDetailDto> findAllByStatus(
+            @PathVariable OrderStatus status,
+            @RequestParam(value = "start", required = false) String start,
+            @RequestParam(value = "end", required = false) String end
+    );
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Object findByParams(@RequestParam(name = "orderId") Long orderId,
-                        @RequestParam(name = "ids") List<Long> ids);
-
-    @PutMapping(
-            path = "/edit"
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    void updateOrder(@RequestBody OrderDetail o);
+    Object findByParams(@RequestParam(name = "orderId", required = false) Long orderId,
+                        @RequestParam(name = "ids", required = false) List<Long> ids);
 
     @PutMapping(
             path = "/edit/{orderId}/{orderStatus}"
@@ -96,10 +79,16 @@ public interface IOrdersDetailController {
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
 
+    @PutMapping(
+            path = "/edit/paid/{billId}"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateOrderPaid(@PathVariable(name = "billId") Long billId);
+
     @DeleteMapping(
             path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deleteOrder(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

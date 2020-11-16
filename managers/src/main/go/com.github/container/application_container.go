@@ -1,15 +1,15 @@
 package container
 
 import (
-	"../config"
-	"../controllers"
-	"../handlers"
-	"../logger"
-	"../migration"
-	"../repository"
-	"../server"
-	"../services"
 	"go.uber.org/dig"
+	"managers/src/main/go/com.github/config"
+	"managers/src/main/go/com.github/controllers"
+	"managers/src/main/go/com.github/handlers"
+	"managers/src/main/go/com.github/logger"
+	"managers/src/main/go/com.github/migration"
+	"managers/src/main/go/com.github/repository"
+	"managers/src/main/go/com.github/server"
+	"managers/src/main/go/com.github/services"
 )
 
 func BuildContainer() *dig.Container {
@@ -30,6 +30,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(services.NewCategoryService)
 	err = container.Provide(services.NewProductService)
 	err = container.Provide(services.NewSpecificationService)
+	err = container.Provide(services.NewSubcategoryService)
+	err = container.Provide(services.NewFilterService)
+	err = container.Provide(services.NewCriteriaService)
 
 	err = container.Provide(controllers.NewPurchasesController)
 	err = container.Provide(controllers.NewUserOrdersController)
@@ -37,6 +40,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(controllers.NewCategoryController)
 	err = container.Provide(controllers.NewProductController)
 	err = container.Provide(controllers.NewSpecificationController)
+	err = container.Provide(controllers.NewSubcategoryController)
+	err = container.Provide(controllers.NewFilterController)
+	err = container.Provide(controllers.NewCriteriaController)
 
 	err = container.Provide(handlers.NewRestHandler)
 	err = container.Provide(handlers.NewPurchasesHandler)
@@ -45,6 +51,9 @@ func BuildContainer() *dig.Container {
 	err = container.Provide(handlers.NewCategoryHandler)
 	err = container.Provide(handlers.NewProductHandler)
 	err = container.Provide(handlers.NewSpecificationHandler)
+	err = container.Provide(handlers.NewSubcategoryHandler)
+	err = container.Provide(handlers.NewFilterHandler)
+	err = container.Provide(handlers.NewCriteriaHandler)
 	err = container.Provide(handlers.NewTracer)
 
 	err = container.Provide(server.NewServer)

@@ -1,17 +1,19 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.dto.CommentDto;
-import com.github.products.entity.Category;
-import com.github.products.entity.Comment;
-import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommentControllerMocks {
+
+    public static Long SUBCATEGORY_ID = 1L;
+
+    public static String SUBCATEGORY_NAME = "IPhone";
+
+    public static String BRAND_NAME = "OLX";
 
     public static final Long COMMENT_ID = 1L;
 
@@ -67,6 +69,29 @@ public class CommentControllerMocks {
         );
     }
 
+    public static Subcategory subcategoryForSave() {
+        return new Subcategory(
+                SUBCATEGORY_NAME
+        );
+    }
+
+    public static Subcategory subcategoryForEquals() {
+        return new Subcategory(
+                SUBCATEGORY_ID,
+                SUBCATEGORY_NAME
+        );
+    }
+
+    public static Category category() {
+        return new Category(CATEGORY_NAME);
+    }
+
+    public static Brand brand() {
+        return new Brand(
+                BRAND_NAME
+        );
+    }
+
     public static Product product() {
         Product p = new Product();
         p.setName(PRODUCT_NAME);
@@ -75,12 +100,8 @@ public class CommentControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.unused);
+        p.setStatus(EntityStatus.off);
         return p;
-    }
-
-    public static Category category() {
-        return new Category(CATEGORY_NAME);
     }
 
 }

@@ -2,11 +2,10 @@ package com.github.orders.service;
 
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface IOrderDetailService {
 
@@ -16,7 +15,7 @@ public interface IOrderDetailService {
 
     OrderDetail readById(Long orderId);
 
-    List<OrderDetail> readUserId(Long userId);
+    List<OrderDetail> readUserId(UUID userId);
 
     List<OrderDetail> readByStatus(OrderStatus status);
 
@@ -25,5 +24,7 @@ public interface IOrderDetailService {
     void update(Long id, OrderStatus status);
 
     void update(OrderDetail o);
+
+    void updateOrderPaid(Long billId);
 
 }

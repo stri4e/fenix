@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"../controllers"
-	"../dto"
-	"../utils"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/controllers"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/utils"
 	"net/http"
 	"strconv"
 )
@@ -25,12 +25,10 @@ func (handler *PurchasesHandler) SavePurchase(w http.ResponseWriter, r *http.Req
 			tokenHeader := r.Header.Get("Authorization")
 			token := utils.GetToken(tokenHeader)
 			utils.ThrowIfNil(token, http.StatusBadRequest, "Can't fetch a subject.")
-			managerId, err := strconv.ParseUint(token.Subject, BaseUint, BitSize)
-			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't fetch a subject.")
 			var payload dto.PurchaseDto
-			err = json.NewDecoder(r.Body).Decode(&payload)
+			err := json.NewDecoder(r.Body).Decode(&payload)
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't deserialize payload")
-			err = handler.controller.SavePurchases(uint(managerId), token.FirstName, token.LastName, &payload)
+			err = handler.controller.SavePurchases(token.Subject, token.FirstName, token.LastName, &payload)
 			log.WithFields(log.Fields{"OrderId": payload.OrderId, "Status": payload.Status}).
 				Debug("Enter: received new purchase.")
 			utils.ThrowIfErr(err, http.StatusBadRequest, "Can't save payload.")

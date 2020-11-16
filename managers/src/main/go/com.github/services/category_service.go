@@ -1,10 +1,10 @@
 package services
 
 import (
-	"../payload"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
+	"managers/src/main/go/com.github/dto"
 	"net/http"
 )
 
@@ -16,10 +16,10 @@ func NewCategoryService(eureka *EurekaService) *CategoryService {
 	return &CategoryService{eureka: eureka}
 }
 
-func (service *CategoryService) GetByCategoryName(categoryName string) (*payload.Category, error) {
+func (service *CategoryService) ReadByName(categoryName string) (*dto.CategoryDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Category)
+		result := new(dto.CategoryDto)
 		client := sling.New()
 		for _, instance := range instances {
 			client := client.Get(instance.HomePageUrl).
@@ -37,10 +37,10 @@ func (service *CategoryService) GetByCategoryName(categoryName string) (*payload
 	return nil, err
 }
 
-func (service *CategoryService) CreateCategory(category *payload.Category) (*payload.Category, error) {
+func (service *CategoryService) CreateCategory(category *dto.CategoryDto) (*dto.CategoryDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Category)
+		result := new(dto.CategoryDto)
 		client := sling.New()
 		for _, instance := range instances {
 			resp, err := client.Post(instance.HomePageUrl).
@@ -58,7 +58,7 @@ func (service *CategoryService) CreateCategory(category *payload.Category) (*pay
 	return nil, err
 }
 
-func (service *CategoryService) UpdateCategory(category *payload.Category) error {
+func (service *CategoryService) UpdateCategory(category *dto.CategoryDto) error {
 	instances, err := service.getInstances()
 	if err == nil {
 		client := sling.New()

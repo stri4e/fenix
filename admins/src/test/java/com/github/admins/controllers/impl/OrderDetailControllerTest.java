@@ -119,17 +119,6 @@ public class OrderDetailControllerTest extends OrderDetailTestBase {
     }
 
     @Test
-    public void updateOrder() {
-        update();
-        OrderDetailDto payload = OrderDetailControllerMocks.orderDetailDto();
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                this.orderUrl, HttpMethod.PUT,
-                new HttpEntity<>(payload), Void.class
-        );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
     public void updateOrderStatus() {
         updateStatus();
         String url = String.format("%s%s", this.orderUrl, "/status/1/open");

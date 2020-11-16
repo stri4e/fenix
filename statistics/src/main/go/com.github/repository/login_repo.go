@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"../entity"
 	"github.com/jinzhu/gorm"
+	"statistics/src/main/go/com.github/entity"
 )
 
 type LoginRepo struct {
@@ -13,7 +13,7 @@ func NewLoginRepo(database *gorm.DB) *LoginRepo {
 	return &LoginRepo{database: database}
 }
 
-func (repo *LoginRepo) FindByUserId(userId uint) ([]*entity.Login, error) {
+func (repo *LoginRepo) FindByUserId(userId string) ([]*entity.Login, error) {
 	var login []*entity.Login
 	err := repo.database.
 		Where("user_id = ?", userId).

@@ -1,13 +1,13 @@
 package server
 
 import (
-	"../config"
-	"../docs"
-	"../handlers"
-	"../logger"
-	"../migration"
-	"../services"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/config"
+	"managers/src/main/go/com.github/docs"
+	"managers/src/main/go/com.github/handlers"
+	"managers/src/main/go/com.github/logger"
+	"managers/src/main/go/com.github/migration"
+	"managers/src/main/go/com.github/services"
 	"net/http"
 )
 

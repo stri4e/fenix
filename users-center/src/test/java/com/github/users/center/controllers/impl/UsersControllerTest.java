@@ -7,9 +7,12 @@ import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.User;
+import com.github.users.center.payload.RenderTemplate;
+import com.github.users.center.utils.ConfirmReport;
 import com.github.users.center.payload.JwtAuthResponse;
 import com.github.users.center.repository.ConfirmTokenRepo;
 import com.github.users.center.repository.PassResetRepo;
+import com.github.users.center.repository.UserRepo;
 import com.github.users.center.services.IUserService;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -30,6 +33,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 
@@ -57,6 +61,9 @@ public class UsersControllerTest extends UsersTestBase {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private PassResetRepo passResetRepo;
@@ -95,7 +102,7 @@ public class UsersControllerTest extends UsersTestBase {
         this.submitRegUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/reg"));
         this.submitAuthUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/auth"));
         this.processForgotPassUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/forgot-pass"));
-        this.submitResetPassUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/reset-pass"));
+        this.submitResetPassUrl = new URL(String.format("%s%d%s", LOCALHOST, port, "/v1/edit/reset-pass"));
         this.submitRegHeaderName = "Origin";
         this.submitRegHeader = String.format("%s%d", LOCALHOST, port);
         this.authHeaders = new LinkedMultiValueMap<>();
@@ -161,7 +168,7 @@ public class UsersControllerTest extends UsersTestBase {
     //=================================================
 
     @Test
-    public void confirmAccount() throws MalformedURLException {
+    public void confirmAccount() throws MalformedURLException, URISyntaxException {
         registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
         HttpHeaders headers = new HttpHeaders(this.authHeaders);
@@ -174,16 +181,18 @@ public class UsersControllerTest extends UsersTestBase {
                 .orElse(null);
         assertNotNull(confirmToken);
         URL confirmAccountUrl = new URL(String.format(
-                "%s%d%s", LOCALHOST, port, "/v1/confirm-account?token="
+                "%s%d%s", LOCALHOST, port, "/v1/edit/confirm-account/"
                         + confirmToken.getToken()
         ));
-        ResponseEntity<Void> resultConfirm = this.restTemplate
-                .getForEntity(confirmAccountUrl.toString(), Void.class);
-        assertEquals(HttpStatus.SEE_OTHER, resultConfirm.getStatusCode());
+        ResponseEntity<RenderTemplate> resultConfirm = this.restTemplate
+                .postForEntity(confirmAccountUrl.toURI(), null, RenderTemplate.class);
+        assertEquals(HttpStatus.OK, resultConfirm.getStatusCode());
+        RenderTemplate act = resultConfirm.getBody();
+        assertEquals(RenderTemplate.success(), act);
     }
 
     @Test
-    public void confirmAccountTokenEmpty() throws MalformedURLException {
+    public void confirmAccountTokenEmpty() throws MalformedURLException, URISyntaxException {
         registrationEmail();
         UserRegDto payload = ControllersMocks.userRegDto();
         HttpHeaders headers = new HttpHeaders(this.authHeaders);
@@ -196,11 +205,11 @@ public class UsersControllerTest extends UsersTestBase {
                 .orElse(null);
         assertNotNull(confirmToken);
         URL confirmAccountUrl = new URL(String.format(
-                "%s%d%s", LOCALHOST, port, "/v1/confirm-account?token="
+                "%s%d%s", LOCALHOST, port, "/v1/edit/confirm-account/"
         ));
-        ResponseEntity<Void> resultConfirm = this.restTemplate
-                .getForEntity(confirmAccountUrl.toString(), Void.class);
-        assertEquals(HttpStatus.BAD_REQUEST, resultConfirm.getStatusCode());
+        ResponseEntity<RenderTemplate> resultConfirm = this.restTemplate
+                .postForEntity(confirmAccountUrl.toURI(), null, RenderTemplate.class);
+        assertEquals(HttpStatus.NOT_FOUND, resultConfirm.getStatusCode());
     }
 
     //=================================================
@@ -226,7 +235,6 @@ public class UsersControllerTest extends UsersTestBase {
         loginNotification();
         UserAuthDto payload = ControllersMocks.userAuthDtoNotValid();
         User userForAuth = ControllersMocks.userForAuth();
-        this.userService.create(userForAuth);
         this.userService.create(userForAuth);
         HttpHeaders headers = new HttpHeaders(this.authHeaders);
         HttpEntity<UserAuthDto> entity = new HttpEntity<>(payload, headers);
@@ -262,15 +270,17 @@ public class UsersControllerTest extends UsersTestBase {
         PassResetToken pr = ControllersMocks.passResetToken();
         pr.setExpiryDate(10);
         pr.setNewPass("new_password");
-        this.userService.create(user);
+        User u = this.userRepo.save(user);
+        pr.setUser(u);
         PassResetToken passReset = this.passResetRepo.save(pr);
         String url = String.format(
-                "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
+                "%s%s", this.submitResetPassUrl, "/" + passReset.getToken()
         );
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.DELETE, null, Void.class
+        ResponseEntity<RenderTemplate> response = this.restTemplate.exchange(
+                url, HttpMethod.POST, null, RenderTemplate.class
         );
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(RenderTemplate.success(), response.getBody());
     }
 
     @Test
@@ -279,15 +289,17 @@ public class UsersControllerTest extends UsersTestBase {
         PassResetToken pr = ControllersMocks.passResetToken();
         pr.setExpiryDate(1);
         pr.setExpireTime(new Date(1597128681L));
-        this.userService.create(user);
+        User u = this.userRepo.save(user);
+        pr.setUser(u);
         PassResetToken passReset = this.passResetRepo.save(pr);
         String url = String.format(
-                "%s%s", this.submitResetPassUrl, "?token=" + passReset.getToken()
+                "%s%s", this.submitResetPassUrl, "/" + passReset.getToken()
         );
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.DELETE, null, Void.class
+        ResponseEntity<RenderTemplate> response = this.restTemplate.exchange(
+                url, HttpMethod.POST, null, RenderTemplate.class
         );
-        assertEquals(HttpStatus.PRECONDITION_FAILED, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(RenderTemplate.error("Token is expired."), response.getBody());
     }
 
 }

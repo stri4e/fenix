@@ -3,17 +3,22 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "categories", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
@@ -43,9 +48,30 @@ public class Category implements Serializable, Cloneable {
     @Column(
             name = "name",
             nullable = false,
-            length = 50
+            length = 50,
+            unique = true
     )
     private String name;
+
+    @OneToMany(
+            targetEntity = Subcategory.class,
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinColumn(
+            name = "subcaretory_id",
+            foreignKey = @ForeignKey(
+                    name = "category_sub_category_fk"
+            )
+    )
+    private List<Subcategory> subcategories = new ArrayList<>();
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -69,5 +95,11 @@ public class Category implements Serializable, Cloneable {
     public Category(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void  addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategories.add(subcategory);
+        }
     }
 }

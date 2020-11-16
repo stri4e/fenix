@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class OrderDetailDto {
+public class OrderDetailDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -1415109953545446323L;
 
     @JsonProperty(
             value = "id"
@@ -47,11 +50,6 @@ public class OrderDetailDto {
     )
     private BigDecimal amount;
 
-    @JsonProperty(
-            value = "userId"
-    )
-    private Long userId;
-
     @NotNull(
             message = "Order status is required."
     )
@@ -65,5 +63,11 @@ public class OrderDetailDto {
     )
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
+
+    @NotNull(
+            message = "Bill is required."
+    )
+    @JsonProperty(value = "bill")
+    private BillDto bill;
 
 }

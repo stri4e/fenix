@@ -53,6 +53,10 @@ public class Specification implements Serializable, Cloneable {
     )
     private String description;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
+
     @CreationTimestamp
     @Column(
             name = "create_at",

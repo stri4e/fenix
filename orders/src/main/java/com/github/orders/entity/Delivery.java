@@ -8,7 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +22,7 @@ public class Delivery implements Serializable, Cloneable {
     private static final long serialVersionUID = 1655627397181362589L;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "ID")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -42,11 +44,36 @@ public class Delivery implements Serializable, Cloneable {
     )
     private String companyName;
 
-    @Column(
-            name = "branch_address",
-            length = 100
+    @OneToOne(
+            targetEntity = Address.class,
+            fetch = FetchType.EAGER
     )
-    private String branchAddress;
+    @JoinColumn(
+            name = "address_id",
+            foreignKey = @ForeignKey(
+                    name = "customer_address_fk"
+            )
+    )
+    private Address address;
+
+    @Column(
+            name = "amount",
+            precision = 8,
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
+            nullable = false
+    )
+    private BigDecimal amount;
+
+    @Column(
+            name = "user_id",
+            nullable = false,
+            unique = true
+    )
+    private UUID userId;
+
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -64,11 +91,17 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, String branchAddress) {
+    public Delivery(Long id, DeliveryType type, String companyName, BigDecimal amount, UUID userId) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
-        this.branchAddress = branchAddress;
+        this.amount = amount;
+        this.userId = userId;
+    }
+
+    public Delivery address(Address address) {
+        this.address = address;
+        return this;
     }
 
 }

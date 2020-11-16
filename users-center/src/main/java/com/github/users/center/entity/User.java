@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -51,27 +52,24 @@ public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = -669272112576179695L;
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(
-            strategy = GenerationType.IDENTITY
+            generator = "UUID"
     )
-    private Long id;
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
 
     @Column(
             name = "fName",
             nullable = false
-    )
-    @NotBlank(
-            message = "First name is required."
     )
     private String fName;
 
     @Column(
             name = "lName",
             nullable = false
-    )
-    @NotBlank(
-            message = "Last name is required."
     )
     private String lName;
 
@@ -80,9 +78,6 @@ public class User implements Serializable, Cloneable {
             nullable = false,
             unique = true
     )
-    @NotBlank(
-            message = "Login is required."
-    )
     private String login;
 
     @Column(
@@ -90,17 +85,11 @@ public class User implements Serializable, Cloneable {
             nullable = false,
             unique = true
     )
-    @NotBlank(
-            message = "Email is required."
-    )
     private String email;
 
     @Column(
             name = "pass",
             nullable = false
-    )
-    @NotBlank(
-            message = "Password is required."
     )
     private String pass;
 

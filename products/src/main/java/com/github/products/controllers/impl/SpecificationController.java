@@ -1,13 +1,19 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.ISpecificationController;
+import com.github.products.dto.SpecificationDto;
+import com.github.products.entity.Product;
 import com.github.products.entity.Specification;
+import com.github.products.services.IProductService;
 import com.github.products.services.ISpecificationService;
 import com.github.products.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.github.products.utils.TransferObj.fromSpecification;
+import static com.github.products.utils.TransferObj.toSpecification;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,25 +22,42 @@ public class SpecificationController implements ISpecificationController {
 
     private final ISpecificationService specificationService;
 
+    private final IProductService productService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Specification saveSpecification(Specification payload) {
-        return this.specificationService.create(payload);
+    public SpecificationDto save(Long productId, SpecificationDto payload) {
+        Product product = this.productService.readById(productId);
+        Specification tmp = toSpecification(payload);
+        Specification specification = this.specificationService.create(tmp);
+        product.addSpecification(specification);
+        this.productService.update(product);
+        return fromSpecification(specification);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Specification findById(Long id) {
-        return this.specificationService.readById(id);
+    public SpecificationDto findById(Long id) {
+        return fromSpecification(this.specificationService.readById(id));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateSpecification(Specification payload) {
-        this.specificationService.update(payload);
+    public void update(SpecificationDto payload) {
+        Specification spec = this.specificationService.readById(payload.getId());
+        spec.setName(payload.getName());
+        spec.setDescription(payload.getDescription());
+        this.specificationService.update(spec);
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void remove(Long id) {
+        this.specificationService.delete(id);
     }
 
 }

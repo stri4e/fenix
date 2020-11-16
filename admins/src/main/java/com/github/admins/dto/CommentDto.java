@@ -7,11 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "This model use for keep comment.")
-public class CommentDto {
+public class CommentDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -4306935919062836958L;
 
     @ApiModelProperty(
             value = "Comment id",

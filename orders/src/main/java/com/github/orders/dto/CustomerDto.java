@@ -7,12 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class CustomerDto {
+public class CustomerDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = -6533009128642214593L;
 
     @JsonProperty(value = "id")
     private Long id;
@@ -22,15 +26,15 @@ public class CustomerDto {
     private String customerName;
 
     @NotBlank
-    @JsonProperty(value = "customerAddress")
-    private String customerAddress;
-
-    @NotBlank
     @JsonProperty(value = "customerEmail")
     private String customerEmail;
 
     @NotBlank
     @JsonProperty(value = "customerPhone")
     private String customerPhone;
+
+    @NotNull
+    @JsonProperty(value = "customerAddress")
+    private AddressDto customerAddress;
 
 }

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface OrderDetailRepo extends
         PagingAndSortingRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
 
-    List<OrderDetail> findByUserId(Long userId);
+    List<OrderDetail> findByUserId(UUID userId);
 
     List<OrderDetail> findByStatus(OrderStatus status);
 
@@ -28,6 +28,13 @@ public interface OrderDetailRepo extends
     @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.id =:id")
     void updateOrderByStatus(
             @Param(value = "id") Long id,
+            @Param(value = "status") OrderStatus status
+    );
+
+    @Modifying
+    @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.billId =:billId")
+    void updateOrderPaid(
+            @Param(value = "billId") Long billId,
             @Param(value = "status") OrderStatus status
     );
 

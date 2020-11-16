@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"../models"
 	"encoding/json"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/models"
 	"net/http"
 )
 

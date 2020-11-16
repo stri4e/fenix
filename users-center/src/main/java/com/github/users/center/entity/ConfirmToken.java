@@ -49,12 +49,6 @@ public class ConfirmToken implements Serializable, Cloneable {
     )
     private String token;
 
-    @Column(
-            name = "client_url",
-            nullable = false
-    )
-    private String clientUrl;
-
     @OneToOne(
             targetEntity = User.class,
             fetch = FetchType.EAGER
@@ -84,10 +78,9 @@ public class ConfirmToken implements Serializable, Cloneable {
     public ConfirmToken() {
     }
 
-    public ConfirmToken(String clientUrl, User user) {
+    public ConfirmToken(User user) {
         this.user = user;
         this.token = UUID.randomUUID().toString();
-        this.clientUrl = clientUrl;
     }
 
 }

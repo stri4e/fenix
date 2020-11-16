@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class OrderDetailDto {
+public class OrderDetailDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 7600916691674786492L;
 
     @JsonProperty(value = "id")
     private Long id;
@@ -26,8 +29,8 @@ public class OrderDetailDto {
     private CustomerDto customer;
 
     @NotEmpty
-    @JsonProperty(value = "productsIds")
-    private List<Long> productsIds;
+    @JsonProperty(value = "products")
+    private List<ProductDto> products;
 
     @NotNull
     @JsonProperty(value = "amount")
@@ -41,26 +44,55 @@ public class OrderDetailDto {
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
 
+    @NotNull
+    @JsonProperty(value = "bill")
+    private BillDto bill;
+
     public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<Long> productsIds,
+                          @NotEmpty List<ProductDto> products,
                           @NotNull BigDecimal amount,
                           @NotNull OrderStatus status) {
         this.customer = customer;
-        this.productsIds = productsIds;
+        this.products = products;
         this.amount = amount;
         this.status = status;
     }
 
     public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<Long> productsIds,
+                          @NotEmpty List<ProductDto> products,
+                          @NotNull BigDecimal amount,
+                          @NotNull OrderStatus status,
+                          @NotNull BillDto bill) {
+        this.customer = customer;
+        this.products = products;
+        this.amount = amount;
+        this.status = status;
+        this.bill = bill;
+    }
+
+    public OrderDetailDto(@NotNull CustomerDto customer,
+                          @NotEmpty List<ProductDto> products,
                           @NotNull BigDecimal amount,
                           @NotNull OrderStatus status,
                           @NotNull DeliveryDto delivery) {
         this.customer = customer;
-        this.productsIds = productsIds;
+        this.products = products;
         this.amount = amount;
         this.status = status;
         this.delivery = delivery;
     }
 
+    public OrderDetailDto(@NotNull CustomerDto customer,
+                          @NotEmpty List<ProductDto> products,
+                          @NotNull BigDecimal amount,
+                          @NotNull OrderStatus status,
+                          @NotNull DeliveryDto delivery,
+                          @NotNull BillDto bill) {
+        this.customer = customer;
+        this.products = products;
+        this.amount = amount;
+        this.status = status;
+        this.delivery = delivery;
+        this.bill = bill;
+    }
 }

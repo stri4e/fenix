@@ -1,10 +1,9 @@
 package utils
 
 import (
-	"../models"
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
-	"strconv"
+	"managers/src/main/go/com.github/models"
 )
 
 func GetToken(data string) *models.TokenClaims {
@@ -18,16 +17,18 @@ func GetToken(data string) *models.TokenClaims {
 	return claims
 }
 
-func GetSubject(data string) (uint, error) {
+func GetSubject(data string) (string, error) {
 	var jwtToken models.JwtToken
 	err := json.Unmarshal([]byte(data), &jwtToken)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	claims := &jwt.StandardClaims{}
 	_, err = jwt.ParseWithClaims(jwtToken.AccessToken, claims, key)
-	result, err := strconv.ParseUint(claims.Subject, 10, 64)
-	return uint(result), err
+	if err != nil {
+		return "", err
+	}
+	return claims.Subject, nil
 }
 
 func key(token *jwt.Token) (interface{}, error) {

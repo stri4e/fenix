@@ -1,9 +1,9 @@
 package services
 
 import (
-	"../config"
 	"github.com/hudl/fargo"
 	log "github.com/sirupsen/logrus"
+	"managers/src/main/go/com.github/config"
 	"strconv"
 	"time"
 )

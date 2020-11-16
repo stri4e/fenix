@@ -1,12 +1,11 @@
 package services
 
 import (
-	"../dto"
-	"../payload"
-	"../utils"
 	"errors"
 	"github.com/dghubble/sling"
 	"github.com/hudl/fargo"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/utils"
 	"net/http"
 	"strconv"
 )
@@ -19,7 +18,7 @@ func NewProductService(eureka *EurekaService) *ProductService {
 	return &ProductService{eureka: eureka}
 }
 
-func (service *ProductService) GetProducts(products []uint) (*[]dto.ProductDto, error) {
+func (service *ProductService) ReadProducts(products []uint) (*[]dto.ProductDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
 		result := new([]dto.ProductDto)
@@ -41,14 +40,15 @@ func (service *ProductService) GetProducts(products []uint) (*[]dto.ProductDto, 
 	return nil, err
 }
 
-func (service *ProductService) CreateProduct(product *payload.Product) (*payload.Product, error) {
+func (service *ProductService) Create(subcategory string, product *dto.ProductDto) (*dto.ProductDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Product)
+		result := new(dto.ProductDto)
 		client := sling.New()
 		for _, instance := range instances {
 			resp, err := client.Post(instance.HomePageUrl).
 				Path("/v1/edit").
+				Path(subcategory).
 				BodyJSON(product).
 				ReceiveSuccess(result)
 			if err != nil {
@@ -62,10 +62,10 @@ func (service *ProductService) CreateProduct(product *payload.Product) (*payload
 	return nil, err
 }
 
-func (service *ProductService) ReadById(productId uint) (*payload.Product, error) {
+func (service *ProductService) ReadById(productId uint) (*dto.ProductDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new(payload.Product)
+		result := new(dto.ProductDto)
 		client := sling.New()
 		for _, instance := range instances {
 			client := client.Get(instance.HomePageUrl).
@@ -83,10 +83,10 @@ func (service *ProductService) ReadById(productId uint) (*payload.Product, error
 	return nil, err
 }
 
-func (service *ProductService) ReadAllUnPublish() (*[]payload.Product, error) {
+func (service *ProductService) ReadAllUnPublish() (*[]dto.ProductDto, error) {
 	instances, err := service.getInstances()
 	if err == nil {
-		result := new([]payload.Product)
+		result := new([]dto.ProductDto)
 		client := sling.New()
 		for _, instance := range instances {
 			client := client.Get(instance.HomePageUrl).
@@ -125,7 +125,7 @@ func (service *ProductService) UpdateStatusProduct(productId uint, status string
 	return err
 }
 
-func (service *ProductService) UpdateProduct(product *payload.Product) error {
+func (service *ProductService) UpdateProduct(product *dto.ProductDto) error {
 	instances, err := service.getInstances()
 	if err == nil {
 		client := sling.New()

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"../entity"
-	"../repository"
+	"statistics/src/main/go/com.github/entity"
+	"statistics/src/main/go/com.github/repository"
 )
 
 type LoginService struct {
@@ -13,7 +13,7 @@ func NewLoginService(repo *repository.LoginRepo) *LoginService {
 	return &LoginService{repo: repo}
 }
 
-func (service *LoginService) ReadByUserId(userId uint) ([]*entity.Login, error) {
+func (service *LoginService) ReadByUserId(userId string) ([]*entity.Login, error) {
 	return service.repo.FindByUserId(userId)
 }
 

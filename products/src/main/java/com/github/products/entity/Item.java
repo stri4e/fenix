@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -25,7 +24,11 @@ public abstract class Item implements Serializable, Cloneable {
     )
     private Long id;
 
-    @Column(name = "name")
+    @Column(
+            name = "name",
+            nullable = false,
+            length = 100
+    )
     private String name;
 
     @Column(
@@ -58,6 +61,12 @@ public abstract class Item implements Serializable, Cloneable {
             fetch = FetchType.EAGER
     )
     private List<String> images = new ArrayList<>();
+
+    @Column(
+            name = "bought_count",
+            nullable = false
+    )
+    private Integer boughtCount = 0;
 
     @CreationTimestamp
     @Column(

@@ -1,15 +1,15 @@
 package container
 
 import (
-	"../config"
-	"../controllers"
-	"../handlers"
-	"../logger"
-	"../migration"
-	"../repository"
-	"../server"
-	"../services"
 	"go.uber.org/dig"
+	"statistics/src/main/go/com.github/config"
+	"statistics/src/main/go/com.github/controllers"
+	"statistics/src/main/go/com.github/handlers"
+	"statistics/src/main/go/com.github/logger"
+	"statistics/src/main/go/com.github/migration"
+	"statistics/src/main/go/com.github/repository"
+	"statistics/src/main/go/com.github/server"
+	"statistics/src/main/go/com.github/services"
 )
 
 func BuildContainer() *dig.Container {
@@ -22,19 +22,23 @@ func BuildContainer() *dig.Container {
 
 	err = container.Provide(repository.NewViewRepo)
 	err = container.Provide(repository.NewLoginRepo)
+	err = container.Provide(repository.NewPopularProductRepo)
 
 	err = container.Provide(services.NewLoginService)
 	err = container.Provide(services.NewViewService)
 	err = container.Provide(services.NewEurekaService)
 	err = container.Provide(services.NewProductService)
+	err = container.Provide(services.NewPopularProductService)
 
 	err = container.Provide(controllers.NewLoginsController)
 	err = container.Provide(controllers.NewViewsController)
+	err = container.Provide(controllers.NewPopularProductController)
 
 	err = container.Provide(handlers.NewRestHandler)
 	err = container.Provide(handlers.NewLoginHandler)
 	err = container.Provide(handlers.NewViewsHandler)
 	err = container.Provide(handlers.NewTracer)
+	err = container.Provide(handlers.NewPopularProductHandler)
 
 	err = container.Provide(server.NewServer)
 

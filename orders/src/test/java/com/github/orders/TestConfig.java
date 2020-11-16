@@ -14,7 +14,6 @@ public class TestConfig {
         final PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
         Properties properties = new Properties();
         properties.setProperty("swagger.enabled", "false");
-        properties.setProperty("app.user.secret.key", "205d36838e32d2905b2b65988a201aec50c4a29795c71acdb32f60768a1dd123");
         pspc.setProperties(properties);
         return pspc;
     }

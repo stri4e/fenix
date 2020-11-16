@@ -1,9 +1,8 @@
 package controllers
 
 import (
-	"../dto"
-	"../services"
-	"../utils"
+	"managers/src/main/go/com.github/dto"
+	"managers/src/main/go/com.github/services"
 )
 
 type SpecificationController struct {
@@ -28,21 +27,7 @@ func NewSpecificationController(productService *services.ProductService, specSer
 // @Failure 403
 // @Router /v1/specifications/{productId} [post]
 func (controller *SpecificationController) SaveSpecification(productId uint, payload *dto.SpecificationDto) (*dto.SpecificationDto, error) {
-	product, err := controller.productService.ReadById(productId)
-	if err != nil {
-		return nil, err
-	}
-	data := utils.ToSpecification(payload)
-	specification, err := controller.specService.Create(data)
-	if err != nil {
-		return nil, err
-	}
-	product.Specifications = append(product.Specifications, *specification)
-	err = controller.productService.UpdateProduct(product)
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromSpecification(specification), nil
+	return controller.specService.Create(productId, payload)
 }
 
 // FindSpecById godoc
@@ -57,11 +42,7 @@ func (controller *SpecificationController) SaveSpecification(productId uint, pay
 // @Failure 403
 // @Router /v1/specifications/{specificationId} [get]
 func (controller *SpecificationController) FindSpecById(specificationId uint) (*dto.SpecificationDto, error) {
-	specification, err := controller.specService.ReadById(specificationId)
-	if err != nil {
-		return nil, err
-	}
-	return utils.FromSpecification(specification), nil
+	return controller.specService.ReadById(specificationId)
 }
 
 // UpdateSpecification godoc
@@ -76,5 +57,5 @@ func (controller *SpecificationController) FindSpecById(specificationId uint) (*
 // @Failure 404
 // @Router /v1/specifications [put]
 func (controller *SpecificationController) UpdateSpecification(payload *dto.SpecificationDto) error {
-	return controller.specService.Update(utils.ToSpecification(payload))
+	return controller.specService.Update(payload)
 }

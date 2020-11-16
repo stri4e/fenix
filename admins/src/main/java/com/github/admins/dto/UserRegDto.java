@@ -7,12 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for create new user on this server.")
-public class UserRegDto {
+public class UserRegDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 4310742275561483301L;
 
     @ApiModelProperty(
             value = "User firs name.",

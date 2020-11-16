@@ -1,7 +1,9 @@
 package com.github.products.services.impl;
 
 import com.github.products.entity.Category;
+import com.github.products.entity.EntityStatus;
 import com.github.products.exceptions.BadRequest;
+import com.github.products.exceptions.NotFound;
 import com.github.products.repository.CategoryRepo;
 import com.github.products.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,12 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public Category readById(Long id) {
+        return this.categoryRepo.findById(id)
+                .orElseThrow(NotFound::new);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "category", key = "#c.id"),
             evict = @CacheEvict(value = "categories", allEntries = true)
@@ -64,7 +72,7 @@ public class CategoryService implements ICategoryService {
             @CacheEvict(value = "categories", allEntries = true)
     })
     public void remove(Long id) {
-        this.categoryRepo.deleteById(id);
+        this.categoryRepo.updateStatus(id, EntityStatus.off);
     }
 
     @Override

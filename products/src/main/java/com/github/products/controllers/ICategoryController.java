@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface ICategoryController {
@@ -22,25 +23,25 @@ public interface ICategoryController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    Category saveCategory(@RequestBody Category payload);
+    CategoryDto saveCategory(@Valid @RequestBody CategoryDto payload);
 
     @GetMapping(
             path = "/fetch/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Category findByName(@PathVariable String name);
+    CategoryDto findByName(@PathVariable String name);
 
     @PutMapping(
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateCategory(@RequestBody Category payload);
+    void update(@Valid @RequestBody CategoryDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void removeCategory(@PathVariable Long id);
+    void remove(@PathVariable Long id);
 
 }

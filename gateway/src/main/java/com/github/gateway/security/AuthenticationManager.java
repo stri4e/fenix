@@ -22,9 +22,10 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
         var token = authentication.getCredentials().toString();
-        var userId = this.tokenProvider.getUserFromJwt(token);
+        var key = this.tokenProvider.findKey(token);
+        var userId = this.tokenProvider.getUserFromJwt(token, key);
         if (Objects.nonNull(userId) && this.tokenProvider.validateToken(token)) {
-            List<String> roles = this.tokenProvider.getRoles(token);
+            List<String> roles = this.tokenProvider.getRoles(token, key);
             List<SimpleGrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
             UsernamePasswordAuthenticationToken auth =

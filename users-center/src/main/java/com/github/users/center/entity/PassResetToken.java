@@ -101,4 +101,26 @@ public class PassResetToken implements Serializable, Cloneable {
         return new Date().after(this.expireTime);
     }
 
+    public static PassResetToken build() {
+        return new PassResetToken();
+    }
+
+    public PassResetToken user(User user) {
+        this.user = user;
+        this.token = UUID.randomUUID().toString();
+        return this;
+    }
+
+    public PassResetToken newPass(String newPass) {
+        this.newPass = newPass;
+        return this;
+    }
+
+    public PassResetToken expiryDate(int minute) {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, minute);
+        this.expireTime = now.getTime();
+        return this;
+    }
+
 }

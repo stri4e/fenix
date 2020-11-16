@@ -1,9 +1,9 @@
 package config
 
 import (
-	"../utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/tkanos/gonfig"
+	"managers/src/main/go/com.github/utils"
 	"os"
 )
 

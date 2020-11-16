@@ -4,9 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -14,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Table(name = "product", schema = "public")
+@Table(name = "products", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Product.findAll",
@@ -36,10 +34,10 @@ public class Product extends Item implements Serializable, Cloneable {
     @JoinColumn(
             name = "specification_id",
             foreignKey = @ForeignKey(
-                    name = "product_specification_fk"
+                    name = "products_specification_fk"
             )
     )
-    private Set<Specification> specification = new HashSet<>();
+    private Set<Specification> specifications = new HashSet<>();
 
     @OneToMany(
             targetEntity = Comment.class,
@@ -53,23 +51,68 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     private Set<Comment> comments = new HashSet<>();
 
+    @ManyToMany(
+            targetEntity = Criteria.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "products_criteria",
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "criteria_id",
+                    referencedColumnName = "id"
+            )
+    )
+    private Set<Criteria> criteria = new HashSet<>();
+
     @ManyToOne(
-            targetEntity = Category.class,
+            targetEntity = Subcategory.class,
             fetch = FetchType.EAGER
     )
     @JoinColumn(
             nullable = false,
-            name = "categories_id"
+            name = "sub_category_id"
     )
-    private Category category;
+    private Subcategory subcategory;
+
+    @ManyToOne(
+            targetEntity = Brand.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "brand_id"
+    )
+    private Brand brand;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private EntityStatus status = EntityStatus.off;
 
     public void addComment(Comment c) {
         if (Objects.nonNull(c)) {
             this.comments.add(c);
+        }
+    }
+
+    public void addSpecification(Specification s) {
+        if (Objects.nonNull(s)) {
+            this.specifications.add(s);
+        }
+    }
+
+    public void addCriteria(Criteria c) {
+        if (Objects.nonNull(c)) {
+            this.criteria.add(c);
+        }
+    }
+
+    public void addCriteria(List<Criteria> c) {
+        if (Objects.nonNull(c)) {
+            this.criteria.addAll(c);
         }
     }
 

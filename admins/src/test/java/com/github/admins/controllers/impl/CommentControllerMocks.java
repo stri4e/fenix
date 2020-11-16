@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.CommentDto;
-import com.github.admins.payload.Comment;
 
 public class CommentControllerMocks {
 
@@ -19,8 +18,8 @@ public class CommentControllerMocks {
         );
     }
 
-    public static Comment responsePayload() {
-        return new Comment(
+    public static CommentDto responsePayload() {
+        return new CommentDto(
                 COMMENT_ID,
                 COMMENT_NAME,
                 COMMENT_DESC

@@ -15,11 +15,11 @@ public class CategoryControllerMocks {
     public static String CATEGORY_UPDATE_NAME = "Smart-Phone";
 
     public static final List<CategoryDto> CATEGORIES_DTO = new ArrayList<>() {{
-        add(new CategoryDto(1L, "Phone"));
-        add(new CategoryDto(2L, "Computer"));
-        add(new CategoryDto(3L, "Soft"));
-        add(new CategoryDto(4L, "Instruments"));
-        add(new CategoryDto(5L, "Sport"));
+        add(new CategoryDto(1L, "Phone", new ArrayList<>()));
+        add(new CategoryDto(2L, "Computer", new ArrayList<>()));
+        add(new CategoryDto(3L, "Soft", new ArrayList<>()));
+        add(new CategoryDto(4L, "Instruments", new ArrayList<>()));
+        add(new CategoryDto(5L, "Sport", new ArrayList<>()));
     }};
 
     public static final List<Category> CATEGORIES_FOR_SAVE = new ArrayList<>() {{

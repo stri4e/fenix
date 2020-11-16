@@ -1,9 +1,9 @@
 package migration
 
 import (
-	"../config"
-	"../entity"
 	"github.com/jinzhu/gorm"
+	"managers/src/main/go/com.github/config"
+	"managers/src/main/go/com.github/entity"
 )
 
 type DataBaseMigration struct {

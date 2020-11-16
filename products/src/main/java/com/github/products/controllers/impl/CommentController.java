@@ -8,7 +8,6 @@ import com.github.products.exceptions.BadRequest;
 import com.github.products.services.ICommentService;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
-import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,29 +31,26 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto
-    saveComment(Long productId, CommentDto payload) {
-        if (Objects.isNull(productId) || Objects.isNull(payload)) {
-            throw new BadRequest();
-        }
+    save(Long productId, CommentDto payload) {
         Comment tc = toComment(payload);
         Product product = this.productService.readById(productId);
         Comment comment = this.commentService.create(tc);
         product.addComment(comment);
-        this.productService.updateProduct(product);
+        this.productService.update(product);
         return fromComment(comment);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Comment findById(Long id) {
-        return this.commentService.readById(id);
+    public CommentDto findById(Long id) {
+        return fromComment(this.commentService.readById(id));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void removeComment(Long id) {
+    public void remove(Long id) {
         this.commentService.remove(id);
     }
 

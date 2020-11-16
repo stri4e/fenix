@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "This model use for keep product.")
-public class ProductDto {
+public class ProductDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 8670263025353373031L;
 
     @ApiModelProperty(
             value = "Product id",
@@ -24,6 +27,14 @@ public class ProductDto {
     )
     @JsonProperty(value = "id")
     private Long id;
+
+    @ApiModelProperty(
+            value = "Product name",
+            example = "Xiaomi"
+    )
+    @JsonProperty(value = "brandName")
+    @NotBlank(message = "Brand name is required.")
+    private String brandName;
 
     @ApiModelProperty(
             value = "Product name",
@@ -68,5 +79,23 @@ public class ProductDto {
     )
     @JsonProperty(value = "images")
     private List<String> images;
+
+    @ApiModelProperty(
+            value = "Product specifications"
+    )
+    @JsonProperty(value = "specifications")
+    private List<SpecificationDto> specifications;
+
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "comments")
+    private List<CommentDto> comments;
+
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "subcategoryName")
+    private String subcategoryName;
 
 }

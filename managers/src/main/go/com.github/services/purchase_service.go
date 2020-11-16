@@ -1,8 +1,8 @@
 package services
 
 import (
-	"../entity"
-	"../repository"
+	"managers/src/main/go/com.github/entity"
+	"managers/src/main/go/com.github/repository"
 )
 
 type PurchaseService struct {

@@ -1,17 +1,17 @@
 package handlers
 
 import (
-	"../models"
 	"encoding/json"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"statistics/src/main/go/com.github/models"
 )
 
 const (
 	ContentType     = "Content-Type"
 	ApplicationJson = "application/json"
-	BaseUint = 10
-	BitSize = 64
+	BaseUint        = 10
+	BitSize         = 64
 )
 
 func ResponseSender(w http.ResponseWriter, payload interface{}, status int) {

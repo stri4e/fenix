@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"../dto"
-	"../services"
-	"../utils"
+	"statistics/src/main/go/com.github/dto"
+	"statistics/src/main/go/com.github/services"
+	"statistics/src/main/go/com.github/utils"
 )
 
 type LoginsController struct {
@@ -23,7 +23,7 @@ func NewLoginsController(service *services.LoginService) *LoginsController {
 // @Param userId path integer true "User ID"
 // @Success 200 {object} dto.LoginDto
 // @Router /v1/logins/fetch/{userId} [get]
-func (controller *LoginsController) FindByUserId(userId uint) ([]*dto.LoginDto, error) {
+func (controller *LoginsController) FindByUserId(userId string) ([]*dto.LoginDto, error) {
 	login, err := controller.service.ReadByUserId(userId)
 	if err != nil {
 		return nil, err

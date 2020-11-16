@@ -33,9 +33,12 @@ class ConfirmTokenRepoTest {
     public void createCT() {
         User user = user();
         ConfirmToken data = confirmToken();
-        ConfirmToken exp = confirmTokenExp();
-        this.ur.save(user);
-        ConfirmToken act = this.ctr.save(data);
+        User u = this.ur.save(user);
+        data.setUser(u);
+        ConfirmToken exp = this.ctr.save(data);
+        ConfirmToken act = this.ctr.findByToken(exp.getToken())
+                .orElse(null);
+        assertNotNull(exp);
         assertNotNull(act);
         assertEquals(exp, act);
     }
@@ -44,7 +47,8 @@ class ConfirmTokenRepoTest {
     void findByToken() {
         User user = user();
         ConfirmToken data = confirmToken();
-        this.ur.save(user);
+        User u = this.ur.save(user);
+        data.setUser(u);
         ConfirmToken exp = this.ctr.save(data);
         ConfirmToken act = this.ctr.findByToken(exp.getToken())
                 .orElse(null);

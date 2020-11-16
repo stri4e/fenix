@@ -32,4 +32,11 @@ public interface IEmailController {
     @ResponseStatus(code = HttpStatus.CREATED)
     void loginNotification(@Valid @RequestBody EmailNotification payload);
 
+    @PostMapping(
+            path = "/registration/orders",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
+    void registrationOrderNotify(@Valid @RequestBody EmailNotification payload);
+
 }

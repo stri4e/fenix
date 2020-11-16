@@ -1,9 +1,9 @@
 package logger
 
 import (
-	"../config"
 	"github.com/cheshir/logrustash"
 	log "github.com/sirupsen/logrus"
+	"statistics/src/main/go/com.github/config"
 	"time"
 )
 
@@ -35,7 +35,6 @@ func (logger *Logger) InitLogger() {
 	}
 	go addLogstashHook(logger.config)
 }
-
 
 func addLogstashHook(config *config.Config) {
 	ticker := time.NewTicker(time.Duration(5*1000) * time.Millisecond)

@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"../entity"
 	"github.com/jinzhu/gorm"
+	"managers/src/main/go/com.github/entity"
 )
 
 type ManagersRepository struct {
@@ -24,7 +24,7 @@ func (repo *ManagersRepository) FirstOrCreateManager(manager *entity.Manager) (*
 	return manager, err
 }
 
-func (repo *ManagersRepository) FindByManagerIdAndStatus(managerId uint, status string) (*entity.Manager, error) {
+func (repo *ManagersRepository) FindByManagerIdAndStatus(managerId string, status string) (*entity.Manager, error) {
 	var data *entity.Manager
 	err := repo.db.Preload("Purchases").
 		Order("create_at").
@@ -33,7 +33,7 @@ func (repo *ManagersRepository) FindByManagerIdAndStatus(managerId uint, status 
 	return data, err
 }
 
-func (repo *ManagersRepository) FindByManagerID(managerId uint) (*entity.Manager, error) {
+func (repo *ManagersRepository) FindByManagerID(managerId string) (*entity.Manager, error) {
 	var data *entity.Manager
 	err := repo.db.Preload("Purchases").
 		Where("manager_id = ?", managerId).

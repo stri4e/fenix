@@ -3,9 +3,13 @@ package com.github.orders.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -31,7 +35,7 @@ public class Customer implements Serializable, Cloneable {
             strategy = GenerationType.IDENTITY
     )
     @Column(
-            name = "id",
+            name = "ID",
             unique = true
     )
     private Long id;
@@ -41,12 +45,6 @@ public class Customer implements Serializable, Cloneable {
             nullable = false
     )
     private String customerName;
-
-    @Column(
-            name = "customer_address",
-            nullable = false
-    )
-    private String customerAddress;
 
     @Column(
             name = "customer_email",
@@ -62,14 +60,58 @@ public class Customer implements Serializable, Cloneable {
     )
     private String customerPhone;
 
-    public Customer(String customerName,
-                    String customerAddress,
+    @OneToOne(
+            targetEntity = Address.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "address_id",
+            foreignKey = @ForeignKey(
+                    name = "customer_address_fk"
+            )
+    )
+    private Address address;
+
+    @Column(
+            name = "user_id",
+            nullable = false,
+            unique = true
+    )
+    private UUID userId;
+
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
+
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false
+    )
+    private LocalDateTime updateAt;
+
+    public Customer(Long id,
+                    String customerName,
                     String customerEmail,
-                    String customerPhone) {
+                    String customerPhone,
+                    UUID userId) {
+        this.id = id;
         this.customerName = customerName;
-        this.customerAddress = customerAddress;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
+        this.userId = userId;
+    }
+
+    public Customer address(Address address) {
+        this.address = address;
+        return this;
     }
 
 }

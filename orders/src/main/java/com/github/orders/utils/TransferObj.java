@@ -2,134 +2,66 @@ package com.github.orders.utils;
 
 import com.github.orders.dto.*;
 import com.github.orders.entity.*;
-import com.github.orders.payload.Category;
-import com.github.orders.payload.Comment;
-import com.github.orders.payload.Product;
-import com.github.orders.payload.Specification;
-import org.springframework.beans.BeanUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Customer toCustomer(CustomerDto data) {
+    public static Customer toCustomer(CustomerDto data, UUID userId) {
         return new Customer(
+                data.getId(),
                 data.getCustomerName(),
-                data.getCustomerAddress(),
                 data.getCustomerEmail(),
-                data.getCustomerPhone()
+                data.getCustomerPhone(),
+                userId
         );
     }
 
     public static OrderDetail toOrderDetail(
-            Customer c, OrderDetailDto data, Long userId) {
+            Customer customer, OrderDetailDto data, Delivery delivery, UUID userId, Long billId) {
         return new OrderDetail(
-                c, data.getProductsIds(),
-                data.getAmount(), userId, data.getStatus());
+                customer,
+                data.getProducts().stream()
+                        .map(ProductDto::getId)
+                        .collect(Collectors.toList()),
+                data.getAmount(),
+                delivery,
+                userId,
+                billId,
+                data.getStatus());
     }
 
-    public static OrderDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery) {
-        var customer = fromCustomer(data.getCustomer());
-        var productsDto = products.stream()
-                .map(TransferObj::fromProduct)
-                .collect(Collectors.toList());
-        return new OrderDto(
+    public static OrderDetailDto fromOrderDetail(OrderDetail data, List<ProductDto> products, BillDto bill) {
+        return new OrderDetailDto(
                 data.getId(),
-                customer,
-                productsDto,
+                fromCustomer(data.getCustomer()),
+                products,
                 data.getAmount(),
                 data.getStatus(),
-                fromDelivery(delivery)
+                fromDelivery(data.getDelivery()),
+                bill
         );
     }
 
-    public static CustomerDto fromCustomer(Customer customer) {
+    public static CustomerDto fromCustomer(Customer data) {
         return new CustomerDto(
-                customer.getId(),
-                customer.getCustomerName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerEmail(),
-                customer.getCustomerPhone()
-        );
-    }
-
-    public static ProductDto fromProduct(Product data) {
-        if (Objects.isNull(data)) {
-            return null;
-        }
-        ProductDto p = new ProductDto();
-        BeanUtils.copyProperties(data, p);
-        return p;
-    }
-
-    public static SpecificationDto fromSpecification(Specification data) {
-        return new SpecificationDto(
                 data.getId(),
-                data.getName(),
-                data.getDescription()
+                data.getCustomerName(),
+                data.getCustomerEmail(),
+                data.getCustomerPhone(),
+                fromAddress(data.getAddress())
         );
     }
 
-    public static CommentDto fromComment(Comment data) {
-        return new CommentDto(data.getId(), data.getName(), data.getComment());
-    }
-
-    public static CategoryDto fromCategory(Category data) {
-        return new CategoryDto(data.getId(), data.getName());
-    }
-
-    public static Company toCompany(CompanyDto data) {
-        return new Company(
-                data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::toBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                toPrice(data.getPrice())
-        );
-    }
-
-    public static CompanyDto fromCompany(Company data) {
-        return new CompanyDto(
-                data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::fromBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                fromPrice(data.getPrice())
-        );
-    }
-
-    public static Branch toBranch(BranchDto data) {
-        return new Branch(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
-        );
-    }
-
-    public static BranchDto fromBranch(Branch data) {
-        return new BranchDto(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
-        );
-    }
-
-    public static Delivery toDelivery(DeliveryDto data) {
+    public static Delivery toDelivery(DeliveryDto data, UUID userId) {
         return new Delivery(
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getBranchAddress()
+                data.getAmount(),
+                userId
         );
     }
 
@@ -138,23 +70,37 @@ public class TransferObj {
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getBranchAddress()
+                fromAddress(data.getAddress()),
+                data.getAmount()
         );
     }
 
-    public static Price toPrice(PriceDto data) {
-        return new Price(
+    public static Address toAddress(AddressDto data, UUID userId) {
+        return new Address(
                 data.getId(),
-                data.getToHome(),
-                data.getToBranch()
+                data.getCountry(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getState(),
+                data.getZipCode(),
+                data.getType(),
+                userId
         );
     }
 
-    public static PriceDto fromPrice(Price data) {
-        return new PriceDto(
+    public static AddressDto fromAddress(Address data) {
+        return new AddressDto(
                 data.getId(),
-                data.getToHome(),
-                data.getToBranch()
+                data.getCountry(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getState(),
+                data.getZipCode(),
+                data.getType()
         );
     }
 

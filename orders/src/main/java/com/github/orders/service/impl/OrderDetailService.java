@@ -2,21 +2,18 @@ package com.github.orders.service.impl;
 
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
-import com.github.orders.exceptions.BadRequest;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.repository.OrderDetailRepo;
 import com.github.orders.service.IOrderDetailService;
-import com.github.orders.utils.OrdersSpec;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -49,7 +46,7 @@ public class OrderDetailService implements IOrderDetailService {
 
     @Override
     @Cacheable(value = "orders", key = "#userId", unless = "#result.size() == 0")
-    public List<OrderDetail> readUserId(Long userId) {
+    public List<OrderDetail> readUserId(UUID userId) {
         return this.orderRepo.findByUserId(userId);
     }
 
@@ -80,6 +77,11 @@ public class OrderDetailService implements IOrderDetailService {
     )
     public void update(OrderDetail o) {
         this.orderRepo.save(o);
+    }
+
+    @Override
+    public void updateOrderPaid(Long billId) {
+        this.orderRepo.updateOrderPaid(billId, OrderStatus.paid);
     }
 
 }
