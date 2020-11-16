@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @FeignClient(
-        name = "products-service",
+        name = "products",
         fallback = SpecificationService.class,
         contextId = "specificationId"
 )

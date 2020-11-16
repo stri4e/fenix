@@ -109,7 +109,7 @@ func (service *OrderService) getInstances() ([]*fargo.Instance, error) {
 	if err != nil {
 		return nil, err
 	}
-	result := apps["ORDERS-SERVICE"]
+	result := apps["ORDERS"]
 	if result == nil {
 		return nil, errors.New("instance not found")
 	}

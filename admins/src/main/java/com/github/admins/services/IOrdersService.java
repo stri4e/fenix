@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @FeignClient(
-        name = "orders-service",
+        name = "orders",
         fallback = OrdersService.class,
         contextId = "orderId"
 )

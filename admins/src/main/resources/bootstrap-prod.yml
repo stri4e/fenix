@@ -1,6 +1,6 @@
 spring:
   application:
-    name: admin-service
+    name: admins
   cloud:
     config:
       uri: http://config-server:8888
