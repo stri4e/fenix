@@ -54,6 +54,7 @@ dependencies {
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'com.github.ben-manes.caffeine:caffeine'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
 	testImplementation group: 'junit', name: 'junit', version: '4.12'
