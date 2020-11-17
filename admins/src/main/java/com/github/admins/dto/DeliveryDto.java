@@ -29,9 +29,9 @@ public class DeliveryDto implements Serializable, Cloneable {
     @JsonProperty(value = "companyName")
     private String companyName;
 
-    @NotBlank
+    @NotNull
     @JsonProperty(value = "address")
-    private String address;
+    private AddressDto address;
 
     @NotBlank
     @JsonProperty(value = "amount")

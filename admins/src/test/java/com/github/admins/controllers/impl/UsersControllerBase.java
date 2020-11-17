@@ -65,7 +65,7 @@ public class UsersControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())
-                        .withPath("/v1/managers/edit/locked")
+                        .withPath("/v1/locked/edit")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(
@@ -84,7 +84,7 @@ public class UsersControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())
-                        .withPath("/v1/admins/edit/locked")
+                        .withPath("/v1/locked/edit")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(

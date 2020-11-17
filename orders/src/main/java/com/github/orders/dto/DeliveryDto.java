@@ -29,7 +29,7 @@ public class DeliveryDto implements Serializable, Cloneable {
     @JsonProperty(value = "companyName")
     private String companyName;
 
-    @NotBlank
+    @NotNull
     @JsonProperty(value = "address")
     private AddressDto address;
 

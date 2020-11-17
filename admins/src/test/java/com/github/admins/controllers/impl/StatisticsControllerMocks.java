@@ -195,7 +195,7 @@ public class StatisticsControllerMocks {
                             "Albert Albert",
                             "Bolotnaj street 8",
                             "albert@yandex.ru",
-                            "+89752323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
@@ -210,7 +210,7 @@ public class StatisticsControllerMocks {
                             "Zigmud Tupizin",
                             "River street 8",
                             "zigmud@gmail.com",
-                            "+8934223"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
@@ -225,7 +225,7 @@ public class StatisticsControllerMocks {
                             "Jolobock Ivanich",
                             "Tupizina street 8",
                             "jolobock@gmail.com",
-                            "+87892323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
@@ -265,8 +265,22 @@ public class StatisticsControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Nowa poshta",
-                "xz street",
+                addressDto(),
                 new BigDecimal("50.2")
+        );
+    }
+
+    public static AddressDto addressDto() {
+        return new AddressDto(
+                1L,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer
         );
     }
 

@@ -19,7 +19,7 @@ public class OrderDetailControllerMocks {
                         "Zigmud Tupizin",
                         "River street 8",
                         "zigmud@gmail.com",
-                        "+8934223"
+                        addressDto()
                 ),
                 PRODUCTS_DTO,
                 new BigDecimal("220.254"),
@@ -37,7 +37,7 @@ public class OrderDetailControllerMocks {
                         "Zigmud Tupizin",
                         "River street 8",
                         "zigmud@gmail.com",
-                        "+8934223"
+                        addressDto()
                 ),
                 PRODUCTS_DTO,
                 new BigDecimal("220.254"),
@@ -118,7 +118,7 @@ public class OrderDetailControllerMocks {
                             "Kozulinskiy Peronion",
                             "Bolotnaj street 18",
                             "kozulinskiy@yandex.com",
-                            "+897543223"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
@@ -136,7 +136,7 @@ public class OrderDetailControllerMocks {
                             "Albert Albert",
                             "Bolotnaj street 8",
                             "albert@yandex.ru",
-                            "+89752323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
@@ -151,7 +151,7 @@ public class OrderDetailControllerMocks {
                             "Zigmud Tupizin",
                             "River street 8",
                             "zigmud@gmail.com",
-                            "+8934223"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
@@ -166,7 +166,7 @@ public class OrderDetailControllerMocks {
                             "Jolobock Ivanich",
                             "Tupizina street 8",
                             "jolobock@gmail.com",
-                            "+87892323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
@@ -184,7 +184,7 @@ public class OrderDetailControllerMocks {
                             "Klava Marinez",
                             "Suspect street 8",
                             "klava@rambler.ru",
-                            "+897527896"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("569.205"),
@@ -202,7 +202,7 @@ public class OrderDetailControllerMocks {
                             "Albert Albert",
                             "Bolotnaj street 8",
                             "albert@yandex.ru",
-                            "+89752323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
@@ -217,7 +217,7 @@ public class OrderDetailControllerMocks {
                             "Zigmud Tupizin",
                             "River street 8",
                             "zigmud@gmail.com",
-                            "+8934223"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
@@ -232,7 +232,7 @@ public class OrderDetailControllerMocks {
                             "Jolobock Ivanich",
                             "Tupizina street 8",
                             "jolobock@gmail.com",
-                            "+87892323"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
@@ -250,7 +250,7 @@ public class OrderDetailControllerMocks {
                             "Kozulinskiy Peronion",
                             "Bolotnaj street 18",
                             "kozulinskiy@yandex.com",
-                            "+897543223"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
@@ -268,7 +268,7 @@ public class OrderDetailControllerMocks {
                             "Klava Marinez",
                             "Suspect street 8",
                             "klava@rambler.ru",
-                            "+897527896"
+                            addressDto()
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("569.205"),
@@ -371,8 +371,22 @@ public class OrderDetailControllerMocks {
                 1L,
                 DeliveryType.home,
                 "Nowa poshta",
-                "xz street",
+                addressDto(),
                 new BigDecimal("50.2")
+        );
+    }
+
+    public static AddressDto addressDto() {
+        return new AddressDto(
+                1L,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                1,
+                null,
+                null,
+                49000,
+                AddressType.customer
         );
     }
 

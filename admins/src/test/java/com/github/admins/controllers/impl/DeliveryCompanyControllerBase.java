@@ -27,7 +27,7 @@ public class DeliveryCompanyControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.POST.name())
-                        .withPath("/v1/delivery/company/edit")
+                        .withPath("/v1/companies/edit")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(
@@ -45,7 +45,7 @@ public class DeliveryCompanyControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.GET.name())
-                        .withPath("/v1/delivery/company/fetch/1"),
+                        .withPath("/v1/companies/fetch/1"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()
@@ -64,7 +64,7 @@ public class DeliveryCompanyControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())
-                        .withPath("/v1/delivery/company/edit")
+                        .withPath("/v1/companies/edit")
                         .withBody(JsonBody.json(request)),
                 Times.exactly(1)
         ).respond(
@@ -77,7 +77,7 @@ public class DeliveryCompanyControllerBase {
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.DELETE.name())
-                        .withPath("/v1/delivery/company/edit/1"),
+                        .withPath("/v1/companies/edit/1"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()
