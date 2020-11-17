@@ -1,4 +1,4 @@
-package com.github.products.config;
+package com.github.payments.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +15,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 @EnableOpenApi
 public class SwaggerConfig {
 
-    private static final String BASE_PACKAGE = "com.github.products.controllers";
+    private static final String BASE_PACKAGE = "com.github.payments.controllers";
 
     private static final String PATHS = "/";
 
-    private static final String TITLE = "Products-Service";
+    private static final String TITLE = "Payments";
 
-    private static final String DESCRIPTION = "Products management REST API";
+    private static final String DESCRIPTION = "Payment management REST API";
 
     private static final String VERSION = "1.0.0";
 
