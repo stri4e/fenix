@@ -42,7 +42,6 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
-
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	implementation ('com.github.HellcrowAndrey:facade-bitcoin:1.0.1') {
@@ -53,25 +52,20 @@ dependencies {
 		exclude group: 'org.slf4j', module: 'slf4j-jdk14'
 		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
 	}
-
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-
 	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
 
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	
+	testImplementation group: 'junit', name: 'junit', version: '4.12'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
-	testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'
-	testImplementation group: 'org.powermock', name: 'powermock-core', version: '2.0.5'
-	testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.5'
-	testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.5'
-	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
 	testImplementation group: 'org.mock-server', name: 'mockserver-netty', version: '5.11.1'
-	testImplementation group: 'com.h2database', name: 'h2'
 }
 
 dependencyManagement {

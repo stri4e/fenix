@@ -42,30 +42,22 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
     implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
-
     implementation 'com.github.HellcrowAndrey:facade-master-card-p2p:1.0.2'
-
     implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-    runtimeOnly group: 'org.hsqldb', name: 'hsqldb'
     annotationProcessor 'org.projectlombok:lombok'
+
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     testImplementation group: 'org.mock-server', name: 'mockserver-netty', version: '5.11.1'
     testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
-    testImplementation group: 'org.powermock', name: 'powermock-classloading-objenesis', version: '2.0.5'
-    testImplementation group: 'org.powermock', name: 'powermock-core', version: '2.0.5'
-    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.5'
-    testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.5'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation group: 'com.h2database', name: 'h2'
-
 }
 
 dependencyManagement {

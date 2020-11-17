@@ -46,19 +46,14 @@ dependencies {
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
-
-	implementation 'io.micrometer:micrometer-core:1.5.1'
-	implementation 'io.micrometer:micrometer-registry-prometheus:1.5.1'
-
-	implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.29'
-	implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
 	implementation group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
+	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
 	testImplementation group: 'org.mock-server', name: 'mockserver-netty', version: '5.11.1'
 	testImplementation group: 'junit', name: 'junit', version: '4.12'

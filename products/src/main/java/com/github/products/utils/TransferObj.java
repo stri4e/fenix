@@ -63,7 +63,9 @@ public class TransferObj {
         return new CategoryDto(
                 data.getId(),
                 data.getName(),
-                data.getSubcategories()
+                data.getSubcategories().stream()
+                .map(TransferObj::fromSubCategory)
+                .collect(Collectors.toList())
         );
     }
 
