@@ -1,7 +1,6 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.PaymentTypesDto;
-import com.github.admins.payload.EntityStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public interface IPaymentTypeController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     List<PaymentTypesDto> findAllByStatus(
-            @PathVariable(value = "status") EntityStatus status
+            @PathVariable(value = "status") String status
     );
 
     @PutMapping

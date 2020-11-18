@@ -5,7 +5,6 @@ import com.github.admins.dto.LoginDto;
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.ViewDto;
 import com.github.admins.exceptions.NotFound;
-import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrdersService;
 import com.github.admins.services.IStatisticsService;
 import com.github.admins.utils.Logging;
@@ -29,7 +28,7 @@ public class StatisticsController implements IStatisticsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public List<OrderDetailDto>
-    findOrdersInTime(OrderStatus status, String start, String end) {
+    findOrdersInTime(String status, String start, String end) {
         return this.orderService.findByStatusInTime(status, start, end)
                 .orElseThrow(NotFound::new);
     }

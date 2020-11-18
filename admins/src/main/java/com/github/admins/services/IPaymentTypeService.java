@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.PaymentTypesDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.BillsService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -22,7 +21,7 @@ public interface IPaymentTypeService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<PaymentTypesDto>> findAllByStatus(
-            @PathVariable(value = "status") EntityStatus status
+            @PathVariable(value = "status") String status
     );
 
     @PutMapping(

@@ -23,7 +23,7 @@ public class OrderDetailControllerMocks {
                 ),
                 PRODUCTS_DTO,
                 new BigDecimal("220.254"),
-                OrderStatus.open,
+                "open",
                 delivery(),
                 bill()
         );
@@ -41,7 +41,7 @@ public class OrderDetailControllerMocks {
                 ),
                 PRODUCTS_DTO,
                 new BigDecimal("220.254"),
-                OrderStatus.open,
+                "open",
                 delivery(),
                 bill()
         );
@@ -122,7 +122,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
-                    OrderStatus.close,
+                    "close",
                     delivery(),
                     bill()
             )
@@ -140,7 +140,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -155,7 +155,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -170,7 +170,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             )
@@ -188,7 +188,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("569.205"),
-                    OrderStatus.handling,
+                    "handling",
                     delivery(),
                     bill()
             )
@@ -206,7 +206,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -221,7 +221,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -236,7 +236,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             )
@@ -254,7 +254,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("123432.2432"),
-                    OrderStatus.close,
+                    "close",
                     delivery(),
                     bill()
             )
@@ -272,7 +272,7 @@ public class OrderDetailControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("569.205"),
-                    OrderStatus.handling,
+                    "handling",
                     delivery(),
                     bill()
             )
@@ -350,7 +350,7 @@ public class OrderDetailControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -369,7 +369,7 @@ public class OrderDetailControllerMocks {
     public static DeliveryDto delivery() {
         return new DeliveryDto(
                 1L,
-                DeliveryType.home,
+                "home",
                 "Nowa poshta",
                 addressDto(),
                 new BigDecimal("50.2")
@@ -386,7 +386,7 @@ public class OrderDetailControllerMocks {
                 null,
                 null,
                 49000,
-                AddressType.customer
+                "customer"
         );
     }
 

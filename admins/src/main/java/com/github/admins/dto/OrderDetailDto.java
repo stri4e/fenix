@@ -2,7 +2,6 @@ package com.github.admins.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.admins.payload.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,7 +55,7 @@ public class OrderDetailDto implements Serializable, Cloneable {
     @JsonProperty(
             value = "status"
     )
-    private OrderStatus status;
+    private String status;
 
     @NotNull(
             message = "Delivery is required."

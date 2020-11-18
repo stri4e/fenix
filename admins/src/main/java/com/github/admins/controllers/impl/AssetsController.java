@@ -4,7 +4,6 @@ import com.github.admins.controllers.IAssetsController;
 import com.github.admins.dto.AssetDto;
 import com.github.admins.exceptions.BadRequest;
 import com.github.admins.exceptions.NotFound;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.IAssetsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ public class AssetsController implements IAssetsController {
     private final IAssetsService assetsService;
 
     @Override
-    public List<AssetDto> findAssetsByStatus(EntityStatus status) {
+    public List<AssetDto> findAssetsByStatus(String status) {
         return this.assetsService.findAssetsByStatus(status)
                 .orElseThrow(NotFound::new);
     }

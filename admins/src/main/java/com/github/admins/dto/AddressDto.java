@@ -45,6 +45,6 @@ public class AddressDto implements Serializable, Cloneable {
     private Integer zipCode;
 
     @JsonProperty(value = "type")
-    private AddressType type;
+    private String type;
 
 }

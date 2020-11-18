@@ -1,11 +1,11 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.AssetDto;
-import com.github.admins.payload.EntityStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IAssetsController {
@@ -16,7 +16,7 @@ public interface IAssetsController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     List<AssetDto> findAssetsByStatus(
-            @PathVariable(name = "status") EntityStatus status
+            @PathVariable(name = "status") String status
     );
 
     @GetMapping(
@@ -30,16 +30,16 @@ public interface IAssetsController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    AssetDto save(@RequestBody AssetDto payload);
+    AssetDto save(@Valid @RequestBody AssetDto payload);
 
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody AssetDto payload);
+    void update(@Valid @RequestBody AssetDto payload);
 
     @DeleteMapping(
             path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void remove(@PathVariable(name = "id") Long id);
+    void remove(@Valid @PathVariable(name = "id") Long id);
 
 }

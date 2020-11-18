@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.impl.OrdersService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -21,14 +20,14 @@ public interface IOrdersService {
             path = "/v1/fetch/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable OrderStatus status);
+    Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable String status);
 
     @GetMapping(
             path = "/v1/fetch/{status}/time",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<OrderDetailDto>> findByStatusInTime(
-            @PathVariable OrderStatus status,
+            @PathVariable String status,
             @RequestParam(name = "start") String start,
             @RequestParam(name = "end") String end
     );
@@ -42,6 +41,6 @@ public interface IOrdersService {
     @PutMapping(
             path = "/v1/edit/{productId}/{orderStatus}"
     )
-    void update(@PathVariable Long productId, @PathVariable OrderStatus orderStatus);
+    void update(@PathVariable Long productId, @PathVariable String orderStatus);
 
 }

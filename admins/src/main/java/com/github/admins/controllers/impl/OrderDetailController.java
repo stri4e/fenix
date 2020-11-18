@@ -3,7 +3,6 @@ package com.github.admins.controllers.impl;
 import com.github.admins.controllers.IOrderDetailController;
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.exceptions.NotFound;
-import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrdersService;
 import com.github.admins.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -23,7 +22,7 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> findByStatus(OrderStatus status) {
+    public List<OrderDetailDto> findByStatus(String status) {
         return this.orderService.readAllByStatus(status)
                 .orElseThrow(NotFound::new);
     }
@@ -39,7 +38,7 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
+    public void updateOrderStatus(Long orderId, String orderStatus) {
         this.orderService.update(orderId, orderStatus);
     }
 

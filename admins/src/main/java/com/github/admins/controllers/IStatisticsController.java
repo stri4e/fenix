@@ -3,7 +3,6 @@ package com.github.admins.controllers;
 import com.github.admins.dto.LoginDto;
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.dto.ViewDto;
-import com.github.admins.payload.OrderStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,7 @@ public interface IStatisticsController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     List<OrderDetailDto> findOrdersInTime(
-            @PathVariable(name = "status") OrderStatus status,
+            @PathVariable(name = "status") String status,
             @RequestParam(name = "start") String start,
             @RequestParam(name = "end") String end
     );

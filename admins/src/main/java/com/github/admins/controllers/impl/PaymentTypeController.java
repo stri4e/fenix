@@ -3,7 +3,6 @@ package com.github.admins.controllers.impl;
 import com.github.admins.controllers.IPaymentTypeController;
 import com.github.admins.dto.PaymentTypesDto;
 import com.github.admins.exceptions.NotFound;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.IPaymentTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,7 @@ public class PaymentTypeController implements IPaymentTypeController {
     private final IPaymentTypeService paymentTypeService;
 
     @Override
-    public List<PaymentTypesDto> findAllByStatus(EntityStatus status) {
+    public List<PaymentTypesDto> findAllByStatus(String status) {
         return this.paymentTypeService.findAllByStatus(status)
                 .orElseThrow(NotFound::new);
     }

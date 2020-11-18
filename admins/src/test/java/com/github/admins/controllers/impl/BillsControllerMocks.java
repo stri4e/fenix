@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.BillDto;
-import com.github.admins.dto.BillType;
 import com.github.admins.dto.WhoDto;
 import com.github.admins.dto.WhomDto;
 
@@ -24,7 +23,7 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -49,7 +48,7 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -74,7 +73,7 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -99,7 +98,7 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -124,7 +123,7 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",

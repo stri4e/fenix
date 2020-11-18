@@ -1,7 +1,6 @@
 package com.github.admins.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.admins.payload.DeliveryType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,7 @@ public class DeliveryDto implements Serializable, Cloneable {
 
     @NotNull
     @JsonProperty(value = "type")
-    private DeliveryType type;
+    private String type;
 
     @NotBlank
     @JsonProperty(value = "companyName")

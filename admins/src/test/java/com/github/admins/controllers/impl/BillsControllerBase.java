@@ -1,6 +1,5 @@
 package com.github.admins.controllers.impl;
 
-import com.github.admins.payload.EntityStatus;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.Header;
@@ -25,7 +24,7 @@ public class BillsControllerBase {
                 HttpRequest.request()
                         .withMethod(RequestMethod.GET.name())
                         .withPath("/v1/bills/fetch")
-                        .withQueryStringParameter("status", EntityStatus.on.name()),
+                        .withQueryStringParameter("status", "on"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()

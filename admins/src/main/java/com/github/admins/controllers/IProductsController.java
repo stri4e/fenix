@@ -1,7 +1,6 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.ProductDto;
-import com.github.admins.payload.EntityStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public interface IProductsController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void changeStatusProduct(
             @PathVariable Long id,
-            @PathVariable EntityStatus status
+            @PathVariable String status
     );
 
 }

@@ -1,7 +1,6 @@
 package com.github.admins.services.impl;
 
 import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.payload.OrderStatus;
 import com.github.admins.services.IOrdersService;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +11,13 @@ import java.util.Optional;
 public class OrdersService implements IOrdersService {
 
     @Override
-    public Optional<List<OrderDetailDto>> readAllByStatus(OrderStatus status) {
+    public Optional<List<OrderDetailDto>> readAllByStatus(String status) {
         return Optional.empty();
     }
 
     @Override
     public Optional<List<OrderDetailDto>> findByStatusInTime(
-            OrderStatus status, String start, String end) {
+            String status, String start, String end) {
         return Optional.empty();
     }
 
@@ -28,7 +27,7 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
-    public void update(Long productId, OrderStatus orderStatus) {
+    public void update(Long productId, String orderStatus) {
 
     }
 }

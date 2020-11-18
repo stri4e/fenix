@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.BillDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.BillsService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,6 @@ public interface IBillsService {
     @GetMapping(
             path = "/v1/bills/fetch"
     )
-    Optional<List<BillDto>> findByStatus(@RequestParam(name = "status") EntityStatus status);
+    Optional<List<BillDto>> findByStatus(@RequestParam(name = "status") String status);
 
 }

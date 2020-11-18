@@ -1,15 +1,19 @@
 package com.github.admins.handlers;
 
+import com.github.admins.dto.AssetDto;
 import com.github.admins.exceptions.BadRequest;
 import com.github.admins.exceptions.NotFound;
 import com.github.admins.payload.Error;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {

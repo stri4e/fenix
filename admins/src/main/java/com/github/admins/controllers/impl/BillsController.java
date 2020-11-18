@@ -3,7 +3,6 @@ package com.github.admins.controllers.impl;
 import com.github.admins.controllers.IBillsController;
 import com.github.admins.dto.BillDto;
 import com.github.admins.exceptions.BadRequest;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.IBillsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,7 @@ public class BillsController implements IBillsController {
     private final IBillsService billsService;
 
     @Override
-    public List<BillDto> findByStatus(EntityStatus status) {
+    public List<BillDto> findByStatus(String status) {
         return this.billsService.findByStatus(status)
                 .orElseThrow(BadRequest::new);
     }

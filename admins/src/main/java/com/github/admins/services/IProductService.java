@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.ProductDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.ProductService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -56,7 +55,7 @@ public interface IProductService {
     )
     void updateStatus(
             @PathVariable Long id,
-            @PathVariable EntityStatus status
+            @PathVariable String status
     );
 
 }

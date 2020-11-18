@@ -1,7 +1,6 @@
 package com.github.admins.controllers;
 
 import com.github.admins.dto.OrderDetailDto;
-import com.github.admins.payload.OrderStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,7 @@ public interface IOrderDetailController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> findByStatus(@PathVariable OrderStatus status);
+    List<OrderDetailDto> findByStatus(@PathVariable String status);
 
     @GetMapping(
             path = "{orderId}",
@@ -32,7 +31,7 @@ public interface IOrderDetailController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateOrderStatus(@PathVariable Long orderId,
-                           @PathVariable OrderStatus orderStatus
+                           @PathVariable String orderStatus
     );
 
 }

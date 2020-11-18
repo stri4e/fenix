@@ -1,8 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.*;
-import com.github.admins.payload.DeliveryType;
-import com.github.admins.payload.OrderStatus;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
@@ -199,7 +197,7 @@ public class StatisticsControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("12.2"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -214,7 +212,7 @@ public class StatisticsControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("220.254"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             ),
@@ -229,7 +227,7 @@ public class StatisticsControllerMocks {
                     ),
                     PRODUCTS_DTO,
                     new BigDecimal("1111.11"),
-                    OrderStatus.open,
+                    "open",
                     delivery(),
                     bill()
             )
@@ -244,7 +242,7 @@ public class StatisticsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
+                "def",
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -263,7 +261,7 @@ public class StatisticsControllerMocks {
     public static DeliveryDto delivery() {
         return new DeliveryDto(
                 1L,
-                DeliveryType.home,
+                "home",
                 "Nowa poshta",
                 addressDto(),
                 new BigDecimal("50.2")
@@ -280,7 +278,7 @@ public class StatisticsControllerMocks {
                 null,
                 null,
                 49000,
-                AddressType.customer
+                "customer"
         );
     }
 
