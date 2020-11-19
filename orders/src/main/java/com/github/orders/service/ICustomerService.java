@@ -1,24 +1,11 @@
 package com.github.orders.service;
 
-import com.github.orders.entity.Customer;
+import com.github.orders.dto.CustomerDto;
 
-import java.util.UUID;
+import java.util.Optional;
 
 public interface ICustomerService {
 
-    Customer create(Customer o);
-
-    Customer readById(Long id);
-
-    Customer readByUserId(UUID userId);
-
-    void update(
-            Long id,
-            String customerName,
-            String customerEmail,
-            String customerPhone
-    );
-
-    void update(Customer o);
+    Optional<CustomerDto> readById(Long id);
 
 }

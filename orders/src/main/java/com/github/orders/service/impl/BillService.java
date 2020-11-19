@@ -4,6 +4,8 @@ import com.github.orders.dto.BillDto;
 import com.github.orders.service.IBillService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BillService implements IBillService {
     @Override
@@ -12,7 +14,7 @@ public class BillService implements IBillService {
     }
 
     @Override
-    public BillDto findById(Long id) {
+    public Optional<BillDto> findById(Long id) {
         return null;
     }
 

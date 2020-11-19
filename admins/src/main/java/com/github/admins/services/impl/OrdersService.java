@@ -2,6 +2,8 @@ package com.github.admins.services.impl;
 
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.services.IOrdersService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Optional;
 public class OrdersService implements IOrdersService {
 
     @Override
-    public Optional<List<OrderDetailDto>> readAllByStatus(String status) {
+    public Optional<Page<OrderDetailDto>> readByStatus(String status, Pageable pageable) {
         return Optional.empty();
     }
 

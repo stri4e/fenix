@@ -16,7 +16,6 @@ public class TransferObj {
                 data.getAmount(),
                 data.getAmountPaid(),
                 data.getAddress(),
-                data.getBillType(),
                 data.getTransfers()
         );
     }
@@ -30,7 +29,6 @@ public class TransferObj {
                 data.getAddress(),
                 data.getTransfers(),
                 data.getPaymentType().getAlias(),
-                data.getBillType(),
                 fromWho(data.getWho()),
                 fromWhom(data.getWhom())
         );

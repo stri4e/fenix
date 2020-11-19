@@ -95,4 +95,10 @@ public class OrderDetailDto implements Serializable, Cloneable {
         this.delivery = delivery;
         this.bill = bill;
     }
+
+    public OrderDetailDto id(Long id) {
+        this.id = id;
+        return this;
+    }
+
 }

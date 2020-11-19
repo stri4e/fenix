@@ -18,6 +18,7 @@ public class CustomerDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6533009128642214593L;
 
+    @NotNull
     @JsonProperty(value = "id")
     private Long id;
 

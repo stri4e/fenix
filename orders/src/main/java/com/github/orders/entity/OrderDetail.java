@@ -46,12 +46,11 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(
+    @Column(
             name = "customer_id",
             nullable = false
     )
-    private Customer customer;
+    private Long customerId;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Long> productIds;
@@ -65,12 +64,11 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(
+    @Column(
             name = "delivery_id",
             nullable = false
     )
-    private Delivery delivery;
+    private Long deliveryId;
 
     @Column(
             name = "user_id",
@@ -104,9 +102,9 @@ public class OrderDetail implements Serializable, Cloneable {
     private LocalDateTime updateAt;
 
     public OrderDetail(
-            Customer customer, List<Long> productIds,
+            Long customerId, List<Long> productIds,
             BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
-        this.customer = customer;
+        this.customerId = customerId;
         this.productIds = productIds;
         this.amount = amount;
         this.userId = userId;
@@ -115,12 +113,12 @@ public class OrderDetail implements Serializable, Cloneable {
     }
 
     public OrderDetail(
-            Customer customer, List<Long> productIds,
-            BigDecimal amount, Delivery delivery, UUID userId, Long billId, OrderStatus status) {
-        this.customer = customer;
+            Long customerId, List<Long> productIds,
+            BigDecimal amount, Long deliveryId, UUID userId, Long billId, OrderStatus status) {
+        this.customerId = customerId;
         this.productIds = productIds;
         this.amount = amount;
-        this.delivery = delivery;
+        this.deliveryId = deliveryId;
         this.userId = userId;
         this.billId = billId;
         this.status = status;

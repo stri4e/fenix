@@ -50,6 +50,16 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/customers" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/customers" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/deliveries" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
         <option name="modules">

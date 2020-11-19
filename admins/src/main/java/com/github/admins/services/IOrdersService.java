@@ -3,6 +3,8 @@ package com.github.admins.services;
 import com.github.admins.dto.OrderDetailDto;
 import com.github.admins.services.impl.OrdersService;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,10 @@ import java.util.Optional;
 public interface IOrdersService {
 
     @GetMapping(
-            path = "/v1/fetch/{status}",
+            path = "/v1/page/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<List<OrderDetailDto>> readAllByStatus(@PathVariable String status);
+    Optional<Page<OrderDetailDto>> readByStatus(@PathVariable String status, Pageable pageable);
 
     @GetMapping(
             path = "/v1/fetch/{status}/time",

@@ -1,7 +1,6 @@
 package com.github.orders.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.orders.entity.AddressType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +45,6 @@ public class AddressDto implements Serializable, Cloneable {
     private Integer zipCode;
 
     @JsonProperty(value = "type")
-    private AddressType type;
+    private String type;
 
 }

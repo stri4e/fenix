@@ -2,8 +2,6 @@ package com.github.orders.controllers.impl;
 
 import com.github.orders.controllers.IOrdersDetailController;
 import com.github.orders.dto.*;
-import com.github.orders.entity.Customer;
-import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
@@ -11,18 +9,20 @@ import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
-import static com.github.orders.utils.TransferObj.*;
-import static java.time.LocalDateTime.*;
+import static com.github.orders.utils.TransferObj.fromOrderDetail;
+import static com.github.orders.utils.TransferObj.toOrderDetail;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,12 +47,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
-        Customer customer = this.customerService.readById(payload.getCustomer().getId());
-        Delivery delivery = this.deliveryService.readById(payload.getDelivery().getId());
-        BillDto bill = this.billService.create(payload.getBill());
-        OrderDetail order = this.orderService.crete(
-                toOrderDetail(customer, payload, delivery, userId, bill.getId()));
-        OrderDetailDto result = fromOrderDetail(order, payload.getProducts(), bill);
+        OrderDetail order = this.orderService.crete(toOrderDetail(payload, userId));
+        OrderDetailDto result = payload.id(order.getId());
         CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(result));
         CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
                 registrationOrderNotify(result)
@@ -63,56 +59,41 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> findUserOrders(UUID userId) {
-        List<OrderDetail> orders = this.orderService.readUserId(userId);
-        return orders.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
+    public Page<OrderDetailDto> findUserOrders(UUID userId, Pageable pageable) {
+        Page<OrderDetail> orders = this.orderService.readUserId(userId, pageable);
+        return new PageImpl<>(
+                orders.getContent().stream()
+                        .map(this::collect)
+                        .collect(Collectors.toList()),
+                pageable, orders.getTotalElements()
+        );
+    }
+
+    @Override
+    public Page<OrderDetailDto> findNewOrders(OrderStatus status, Pageable pageable) {
+        Page<OrderDetail> orders = this.orderService.readByStatus(status, pageable);
+        return new PageImpl<>(
+                orders.getContent().stream()
+                        .map(this::collect)
+                        .collect(Collectors.toList()),
+                pageable, orders.getTotalElements()
+        );
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto> findBindingOrders(Long orderId) {
-        OrderDetail order = this.orderService.readById(orderId);
-        List<OrderDetail> orders = this.orderService.readUserId(order.getUserId());
-        return orders.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public List<OrderDetailDto>
-    findAllByStatus(OrderStatus status, String start, String end) {
-        List<OrderDetail> orders;
-        if (Objects.nonNull(start) && Objects.nonNull(end)) {
-            orders = this.orderService.read(status, parse(start), parse(end));
-        } else {
-            orders = this.orderService.readByStatus(status);
-        }
-        return orders.stream()
-                .map(this::collect)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public Object findByParams(Long id, List<Long> ids) {
-        if (Objects.nonNull(id)) {
-            OrderDetail order = this.orderService.readById(id);
-            List<ProductDto> products = this.productService.readByIds(order.getProductIds())
-                    .orElseThrow(NotFound::new);
-            BillDto bill = this.billService.findById(order.getBillId());
-            return fromOrderDetail(order, products, bill);
-        } else {
-            List<OrderDetail> orders = this.orderService.readByIds(ids);
-            return orders.stream()
-                    .map(this::collect)
-                    .collect(Collectors.toList());
-        }
+    public OrderDetailDto findById(Long id) {
+        OrderDetail order = this.orderService.readById(id);
+        List<ProductDto> products = this.productService.readByIds(order.getProductIds())
+                .orElseThrow(NotFound::new);
+        BillDto bill = this.billService.findById(order.getBillId())
+                .orElseThrow(NotFound::new);
+        CustomerDto customer = this.customerService.readById(order.getCustomerId())
+                .orElseThrow(NotFound::new);
+        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
+                .orElseThrow(NotFound::new);
+        return fromOrderDetail(order, customer, delivery, products, bill);
     }
 
     @Override
@@ -141,8 +122,13 @@ public class OrdersDetailController implements IOrdersDetailController {
     private OrderDetailDto collect(OrderDetail order) {
         List<ProductDto> products = this.productService.readByIds(order.getProductIds())
                 .orElseThrow(NotFound::new);
-        BillDto bill = this.billService.findById(order.getBillId());
-        return fromOrderDetail(order, products, bill);
+        CustomerDto customer = this.customerService.readById(order.getCustomerId())
+                .orElseThrow(NotFound::new);
+        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
+                .orElseThrow(NotFound::new);
+        BillDto bill = this.billService.findById(order.getBillId())
+                .orElseThrow(NotFound::new);
+        return fromOrderDetail(order, customer, delivery, products, bill);
     }
 
 }

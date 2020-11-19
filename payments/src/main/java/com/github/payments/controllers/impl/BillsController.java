@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.github.payments.utils.TransferObj.*;
@@ -48,7 +47,7 @@ public class BillsController implements IBillsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public BillDto saveForDef(BillDto payload) {
+    public BillDto save(BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
         Asset asset = this.assetsService.readByName(payload.getAssetName());
@@ -56,21 +55,6 @@ public class BillsController implements IBillsController {
         Who who = this.whoService.create(toWho(payload.getWho()));
         Bill bill = toBill(payload).forCreate(asset, type).forCreate(who, whom);
         return fromBill(this.billService.create(bill));
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public BillDto saveForOther(UUID userId, BillDto payload) {
-        PaymentTypes type = this.paymentTypesService
-                .readByAlias(payload.getPaymentType());
-        Asset asset = this.assetsService.readByName(payload.getAssetName());
-        Whom whom = this.whomService.create(toWhom(payload.getWhom()));
-        Who who = this.whoService.create(toWho(payload.getWho()));
-        Bill tmp = toBill(payload).forCreate(asset, type).forCreate(who, whom);
-        Bill bill = this.billService.create(tmp);
-        this.aliasService.create(new Alias(bill, userId));
-        return fromBill(bill);
     }
 
     @Override
@@ -125,12 +109,10 @@ public class BillsController implements IBillsController {
     }
 
     private void billNotify(Bill bill) {
-        if (bill.isOther()) {
-            Alias notify = this.aliasService.findByBillId(bill.getId());
-            var ending = this.usersAliasService.findEndingUrl(notify.getUserId())
-                    .orElse("default");
-            this.billPushService.billNotify(ending, fromBill(bill));
-        }
+        Alias notify = this.aliasService.findByBillId(bill.getId());
+        var ending = this.usersAliasService.findEndingUrl(notify.getUserId())
+                .orElse("default");
+        this.billPushService.billNotify(ending, fromBill(bill));
     }
 
 }

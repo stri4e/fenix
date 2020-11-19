@@ -16,6 +16,7 @@ public class TestConfig {
 
         properties.setProperty("exchange.url", "http://localhost:2222");
         properties.setProperty("exchange.key", "9da421d7-33e4-4319-9288-0f503bd20c3d");
+        properties.setProperty("swagger.enabled", "false");
 
         pspc.setProperties(properties);
         return pspc;

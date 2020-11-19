@@ -13,18 +13,10 @@ import java.util.UUID;
 public interface IBillsController {
 
     @PostMapping(
-            path = "/def",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto saveForDef(@RequestBody BillDto payload);
-
-    @PostMapping(
-            path = "/other",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto saveForOther(@RequestAttribute UUID userId, @RequestBody BillDto payload);
+    BillDto save(@RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

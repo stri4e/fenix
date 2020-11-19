@@ -2,6 +2,8 @@ package com.github.orders.repository;
 
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,22 +19,19 @@ import java.util.UUID;
 public interface OrderDetailRepo extends
         PagingAndSortingRepository<OrderDetail, Long>, JpaSpecificationExecutor<OrderDetail> {
 
-    List<OrderDetail> findByUserId(UUID userId);
+    Page<OrderDetail> findByUserId(UUID userId, Pageable pageable);
 
-    List<OrderDetail> findByStatus(OrderStatus status);
-
-    List<OrderDetail> findByStatusAndCreateAtBetween(
-            OrderStatus status, LocalDateTime start, LocalDateTime end);
+    Page<OrderDetail> findByStatus(OrderStatus status, Pageable pageable);
 
     @Modifying
-    @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.id =:id")
+    @Query(value = "update OrderDetail o set o.status =:status where o.id =:id")
     void updateOrderByStatus(
             @Param(value = "id") Long id,
             @Param(value = "status") OrderStatus status
     );
 
     @Modifying
-    @Query(value = "UPDATE OrderDetail o SET o.status =:status WHERE o.billId =:billId")
+    @Query(value = "update OrderDetail o set o.status =:status where o.billId =:billId")
     void updateOrderPaid(
             @Param(value = "billId") Long billId,
             @Param(value = "status") OrderStatus status

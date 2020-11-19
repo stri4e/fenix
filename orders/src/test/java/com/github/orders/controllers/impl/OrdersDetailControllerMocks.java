@@ -87,7 +87,6 @@ public class OrdersDetailControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -111,7 +110,6 @@ public class OrdersDetailControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -140,22 +138,12 @@ public class OrdersDetailControllerMocks {
 
     public static OrderDetail orderDetail() {
         return new OrderDetail(
-                customer(),
+                CUSTOMER_ID,
                 PRODUCT_IDS,
                 AMOUNT,
                 USER_ID,
                 BILL_ID,
                 OrderStatus.open
-        );
-    }
-
-    public static Customer customer() {
-        return new Customer(
-                CUSTOMER_ID,
-                CUSTOMER_NAME,
-                CUSTOMER_EMAIL,
-                CUSTOMER_PHONE,
-                USER_ID
         );
     }
 
@@ -264,21 +252,11 @@ public class OrdersDetailControllerMocks {
     public static DeliveryDto delivery() {
         return new DeliveryDto(
                 1L,
-                DeliveryType.home,
+                "home",
                 "Nowa poshta",
                 addressDto(),
                 new BigDecimal("50.2000")
 
-        );
-    }
-
-    public static Delivery deliveryForSave() {
-        return new Delivery(
-                1L,
-                DeliveryType.home,
-                "Nowa poshta",
-                new BigDecimal("50.2000"),
-                USER_ID
         );
     }
 
@@ -292,22 +270,7 @@ public class OrdersDetailControllerMocks {
                 null,
                 null,
                 49000,
-                AddressType.customer
-        );
-    }
-
-    public static Address addressForSave() {
-        return new Address(
-                null,
-                "Ukraina",
-                "Dnepr",
-                "Julvern",
-                1,
-                null,
-                null,
-                49000,
-                AddressType.customer,
-                USER_ID
+                "customer"
         );
     }
 

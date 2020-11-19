@@ -1,13 +1,7 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.entity.Address;
-import com.github.orders.entity.Customer;
-import com.github.orders.entity.Delivery;
 import com.github.orders.entity.OrderDetail;
-import com.github.orders.repository.AddressRepo;
-import com.github.orders.repository.CustomerRepo;
-import com.github.orders.repository.DeliveryRepo;
 import com.github.orders.repository.OrderDetailRepo;
 import org.assertj.core.util.Lists;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -57,15 +51,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Autowired
     private OrderDetailRepo orderRepo;
 
-    @Autowired
-    private CustomerRepo customerRepo;
-
-    @Autowired
-    private DeliveryRepo deliveryRepo;
-
-    @Autowired
-    private AddressRepo addressRepo;
-
     private String orderUrl;
 
     private static ClientAndServer mockServer;
@@ -91,14 +76,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void save() {
         saveOrder();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        this.customerRepo.save(customer);
-        this.deliveryRepo.save(delivery);
         OrderDetailDto payload = OrdersDetailControllerMocks.payload();
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.orderUrl, HttpMethod.POST, new HttpEntity<>(payload), Void.class
@@ -111,15 +88,7 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readProductsByIds();
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(addressData);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/open");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
@@ -137,14 +106,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         OrderDetailDto exp = OrdersDetailControllerMocks.orderForExpected();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch?orderId=1");
         ResponseEntity<OrderDetailDto> response = this.restTemplate
@@ -160,14 +121,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         LocalDateTime start = LocalDateTime.now()
                 .minus(30L, ChronoField.MINUTE_OF_HOUR.getBaseUnit());
@@ -194,14 +147,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
                 this.orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
@@ -218,14 +163,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch?ids=1");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
@@ -243,14 +180,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
         readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Address addressData = OrdersDetailControllerMocks.addressForSave();
-        Address address = this.addressRepo.save(addressData);
-        Customer customer = OrdersDetailControllerMocks.customer();
-        customer.setAddress(address);
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        delivery.setAddress(address);
-        order.setCustomer(this.customerRepo.save(customer));
-        order.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/binding/1");
         ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
@@ -265,10 +194,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void updateOrderStatus() {
         OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        orderForSave.setCustomer(this.customerRepo.save(customer));
-        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(orderForSave);
         String url = String.format("%s%s", this.orderUrl, "/edit/1/close");
         ResponseEntity<Void> response = this.restTemplate.exchange(
@@ -280,10 +205,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void updateOderPaid() {
         OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        orderForSave.setCustomer(this.customerRepo.save(customer));
-        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(orderForSave);
         String url = String.format("%s%s", this.orderUrl, "/edit/paid/1");
         ResponseEntity<Void> response = this.restTemplate.exchange(
@@ -296,10 +217,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     public void remove() {
         removeBillById();
         OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        Delivery delivery = OrdersDetailControllerMocks.deliveryForSave();
-        orderForSave.setCustomer(this.customerRepo.save(customer));
-        orderForSave.setDelivery(this.deliveryRepo.save(delivery));
         this.orderRepo.save(orderForSave);
         String url = String.format("%s%s", this.orderUrl, "/1");
         ResponseEntity<Void> response = this.restTemplate.exchange(

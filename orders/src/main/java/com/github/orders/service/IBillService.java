@@ -5,6 +5,8 @@ import com.github.orders.service.impl.BillService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @FeignClient(
         name = "payments",
         fallback = BillService.class
@@ -19,7 +21,7 @@ public interface IBillService {
     @GetMapping(
             path = "/v1/bills/fetch"
     )
-    BillDto findById(@RequestParam(name = "id") Long id);
+    Optional<BillDto> findById(@RequestParam(name = "id") Long id);
 
     @DeleteMapping(
             path = "/v1/{id}"

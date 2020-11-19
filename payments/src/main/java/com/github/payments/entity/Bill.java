@@ -74,13 +74,6 @@ public class Bill implements Serializable, Cloneable {
     )
     private PaymentTypes paymentType;
 
-    @Column(
-            name = "bill_type",
-            nullable = false
-    )
-    @Enumerated(value = EnumType.STRING)
-    private BillType billType;
-
     @OneToOne(
             targetEntity = Who.class
     )
@@ -147,29 +140,24 @@ public class Bill implements Serializable, Cloneable {
         return this;
     }
 
-    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType, List<String> transfers) {
+    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, List<String> transfers) {
         this.id = id;
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
-        this.billType = billType;
     }
 
-    public Bill(BigInteger amount, BigInteger amountPaid, Asset asset, String address, List<String> transfers, PaymentTypes paymentType, BillType billType, Who who, Whom whom) {
+    public Bill(BigInteger amount, BigInteger amountPaid, Asset asset, String address,
+                List<String> transfers, PaymentTypes paymentType, Who who, Whom whom) {
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.asset = asset;
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
         this.paymentType = paymentType;
-        this.billType = billType;
         this.who = who;
         this.whom = whom;
-    }
-
-    public boolean isOther() {
-        return this.billType.equals(BillType.other);
     }
 
 }
