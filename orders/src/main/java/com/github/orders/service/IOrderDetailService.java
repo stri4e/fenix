@@ -17,8 +17,12 @@ public interface IOrderDetailService {
 
     Page<OrderDetail> readByStatus(OrderStatus status, Pageable pageable);
 
+    Page<OrderDetail> readByManagerIdNull(Pageable pageable);
+
+    Page<OrderDetail> readByManagerIdAndStatus(UUID managerId, OrderStatus status, Pageable pageable);
+
     void update(Long id, OrderStatus status);
 
-    void updateOrderPaid(Long billId);
+    void updateOrderManager(Long orderId, UUID managerId);
 
 }

@@ -64,6 +64,26 @@ public interface IOrdersDetailController {
             }) Pageable pageable
     );
 
+    @GetMapping(path = "/fetch/managers/page/{status}/{managerId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    Page<OrderDetailDto> findManagerOrders(
+            @PathVariable(name = "status") OrderStatus status,
+            @PathVariable(name = "managerId") UUID managerId,
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
+            }) Pageable pageable
+    );
+
+    @GetMapping(path = "/fetch/unassigned/page")
+    @ResponseStatus(code = HttpStatus.OK)
+    Page<OrderDetailDto> unassignedOrders(
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
+            }) Pageable pageable
+    );
+
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -78,6 +98,14 @@ public interface IOrdersDetailController {
     void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
+
+    @PutMapping(
+            path = "/edit/{orderId}"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void assignManager(
+            @PathVariable(name = "orderId") Long orderId,
+            @RequestBody UUID managerID);
 
     @DeleteMapping(
             path = "/{id}"

@@ -77,6 +77,11 @@ public class OrderDetail implements Serializable, Cloneable {
     private UUID userId;
 
     @Column(
+            name = "manager_id"
+    )
+    private UUID managerId;
+
+    @Column(
             name = "bill_id",
             nullable = false
     )

@@ -70,6 +70,16 @@ public class OrdersDetailController implements IOrdersDetailController {
         return toOrderPage(this.orderService.readByStatus(status, pageable), pageable);
     }
 
+    @Override
+    public Page<OrderDetailDto> findManagerOrders(OrderStatus status, UUID managerId, Pageable pageable) {
+        return toOrderPage(this.orderService.readByManagerIdAndStatus(managerId, status, pageable), pageable);
+    }
+
+    @Override
+    public Page<OrderDetailDto> unassignedOrders(Pageable pageable) {
+        return toOrderPage(this.orderService.readByManagerIdNull(pageable), pageable);
+    }
+
     private Page<OrderDetailDto> toOrderPage(Page<OrderDetail> orders, Pageable pageable) {
         List<OrderDetail> content = orders.getContent();
         OrderDetail order = content.stream().findFirst().orElseThrow(NotFound::new);
@@ -106,6 +116,11 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Logging(isTime = true, isReturn = false)
     public void updateStatus(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
+    }
+
+    @Override
+    public void assignManager(Long orderId, UUID managerID) {
+        this.orderService.updateOrderManager(orderId, managerID);
     }
 
     @Override

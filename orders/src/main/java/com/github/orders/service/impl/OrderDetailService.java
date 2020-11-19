@@ -51,6 +51,17 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
+    public Page<OrderDetail> readByManagerIdNull(Pageable pageable) {
+        return this.orderRepo.findByManagerIdNull(pageable);
+    }
+
+    @Override
+    @Cacheable(value = "orders", key = "#managerId", unless = "#result.getTotalElements() == 0")
+    public Page<OrderDetail> readByManagerIdAndStatus(UUID managerId, OrderStatus status, Pageable pageable) {
+        return this.orderRepo.findByManagerIdAndStatus(managerId, status, pageable);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "order", key = "#id"),
             evict = @CacheEvict(value = "orders", allEntries = true)
@@ -61,11 +72,11 @@ public class OrderDetailService implements IOrderDetailService {
 
     @Override
     @Caching(
-            put = @CachePut(value = "order", key = "#id"),
+            put = @CachePut(value = "order", key = "#orderId"),
             evict = @CacheEvict(value = "orders", allEntries = true)
     )
-    public void updateOrderPaid(Long billId) {
-        this.orderRepo.updateOrderPaid(billId, OrderStatus.paid);
+    public void updateOrderManager(Long orderId, UUID managerId) {
+        this.orderRepo.updateManagerOrder(orderId, managerId);
     }
 
 }
