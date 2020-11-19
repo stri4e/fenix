@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.UUID;
 
-public interface IOrderPaginationController {
+public interface IOrdersDetailPaginationController {
 
     @GetMapping
     @ApiImplicitParams(

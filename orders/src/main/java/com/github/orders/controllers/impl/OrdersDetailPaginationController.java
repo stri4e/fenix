@@ -1,6 +1,6 @@
 package com.github.orders.controllers.impl;
 
-import com.github.orders.controllers.IOrderPaginationController;
+import com.github.orders.controllers.IOrdersDetailPaginationController;
 import com.github.orders.dto.*;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
@@ -24,7 +24,7 @@ import static com.github.orders.utils.TransferObj.fromOrderDetail;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/pages")
-public class OrderPaginationController implements IOrderPaginationController {
+public class OrdersDetailPaginationController implements IOrdersDetailPaginationController {
 
     private final IOrderDetailService orderService;
 
