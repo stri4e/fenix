@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 public interface IAccountsController {
@@ -24,6 +23,15 @@ public interface IAccountsController {
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     AccountDto findAccount(@RequestAttribute UUID userId);
+
+    @GetMapping(
+            path = "/fetch",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    AccountDto findByParams(
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "phone") String phone
+    );
 
     @PostMapping(
             path = "/edit/{userId}",
@@ -47,6 +55,5 @@ public interface IAccountsController {
     )
     @ResponseStatus(value = HttpStatus.CREATED)
     AccountDto saveDefault(@Valid @RequestAttribute UUID userId);
-
 
 }

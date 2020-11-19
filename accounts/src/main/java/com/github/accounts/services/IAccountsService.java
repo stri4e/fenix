@@ -12,6 +12,8 @@ public interface IAccountsService {
 
     Account readById(Long id);
 
+    Account readByEmailAndPhone(String email, String phone);
+
     void update(Account account);
 
     void remove(Long id);

@@ -3,6 +3,7 @@ package com.github.accounts.repository;
 import com.github.accounts.entity.Account;
 import com.github.accounts.entity.EntityStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AccountsRepo extends JpaRepository<Account, Long> {
+public interface AccountsRepo extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
 
     Optional<Account> findByUserId(UUID userId);
 

@@ -5,11 +5,14 @@ import com.github.accounts.entity.EntityStatus;
 import com.github.accounts.exceptions.NotFound;
 import com.github.accounts.repository.AccountsRepo;
 import com.github.accounts.services.IAccountsService;
+import com.github.accounts.utils.AccountSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
+
+import static com.github.accounts.utils.AccountSpec.byEmailAndPhone;
 
 @Service
 @Transactional
@@ -32,6 +35,12 @@ public class AccountsService implements IAccountsService {
     @Override
     public Account readById(Long id) {
         return this.accountsRepo.findById(id)
+                .orElseThrow(NotFound::new);
+    }
+
+    @Override
+    public Account readByEmailAndPhone(String email, String phone) {
+        return this.accountsRepo.findOne(byEmailAndPhone(email, phone))
                 .orElseThrow(NotFound::new);
     }
 

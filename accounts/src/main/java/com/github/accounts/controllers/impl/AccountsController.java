@@ -6,7 +6,6 @@ import com.github.accounts.dto.ProductDto;
 import com.github.accounts.entity.*;
 import com.github.accounts.services.*;
 import com.github.accounts.utils.Logging;
-import com.github.accounts.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +50,13 @@ public class AccountsController implements IAccountsController {
             ).orElse(new ArrayList<>());
         }
         return fromAccount(account, products);
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public AccountDto findByParams(String email, String phone) {
+        return fromAccount(this.accountsService.readByEmailAndPhone(email, phone));
     }
 
     @Override
