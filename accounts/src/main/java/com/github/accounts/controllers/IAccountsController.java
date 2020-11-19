@@ -15,10 +15,11 @@ public interface IAccountsController {
     AccountDto findAccount(@RequestAttribute UUID userId);
 
     @PostMapping(
+            path = "/edit/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
-    AccountDto save(@RequestAttribute UUID userId, @Valid @RequestBody AccountDto payload);
+    AccountDto save(@PathVariable UUID userId, @Valid @RequestBody AccountDto payload);
 
     @PostMapping(
             path = "/default",

@@ -104,11 +104,9 @@ public class AccountsControllerTest extends AccountsControllerBase {
     public void save() {
         AccountDto exp = AccountsControllerMocks.response2();
         AccountDto payload = AccountsControllerMocks.request();
-        this.addressRepo.save(AccountsControllerMocks.addressForSave());
-        this.contactsRepo.save(AccountsControllerMocks.contactForSave());
-        this.profilesRepo.save(AccountsControllerMocks.profileForSave());
+        String url = String.format("%s%s%s", this.accountUrl, "/edit/", AccountsControllerMocks.USER_ID);
         ResponseEntity<AccountDto> response = this.restTemplate.exchange(
-                this.accountUrl, HttpMethod.POST,
+                url, HttpMethod.POST,
                 new HttpEntity<>(payload), AccountDto.class
         );
         assertEquals(HttpStatus.CREATED, response.getStatusCode());

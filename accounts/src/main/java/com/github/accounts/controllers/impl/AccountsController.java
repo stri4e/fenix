@@ -6,6 +6,7 @@ import com.github.accounts.dto.ProductDto;
 import com.github.accounts.entity.*;
 import com.github.accounts.services.*;
 import com.github.accounts.utils.Logging;
+import com.github.accounts.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.github.accounts.utils.TransferObj.fromAccount;
+import static com.github.accounts.utils.TransferObj.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,14 +57,13 @@ public class AccountsController implements IAccountsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public AccountDto save(UUID userId, AccountDto payload) {
-        Long profileId = payload.getProfile().getId();
-        Long addressId = payload.getAddress().getId();
-        Long contactId = payload.getContact().getId();
-        Profile profile = this.profilesService.readById(profileId);
-        Address address = this.addressService.readById(addressId);
-        Contact contacts = this.contactsService.readById(contactId);
         return fromAccount(this.accountsService.create(
-                new Account(userId, profile, contacts, address)
+                new Account(
+                        userId,
+                        this.profilesService.create(toProfile(payload.getProfile())),
+                        this.contactsService.create(toContact(payload.getContact())),
+                        this.addressService.create(toAddress(payload.getAddress()))
+                )
         ));
     }
 

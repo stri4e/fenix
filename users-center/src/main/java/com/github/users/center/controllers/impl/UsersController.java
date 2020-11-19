@@ -1,6 +1,7 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IUsersController;
+import com.github.users.center.dto.AccountDto;
 import com.github.users.center.dto.LoginDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.concurrent.CompletableFuture;
 
+import static com.github.users.center.dto.AccountDto.accountDef;
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.ROLE_USER;
 
@@ -42,6 +44,8 @@ public class UsersController implements IUsersController {
 
     private final ILoginsService loginsService;
 
+    private final IAccountsService accountsService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -53,6 +57,9 @@ public class UsersController implements IUsersController {
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
             CompletableFuture.runAsync(() -> this.registration(user, origin, ct));
+            CompletableFuture.runAsync(() -> this.accountsService.createAccount(
+                    user.getId(), accountDef(user.getFName(), user.getLName(), user.getEmail())
+            ));
         }
         throw new Conflict();
     }
