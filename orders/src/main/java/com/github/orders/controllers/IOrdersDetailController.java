@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 public interface IOrdersDetailController {
@@ -76,15 +75,9 @@ public interface IOrdersDetailController {
             path = "/edit/{orderId}/{orderStatus}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOderStatus(
+    void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
             @PathVariable(name = "orderStatus") OrderStatus orderStatus);
-
-    @PutMapping(
-            path = "/edit/paid/{billId}"
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    void updateOrderPaid(@PathVariable(name = "billId") Long billId);
 
     @DeleteMapping(
             path = "/{id}"

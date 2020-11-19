@@ -20,8 +20,13 @@ public class CustomerController implements ICustomerController {
     private final ICustomerService customerService;
 
     @Override
-    public CustomerDto findCustomer(UUID userId) {
+    public CustomerDto findByUserId(UUID userId) {
         return fromCustomer(this.customerService.readByUserId(userId));
+    }
+
+    @Override
+    public CustomerDto findById(Long customerId) {
+        return fromCustomer(this.customerService.readById(customerId));
     }
 
     @Override

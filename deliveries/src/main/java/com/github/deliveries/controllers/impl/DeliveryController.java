@@ -25,8 +25,13 @@ public class DeliveryController implements IDeliveryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public DeliveryDto findDelivery(UUID userId) {
+    public DeliveryDto findByUserId(UUID userId) {
         return fromDelivery(this.deliveryService.readByUserId(userId));
+    }
+
+    @Override
+    public DeliveryDto findByUserId(Long deliveryId) {
+        return fromDelivery(this.deliveryService.readById(deliveryId));
     }
 
     @Override

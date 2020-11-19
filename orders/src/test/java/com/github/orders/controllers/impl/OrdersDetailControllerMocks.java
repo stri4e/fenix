@@ -72,7 +72,7 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 PRODUCTS_DTO,
                 AMOUNT,
-                OrderStatus.close,
+                OrderStatus.done,
                 delivery(),
                 responseBill()
         );

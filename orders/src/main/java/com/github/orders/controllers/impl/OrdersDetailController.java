@@ -60,21 +60,26 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public Page<OrderDetailDto> findUserOrders(UUID userId, Pageable pageable) {
-        Page<OrderDetail> orders = this.orderService.readUserId(userId, pageable);
-        return new PageImpl<>(
-                orders.getContent().stream()
-                        .map(this::collect)
-                        .collect(Collectors.toList()),
-                pageable, orders.getTotalElements()
-        );
+        return toOrderPage(this.orderService.readUserId(userId, pageable), pageable);
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<OrderDetailDto> findNewOrders(OrderStatus status, Pageable pageable) {
-        Page<OrderDetail> orders = this.orderService.readByStatus(status, pageable);
+        return toOrderPage(this.orderService.readByStatus(status, pageable), pageable);
+    }
+
+    private Page<OrderDetailDto> toOrderPage(Page<OrderDetail> orders, Pageable pageable) {
+        List<OrderDetail> content = orders.getContent();
+        OrderDetail order = content.stream().findFirst().orElseThrow(NotFound::new);
+        CustomerDto customer = this.customerService.readById(order.getCustomerId())
+                .orElseThrow(NotFound::new);
+        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
+                .orElseThrow(NotFound::new);
         return new PageImpl<>(
                 orders.getContent().stream()
-                        .map(this::collect)
+                        .map(o -> collect(o, customer, delivery))
                         .collect(Collectors.toList()),
                 pageable, orders.getTotalElements()
         );
@@ -99,15 +104,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOderStatus(Long orderId, OrderStatus status) {
+    public void updateStatus(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateOrderPaid(Long billId) {
-        this.orderService.updateOrderPaid(billId);
     }
 
     @Override
@@ -119,12 +117,8 @@ public class OrdersDetailController implements IOrdersDetailController {
         this.orderService.update(id, OrderStatus.canceling);
     }
 
-    private OrderDetailDto collect(OrderDetail order) {
+    private OrderDetailDto collect(OrderDetail order, CustomerDto customer, DeliveryDto delivery) {
         List<ProductDto> products = this.productService.readByIds(order.getProductIds())
-                .orElseThrow(NotFound::new);
-        CustomerDto customer = this.customerService.readById(order.getCustomerId())
-                .orElseThrow(NotFound::new);
-        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
                 .orElseThrow(NotFound::new);
         BillDto bill = this.billService.findById(order.getBillId())
                 .orElseThrow(NotFound::new);

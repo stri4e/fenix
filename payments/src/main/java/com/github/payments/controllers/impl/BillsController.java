@@ -32,8 +32,6 @@ public class BillsController implements IBillsController {
 
     private final IAssetsService assetsService;
 
-    private final IOrdersService ordersService;
-
     private final IAliasService aliasService;
 
     private final IUsersAliasService usersAliasService;
@@ -79,7 +77,6 @@ public class BillsController implements IBillsController {
         var different = amount.subtract(amountPaid);
         bill.different(different).forUpdate(amountPaid, transfer);
         this.billService.update(bill);
-        this.ordersService.update(bill.getId());
         runAsync(() -> billNotify(bill));
         return new Report(amount, amountPaid, different);
     }
@@ -94,7 +91,6 @@ public class BillsController implements IBillsController {
         var different = amount.subtract(amountPaid);
         bill.different(different).forUpdate(amountPaid, transfer);
         this.billService.update(bill);
-        this.ordersService.update(bill.getId());
     }
 
     @Override

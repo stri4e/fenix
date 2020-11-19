@@ -22,7 +22,15 @@ public interface ICustomerController {
             )
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    CustomerDto findCustomer(@RequestAttribute UUID userId);
+    CustomerDto findByUserId(@RequestAttribute UUID userId);
+
+    @GetMapping(
+            path = "/fetch/{customerId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    CustomerDto findById(
+            @PathVariable(name = "customerId") Long customerId
+    );
 
     @ApiImplicitParams(
             @ApiImplicitParam(
