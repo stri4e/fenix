@@ -203,17 +203,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     }
 
     @Test
-    public void updateOderPaid() {
-        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
-        this.orderRepo.save(orderForSave);
-        String url = String.format("%s%s", this.orderUrl, "/edit/paid/1");
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, null, Void.class
-        );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
     public void remove() {
         removeBillById();
         OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();

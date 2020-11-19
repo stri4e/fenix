@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.github.orders.entity.OrderStatus.canceling;
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
 import static com.github.orders.utils.TransferObj.fromOrderDetail;
 import static com.github.orders.utils.TransferObj.toOrderDetail;
@@ -29,9 +30,9 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 @RequestMapping(path = "/v1")
 public class OrdersDetailController implements IOrdersDetailController {
 
-    private final ICustomerService customerService;
-
     private final IOrderDetailService orderService;
+
+    private final ICustomerService customerService;
 
     private final IProductService productService;
 
@@ -59,45 +60,6 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Page<OrderDetailDto> findUserOrders(UUID userId, Pageable pageable) {
-        return toOrderPage(this.orderService.readUserId(userId, pageable), pageable);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public Page<OrderDetailDto> findNewOrders(OrderStatus status, Pageable pageable) {
-        return toOrderPage(this.orderService.readByStatus(status, pageable), pageable);
-    }
-
-    @Override
-    public Page<OrderDetailDto> findManagerOrders(OrderStatus status, UUID managerId, Pageable pageable) {
-        return toOrderPage(this.orderService.readByManagerIdAndStatus(managerId, status, pageable), pageable);
-    }
-
-    @Override
-    public Page<OrderDetailDto> unassignedOrders(Pageable pageable) {
-        return toOrderPage(this.orderService.readByManagerIdNull(pageable), pageable);
-    }
-
-    private Page<OrderDetailDto> toOrderPage(Page<OrderDetail> orders, Pageable pageable) {
-        List<OrderDetail> content = orders.getContent();
-        OrderDetail order = content.stream().findFirst().orElseThrow(NotFound::new);
-        CustomerDto customer = this.customerService.readById(order.getCustomerId())
-                .orElseThrow(NotFound::new);
-        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
-                .orElseThrow(NotFound::new);
-        return new PageImpl<>(
-                orders.getContent().stream()
-                        .map(o -> collect(o, customer, delivery))
-                        .collect(Collectors.toList()),
-                pageable, orders.getTotalElements()
-        );
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
     public OrderDetailDto findById(Long id) {
         OrderDetail order = this.orderService.readById(id);
         List<ProductDto> products = this.productService.readByIds(order.getProductIds())
@@ -119,23 +81,15 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
-    public void assignManager(Long orderId, UUID managerID) {
-        this.orderService.updateOrderManager(orderId, managerID);
+    public void assignManager(Long orderId, Long staffId) {
+        this.orderService.updateOrderManager(orderId, staffId);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        this.orderService.update(id, OrderStatus.canceling);
-    }
-
-    private OrderDetailDto collect(OrderDetail order, CustomerDto customer, DeliveryDto delivery) {
-        List<ProductDto> products = this.productService.readByIds(order.getProductIds())
-                .orElseThrow(NotFound::new);
-        BillDto bill = this.billService.findById(order.getBillId())
-                .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer, delivery, products, bill);
+        this.orderService.update(id, canceling);
     }
 
 }

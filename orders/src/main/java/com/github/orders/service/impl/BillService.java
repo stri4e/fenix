@@ -8,18 +8,10 @@ import java.util.Optional;
 
 @Service
 public class BillService implements IBillService {
-    @Override
-    public BillDto create(BillDto payload) {
-        return null;
-    }
 
     @Override
     public Optional<BillDto> findById(Long id) {
-        return null;
+        return Optional.empty();
     }
 
-    @Override
-    public void remove(Long id) {
-
-    }
 }

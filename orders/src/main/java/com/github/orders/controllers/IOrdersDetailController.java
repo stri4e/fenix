@@ -35,55 +35,6 @@ public interface IOrdersDetailController {
             @RequestBody @Valid OrderDetailDto payload
     );
 
-    @GetMapping(path = "/page")
-    @ApiImplicitParams(
-            @ApiImplicitParam(
-                    name = "Authorization",
-                    value = "Access Token",
-                    required = true,
-                    paramType = "header",
-                    example = "Bearer access_token"
-            )
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    Page<OrderDetailDto> findUserOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
-            }) Pageable pageable
-    );
-
-    @GetMapping(path = "/fetch/page/{status}")
-    @ResponseStatus(code = HttpStatus.OK)
-    Page<OrderDetailDto> findNewOrders(
-            @PathVariable(name = "status") OrderStatus status,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
-            }) Pageable pageable
-    );
-
-    @GetMapping(path = "/fetch/managers/page/{status}/{managerId}")
-    @ResponseStatus(code = HttpStatus.OK)
-    Page<OrderDetailDto> findManagerOrders(
-            @PathVariable(name = "status") OrderStatus status,
-            @PathVariable(name = "managerId") UUID managerId,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
-            }) Pageable pageable
-    );
-
-    @GetMapping(path = "/fetch/unassigned/page")
-    @ResponseStatus(code = HttpStatus.OK)
-    Page<OrderDetailDto> unassignedOrders(
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
-            }) Pageable pageable
-    );
-
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -97,15 +48,17 @@ public interface IOrdersDetailController {
     @ResponseStatus(code = HttpStatus.OK)
     void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
-            @PathVariable(name = "orderStatus") OrderStatus orderStatus);
+            @PathVariable(name = "orderStatus") OrderStatus orderStatus
+    );
 
     @PutMapping(
-            path = "/edit/{orderId}"
+            path = "/edit/stuff/{orderId}/{staffId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void assignManager(
             @PathVariable(name = "orderId") Long orderId,
-            @RequestBody UUID managerID);
+            @PathVariable(name = "staffId") Long staffId
+    );
 
     @DeleteMapping(
             path = "/{id}"

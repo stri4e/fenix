@@ -19,7 +19,7 @@ import java.util.Optional;
 public interface IOrdersService {
 
     @GetMapping(
-            path = "/v1/page/{status}",
+            path = "/v1/pages/{status}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<Page<OrderDetailDto>> readByStatus(@PathVariable String status, Pageable pageable);

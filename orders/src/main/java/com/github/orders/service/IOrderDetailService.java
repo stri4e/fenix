@@ -17,12 +17,12 @@ public interface IOrderDetailService {
 
     Page<OrderDetail> readByStatus(OrderStatus status, Pageable pageable);
 
-    Page<OrderDetail> readByManagerIdNull(Pageable pageable);
+    Page<OrderDetail> readByStaffIdNull(Pageable pageable);
 
-    Page<OrderDetail> readByManagerIdAndStatus(UUID managerId, OrderStatus status, Pageable pageable);
+    Page<OrderDetail> readByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable);
 
     void update(Long id, OrderStatus status);
 
-    void updateOrderManager(Long orderId, UUID managerId);
+    void updateOrderManager(Long orderId, Long staffId);
 
 }

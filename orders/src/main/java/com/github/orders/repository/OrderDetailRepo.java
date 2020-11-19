@@ -23,9 +23,9 @@ public interface OrderDetailRepo extends
 
     Page<OrderDetail> findByStatus(OrderStatus status, Pageable pageable);
 
-    Page<OrderDetail> findByManagerIdNull(Pageable pageable);
+    Page<OrderDetail> findByStaffIdNull(Pageable pageable);
 
-    Page<OrderDetail> findByManagerIdAndStatus(UUID managerId, OrderStatus status, Pageable pageable);
+    Page<OrderDetail> findByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable);
 
     @Modifying
     @Query(value = "update OrderDetail o set o.status =:status where o.id =:id")
@@ -35,17 +35,10 @@ public interface OrderDetailRepo extends
     );
 
     @Modifying
-    @Query(value = "update OrderDetail o set o.status =:status where o.billId =:billId")
-    void updateOrderPaid(
-            @Param(value = "billId") Long billId,
-            @Param(value = "status") OrderStatus status
-    );
-
-    @Modifying
-    @Query(value = "update OrderDetail o set o.managerId=:managerId where o.id =:id")
+    @Query(value = "update OrderDetail o set o.staffId=:staffId where o.id =:id")
     void updateManagerOrder(
             @Param(value = "id") Long id,
-            @Param(value = "status") UUID managerId
+            @Param(value = "staffId") Long staffId
     );
 
 }
