@@ -40,8 +40,6 @@ public class BillsController implements IBillsController {
 
     private final IWhoService whoService;
 
-    private final ICryptoCurrenciesService cryptoCurrenciesService;
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -97,10 +95,6 @@ public class BillsController implements IBillsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        Bill bill = this.billService.readById(id);
-        Asset asset = bill.getAsset();
-        this.cryptoCurrenciesService.chooser(asset.getName())
-                .remove(bill.getAddress());
         this.billService.remove(id);
     }
 

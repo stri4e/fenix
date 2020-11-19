@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
 import static com.github.orders.utils.TransferObj.fromOrderDetail;
 import static com.github.orders.utils.TransferObj.toOrderDetail;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,8 +49,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
         OrderDetail order = this.orderService.crete(toOrderDetail(payload, userId));
         OrderDetailDto result = payload.id(order.getId());
-        CompletableFuture.runAsync(() -> this.ordersNotify.orderNotify(result));
-        CompletableFuture.runAsync(() -> this.emailService.registrationOrderNotify(
+        runAsync(() -> this.ordersNotify.orderNotify(result));
+        runAsync(() -> this.emailService.registrationOrderNotify(
                 registrationOrderNotify(result)
         ));
         return result;
@@ -112,8 +112,6 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        OrderDetail order = this.orderService.readById(id);
-        this.billService.remove(order.getBillId());
         this.orderService.update(id, OrderStatus.canceling);
     }
 

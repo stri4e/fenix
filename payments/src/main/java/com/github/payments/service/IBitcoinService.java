@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
         name = "bitcoin",
         fallback = BitcoinService.class
 )
-public interface IBitcoinService extends ICryptoCurrencyMapper {
+public interface IBitcoinService {
 
-    @Override
     @DeleteMapping(
             path = "/v1/accounts/{address}"
     )

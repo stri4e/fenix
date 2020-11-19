@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
         name = "ethereum",
         fallback = EthereumService.class
 )
-public interface IEthereumService extends ICryptoCurrencyMapper {
+public interface IEthereumService {
 
-    @Override
     @DeleteMapping(
             path = "/v1/accounts/{address}"
     )
