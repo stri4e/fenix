@@ -126,6 +126,16 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/managers" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/managers" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/master-card" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
         <option name="modules">
