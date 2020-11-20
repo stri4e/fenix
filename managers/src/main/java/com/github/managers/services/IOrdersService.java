@@ -48,10 +48,10 @@ public interface IOrdersService {
     );
 
     @PutMapping(
-            path = "/v1/edit/{orderId}/{orderStatus}"
+            path = "/v1/{orderId}/{status}"
     )
     void update(@PathVariable(name = "orderId") Long orderId,
-                @PathVariable(name = "orderStatus") String orderStatus
+                @PathVariable(name = "status") String status
     );
 
 }

@@ -25,16 +25,6 @@ public interface IOrdersService {
     Optional<Page<OrderDetailDto>> readByStatus(@PathVariable String status, Pageable pageable);
 
     @GetMapping(
-            path = "/v1/fetch/{status}/time",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Optional<List<OrderDetailDto>> findByStatusInTime(
-            @PathVariable String status,
-            @RequestParam(name = "start") String start,
-            @RequestParam(name = "end") String end
-    );
-
-    @GetMapping(
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )

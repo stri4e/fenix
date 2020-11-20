@@ -45,12 +45,12 @@ public interface IOrdersDetailController {
     OrderDetailDto findById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/edit/{orderId}/{orderStatus}"
+            path = "/{orderId}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
-            @PathVariable(name = "orderStatus") OrderStatus orderStatus
+            @PathVariable(name = "status") OrderStatus status
     );
 
     @PutMapping(

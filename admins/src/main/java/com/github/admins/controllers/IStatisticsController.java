@@ -13,16 +13,6 @@ import java.util.List;
 public interface IStatisticsController {
 
     @GetMapping(
-            path = "/orders/{status}/time",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    List<OrderDetailDto> findOrdersInTime(
-            @PathVariable(name = "status") String status,
-            @RequestParam(name = "start") String start,
-            @RequestParam(name = "end") String end
-    );
-
-    @GetMapping(
             path = "/logins/time",
             produces = MediaType.APPLICATION_JSON_VALUE
     )

@@ -18,12 +18,6 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
-    public Optional<List<OrderDetailDto>> findByStatusInTime(
-            String status, String start, String end) {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<OrderDetailDto> readById(Long id) {
         return Optional.empty();
     }
