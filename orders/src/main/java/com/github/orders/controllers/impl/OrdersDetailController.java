@@ -9,15 +9,11 @@ import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.github.orders.entity.OrderStatus.canceling;
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;

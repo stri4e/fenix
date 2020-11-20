@@ -1,6 +1,6 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.controllers.IBrandController;
+import com.github.products.controllers.IBrandsController;
 import com.github.products.dto.BrandDto;
 import com.github.products.entity.Brand;
 import com.github.products.entity.EntityStatus;
@@ -21,7 +21,7 @@ import static com.github.products.utils.TransferObj.toBrand;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/brands")
-public class BrandController implements IBrandController {
+public class BrandsController implements IBrandsController {
 
     private final IBrandService brandService;
 

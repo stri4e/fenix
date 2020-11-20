@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface IBrandController {
+public interface IBrandsController {
 
     @PostMapping(
             path = "/edit",
