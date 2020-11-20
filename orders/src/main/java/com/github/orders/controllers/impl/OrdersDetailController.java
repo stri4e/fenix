@@ -81,6 +81,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void assignManager(Long orderId, Long staffId) {
         this.orderService.updateOrderManager(orderId, staffId);
     }
