@@ -1,6 +1,5 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
 import com.google.common.collect.Sets;
@@ -135,10 +134,6 @@ public class ProductControllerMocks {
                 BRAND_ID,
                 BRAND_NAME
         );
-    }
-
-    public static BoughtCountDto boughtCount() {
-        return new BoughtCountDto(PRODUCT_ID, 2);
     }
 
     public static List<ProductDto> products() {

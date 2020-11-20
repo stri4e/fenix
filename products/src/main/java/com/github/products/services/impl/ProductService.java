@@ -118,8 +118,21 @@ public class ProductService implements IProductService {
                     @CacheEvict(value = "products_by_subcategory", allEntries = true),
             }
     )
-    public void updateBoughtCount(Long id, Integer percentBought) {
-        this.productRepo.updateBoughCount(id, percentBought);
+    public void updateBoughtCountPlus(Long id) {
+        this.productRepo.updateBoughCountPlus(id);
+    }
+
+    @Override
+    @Caching(
+            put = @CachePut(value = "product", key = "#id"),
+            evict = {
+                    @CacheEvict(value = "products", allEntries = true),
+                    @CacheEvict(value = "products_unpublished", allEntries = true),
+                    @CacheEvict(value = "products_by_subcategory", allEntries = true),
+            }
+    )
+    public void updateBoughtCountMinus(Long id) {
+        this.productRepo.updateBoughCountMinus(id);
     }
 
 }

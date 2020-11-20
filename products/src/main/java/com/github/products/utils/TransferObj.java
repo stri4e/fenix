@@ -35,7 +35,8 @@ public class TransferObj {
                 data.getComments().stream()
                         .map(TransferObj::fromComment)
                         .collect(Collectors.toList()),
-                data.getSubcategory().getName()
+                data.getSubcategory().getName(),
+                data.getBoughtCount()
         );
     }
 

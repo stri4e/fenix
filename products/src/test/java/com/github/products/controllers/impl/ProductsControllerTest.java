@@ -2,7 +2,6 @@ package com.github.products.controllers.impl;
 
 import com.github.products.CustomPageImpl;
 import com.github.products.ProductsConstant;
-import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.Brand;
 import com.github.products.entity.Criteria;
@@ -176,25 +175,6 @@ public class ProductsControllerTest {
                 url, HttpMethod.DELETE, null, Void.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-    }
-
-    @Test
-    public void updateBoughtCount() {
-        Product product = ProductControllerMocks.productForCreate();
-        Brand brand = this.brandRepo.save(ProductControllerMocks.brandForSave());
-        Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
-        product.setSubcategory(subcategory);
-        product.setBrand(brand);
-        this.productRepo.save(product);
-        String url = String.format("%s%s", this.productUrl, "/edit/bought/count");
-        List<BoughtCountDto> payload = List.of(ProductControllerMocks.boughtCount());
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(payload), Void.class
-        );
-        assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-        Product data = this.productRepo.findById(1L).orElseThrow();
-        Integer exp = data.getBoughtCount();
-        Assert.assertEquals(2, exp.intValue());
     }
 
     @Test

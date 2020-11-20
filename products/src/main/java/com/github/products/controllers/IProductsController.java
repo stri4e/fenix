@@ -1,13 +1,8 @@
 package com.github.products.controllers;
 
-import com.github.products.dto.BoughtCountDto;
+import com.github.products.dto.ProductBoughtSign;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.EntityStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,32 +12,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public interface IProductsController {
-
-    @GetMapping(path = "/page/popular")
-    Page<ProductDto> findProductsByPage(
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "boughtCount", direction = Sort.Direction.ASC),
-            }) Pageable pageable);
-
-    @GetMapping(path = "/page/{subcategory}")
-    Page<ProductDto> findProductsByPage(
-            @PathVariable String subcategory,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
-            }) Pageable pageable
-    );
-
-    @GetMapping(path = "/page/{subcategory}/filters")
-    Page<ProductDto> findProductsByPageAndFilters(
-            @PathVariable String subcategory,
-            @RequestParam(name = "criteria") List<Long> criteria,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
-            }) Pageable pageable
-    );
 
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -87,11 +56,30 @@ public interface IProductsController {
             @PathVariable EntityStatus status
     );
 
+    @GetMapping(
+            path = "/sign",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ProductBoughtSign[] findBoughtSign();
+
     @PutMapping(
-            path = "/edit/bought/count",
+            path = "/edit/many/bought/count/{sign}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCount(@RequestBody List<BoughtCountDto> payload);
+    void updateBoughtCount(
+            @PathVariable(name = "sign") ProductBoughtSign sign,
+            @RequestBody List<Long> payload
+    );
+
+    @PutMapping(
+            path = "/edit/single/bought/count/{productId}/{sign}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCount(
+            @PathVariable(name = "sign") ProductBoughtSign sign,
+            @PathVariable(name = "productId") Long productId
+    );
 
 }

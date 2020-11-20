@@ -100,4 +100,11 @@ public class ProductDto implements Serializable, Cloneable {
     @NotBlank(message = "Subcategory Name is required.")
     private String subcategoryName;
 
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "boughtCount")
+    @NotNull(message = "BoughtCount Name is required.")
+    private Integer boughtCount = 0;
+
 }
