@@ -8,20 +8,15 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 public interface IOrderDetailController {
 
-    @GetMapping(
-            path = "/page/{status}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(path = "/pages/staffs/{status}/{staffId}")
     @ResponseStatus(code = HttpStatus.OK)
-    Page<OrderDetailDto> findByStatus(
-            @PathVariable String status,
+    Page<OrderDetailDto> findStuffOrders(
+            @PathVariable(name = "status") String status,
+            @PathVariable(name = "staffId") Long staffId,
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults(value = {
                     @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
@@ -29,18 +24,24 @@ public interface IOrderDetailController {
     );
 
     @GetMapping(
-            path = "{orderId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @ResponseStatus(code = HttpStatus.OK)
-    OrderDetailDto findById(@PathVariable Long orderId);
+    OrderDetailDto readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/status/{orderId}/{orderStatus}"
+            path = "/assign/{orderId}/{staffId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOrderStatus(@PathVariable Long orderId,
-                           @PathVariable String orderStatus
+    void assignManager(
+            @PathVariable(name = "orderId") Long orderId,
+            @PathVariable(name = "staffId") Long staffId
+    );
+
+    @PutMapping(
+            path = "/{orderId}/{orderStatus}"
+    )
+    void update(@PathVariable(name = "orderId") Long orderId,
+                @PathVariable(name = "orderStatus") String orderStatus
     );
 
 }

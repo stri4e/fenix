@@ -4,11 +4,6 @@ import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.entity.OrderStatus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +29,13 @@ public interface IOrdersDetailController {
             @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
             @RequestBody @Valid OrderDetailDto payload
     );
+
+    @GetMapping(
+            path = "/statuses",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    OrderStatus[] findAllOrderStatus();
 
     @GetMapping(
             path = "/fetch",

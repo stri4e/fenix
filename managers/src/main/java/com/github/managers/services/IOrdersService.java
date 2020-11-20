@@ -5,13 +5,13 @@ import com.github.managers.services.impl.OrdersService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @FeignClient(
@@ -21,20 +21,15 @@ import java.util.Optional;
 )
 public interface IOrdersService {
 
-    @GetMapping(
-            path = "/v1/pages/{status}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Optional<Page<OrderDetailDto>> readByStatus(@PathVariable String status, Pageable pageable);
-
-    @GetMapping(
-            path = "/v1/fetch/{status}/time",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    Optional<List<OrderDetailDto>> findByStatusInTime(
-            @PathVariable String status,
-            @RequestParam(name = "start") String start,
-            @RequestParam(name = "end") String end
+    @GetMapping(path = "/pages/fetch/staffs/{status}/{staffId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    Page<OrderDetailDto> findStuffOrders(
+            @PathVariable(name = "status") String status,
+            @PathVariable(name = "staffId") Long staffId,
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
+            }) Pageable pageable
     );
 
     @GetMapping(
@@ -44,8 +39,19 @@ public interface IOrdersService {
     Optional<OrderDetailDto> readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/v1/edit/{productId}/{orderStatus}"
+            path = "/edit/stuff/{orderId}/{staffId}"
     )
-    void update(@PathVariable Long productId, @PathVariable String orderStatus);
+    @ResponseStatus(code = HttpStatus.OK)
+    void assignManager(
+            @PathVariable(name = "orderId") Long orderId,
+            @PathVariable(name = "staffId") Long staffId
+    );
+
+    @PutMapping(
+            path = "/v1/edit/{orderId}/{orderStatus}"
+    )
+    void update(@PathVariable(name = "orderId") Long orderId,
+                @PathVariable(name = "orderStatus") String orderStatus
+    );
 
 }

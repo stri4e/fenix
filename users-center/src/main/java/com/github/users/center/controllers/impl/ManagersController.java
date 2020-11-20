@@ -2,6 +2,7 @@ package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IManagersController;
 import com.github.users.center.dto.LoginDto;
+import com.github.users.center.dto.StaffDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
@@ -21,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.concurrent.CompletableFuture;
 
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.MANAGER_SCOPE;
 import static com.github.users.center.utils.UsersUtils.ROLE_MANAGER;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +47,8 @@ public class ManagersController implements IManagersController {
 
     private final ILoginsService loginsService;
 
+    private final IStaffService staffService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -56,7 +59,10 @@ public class ManagersController implements IManagersController {
             this.userService.create(user);
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
-            CompletableFuture.runAsync(() -> registration(user, origin, ct));
+            runAsync(() -> registration(user, origin, ct));
+            runAsync(() -> this.staffService.createStaff(
+                    user.getId(), new StaffDto(user.getFName(), user.getLName(), user.getEmail())
+            ));
         }
         throw new Conflict();
     }
@@ -74,7 +80,7 @@ public class ManagersController implements IManagersController {
             RefreshSession rs = this.jwtTokenProvider
                     .refreshManagerSession(fingerprint, ip, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
-            CompletableFuture.runAsync(() -> logins(accessToken, user, ip, userAgent));
+            runAsync(() -> logins(accessToken, user, ip, userAgent));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();

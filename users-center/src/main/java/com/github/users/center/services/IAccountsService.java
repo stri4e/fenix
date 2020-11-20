@@ -19,7 +19,7 @@ import java.util.UUID;
 public interface IAccountsService {
 
     @PostMapping(
-            path = "/v1/{userId}",
+            path = "/v1/edit/{userId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)

@@ -22,15 +22,14 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public Page<OrderDetailDto> findByStatus(String status, Pageable pageable) {
-        return this.orderService.readByStatus(status, pageable)
-                .orElseThrow(NotFound::new);
+    public Page<OrderDetailDto> findStuffOrders(String status, Long staffId, Pageable pageable) {
+        return this.orderService.findStuffOrders(status, staffId, pageable);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public OrderDetailDto findById(Long orderId) {
+    public OrderDetailDto readById(Long orderId) {
         return this.orderService.readById(orderId)
                 .orElseThrow(NotFound::new);
     }
@@ -38,8 +37,14 @@ public class OrderDetailController implements IOrderDetailController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateOrderStatus(Long orderId, String orderStatus) {
-        this.orderService.update(orderId, orderStatus);
+    public void assignManager(Long orderId, Long staffId) {
+        this.orderService.assignManager(orderId, staffId);
     }
 
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void update(Long orderId, String orderStatus) {
+        this.orderService.update(orderId, orderStatus);
+    }
 }

@@ -1,4 +1,4 @@
-package com.github.managers.dto;
+package com.github.users.center.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -15,9 +15,6 @@ public class StaffDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5964261600880342887L;
 
-    @JsonProperty(value = "id")
-    private Long id;
-
     @NotBlank
     @JsonProperty(value = "firstName")
     private String firstName;
@@ -29,11 +26,5 @@ public class StaffDto implements Serializable, Cloneable {
     @NotBlank
     @JsonProperty(value = "email")
     private String email;
-
-    @JsonProperty(value = "phone")
-    private String phone;
-
-    @JsonProperty(value = "phone")
-    private String avatar;
 
 }
