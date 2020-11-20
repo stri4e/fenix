@@ -26,6 +26,8 @@ public class SecurityConfigProd {
 
     private static final String[] USER_ACCESS  = new String[] {
             "/products/v1/comments",
+            "/products/v1/many/bought/count/**",
+            "/products/v1/single/bought/count/**",
             "/orders/**",
             "/statistics/v1/views",
             "/users/v1/notification/listening/ending"

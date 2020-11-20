@@ -1,9 +1,11 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
-import com.github.products.dto.ProductBoughtSign;
 import com.github.products.dto.ProductDto;
-import com.github.products.entity.*;
+import com.github.products.entity.Brand;
+import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Product;
+import com.github.products.entity.Subcategory;
 import com.github.products.services.IBrandService;
 import com.github.products.services.IProductService;
 import com.github.products.services.ISubcategoryService;
@@ -19,8 +21,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.github.products.dto.ProductBoughtSign.minus;
-import static com.github.products.dto.ProductBoughtSign.plus;
 import static com.github.products.utils.TransferObj.fromProduct;
 import static com.github.products.utils.TransferObj.toProduct;
 
@@ -100,32 +100,29 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductBoughtSign[] findBoughtSign() {
-        return ProductBoughtSign.values();
+    public void updateBoughtCountPlus(List<Long> payload) {
+        payload.forEach(this.productService::updateBoughtCountPlus);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCount(ProductBoughtSign sign, List<Long> payload) {
-        if (plus.equals(sign)) {
-            payload.forEach(this.productService::updateBoughtCountPlus);
-        }
-        if (minus.equals(sign)) {
-            payload.forEach(this.productService::updateBoughtCountMinus);
-        }
+    public void updateBoughtCountMinus(List<Long> payload) {
+        payload.forEach(this.productService::updateBoughtCountMinus);
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCount(ProductBoughtSign sign, Long productId) {
-        if (plus.equals(sign)) {
-            this.productService.updateBoughtCountPlus(productId);
-        }
-        if (minus.equals(sign)) {
-            this.productService.updateBoughtCountMinus(productId);
-        }
+    public void updateBoughtCountPlus(Long productId) {
+        this.productService.updateBoughtCountPlus(productId);
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void updateBoughtCountMinus(Long productId) {
+        this.productService.updateBoughtCountMinus(productId);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.github.products.controllers;
 
-import com.github.products.dto.ProductBoughtSign;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.EntityStatus;
 import org.springframework.http.HttpStatus;
@@ -56,29 +55,35 @@ public interface IProductsController {
             @PathVariable EntityStatus status
     );
 
-    @GetMapping(
-            path = "/sign",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    ProductBoughtSign[] findBoughtSign();
-
     @PutMapping(
-            path = "/edit/many/bought/count/{sign}",
+            path = "/many/bought/count/plus",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCount(
-            @PathVariable(name = "sign") ProductBoughtSign sign,
-            @RequestBody List<Long> payload
+    void updateBoughtCountPlus(@RequestBody List<Long> payload);
+
+    @PutMapping(
+            path = "/many/bought/count/minus",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCountMinus(@RequestBody List<Long> payload);
+
+    @PutMapping(
+            path = "/single/bought/count/plus/{productId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCountPlus(
+            @PathVariable(name = "productId") Long productId
     );
 
     @PutMapping(
-            path = "/edit/single/bought/count/{productId}/{sign}",
+            path = "/single/bought/count/minus/{productId}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCount(
-            @PathVariable(name = "sign") ProductBoughtSign sign,
+    void updateBoughtCountMinus(
             @PathVariable(name = "productId") Long productId
     );
 

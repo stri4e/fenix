@@ -9,8 +9,19 @@ import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
+
     @Override
     public Optional<List<ProductDto>> readByIds(List<Long> ids) {
         return Optional.empty();
+    }
+
+    @Override
+    public void updateBoughtCountMinus(List<Long> payload) {
+
+    }
+
+    @Override
+    public void updateBoughtCountMinus(Long productId) {
+
     }
 }

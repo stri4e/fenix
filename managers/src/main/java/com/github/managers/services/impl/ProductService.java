@@ -36,7 +36,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateStatus(Long id, String status) {
+    public void remove(Long id, String status) {
+
+    }
+
+    @Override
+    public void updateBoughtCountMinus(List<Long> payload) {
+
+    }
+
+    @Override
+    public void updateBoughtCountMinus(Long productId) {
 
     }
 }
