@@ -38,8 +38,6 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IOrdersNotify ordersNotify;
 
-    private final IDeliveryService deliveryService;
-
     private final IEmailService emailService;
 
     @Override
@@ -53,7 +51,6 @@ public class OrdersDetailController implements IOrdersDetailController {
         OrderDetailDto result = fromOrderDetail(
                 this.orderService.crete(toOrderDetail(payload, items, userId)),
                 payload.getCustomer(),
-                payload.getDelivery(),
                 fromOrderItems(items, payload.getOrderItems())
         );
         runAsync(() -> this.ordersNotify.orderNotify(result));
@@ -83,9 +80,7 @@ public class OrdersDetailController implements IOrdersDetailController {
                 .orElseThrow(NotFound::new);
         CustomerDto customer = this.customerService.readById(order.getCustomerId())
                 .orElseThrow(NotFound::new);
-        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
-                .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer, delivery,
+        return fromOrderDetail(order, customer,
                 orderItems.stream()
                         .flatMap(o -> products.stream()
                                 .filter(p -> p.getId().equals(o.getProductId()))

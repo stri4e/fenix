@@ -1,11 +1,11 @@
 package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.websocket.payload.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -35,11 +35,50 @@ public class OrderDetailDto implements Serializable, Cloneable {
     private BigDecimal amount;
 
     @NotNull
-    @JsonProperty(value = "status")
-    private OrderStatus status;
+    @JsonProperty(value = "weight")
+    private BigDecimal weight;
+
+    @NotBlank
+    @JsonProperty(value = "company")
+    private String company;
+
+    @NotBlank
+    @JsonProperty(value = "country")
+    private String country;
+
+    @NotBlank
+    @JsonProperty(value = "region")
+    private String region;
+
+    @NotBlank
+    @JsonProperty(value = "city")
+    private String city;
+
+    @NotBlank
+    @JsonProperty(value = "street")
+    private String street;
+
+    @NotBlank
+    @JsonProperty(value = "streetNumber")
+    private String streetNumber;
+
+    @JsonProperty(value = "flatNumber")
+    private String flatNumber;
+
+    @NotBlank
+    @JsonProperty(value = "zipCode")
+    private String zipCode;
+
+    @NotBlank
+    @JsonProperty(value = "deliveryData")
+    private String deliveryData;
 
     @NotNull
-    @JsonProperty(value = "delivery")
-    private DeliveryDto delivery;
+    @JsonProperty(value = "deliveryAmount")
+    private BigDecimal deliveryAmount;
+
+    @NotNull
+    @JsonProperty(value = "status")
+    private String status;
 
 }

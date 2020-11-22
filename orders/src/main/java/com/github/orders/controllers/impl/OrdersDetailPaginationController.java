@@ -1,12 +1,16 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.controllers.IOrdersDetailPaginationController;
-import com.github.orders.dto.*;
+import com.github.orders.dto.CustomerDto;
+import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.dto.ProductDto;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderItem;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
-import com.github.orders.service.*;
+import com.github.orders.service.ICustomerService;
+import com.github.orders.service.IOrderDetailService;
+import com.github.orders.service.IProductService;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -33,8 +37,6 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
     private final ICustomerService customerService;
 
     private final IProductService productService;
-
-    private final IDeliveryService deliveryService;
 
     @Override
     @HystrixCommand
@@ -76,24 +78,22 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
         OrderDetail order = content.stream().findFirst().orElseThrow(NotFound::new);
         CustomerDto customer = this.customerService.readById(order.getCustomerId())
                 .orElseThrow(NotFound::new);
-        DeliveryDto delivery = this.deliveryService.readById(order.getDeliveryId())
-                .orElseThrow(NotFound::new);
         return new PageImpl<>(
                 orders.getContent().stream()
-                        .map(o -> collect(o, customer, delivery))
+                        .map(o -> collect(o, customer))
                         .collect(Collectors.toList()),
                 pageable, orders.getTotalElements()
         );
     }
 
-    private OrderDetailDto collect(OrderDetail order, CustomerDto customer, DeliveryDto delivery) {
+    private OrderDetailDto collect(OrderDetail order, CustomerDto customer) {
         List<OrderItem> items = order.getOrderItems();
         List<ProductDto> products = this.productService.readByIds(
                 items.stream()
                         .map(OrderItem::getProductId)
                         .collect(Collectors.toList()))
                 .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer, delivery,
+        return fromOrderDetail(order, customer,
                 items.stream()
                         .flatMap(o -> products.stream()
                                 .filter(p -> p.getId().equals(o.getProductId()))

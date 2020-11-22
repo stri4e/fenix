@@ -34,6 +34,12 @@ public class Address implements Serializable, Cloneable {
     private String country;
 
     @Column(
+            name = "region",
+            length = 128
+    )
+    private String region;
+
+    @Column(
             name = "city",
             length = 128,
             nullable = false
@@ -52,25 +58,19 @@ public class Address implements Serializable, Cloneable {
             length = 128,
             nullable = false
     )
-    private Integer streetNumber;
+    private String streetNumber;
 
     @Column(
             name = "flat_number",
-            length = 128
+            length = 50
     )
-    private Integer flatNumber;
-
-    @Column(
-            name = "state",
-            length = 128
-    )
-    private String state;
+    private String flatNumber;
 
     @Column(
             name = "zip_code",
             nullable = false
     )
-    private Integer zipCode;
+    private String zipCode;
 
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
@@ -93,19 +93,19 @@ public class Address implements Serializable, Cloneable {
     public Address(
             Long id,
             String country,
+            String region,
             String city,
             String street,
-            Integer streetNumber,
-            Integer flatNumber,
-            String state,
-            Integer zipCode) {
+            String streetNumber,
+            String flatNumber,
+            String zipCode) {
         this.id = id;
         this.country = country;
+        this.region = region;
         this.city = city;
         this.street = street;
         this.streetNumber = streetNumber;
         this.flatNumber = flatNumber;
-        this.state = state;
         this.zipCode = zipCode;
     }
 
@@ -115,10 +115,10 @@ public class Address implements Serializable, Cloneable {
                 "default",
                 "default",
                 "default",
-                -1,
-                -1,
                 "default",
-                -1
+                "default",
+                "default",
+                "default"
         );
     }
 

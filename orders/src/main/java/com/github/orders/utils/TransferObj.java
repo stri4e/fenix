@@ -14,7 +14,17 @@ public class TransferObj {
                 data.getCustomer().getId(),
                 items,
                 data.getAmount(),
-                data.getDelivery().getId(),
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
                 userId,
                 data.getStatus());
     }
@@ -22,15 +32,24 @@ public class TransferObj {
     public static OrderDetailDto fromOrderDetail(
             OrderDetail data,
             CustomerDto customer,
-            DeliveryDto delivery,
             List<OrderItemDto> orderItems) {
         return new OrderDetailDto(
                 data.getId(),
                 customer,
                 orderItems,
                 data.getAmount(),
-                data.getStatus(),
-                delivery
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
+                data.getStatus()
         );
     }
 

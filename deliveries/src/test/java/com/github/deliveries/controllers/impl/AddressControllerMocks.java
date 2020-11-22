@@ -16,12 +16,12 @@ public class AddressControllerMocks {
         return new AddressDto(
                 null,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -29,12 +29,12 @@ public class AddressControllerMocks {
         return new AddressDto(
                 1L,
                 "Ukraina",
-                "Dnipropetrovsc",
+                "Dnepropetpovsk obl",
+                "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -42,12 +42,12 @@ public class AddressControllerMocks {
         return new AddressDto(
                 1L,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -55,12 +55,12 @@ public class AddressControllerMocks {
         return new Address(
                 null,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -68,12 +68,12 @@ public class AddressControllerMocks {
         return new AddressDto(
                 1L,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 

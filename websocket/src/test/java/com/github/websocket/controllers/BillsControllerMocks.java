@@ -3,7 +3,6 @@ package com.github.websocket.controllers;
 import com.github.websocket.dto.BillDto;
 import com.github.websocket.dto.WhoDto;
 import com.github.websocket.dto.WhomDto;
-import com.github.websocket.payload.BillType;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class BillsControllerMocks {
                 "address",
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
                 new WhoDto(
                         1L,
                         "Vasia",

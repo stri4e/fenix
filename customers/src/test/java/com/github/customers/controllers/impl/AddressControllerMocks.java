@@ -17,10 +17,10 @@ public class AddressControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -30,10 +30,10 @@ public class AddressControllerMocks {
                 "Ukraina",
                 "Dnipropetrovsc",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -43,10 +43,10 @@ public class AddressControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -56,10 +56,10 @@ public class AddressControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -69,10 +69,10 @@ public class AddressControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 

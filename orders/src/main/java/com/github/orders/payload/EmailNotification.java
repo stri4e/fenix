@@ -3,7 +3,6 @@ package com.github.orders.payload;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.orders.dto.CustomerDto;
-import com.github.orders.dto.DeliveryDto;
 import com.github.orders.dto.OrderDetailDto;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
@@ -38,11 +37,17 @@ public class EmailNotification {
 
     private static Map<String, Object>
     information(OrderDetailDto order, String customerName, String customerPhone) {
-        DeliveryDto delivery = order.getDelivery();
         Map<String, Object> information = Maps.newHashMap();
         information.put("customerName", customerName);
         information.put("products", order.getOrderItems());
-        information.put("delivery", String.format("%s: %s", delivery.getCompanyName(), delivery.getAddress()));
+        information.put("delivery", String.format(
+                "%s, %s, %s, %s",
+                order.getCompany(),
+                order.getCity(),
+                order.getStreet(),
+                order.getStreetNumber()
+                )
+        );
         information.put("customer", String.format("%s, %s", customerName, customerPhone));
         information.put("recipient", customerName);
         information.put("amount", order.getAmount());

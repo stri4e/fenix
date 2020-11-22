@@ -70,16 +70,82 @@ public class OrderDetail implements Serializable, Cloneable {
             name = "amount",
             precision = 8,
             scale = 4,
-            columnDefinition="DECIMAL(8, 4)",
+            columnDefinition = "DECIMAL(8, 4)",
             nullable = false
     )
     private BigDecimal amount;
 
     @Column(
-            name = "delivery_id",
+            name = "weight",
+            precision = 8,
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
             nullable = false
     )
-    private Long deliveryId;
+    private BigDecimal weight;
+
+    @Column(
+            name = "company",
+            nullable = false
+    )
+    private String company;
+
+    @Column(
+            name = "country",
+            nullable = false
+    )
+    private String country;
+
+    @Column(
+            name = "region",
+            nullable = false
+    )
+    private String region;
+
+    @Column(
+            name = "city",
+            nullable = false
+    )
+    private String city;
+
+    @Column(
+            name = "street",
+            nullable = false
+    )
+    private String street;
+
+    @Column(
+            name = "street_number",
+            nullable = false
+    )
+    private String streetNumber;
+
+    @Column(
+            name = "flat_number",
+            nullable = false
+    )
+    private String flatNumber;
+
+    @Column(
+            name = "zip_code",
+            nullable = false
+    )
+    private String zipCode;
+
+    @Column(
+            name = "delivery_data",
+            nullable = false
+    )
+    private String deliveryData;
+
+    @Column(
+            name = "delivery_amount",
+            precision = 8,
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
+            nullable = false
+    )
+    private BigDecimal deliveryAmount;
 
     @Column(
             name = "user_id",
@@ -111,20 +177,73 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public OrderDetail(Long customerId, BigDecimal amount, UUID userId, OrderStatus status) {
+    //Constructor for tests
+    public OrderDetail(
+            Long customerId,
+            BigDecimal amount,
+            BigDecimal weight,
+            String company,
+            String country,
+            String region,
+            String city,
+            String street,
+            String streetNumber,
+            String flatNumber,
+            String zipCode,
+            String deliveryData,
+            BigDecimal deliveryAmount,
+            UUID userId,
+            OrderStatus status
+    ) {
         this.customerId = customerId;
         this.amount = amount;
+        this.weight = weight;
+        this.company = company;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.flatNumber = flatNumber;
+        this.zipCode = zipCode;
+        this.deliveryData = deliveryData;
+        this.deliveryAmount = deliveryAmount;
         this.userId = userId;
         this.status = status;
     }
 
     public OrderDetail(
-            Long customerId, List<OrderItem> orderItems,
-            BigDecimal amount, Long deliveryId, UUID userId, OrderStatus status) {
+            Long customerId,
+            List<OrderItem> orderItems,
+            BigDecimal amount,
+            BigDecimal weight,
+            String company,
+            String country,
+            String region,
+            String city,
+            String street,
+            String streetNumber,
+            String flatNumber,
+            String zipCode,
+            String deliveryData,
+            BigDecimal deliveryAmount,
+            UUID userId,
+            OrderStatus status
+    ) {
         this.customerId = customerId;
         this.orderItems = orderItems;
         this.amount = amount;
-        this.deliveryId = deliveryId;
+        this.weight = weight;
+        this.company = company;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.flatNumber = flatNumber;
+        this.zipCode = zipCode;
+        this.deliveryData = deliveryData;
+        this.deliveryAmount = deliveryAmount;
         this.userId = userId;
         this.status = status;
     }

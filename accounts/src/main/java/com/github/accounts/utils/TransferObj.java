@@ -84,11 +84,11 @@ public class TransferObj {
         return new Address(
                 data.getId(),
                 data.getCountry(),
+                data.getRegion(),
                 data.getCity(),
                 data.getStreet(),
                 data.getStreetNumber(),
                 data.getFlatNumber(),
-                data.getState(),
                 data.getZipCode()
         );
     }
@@ -97,11 +97,11 @@ public class TransferObj {
         return new AddressDto(
                 data.getId(),
                 data.getCountry(),
+                data.getRegion(),
                 data.getCity(),
                 data.getStreet(),
                 data.getStreetNumber(),
                 data.getFlatNumber(),
-                data.getState(),
                 data.getZipCode()
         );
     }

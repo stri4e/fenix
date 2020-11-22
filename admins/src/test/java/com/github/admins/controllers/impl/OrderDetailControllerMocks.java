@@ -34,8 +34,18 @@ public class OrderDetailControllerMocks {
                 ),
                 ITEMS_FOR_EQ,
                 new BigDecimal("220.254"),
-                "open",
-                delivery()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                "open"
         );
     }
 
@@ -51,8 +61,18 @@ public class OrderDetailControllerMocks {
                 ),
                 ITEMS_FOR_EQ,
                 new BigDecimal("220.254"),
-                "open",
-                delivery()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                "open"
         );
     }
 
@@ -111,8 +131,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("123432.2432"),
-                    "close",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "close"
             )
     );
 
@@ -128,8 +158,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("12.2"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     2L,
@@ -142,8 +182,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("220.254"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     4L,
@@ -156,8 +206,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("1111.11"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             )
     );
 
@@ -173,8 +233,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("569.205"),
-                    "handling",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "handling"
             )
     );
 
@@ -190,8 +260,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("12.2"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     2L,
@@ -204,8 +284,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("220.254"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     4L,
@@ -218,8 +308,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("1111.11"),
-                    "open",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             )
     );
 
@@ -235,8 +335,18 @@ public class OrderDetailControllerMocks {
                     ),
                     ITEMS_FOR_EQ,
                     new BigDecimal("569.205"),
-                    "handling",
-                    delivery()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "handling"
             )
     );
 

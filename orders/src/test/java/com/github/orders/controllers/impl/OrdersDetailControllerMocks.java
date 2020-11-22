@@ -30,8 +30,6 @@ public class OrdersDetailControllerMocks {
 
     public static final List<Long> PRODUCT_IDS = Lists.newArrayList(1L, 2L, 3L);
 
-    public static final Long BILL_ID = 1L;
-
     public static CustomerDto customerDto() {
         return new CustomerDto(
                 CUSTOMER_ID,
@@ -48,8 +46,18 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 ITEMS_FOR_EQ,
                 AMOUNT,
-                OrderStatus.open,
-                delivery()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
@@ -59,8 +67,18 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 ITEMS_FOR_EQ,
                 AMOUNT,
-                OrderStatus.open,
-                delivery()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
@@ -69,8 +87,18 @@ public class OrdersDetailControllerMocks {
                 customerDto(),
                 ITEMS_FOR_SA,
                 AMOUNT,
-                OrderStatus.open,
-                delivery()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
@@ -78,6 +106,17 @@ public class OrdersDetailControllerMocks {
         return new OrderDetail(
                 CUSTOMER_ID,
                 AMOUNT,
+                BigDecimal.ZERO,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
                 USER_ID,
                 OrderStatus.open
         );
@@ -228,17 +267,6 @@ public class OrdersDetailControllerMocks {
                     BigDecimal.ZERO
             )
     );
-
-    public static DeliveryDto delivery() {
-        return new DeliveryDto(
-                1L,
-                "home",
-                "Nowa poshta",
-                addressDto(),
-                new BigDecimal("50.2000")
-
-        );
-    }
 
     public static AddressDto addressDto() {
         return new AddressDto(

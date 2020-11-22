@@ -67,12 +67,12 @@ public class DeliveryControllerMocks {
         return new Address(
                 null,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -80,12 +80,12 @@ public class DeliveryControllerMocks {
         return new AddressDto(
                 1L,
                 "Ukraina",
+                "Dnepropetpovsk obl",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 

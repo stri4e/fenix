@@ -40,5 +40,4 @@ public interface IProductsPagesController {
             }) Pageable pageable
     );
 
-
 }

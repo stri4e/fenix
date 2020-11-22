@@ -36,10 +36,10 @@ public class ViewsControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 

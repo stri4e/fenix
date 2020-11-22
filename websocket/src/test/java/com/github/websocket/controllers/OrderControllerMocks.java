@@ -1,14 +1,9 @@
 package com.github.websocket.controllers;
 
 import com.github.websocket.dto.*;
-import com.github.websocket.payload.BillType;
-import com.github.websocket.payload.DeliveryType;
-import com.github.websocket.payload.OrderStatus;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderControllerMocks {
@@ -45,8 +40,18 @@ public class OrderControllerMocks {
                 customerDto(),
                 ITEMS_FOR_EQ,
                 AMOUNT,
-                OrderStatus.open,
-                delivery()
+                BigDecimal.ZERO,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                "open"
         );
     }
 
@@ -102,16 +107,6 @@ public class OrderControllerMocks {
                     BigDecimal.ZERO
             )
     );
-
-    public static DeliveryDto delivery() {
-        return new DeliveryDto(
-                1L,
-                DeliveryType.home,
-                "Nowa poshta",
-                "xz street",
-                new BigDecimal("50.200")
-        );
-    }
 
     public static SpecificationDto specificationOne() {
         return new SpecificationDto(

@@ -86,10 +86,10 @@ public class AccountsControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -178,10 +178,10 @@ public class AccountsControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 
@@ -211,10 +211,10 @@ public class AccountsControllerMocks {
                 "default",
                 "default",
                 "default",
-                -1,
-                -1,
                 "default",
-                -1
+                "default",
+                "default",
+                "default"
         );
     }
 
@@ -230,7 +230,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     4L,
@@ -243,7 +244,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     5L,
@@ -256,7 +258,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     6L,
@@ -269,7 +272,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     7L,
@@ -282,7 +286,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     8L,
@@ -295,7 +300,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     9L,
@@ -308,7 +314,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     10L,
@@ -321,7 +328,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     11L,
@@ -334,7 +342,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     12L,
@@ -347,7 +356,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     13L,
@@ -360,7 +370,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     14L,
@@ -373,7 +384,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     15L,
@@ -386,7 +398,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     16L,
@@ -399,7 +412,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     17L,
@@ -412,7 +426,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     18L,
@@ -425,7 +440,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     19L,
@@ -438,7 +454,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     20L,
@@ -451,7 +468,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     21L,
@@ -464,7 +482,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     22L,
@@ -477,7 +496,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     23L,
@@ -490,7 +510,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     24L,
@@ -503,7 +524,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     25L,
@@ -516,7 +538,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     26L,
@@ -529,7 +552,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     27L,
@@ -542,7 +566,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     28L,
@@ -555,7 +580,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     29L,
@@ -568,7 +594,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     30L,
@@ -581,7 +608,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     31L,
@@ -594,7 +622,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             ),
             new ProductDto(
                     32L,
@@ -607,7 +636,8 @@ public class AccountsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     SPECIFICATIONS,
                     COMMENTS,
-                    "subcategory1"
+                    "subcategory1",
+                    0
             )
     );
 
