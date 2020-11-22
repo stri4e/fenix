@@ -39,12 +39,10 @@ public class EmailNotification {
     private static Map<String, Object>
     information(OrderDetailDto order, String customerName, String customerPhone) {
         DeliveryDto delivery = order.getDelivery();
-        String payment = order.getBill().getPaymentType();
         Map<String, Object> information = Maps.newHashMap();
         information.put("customerName", customerName);
-        information.put("products", order.getProducts());
+        information.put("products", order.getOrderItems());
         information.put("delivery", String.format("%s: %s", delivery.getCompanyName(), delivery.getAddress()));
-        information.put("payment", payment);
         information.put("customer", String.format("%s, %s", customerName, customerPhone));
         information.put("recipient", customerName);
         information.put("amount", order.getAmount());

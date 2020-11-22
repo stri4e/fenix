@@ -29,8 +29,8 @@ public class OrderDetailDto implements Serializable, Cloneable {
     private CustomerDto customer;
 
     @NotEmpty
-    @JsonProperty(value = "products")
-    private List<ProductDto> products;
+    @JsonProperty(value = "orderItems")
+    private List<OrderItemDto> orderItems;
 
     @NotNull
     @JsonProperty(value = "amount")
@@ -44,61 +44,26 @@ public class OrderDetailDto implements Serializable, Cloneable {
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
 
-    @NotNull
-    @JsonProperty(value = "bill")
-    private BillDto bill;
-
     public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<ProductDto> products,
+                          @NotEmpty List<OrderItemDto> orderItems,
                           @NotNull BigDecimal amount,
                           @NotNull OrderStatus status) {
         this.customer = customer;
-        this.products = products;
+        this.orderItems = orderItems;
         this.amount = amount;
         this.status = status;
     }
 
     public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<ProductDto> products,
-                          @NotNull BigDecimal amount,
-                          @NotNull OrderStatus status,
-                          @NotNull BillDto bill) {
-        this.customer = customer;
-        this.products = products;
-        this.amount = amount;
-        this.status = status;
-        this.bill = bill;
-    }
-
-    public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<ProductDto> products,
+                          @NotEmpty List<OrderItemDto> orderItems,
                           @NotNull BigDecimal amount,
                           @NotNull OrderStatus status,
                           @NotNull DeliveryDto delivery) {
         this.customer = customer;
-        this.products = products;
+        this.orderItems = orderItems;
         this.amount = amount;
         this.status = status;
         this.delivery = delivery;
-    }
-
-    public OrderDetailDto(@NotNull CustomerDto customer,
-                          @NotEmpty List<ProductDto> products,
-                          @NotNull BigDecimal amount,
-                          @NotNull OrderStatus status,
-                          @NotNull DeliveryDto delivery,
-                          @NotNull BillDto bill) {
-        this.customer = customer;
-        this.products = products;
-        this.amount = amount;
-        this.status = status;
-        this.delivery = delivery;
-        this.bill = bill;
-    }
-
-    public OrderDetailDto id(Long id) {
-        this.id = id;
-        return this;
     }
 
 }

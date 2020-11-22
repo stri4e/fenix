@@ -37,9 +37,9 @@ public class OrderDetailDto implements Serializable, Cloneable {
             message = "Products ids is required."
     )
     @JsonProperty(
-            value = "productsIds"
+            value = "orderItems"
     )
-    private List<ProductDto> products;
+    private List<OrderItemDto> orderItems;
 
     @NotNull(
             message = "Order amount is required."

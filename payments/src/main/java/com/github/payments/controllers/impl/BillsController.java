@@ -43,13 +43,13 @@ public class BillsController implements IBillsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public BillDto save(BillDto payload) {
+    public BillDto save(Long orderId, BillDto payload) {
         PaymentTypes type = this.paymentTypesService
                 .readByAlias(payload.getPaymentType());
         Asset asset = this.assetsService.readByName(payload.getAssetName());
         Whom whom = this.whomService.create(toWhom(payload.getWhom()));
         Who who = this.whoService.create(toWho(payload.getWho()));
-        Bill bill = toBill(payload).forCreate(asset, type).forCreate(who, whom);
+        Bill bill = toBill(payload, orderId).forCreate(asset, type).forCreate(who, whom);
         return fromBill(this.billService.create(bill));
     }
 

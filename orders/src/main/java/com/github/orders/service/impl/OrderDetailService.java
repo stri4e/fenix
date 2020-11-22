@@ -45,6 +45,12 @@ public class OrderDetailService implements IOrderDetailService {
     }
 
     @Override
+    @Cacheable(value = "orders", key = "#customerId", unless = "#result.getTotalElements() == 0")
+    public Page<OrderDetail> readByCustomerId(Long customerId, Pageable pageable) {
+        return this.orderRepo.findByCustomerId(customerId, pageable);
+    }
+
+    @Override
     @Cacheable(value = "orders", key = "#status", unless = "#result.getTotalElements() == 0")
     public Page<OrderDetail> readByStatus(OrderStatus status, Pageable pageable) {
         return this.orderRepo.findByStatus(status, pageable);

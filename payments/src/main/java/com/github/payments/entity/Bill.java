@@ -30,6 +30,12 @@ public class Bill implements Serializable, Cloneable {
     private Long id;
 
     @Column(
+            name = "order_id",
+            nullable = false
+    )
+    private Long orderId;
+
+    @Column(
             name = "amount",
             nullable = false
     )
@@ -140,15 +146,16 @@ public class Bill implements Serializable, Cloneable {
         return this;
     }
 
-    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, List<String> transfers) {
+    public Bill(Long id, Long orderId, BigInteger amount, BigInteger amountPaid, String address, List<String> transfers) {
         this.id = id;
+        this.orderId = orderId;
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
     }
 
-    public Bill(BigInteger amount, BigInteger amountPaid, Asset asset, String address,
+    public Bill(Long orderId, BigInteger amount, BigInteger amountPaid, Asset asset, String address,
                 List<String> transfers, PaymentTypes paymentType, Who who, Whom whom) {
         this.amount = amount;
         this.amountPaid = amountPaid;

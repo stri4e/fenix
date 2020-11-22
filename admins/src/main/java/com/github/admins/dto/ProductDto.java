@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,6 +28,14 @@ public class ProductDto implements Serializable, Cloneable {
     )
     @JsonProperty(value = "id")
     private Long id;
+
+    @ApiModelProperty(
+            value = "Product name",
+            example = "Xiaomi"
+    )
+    @JsonProperty(value = "brandName")
+    @NotBlank(message = "Brand name is required.")
+    private String brandName;
 
     @ApiModelProperty(
             value = "Product name",

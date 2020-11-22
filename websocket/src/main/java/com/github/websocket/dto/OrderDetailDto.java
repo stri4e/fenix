@@ -27,8 +27,8 @@ public class OrderDetailDto implements Serializable, Cloneable {
     private CustomerDto customer;
 
     @NotEmpty
-    @JsonProperty(value = "products")
-    private List<ProductDto> products;
+    @JsonProperty(value = "orderItems")
+    private List<OrderItemDto> orderItems;
 
     @NotNull
     @JsonProperty(value = "amount")
@@ -41,9 +41,5 @@ public class OrderDetailDto implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
-
-    @NotNull
-    @JsonProperty(value = "bill")
-    private BillDto bill;
 
 }

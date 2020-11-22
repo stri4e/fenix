@@ -106,6 +106,7 @@ public class BillsControllerMocks {
 
     public static Bill billForSave(Asset asset, PaymentTypes types, Who who, Whom whom) {
         return new Bill(
+                1L,
                 BigInteger.valueOf(60L),
                 BigInteger.valueOf(50L),
                 asset,

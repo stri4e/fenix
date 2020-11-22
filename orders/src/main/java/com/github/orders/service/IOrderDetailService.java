@@ -15,6 +15,8 @@ public interface IOrderDetailService {
 
     Page<OrderDetail> readUserId(UUID userId, Pageable pageable);
 
+    Page<OrderDetail> readByCustomerId(Long customerId, Pageable pageable);
+
     Page<OrderDetail> readByStatus(OrderStatus status, Pageable pageable);
 
     Page<OrderDetail> readByStaffIdNull(Pageable pageable);

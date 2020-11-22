@@ -21,6 +21,8 @@ public interface OrderDetailRepo extends
 
     Page<OrderDetail> findByUserId(UUID userId, Pageable pageable);
 
+    Page<OrderDetail> findByCustomerId(Long customerId, Pageable pageable);
+
     Page<OrderDetail> findByStatus(OrderStatus status, Pageable pageable);
 
     Page<OrderDetail> findByStaffIdNull(Pageable pageable);

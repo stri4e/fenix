@@ -3,10 +3,12 @@ package com.github.orders.controllers.impl;
 import com.github.orders.controllers.IOrdersDetailPaginationController;
 import com.github.orders.dto.*;
 import com.github.orders.entity.OrderDetail;
+import com.github.orders.entity.OrderItem;
 import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
+import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,8 +36,6 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
 
     private final IDeliveryService deliveryService;
 
-    private final IBillService billService;
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -51,13 +51,24 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<OrderDetailDto> findStuffOrders(OrderStatus status, Long staffId, Pageable pageable) {
         return toOrderPage(this.orderService.readByStaffIdAndStatus(staffId, status, pageable), pageable);
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public Page<OrderDetailDto> unassignedOrders(Pageable pageable) {
         return toOrderPage(this.orderService.readByStaffIdNull(pageable), pageable);
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public Page<OrderDetailDto> findOrdersByCustomer(Long customerId, Pageable pageable) {
+        return toOrderPage(this.orderService.readByCustomerId(customerId, pageable), pageable);
     }
 
     private Page<OrderDetailDto> toOrderPage(Page<OrderDetail> orders, Pageable pageable) {
@@ -76,11 +87,19 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
     }
 
     private OrderDetailDto collect(OrderDetail order, CustomerDto customer, DeliveryDto delivery) {
-        List<ProductDto> products = this.productService.readByIds(order.getProductIds())
+        List<OrderItem> items = order.getOrderItems();
+        List<ProductDto> products = this.productService.readByIds(
+                items.stream()
+                        .map(OrderItem::getProductId)
+                        .collect(Collectors.toList()))
                 .orElseThrow(NotFound::new);
-        BillDto bill = this.billService.findById(order.getBillId())
-                .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer, delivery, products, bill);
+        return fromOrderDetail(order, customer, delivery,
+                items.stream()
+                        .flatMap(o -> products.stream()
+                                .filter(p -> p.getId().equals(o.getProductId()))
+                                .map(p -> TransferObj.fromOrderItem(o, p)))
+                        .collect(Collectors.toList())
+        );
     }
 
 }

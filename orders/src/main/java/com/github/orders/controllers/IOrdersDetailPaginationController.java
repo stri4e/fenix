@@ -69,5 +69,14 @@ public interface IOrdersDetailPaginationController {
             }) Pageable pageable
     );
 
+    @GetMapping(path = "/fetch/customers/{customerId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    Page<OrderDetailDto> findOrdersByCustomer(
+            @PathVariable(name = "customerId") Long customerId,
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
+            }) Pageable pageable
+    );
 
 }

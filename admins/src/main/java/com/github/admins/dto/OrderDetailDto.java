@@ -36,10 +36,8 @@ public class OrderDetailDto implements Serializable, Cloneable {
     @NotEmpty(
             message = "Products ids is required."
     )
-    @JsonProperty(
-            value = "productsIds"
-    )
-    private List<ProductDto> products;
+    @JsonProperty(value = "orderItems")
+    private List<OrderItemDto> orderItems;
 
     @NotNull(
             message = "Order amount is required."
@@ -62,11 +60,5 @@ public class OrderDetailDto implements Serializable, Cloneable {
     )
     @JsonProperty(value = "delivery")
     private DeliveryDto delivery;
-
-    @NotNull(
-            message = "Bill is required."
-    )
-    @JsonProperty(value = "bill")
-    private BillDto bill;
 
 }

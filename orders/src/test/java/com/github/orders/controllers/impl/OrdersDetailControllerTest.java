@@ -86,7 +86,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findAllByStatus() {
         readProductsByIds();
-        readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
@@ -103,7 +102,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findByOrderId() {
         readProductsByIds();
-        readBillById();
         OrderDetailDto exp = OrdersDetailControllerMocks.orderForExpected();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
@@ -118,7 +116,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findOrdersInTime() {
         readProductsByIds();
-        readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
@@ -144,7 +141,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findByUserId() {
         readProductsByIds();
-        readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
@@ -160,7 +156,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findByIds() {
         readProductsByIds();
-        readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
@@ -177,7 +172,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
     @Test
     public void findBindingOrders() {
         readProductsByIds();
-        readBillById();
         List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);

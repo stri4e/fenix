@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,8 +53,18 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long customerId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Long> productIds;
+    @OneToMany(
+            targetEntity = OrderItem.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "order_item_id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "orders_order_item_fk"
+            )
+    )
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(
             name = "amount",
@@ -81,12 +92,6 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long staffId;
 
-    @Column(
-            name = "bill_id",
-            nullable = false
-    )
-    private Long billId;
-
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.open;
@@ -106,26 +111,21 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public OrderDetail(
-            Long customerId, List<Long> productIds,
-            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
+    public OrderDetail(Long customerId, BigDecimal amount, UUID userId, OrderStatus status) {
         this.customerId = customerId;
-        this.productIds = productIds;
         this.amount = amount;
         this.userId = userId;
-        this.billId = billId;
         this.status = status;
     }
 
     public OrderDetail(
-            Long customerId, List<Long> productIds,
-            BigDecimal amount, Long deliveryId, UUID userId, Long billId, OrderStatus status) {
+            Long customerId, List<OrderItem> orderItems,
+            BigDecimal amount, Long deliveryId, UUID userId, OrderStatus status) {
         this.customerId = customerId;
-        this.productIds = productIds;
+        this.orderItems = orderItems;
         this.amount = amount;
         this.deliveryId = deliveryId;
         this.userId = userId;
-        this.billId = billId;
         this.status = status;
     }
 

@@ -9,31 +9,57 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static OrderDetail toOrderDetail(OrderDetailDto data, UUID userId) {
+    public static OrderDetail toOrderDetail(OrderDetailDto data, List<OrderItem> items, UUID userId) {
         return new OrderDetail(
                 data.getCustomer().getId(),
-                data.getProducts().stream()
-                        .map(ProductDto::getId)
-                        .collect(Collectors.toList()),
+                items,
                 data.getAmount(),
                 data.getDelivery().getId(),
                 userId,
-                data.getBill().getId(),
                 data.getStatus());
     }
 
     public static OrderDetailDto fromOrderDetail(
-            OrderDetail data, CustomerDto customer, DeliveryDto delivery,
-            List<ProductDto> products, BillDto bill) {
+            OrderDetail data,
+            CustomerDto customer,
+            DeliveryDto delivery,
+            List<OrderItemDto> orderItems) {
         return new OrderDetailDto(
                 data.getId(),
                 customer,
-                products,
+                orderItems,
                 data.getAmount(),
                 data.getStatus(),
-                delivery,
-                bill
+                delivery
         );
+    }
+
+    public static OrderItem toOrderItem(OrderItemDto data) {
+        return new OrderItem(
+                data.getId(),
+                data.getProduct().getId(),
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
+        );
+    }
+
+    public static OrderItemDto fromOrderItem(OrderItem data, ProductDto product) {
+        return new OrderItemDto(
+                data.getId(),
+                product,
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
+        );
+    }
+
+    public static List<OrderItemDto> fromOrderItems(List<OrderItem> newItems, List<OrderItemDto> oldItems) {
+        return newItems.stream()
+                .flatMap(newItem -> oldItems.stream()
+                        .filter(oldItem -> oldItem.getProduct().getId().equals(newItem.getProductId()))
+                        .map(up -> fromOrderItem(newItem, up.getProduct())))
+                .collect(Collectors.toList());
     }
 
 }

@@ -13,10 +13,11 @@ import java.util.UUID;
 public interface IBillsController {
 
     @PostMapping(
+            path = "/{orderId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto save(@RequestBody BillDto payload);
+    BillDto save(@PathVariable Long orderId, @RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

@@ -46,11 +46,10 @@ public class OrdersDetailControllerMocks {
         return new OrderDetailDto(
                 ORDER_ID,
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_EQ,
                 AMOUNT,
                 OrderStatus.open,
-                delivery(),
-                requestBill()
+                delivery()
         );
     }
 
@@ -58,91 +57,28 @@ public class OrdersDetailControllerMocks {
         return new OrderDetailDto(
                 ORDER_ID,
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_EQ,
                 AMOUNT,
                 OrderStatus.open,
-                delivery(),
-                responseBill()
-        );
-    }
-
-    public static OrderDetailDto orderForUpdate() {
-        return new OrderDetailDto(
-                ORDER_ID,
-                customerDto(),
-                PRODUCTS_DTO,
-                AMOUNT,
-                OrderStatus.done,
-                delivery(),
-                responseBill()
-        );
-    }
-
-    public static BillDto responseBill() {
-        return new BillDto(
-                1L,
-                BigInteger.valueOf(60L),
-                BigInteger.valueOf(54L),
-                "ethereum",
-                "address",
-                new ArrayList<>(),
-                "crypto",
-                new WhoDto(
-                        1L,
-                        "Vasia",
-                        "Pupkin",
-                        "Galicin"
-                ),
-                new WhomDto(
-                        1L,
-                        "Kolia",
-                        "Zupkin",
-                        "Shmiga"
-                )
-        );
-    }
-
-    public static BillDto requestBill() {
-        return new BillDto(
-                BigInteger.valueOf(60L),
-                BigInteger.valueOf(54L),
-                "ethereum",
-                "address",
-                new ArrayList<>(),
-                "crypto",
-                new WhoDto(
-                        1L,
-                        "Vasia",
-                        "Pupkin",
-                        "Galicin"
-                ),
-                new WhomDto(
-                        1L,
-                        "Kolia",
-                        "Zupkin",
-                        "Shmiga"
-                )
+                delivery()
         );
     }
 
     public static OrderDetailDto payload() {
         return new OrderDetailDto(
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_SA,
                 AMOUNT,
                 OrderStatus.open,
-                delivery(),
-                requestBill()
+                delivery()
         );
     }
 
     public static OrderDetail orderDetail() {
         return new OrderDetail(
                 CUSTOMER_ID,
-                PRODUCT_IDS,
                 AMOUNT,
                 USER_ID,
-                BILL_ID,
                 OrderStatus.open
         );
     }
@@ -207,45 +143,89 @@ public class OrdersDetailControllerMocks {
         );
     }
 
-    public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
-            new ProductDto(
+    public static List<OrderItemDto> ITEMS_FOR_EQ = List.of(
+            new OrderItemDto(
                     1L,
-                    "Brand1",
-                    "Nokia",
-                    new BigDecimal("12.2"),
-                    25,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
+                    new ProductDto(
+                            1L,
+                            "Brand1",
+                            "Nokia",
+                            new BigDecimal("12.2"),
+                            25,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
             ),
-            new ProductDto(
+            new OrderItemDto(
                     2L,
-                    "Brand2",
-                    "IPhone",
-                    new BigDecimal("100.2"),
-                    100,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
+                    new ProductDto(
+                            2L,
+                            "Brand2",
+                            "IPhone",
+                            new BigDecimal("100.2"),
+                            100,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
+            )
+    );
+
+    public static List<OrderItemDto> ITEMS_FOR_SA = List.of(
+            new OrderItemDto(
+                    null,
+                    new ProductDto(
+                            1L,
+                            "Brand1",
+                            "Nokia",
+                            new BigDecimal("12.2"),
+                            25,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
             ),
-            new ProductDto(
-                    3L,
-                    "Brand3",
-                    "Sumsung",
-                    new BigDecimal("50.2"),
-                    500,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
+            new OrderItemDto(
+                    null,
+                    new ProductDto(
+                            2L,
+                            "Brand2",
+                            "IPhone",
+                            new BigDecimal("100.2"),
+                            100,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
             )
     );
 
