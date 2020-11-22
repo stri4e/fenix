@@ -11,6 +11,18 @@ import java.util.List;
 
 public class StatisticsControllerMocks {
 
+    public static List<CommentDto> COMMENTS = List.of(
+            commentOne(),
+            commentTwo(),
+            commentThree()
+    );
+
+    public static List<SpecificationDto> SPECIFICATIONS = List.of(
+            specificationOne(),
+            specificationTwo(),
+            specificationThree()
+    );
+
     public static LoginDto request() {
         return new LoginDto(
             null,
@@ -122,9 +134,53 @@ public class StatisticsControllerMocks {
             oneView(), twoView(), threeView(), fourView(), fiveView()
     );
 
+    public static List<OrderItemDto> ITEMS_FOR_EQ = List.of(
+            new OrderItemDto(
+                    1L,
+                    new ProductDto(
+                            1L,
+                            "Brand1",
+                            "Nokia",
+                            new BigDecimal("12.2"),
+                            25,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
+            ),
+            new OrderItemDto(
+                    2L,
+                    new ProductDto(
+                            2L,
+                            "Brand2",
+                            "IPhone",
+                            new BigDecimal("100.2"),
+                            100,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
+            )
+    );
+
     public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
             new ProductDto(
                     1L,
+                    "brand",
                     "Nokia",
                     new BigDecimal("12.2"),
                     25,
@@ -133,10 +189,12 @@ public class StatisticsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     null,
                     null,
-                    "subcategory"
+                    "subcategory",
+                    0
             ),
             new ProductDto(
                     2L,
+                    "brand",
                     "IPhone",
                     new BigDecimal("100.2"),
                     100,
@@ -145,10 +203,12 @@ public class StatisticsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     null,
                     null,
-                    "subcategory"
+                    "subcategory",
+                    0
             ),
             new ProductDto(
                     3L,
+                    "brand",
                     "Sumsung",
                     new BigDecimal("50.2"),
                     500,
@@ -157,10 +217,12 @@ public class StatisticsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     null,
                     null,
-                    "subcategory"
+                    "subcategory",
+                    0
             ),
             new ProductDto(
                     4L,
+                    "brand",
                     "Xiaomi",
                     new BigDecimal("14.2"),
                     100,
@@ -169,10 +231,12 @@ public class StatisticsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     null,
                     null,
-                    "subcategory"
+                    "subcategory",
+                    0
             ),
             new ProductDto(
                     5L,
+                    "brand",
                     "Huawei",
                     new BigDecimal("24.2"),
                     560,
@@ -181,7 +245,8 @@ public class StatisticsControllerMocks {
                     Lists.newArrayList("1", "2", "3"),
                     null,
                     null,
-                    "subcategory"
+                    "subcategory",
+                    0
             )
     );
 
@@ -195,11 +260,20 @@ public class StatisticsControllerMocks {
                             "albert@yandex.ru",
                             addressDto()
                     ),
-                    PRODUCTS_DTO,
+                    ITEMS_FOR_EQ,
                     new BigDecimal("12.2"),
-                    "open",
-                    delivery(),
-                    bill()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     2L,
@@ -210,11 +284,20 @@ public class StatisticsControllerMocks {
                             "zigmud@gmail.com",
                             addressDto()
                     ),
-                    PRODUCTS_DTO,
+                    ITEMS_FOR_EQ,
                     new BigDecimal("220.254"),
-                    "open",
-                    delivery(),
-                    bill()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             ),
             new OrderDetailDto(
                     4L,
@@ -225,48 +308,22 @@ public class StatisticsControllerMocks {
                             "jolobock@gmail.com",
                             addressDto()
                     ),
-                    PRODUCTS_DTO,
+                    ITEMS_FOR_EQ,
                     new BigDecimal("1111.11"),
-                    "open",
-                    delivery(),
-                    bill()
+                    BigDecimal.TEN,
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    "default",
+                    BigDecimal.TEN,
+                    "open"
             )
     );
-
-    public static BillDto bill() {
-        return new BillDto(
-                1L,
-                BigInteger.valueOf(60L),
-                BigInteger.valueOf(54L),
-                "ethereum",
-                "address",
-                new ArrayList<>(),
-                "crypto",
-                "def",
-                new WhoDto(
-                        1L,
-                        "Vasia",
-                        "Pupkin",
-                        "Galicin"
-                ),
-                new WhomDto(
-                        1L,
-                        "Kolia",
-                        "Zupkin",
-                        "Shmiga"
-                )
-        );
-    }
-
-    public static DeliveryDto delivery() {
-        return new DeliveryDto(
-                1L,
-                "home",
-                "Nowa poshta",
-                addressDto(),
-                new BigDecimal("50.2")
-        );
-    }
 
     public static AddressDto addressDto() {
         return new AddressDto(
@@ -274,11 +331,59 @@ public class StatisticsControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000,
-                "customer"
+                "49000"
+        );
+    }
+
+
+    public static SpecificationDto specificationOne() {
+        return new SpecificationDto(
+                1L,
+                "specification1",
+                "This is specification1"
+        );
+    }
+
+    public static SpecificationDto specificationTwo() {
+        return new SpecificationDto(
+                2L,
+                "specification2",
+                "This is specification2"
+        );
+    }
+
+    public static SpecificationDto specificationThree() {
+        return new SpecificationDto(
+                2L,
+                "specification2",
+                "This is specification2"
+        );
+    }
+
+    public static CommentDto commentOne() {
+        return new CommentDto(
+                1L,
+                "comment1",
+                "This is comment1"
+        );
+    }
+
+    public static CommentDto commentTwo() {
+        return new CommentDto(
+                2L,
+                "comment2",
+                "This is comment2"
+        );
+    }
+
+    public static CommentDto commentThree() {
+        return new CommentDto(
+                3L,
+                "comment3",
+                "This is comment3"
         );
     }
 

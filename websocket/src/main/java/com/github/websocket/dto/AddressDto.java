@@ -1,4 +1,4 @@
-package com.github.admins.dto;
+package com.github.websocket.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

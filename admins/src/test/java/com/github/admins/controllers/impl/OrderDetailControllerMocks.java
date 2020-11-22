@@ -4,8 +4,6 @@ import com.github.admins.dto.*;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailControllerMocks {
@@ -381,26 +379,16 @@ public class OrderDetailControllerMocks {
             )
     );
 
-    public static DeliveryDto delivery() {
-        return new DeliveryDto(
-                1L,
-                "home",
-                "Nowa poshta",
-                addressDto(),
-                new BigDecimal("50.2")
-        );
-    }
-
     public static AddressDto addressDto() {
         return new AddressDto(
                 1L,
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000
+                "49000"
         );
     }
 

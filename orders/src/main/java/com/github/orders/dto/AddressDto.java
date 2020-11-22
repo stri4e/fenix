@@ -24,6 +24,10 @@ public class AddressDto implements Serializable, Cloneable {
     private String country;
 
     @NotBlank
+    @JsonProperty(value = "region")
+    private String region;
+
+    @NotBlank
     @JsonProperty(value = "city")
     private String city;
 
@@ -31,20 +35,16 @@ public class AddressDto implements Serializable, Cloneable {
     @JsonProperty(value = "street")
     private String street;
 
-    @NotNull
+    @NotBlank
     @JsonProperty(value = "streetNumber")
-    private Integer streetNumber;
+    private String streetNumber;
 
-    @JsonProperty(value = "flatNumber")
-    private Integer flatNumber;
+    @NotBlank
+    @JsonProperty(value = "streetNumber")
+    private String flatNumber;
 
-    @JsonProperty(value = "state")
-    private String state;
-
+    @NotBlank
     @JsonProperty(value = "zipCode")
-    private Integer zipCode;
-
-    @JsonProperty(value = "type")
-    private String type;
+    private String zipCode;
 
 }

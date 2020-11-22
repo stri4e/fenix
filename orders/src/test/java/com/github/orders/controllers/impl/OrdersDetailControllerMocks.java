@@ -274,11 +274,10 @@ public class OrdersDetailControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000,
-                "customer"
+                "49000"
         );
     }
 

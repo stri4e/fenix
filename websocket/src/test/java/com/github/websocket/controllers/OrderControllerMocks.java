@@ -59,9 +59,9 @@ public class OrderControllerMocks {
         return new CustomerDto(
                 CUSTOMER_ID,
                 CUSTOMER_NAME,
-                CUSTOMER_ADDRESS,
                 CUSTOMER_EMAIL,
-                CUSTOMER_PHONE
+                CUSTOMER_PHONE,
+                addressDto()
         );
     }
 
@@ -153,6 +153,19 @@ public class OrderControllerMocks {
                 3L,
                 "comment3",
                 "This is comment3"
+        );
+    }
+
+    public static AddressDto addressDto() {
+        return new AddressDto(
+                1L,
+                "Ukraina",
+                "Dnepr",
+                "Julvern",
+                "1",
+                null,
+                null,
+                "49000"
         );
     }
 
