@@ -64,6 +64,8 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public OrderStatus[] findAllOrderStatus() {
         return OrderStatus.values();
     }
