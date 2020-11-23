@@ -32,6 +32,17 @@ public interface IOrdersService {
             }) Pageable pageable
     );
 
+    @GetMapping(path = "/pages/fetch/customers/{customerId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    Page<OrderDetailDto> findCustomerOrders(
+            @PathVariable(name = "customerId") Long customerId,
+            @PageableDefault(page = 0, size = 20)
+            @SortDefault.SortDefaults(value = {
+                    @SortDefault(sort = "createAt", direction = Sort.Direction.DESC),
+            }) Pageable pageable
+    );
+
+
     @GetMapping(
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE

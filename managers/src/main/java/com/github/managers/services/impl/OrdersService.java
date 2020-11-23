@@ -17,6 +17,11 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
+    public Page<OrderDetailDto> findCustomerOrders(Long customerId, Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public Optional<OrderDetailDto> readById(Long id) {
         return Optional.empty();
     }

@@ -27,6 +27,11 @@ public class OrderDetailController implements IOrderDetailController {
     }
 
     @Override
+    public Page<OrderDetailDto> findCustomerOrders(Long customerId, Pageable pageable) {
+        return this.orderService.findCustomerOrders(customerId, pageable);
+    }
+
+    @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto readById(Long orderId) {
