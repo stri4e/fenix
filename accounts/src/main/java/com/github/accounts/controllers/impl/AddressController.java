@@ -41,11 +41,11 @@ public class AddressController implements IAddressController {
         this.addressService.update(
                 payload.getId(),
                 payload.getCountry(),
+                payload.getRegion(),
                 payload.getCity(),
                 payload.getStreet(),
                 payload.getStreetNumber(),
                 payload.getFlatNumber(),
-                payload.getState(),
                 payload.getZipCode()
         );
     }

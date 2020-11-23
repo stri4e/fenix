@@ -28,10 +28,10 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public void update(Long id, String country, String city, String street,
-                       Integer streetNumber, Integer flatNumber, String state, Integer zipCode) {
-        this.addressRepo.update(id, country, city, street,
-                streetNumber, flatNumber, state, zipCode);
+    public void update(Long id, String country, String region, String city, String street,
+                       String streetNumber, String flatNumber, String zipCode) {
+        this.addressRepo.update(id, country, region, city, street,
+                streetNumber, flatNumber, zipCode);
     }
 
 

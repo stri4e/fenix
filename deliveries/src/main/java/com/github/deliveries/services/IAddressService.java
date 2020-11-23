@@ -11,12 +11,12 @@ public interface IAddressService {
     void update(
             Long id,
             String country,
+            String region,
             String city,
             String street,
-            Integer streetNumber,
-            Integer flatNumber,
-            String state,
-            Integer zipCode
+            String streetNumber,
+            String flatNumber,
+            String zipCode
     );
 
 }
