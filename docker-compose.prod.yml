@@ -225,7 +225,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
-    entrypoint: "./deliveries-entrypoint.sh config-server 8888 java ${JAVA_OPTS_BITCOIN} -jar /app/deliveries.jar"
+    entrypoint: "./deliveries-entrypoint.sh config-server 8888 java ${JAVA_OPTS_DELIVERY} -jar /app/deliveries.jar"
   bitcoin:
     container_name: bitcoin
     restart: always
@@ -238,7 +238,7 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
-    entrypoint: "./bitcoin-entrypoint.sh config-server 8888 java ${JAVA_OPTS_EMAILS} -jar /app/bitcoin.jar"
+    entrypoint: "./bitcoin-entrypoint.sh config-server 8888 java ${JAVA_OPTS_BITCOIN} -jar /app/bitcoin.jar"
   ethereum:
     container_name: ethereum
     restart: always
