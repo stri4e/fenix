@@ -2,6 +2,8 @@ package com.github.ethereum.controllers;
 
 import com.github.ethereum.dto.AccountDto;
 import com.github.ethereum.entity.EntityStatus;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,17 +30,35 @@ public interface IAccountController {
             }) Pageable pageable
     );
 
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
-    AccountDto save(@RequestAttribute UUID userId);
+    AccountDto save(@RequestAttribute(name = "userId") UUID userId);
 
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
     @GetMapping(
             path = "/address"
     )
     @ResponseStatus(value = HttpStatus.OK)
-    String findAvailableAddress(@RequestAttribute UUID userId);
+    String findAvailableAddress(@RequestAttribute(name = "userId") UUID userId);
 
     @PutMapping(
             path = "/{address}"

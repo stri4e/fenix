@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public interface IBillsController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto save(@PathVariable Long orderId, @RequestBody BillDto payload);
+    BillDto save(@PathVariable Long orderId, @Valid @RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

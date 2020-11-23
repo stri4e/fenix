@@ -41,6 +41,6 @@ public interface ISubcategoryController {
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void remove(@PathVariable Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

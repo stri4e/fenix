@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/v1/bills")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class BillsController {
     @HystrixCommand
     @ResponseStatus(HttpStatus.CREATED)
     @Logging(isTime = true, isReturn = false)
-    void billNotify(@PathVariable(name = "ending") String ending, @RequestBody BillDto payload) {
+    void billNotify(@PathVariable(name = "ending") String ending, @Valid @RequestBody BillDto payload) {
         this.broker.sendBill(ending, payload);
     }
 

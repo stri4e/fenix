@@ -27,7 +27,7 @@ public interface IContractController {
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody ContractDto payload);
+    void update(@Valid @RequestBody ContractDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

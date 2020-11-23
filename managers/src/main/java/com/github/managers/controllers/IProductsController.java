@@ -45,8 +45,8 @@ public interface IProductsController {
             path = "/{id}/{status}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void changeStatusProduct(
-            @PathVariable Long id,
-            @PathVariable String status
+            @PathVariable(name = "id") Long id,
+            @PathVariable(name = "status") String status
     );
 
     @PutMapping(
@@ -54,7 +54,7 @@ public interface IProductsController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCount(@RequestBody List<Long> payload);
+    void updateBoughtCount(@Valid @RequestBody List<Long> payload);
 
     @PutMapping(
             path = "/single/bought/count/{productId}",

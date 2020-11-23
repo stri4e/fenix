@@ -22,7 +22,7 @@ public interface ICustomerController {
             )
     )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    CustomerDto findByUserId(@RequestAttribute UUID userId);
+    CustomerDto findByUserId(@RequestAttribute(name = "userId") UUID userId);
 
     @GetMapping(
             path = "/fetch/{customerId}",
@@ -43,7 +43,7 @@ public interface ICustomerController {
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    CustomerDto save(@ApiIgnore @RequestAttribute UUID userId,
+    CustomerDto save(@ApiIgnore @RequestAttribute(name = "userId") UUID userId,
                      @RequestBody CustomerDto payload);
 
     @PutMapping

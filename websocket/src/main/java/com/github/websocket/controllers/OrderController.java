@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/v1/push")
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class OrderController {
     @HystrixCommand
     @ResponseStatus(HttpStatus.CREATED)
     @Logging(isTime = true, isReturn = false)
-    public void pushOrder(@RequestBody OrderDetailDto payload) {
+    public void pushOrder(@Valid @RequestBody OrderDetailDto payload) {
         this.broker.sendOrder(payload);
     }
 

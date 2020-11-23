@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IPaymentTypeController {
@@ -14,7 +15,7 @@ public interface IPaymentTypeController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    PaymentTypesDto save(@RequestBody PaymentTypesDto payload);
+    PaymentTypesDto save(@Valid @RequestBody PaymentTypesDto payload);
 
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -35,7 +36,7 @@ public interface IPaymentTypeController {
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody PaymentTypesDto payload);
+    void update(@Valid @RequestBody PaymentTypesDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

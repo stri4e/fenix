@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 public interface IAddressController {
 
     @GetMapping(
@@ -19,9 +21,9 @@ public interface IAddressController {
     )
     @ResponseStatus(value = HttpStatus.CREATED)
     AddressDto save(@PathVariable(name = "deliveryId") Long deliveryId,
-                    @RequestBody AddressDto payload);
+                    @Valid @RequestBody AddressDto payload);
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody AddressDto payload);
+    void update(@Valid @RequestBody AddressDto payload);
 
 }

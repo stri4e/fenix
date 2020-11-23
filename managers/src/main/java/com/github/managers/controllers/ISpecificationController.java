@@ -28,6 +28,6 @@ public interface ISpecificationController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateSpecification(@RequestBody SpecificationDto payload);
+    void updateSpecification(@Valid @RequestBody SpecificationDto payload);
 
 }

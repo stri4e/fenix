@@ -27,7 +27,7 @@ public interface IOrdersDetailController {
     )
     OrderDetailDto save(
             @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
-            @RequestBody @Valid OrderDetailDto payload
+            @Valid @RequestBody OrderDetailDto payload
     );
 
     @GetMapping(

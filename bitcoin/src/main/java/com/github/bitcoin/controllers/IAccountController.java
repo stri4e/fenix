@@ -2,6 +2,8 @@ package com.github.bitcoin.controllers;
 
 import com.github.bitcoin.dto.AccountDto;
 import com.github.bitcoin.entity.EntityStatus;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,14 +30,30 @@ public interface IAccountController {
     );
 
     @PostMapping
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
+    )
     @ResponseStatus(code = HttpStatus.CREATED)
-    void save(@RequestAttribute UUID userId);
+    void save(@RequestAttribute(name = "userId") UUID userId);
 
-    @GetMapping(
-            path = "/address"
+    @GetMapping(path = "/address")
+    @ApiImplicitParams(
+            @ApiImplicitParam(
+                    name = "Authorization",
+                    value = "Access Token",
+                    required = true,
+                    paramType = "header",
+                    example = "Bearer access_token"
+            )
     )
     @ResponseStatus(code = HttpStatus.OK)
-    String findAvailableAddress(@RequestAttribute UUID userId);
+    String findAvailableAddress(@RequestAttribute(name = "userId") UUID userId);
 
     @PutMapping(
             path = "/{address}"

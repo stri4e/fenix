@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.validation.Valid;
+
 public interface ITransferController {
 
     @PostMapping(
@@ -15,7 +17,7 @@ public interface ITransferController {
     @ResponseStatus(code = HttpStatus.CREATED)
     void sendTransfer(
             @PathVariable(value = "billId") Long billId,
-            @RequestBody Receipt payload
+            @Valid @RequestBody Receipt payload
     );
 
 }

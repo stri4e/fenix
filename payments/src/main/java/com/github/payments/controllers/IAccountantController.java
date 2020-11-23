@@ -26,7 +26,7 @@ public interface IAccountantController {
             path = "/edit"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void update(@RequestBody AccountantDto payload);
+    void update(@Valid @RequestBody AccountantDto payload);
 
     @DeleteMapping(
             path = "/edit/{id}"

@@ -60,14 +60,14 @@ public interface IProductsController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCountPlus(@RequestBody List<Long> payload);
+    void updateBoughtCountPlus(@Valid @RequestBody List<Long> payload);
 
     @PutMapping(
             path = "/many/bought/count/minus",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCountMinus(@RequestBody List<Long> payload);
+    void updateBoughtCountMinus(@Valid @RequestBody List<Long> payload);
 
     @PutMapping(
             path = "/single/bought/count/plus/{productId}",
