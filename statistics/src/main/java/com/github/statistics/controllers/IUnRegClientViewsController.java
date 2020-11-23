@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public interface IUnbookedClientViewsController {
+public interface IUnRegClientViewsController {
 
     @PostMapping(
             path = "/{productId}",

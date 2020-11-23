@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "unbooked_client_views", schema = "public")
-public class UnbookedClientView implements Serializable, Cloneable {
+public class UnRegClientView implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -2103010765697840852L;
 
@@ -54,7 +54,7 @@ public class UnbookedClientView implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public UnbookedClientView(String ip, Long productId) {
+    public UnRegClientView(String ip, Long productId) {
         this.ip = ip;
         this.productId = productId;
     }
