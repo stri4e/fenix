@@ -225,11 +225,12 @@ services:
     ports:
       - "8089:8089"
     depends_on:
-      - postgresdb
       - discovery
+      - config-server
+      - gateway
     environment:
-      - "ENVIRONMENT=dev"
-    entrypoint: ./statistics-entrypoint.sh postgresdb 5432 discovery 3000 statistics
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./statistics-entrypoint.sh config-server 8888 java ${JAVA_OPTS_STATISTICS} -jar /app/statistics.jar"
   managers:
     container_name: managers
     restart: always
@@ -237,8 +238,113 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      - postgresdb
       - discovery
+      - config-server
+      - gateway
     environment:
-      - "ENVIRONMENT=dev"
-    entrypoint: ./managers-entrypoint.sh postgresdb 5432 discovery 3000 managers
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./managers-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MANAGERS} -jar /app/managers.jar"
+  payments:
+    container_name: payments
+    restart: always
+    build: ./payments
+    ports:
+      - "8088:8088"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./payments-entrypoint.sh config-server 8888 java ${JAVA_OPTS_PAYMENTS} -jar /app/payments.jar"
+  accounts:
+    container_name: accounts
+    restart: always
+    build: ./accounts
+    ports:
+      - "8090:8090"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./accounts-entrypoint.sh config-server 8888 java ${JAVA_OPTS_ACCOUNTS} -jar /app/accounts.jar"
+  geolocation:
+    container_name: geolocation
+    restart: always
+    build: ./geolocation
+    ports:
+      - "8091:8091"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./geolocation-entrypoint.sh config-server 8888 java ${JAVA_OPTS_GEOLOCATION} -jar /app/geolocation.jar"
+  customers:
+    container_name: customers
+    restart: always
+    build: ./customers
+    ports:
+      - "8092:8092"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./customers-entrypoint.sh config-server 8888 java ${JAVA_OPTS_CUSTOMERS} -jar /app/customers.jar"
+  deliveries:
+    container_name: deliveries
+    restart: always
+    build: ./deliveries
+    ports:
+      - "8093:8093"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./deliveries-entrypoint.sh config-server 8888 java ${JAVA_OPTS_EMAILS} -jar /app/deliveries.jar"
+  bitcoin:
+    container_name: bitcoin
+    restart: always
+    build: ./bitcoin
+    ports:
+      - "8095:8095"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./bitcoin-entrypoint.sh config-server 8888 java ${JAVA_OPTS_BITCOIN} -jar /app/bitcoin.jar"
+  ethereum:
+    container_name: ethereum
+    restart: always
+    build: ./ethereum
+    ports:
+      - "8096:8096"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./ethereum-entrypoint.sh config-server 8888 java ${JAVA_OPTS_ETHEREUM} -jar /app/ethereum.jar"
+  master-card:
+    container_name: master-card
+    restart: always
+    build: ./master-card
+    ports:
+      - "8097:8097"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./master-card-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MASTER_CARD} -jar /app/master-card.jar"
