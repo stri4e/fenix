@@ -1,7 +1,7 @@
 package com.github.users.center.services;
 
-import com.github.users.center.dto.LoginDto;
-import com.github.users.center.services.impl.LoginsService;
+import com.github.users.center.dto.ClientDto;
+import com.github.users.center.services.impl.ClientService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @FeignClient(
         name = "statistics",
-        fallback = LoginsService.class,
-        contextId = "loginsId"
+        fallback = ClientService.class,
+        contextId = "clientsId"
 )
-public interface ILoginsService {
+public interface IClientService {
 
     @PostMapping(
-            path = "/v1/logins/edit",
+            path = "/v1/clients/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
-    void createLogin(@RequestBody LoginDto payload);
+    void create(@RequestBody ClientDto payload);
 
 }

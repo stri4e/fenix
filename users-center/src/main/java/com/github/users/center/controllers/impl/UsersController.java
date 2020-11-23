@@ -1,10 +1,7 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IUsersController;
-import com.github.users.center.dto.AccountDto;
-import com.github.users.center.dto.LoginDto;
-import com.github.users.center.dto.UserAuthDto;
-import com.github.users.center.dto.UserRegDto;
+import com.github.users.center.dto.*;
 import com.github.users.center.entity.ConfirmToken;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Conflict;
@@ -21,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.concurrent.CompletableFuture;
 
 import static com.github.users.center.dto.AccountDto.accountDef;
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.ROLE_USER;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +43,8 @@ public class UsersController implements IUsersController {
 
     private final IAccountsService accountsService;
 
+    private final IClientService clientService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -56,12 +55,16 @@ public class UsersController implements IUsersController {
             this.userService.create(user);
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
-            CompletableFuture.runAsync(() -> this.registration(user, origin, ct));
-            CompletableFuture.runAsync(() -> this.accountsService.createAccount(
+            runAsync(() -> this.registration(user, origin, ct));
+            runAsync(() -> this.accountsService.createAccount(
                     user.getId(), accountDef(user.getFName(), user.getLName(), user.getEmail())
             ));
+            runAsync(() -> this.clientService.create(
+                    new ClientDto(user.getFName(), user.getLName(), user.getEmail())
+            ));
+        } else {
+            throw new Conflict();
         }
-        throw new Conflict();
     }
 
     @Override
@@ -74,7 +77,7 @@ public class UsersController implements IUsersController {
         User user = this.userService.readByEmailOrLogin(userName, userName);
         if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
             var token = this.jwtTokenProvider.userAccessToken(user);
-            CompletableFuture.runAsync(() -> logins(token, user, ip, userAgent));
+            runAsync(() -> logins(token, user, ip, userAgent));
             return new JwtAuthResponse(token);
         }
         throw new Unauthorized();

@@ -1,4 +1,4 @@
-package com.github.users.center.dto;
+package com.github.statistics.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -7,13 +7,18 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Map;
-import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginDto {
+@AllArgsConstructor
+public class LoginDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 3647384241828366594L;
+
+    @JsonProperty(value = "id")
+    private Long id;
 
     @JsonProperty(value = "token")
     @NotNull(message = "Required field not null")
@@ -25,7 +30,6 @@ public class LoginDto {
 
     @JsonProperty(value = "information")
     @NotNull(message = "Required field not blank")
-    private Map<String, Object> information;
-
+    private Map<String, String> information;
 
 }

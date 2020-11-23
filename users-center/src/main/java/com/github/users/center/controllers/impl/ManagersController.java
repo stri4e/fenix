@@ -63,8 +63,9 @@ public class ManagersController implements IManagersController {
             runAsync(() -> this.staffService.createStaff(
                     user.getId(), new StaffDto(user.getFName(), user.getLName(), user.getEmail())
             ));
+        } else {
+            throw new Conflict();
         }
-        throw new Conflict();
     }
 
     @Override

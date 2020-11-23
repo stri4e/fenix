@@ -57,8 +57,9 @@ public class AdminController implements IAdminController {
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
             CompletableFuture.runAsync(() -> registration(user, origin, ct));
+        } else {
+            throw new Conflict();
         }
-        throw new Conflict();
     }
 
     @Override
