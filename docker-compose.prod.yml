@@ -48,7 +48,7 @@ services:
     restart: always
     build: ./admins
     ports:
-      - "8585:8585"
+      - "8083:8083"
     depends_on:
       - discovery
       - config-server
@@ -61,7 +61,7 @@ services:
     restart: always
     build: ./emails
     ports:
-      - "8689:8689"
+      - "8087:8087"
     depends_on:
       - discovery
       - config-server
@@ -74,7 +74,7 @@ services:
     restart: always
     build: ./monitoring
     ports:
-      - "8281:8281"
+      - "3032:3032"
     depends_on:
       - discovery
       - config-server
@@ -82,12 +82,12 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
     entrypoint: ./monitoring-entrypoint.sh config-server 8888 java -jar /app/monitoring.jar
-  orders-service:
-    container_name: orders-service
+  orders:
+    container_name: orders
     restart: always
     build: ./orders
     ports:
-      - "8687:8687"
+      - "8086:8086"
     depends_on:
       - discovery
       - config-server
@@ -95,12 +95,12 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     entrypoint: ./orders-entrypoint.sh config-server 8888 java -jar /app/orders.jar
-  products-service:
-    container_name: products-service
+  products:
+    container_name: products
     restart: always
     build: ./products
     ports:
-      - "8686:8686"
+      - "8085:8085"
     depends_on:
       - discovery
       - config-server
@@ -113,7 +113,7 @@ services:
     restart: always
     build: ./users-center
     ports:
-      - "8587:8587"
+      - "8082:8082"
     depends_on:
       - discovery
       - config-server
@@ -126,7 +126,7 @@ services:
     restart: always
     build: ./websocket
     ports:
-      - "8187:8187"
+      - "8094:8094"
     depends_on:
       - discovery
       - config-server
@@ -140,7 +140,7 @@ services:
     restart: always
     build: ./statistics
     ports:
-      - "8787:8787"
+      - "8089:8089"
     depends_on:
       - postgresdb
       - discovery
@@ -152,7 +152,7 @@ services:
     restart: always
     build: ./managers
     ports:
-      - "8887:8887"
+      - "8084:8084"
     depends_on:
       - postgresdb
       - discovery

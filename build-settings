@@ -11,6 +11,14 @@
     "users-center",
     "websocket",
     "statistics",
-    "managers"
+    "managers",
+    "accounts",
+    "geolocation",
+    "deliveries",
+    "customers",
+    "ethereum",
+    "bitcoin",
+    "master-card",
+    "payments"
   ]
 }

@@ -2,7 +2,7 @@ FROM openjdk:11-jre-slim
 RUN apt-get update
 RUN apt install -y netcat
 COPY build/libs/*.jar /app/products.jar
-EXPOSE 8686
+EXPOSE 8085
 RUN sh -c 'touch /app/products.jar'
 ENTRYPOINT [ "sh", "-c", "java  $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app/products.jar" ]
 COPY /products-entrypoint.sh /products-entrypoint.sh
