@@ -107,4 +107,16 @@ public class ProductDto implements Serializable, Cloneable {
     @NotNull(message = "BoughtCount Name is required.")
     private Integer boughtCount = 0;
 
+    @ApiModelProperty(
+            value = "Product stock name"
+    )
+    @JsonProperty(value = "stockName")
+    private String stockName;
+
+    @ApiModelProperty(
+            value = "Product stock number"
+    )
+    @JsonProperty(value = "stockNumber")
+    private String stockNumber;
+
 }

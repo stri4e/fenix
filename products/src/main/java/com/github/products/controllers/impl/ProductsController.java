@@ -2,12 +2,10 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
-import com.github.products.entity.Brand;
-import com.github.products.entity.EntityStatus;
-import com.github.products.entity.Product;
-import com.github.products.entity.Subcategory;
+import com.github.products.entity.*;
 import com.github.products.services.IBrandService;
 import com.github.products.services.IProductService;
+import com.github.products.services.IStocksService;
 import com.github.products.services.ISubcategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
@@ -35,6 +33,8 @@ public class ProductsController implements IProductsController {
 
     private final IBrandService brandService;
 
+    private final IStocksService stocksService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -49,12 +49,11 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto save(String subcategoryName, String brandName, @Valid ProductDto payload) {
-        Subcategory category = this.subCategoryService.readByName(subcategoryName);
-        Brand brand = this.brandService.readByName(brandName);
-        Product tmp = toProduct(payload);
-        tmp.setSubcategory(category);
-        tmp.setBrand(brand);
+    public ProductDto save(@Valid ProductDto payload) {
+        Subcategory category = this.subCategoryService.readByName(payload.getSubcategoryName());
+        Brand brand = this.brandService.readByName(payload.getBrandName());
+        Stock stock = this.stocksService.readByNameAndNumber(payload.getStockName(), payload.getStockNumber());
+        Product tmp = toProduct(payload).subcategory(category).brand(brand).stock(stock);
         Product product = this.productService.create(tmp);
         return fromProduct(product);
     }

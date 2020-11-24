@@ -11,14 +11,10 @@ import java.util.List;
 public interface IProductsController {
 
     @PostMapping(
-            path = "/{subcategoryName}/{brandName}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto save(@PathVariable(name = "subcategoryName") String subcategoryName,
-                    @PathVariable(name = "brandName") String brandName,
-                    @Valid @RequestBody ProductDto payload
-    );
+    ProductDto save(@Valid @RequestBody ProductDto payload);
 
     @GetMapping(
             path = "/{id}",

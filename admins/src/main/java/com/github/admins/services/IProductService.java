@@ -17,14 +17,10 @@ import java.util.Optional;
 public interface IProductService {
 
     @PostMapping(
-            path = "/v1/edit/{subcategoryName}/{brandName}",
+            path = "/v1/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<ProductDto> create(
-            @PathVariable(name = "subcategoryName") String subcategoryName,
-            @PathVariable(name = "brandName") String brandName,
-            @RequestBody ProductDto p
-    );
+    Optional<ProductDto> create(@RequestBody ProductDto p);
 
     @GetMapping(
             path = "/v1/fetch/{id}",

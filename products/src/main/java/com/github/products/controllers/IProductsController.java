@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public interface IProductsController {
@@ -15,19 +14,14 @@ public interface IProductsController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<ProductDto> searchProduct(
-            @NotBlank @RequestParam(name = "searchLine") String searchLine
-    );
+    List<ProductDto> searchProduct(@RequestParam(name = "searchLine") String searchLine);
 
     @PostMapping(
-            path = "/edit/{subcategory_name}/{brand_name}",
+            path = "/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto save(@PathVariable(name = "subcategory_name") String subcategoryName,
-                    @PathVariable(name = "brand_name") String brandName,
-                    @Valid @RequestBody ProductDto payload
-    );
+    ProductDto save(@Valid @RequestBody ProductDto payload);
 
     @GetMapping(
             path = "/fetch",

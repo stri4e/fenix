@@ -88,6 +88,16 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     private Brand brand;
 
+    @ManyToOne(
+            targetEntity = Stock.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "stock_id"
+    )
+    private Stock stock;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.off;
@@ -114,6 +124,21 @@ public class Product extends Item implements Serializable, Cloneable {
         if (Objects.nonNull(c)) {
             this.criteria.addAll(c);
         }
+    }
+
+    public Product subcategory(Subcategory subcategory) {
+        this.subcategory = subcategory;
+        return this;
+    }
+
+    public Product brand(Brand brand) {
+        this.brand = brand;
+        return this;
+    }
+
+    public Product stock(Stock stock) {
+        this.stock = stock;
+        return this;
     }
 
 }
