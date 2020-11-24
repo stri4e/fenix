@@ -2,7 +2,7 @@ spring:
   zipkin:
     enabled: false
   application:
-    name: deliveries
+    name: customers
   cloud:
     config:
       enabled: false

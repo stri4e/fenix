@@ -1,7 +1,7 @@
 package com.github.statistics.services.impl;
 
 import com.github.statistics.entity.Login;
-import com.github.statistics.repositoty.LoginsRepo;
+import com.github.statistics.repository.LoginsRepo;
 import com.github.statistics.services.ILoginsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

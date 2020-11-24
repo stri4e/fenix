@@ -1,7 +1,7 @@
 package com.github.statistics.services.impl;
 
 import com.github.statistics.entity.UnRegClientView;
-import com.github.statistics.repositoty.UnRegClientViewsRepo;
+import com.github.statistics.repository.UnRegClientViewsRepo;
 import com.github.statistics.services.IUnRegClientViewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Data
 @NoArgsConstructor
@@ -116,6 +117,11 @@ public class OrderDetailDto implements Serializable, Cloneable {
         this.deliveryData = deliveryData;
         this.deliveryAmount = deliveryAmount;
         this.status = status;
+    }
+
+    public OrderDetailDto and(Consumer<OrderDetailDto> consumer) {
+        consumer.accept(this);
+        return this;
     }
 
 }

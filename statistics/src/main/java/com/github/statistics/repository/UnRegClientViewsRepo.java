@@ -1,4 +1,4 @@
-package com.github.statistics.repositoty;
+package com.github.statistics.repository;
 
 import com.github.statistics.entity.UnRegClientView;
 import org.springframework.data.jpa.repository.JpaRepository;

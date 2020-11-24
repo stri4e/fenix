@@ -67,10 +67,10 @@ public class CustomerControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
+                "unknown",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 
@@ -80,10 +80,10 @@ public class CustomerControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
+                "unknown",
                 null,
-                null,
-                49000
+                "49000"
         );
     }
 

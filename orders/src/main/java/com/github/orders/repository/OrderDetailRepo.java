@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -28,6 +29,13 @@ public interface OrderDetailRepo extends
     Page<OrderDetail> findByStaffIdNull(Pageable pageable);
 
     Page<OrderDetail> findByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable);
+
+    Optional<Integer> countAllByCustomerId(Long customerId);
+
+    Optional<Integer> countAllByCustomerIdAndStatus(Long customerId, OrderStatus status);
+
+    @Query(value = "select od.customerId from OrderDetail od where od.id=:orderId")
+    Optional<Long> findCustomerIdByOrderId(@Param(value = "orderId") Long orderId);
 
     @Modifying
     @Query(value = "update OrderDetail o set o.status =:status where o.id =:id")

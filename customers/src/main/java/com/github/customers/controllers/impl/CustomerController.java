@@ -2,13 +2,16 @@ package com.github.customers.controllers.impl;
 
 import com.github.customers.controllers.ICustomerController;
 import com.github.customers.dto.CustomerDto;
+import com.github.customers.entity.Customer;
 import com.github.customers.services.ICustomerService;
+import com.github.customers.services.ICustomerStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+import static com.github.customers.entity.CustomerStatistics.defCustomerStat;
 import static com.github.customers.utils.TransferObj.fromCustomer;
 import static com.github.customers.utils.TransferObj.toCustomer;
 
@@ -18,6 +21,8 @@ import static com.github.customers.utils.TransferObj.toCustomer;
 public class CustomerController implements ICustomerController {
 
     private final ICustomerService customerService;
+
+    private final ICustomerStatisticsService customerStatisticsService;
 
     @Override
     public CustomerDto findByUserId(UUID userId) {
@@ -31,9 +36,9 @@ public class CustomerController implements ICustomerController {
 
     @Override
     public CustomerDto save(UUID userId, CustomerDto payload) {
-        return fromCustomer(
-                this.customerService.create(toCustomer(payload, userId))
-        );
+        Customer customer = this.customerService.create(toCustomer(payload, userId));
+        this.customerStatisticsService.create(defCustomerStat(customer));
+        return fromCustomer(customer);
     }
 
     @Override

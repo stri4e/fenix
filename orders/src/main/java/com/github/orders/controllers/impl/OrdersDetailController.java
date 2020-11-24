@@ -1,7 +1,9 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.controllers.IOrdersDetailController;
-import com.github.orders.dto.*;
+import com.github.orders.dto.CustomerDto;
+import com.github.orders.dto.OrderDetailDto;
+import com.github.orders.dto.ProductDto;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderItem;
 import com.github.orders.entity.OrderStatus;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.github.orders.entity.OrderStatus.canceling;
+import static com.github.orders.entity.OrderStatus.returned;
 import static com.github.orders.payload.EmailNotification.registrationOrderNotify;
 import static com.github.orders.utils.TransferObj.*;
 import static java.util.concurrent.CompletableFuture.runAsync;
@@ -40,6 +42,8 @@ public class OrdersDetailController implements IOrdersDetailController {
 
     private final IEmailService emailService;
 
+    private final ICustomerStatisticsService customerStatisticsService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -48,16 +52,24 @@ public class OrdersDetailController implements IOrdersDetailController {
                 payload.getOrderItems().stream()
                         .map(TransferObj::toOrderItem)
                         .collect(Collectors.toList()));
-        OrderDetailDto result = fromOrderDetail(
+        return fromOrderDetail(
                 this.orderService.crete(toOrderDetail(payload, items, userId)),
                 payload.getCustomer(),
                 fromOrderItems(items, payload.getOrderItems())
-        );
-        runAsync(() -> this.ordersNotify.orderNotify(result));
-        runAsync(() -> this.emailService.registrationOrderNotify(
-                registrationOrderNotify(result)
-        ));
-        return result;
+        ).and(this::andAsync);
+    }
+
+    private void andAsync(OrderDetailDto order) {
+        runAsync(() -> {
+            Long customerId = order.getCustomer().getId();
+            this.ordersNotify.orderNotify(order);
+            this.customerStatisticsService.updateTotalOrders(
+                    customerId, this.orderService.countTotalByCustomerId(customerId)
+            );
+            this.emailService.registrationOrderNotify(
+                    registrationOrderNotify(order)
+            );
+        });
     }
 
     @Override
@@ -93,6 +105,24 @@ public class OrdersDetailController implements IOrdersDetailController {
     @Logging(isTime = true, isReturn = false)
     public void updateStatus(Long orderId, OrderStatus status) {
         this.orderService.update(orderId, status);
+        if (!status.nonStat()) {
+            runAsync(() -> this.statistics(orderId, status));
+        }
+    }
+
+    private void statistics(Long orderId, OrderStatus status) {
+        status.done(
+                orderId,
+                this.orderService::readCustomerIdByOrderId,
+                this.orderService::countSuccessByCustomerId,
+                this.customerStatisticsService::updateSuccessOrders
+        );
+        status.returned(
+                orderId,
+                this.orderService::readCustomerIdByOrderId,
+                this.orderService::countReturnedByCustomerId,
+                this.customerStatisticsService::updateReturnedOrders
+        );
     }
 
     @Override
@@ -106,7 +136,16 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        this.orderService.update(id, canceling);
+        this.orderService.update(id, returned);
+        runAsync(() -> this.statistics(id));
+    }
+
+    private void statistics(Long orderId) {
+        var customerId = this.orderService.readCustomerIdByOrderId(orderId);
+        this.customerStatisticsService.updateReturnedOrders(
+                customerId,
+                this.orderService.countReturnedByCustomerId(customerId)
+        );
     }
 
 }

@@ -13,6 +13,8 @@ public interface IOrderDetailService {
 
     OrderDetail readById(Long orderId);
 
+    Long readCustomerIdByOrderId(Long orderId);
+
     Page<OrderDetail> readUserId(UUID userId, Pageable pageable);
 
     Page<OrderDetail> readByCustomerId(Long customerId, Pageable pageable);
@@ -22,6 +24,12 @@ public interface IOrderDetailService {
     Page<OrderDetail> readByStaffIdNull(Pageable pageable);
 
     Page<OrderDetail> readByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable);
+
+    Integer countTotalByCustomerId(Long customerId);
+
+    Integer countSuccessByCustomerId(Long customerId);
+
+    Integer countReturnedByCustomerId(Long customerId);
 
     void update(Long id, OrderStatus status);
 

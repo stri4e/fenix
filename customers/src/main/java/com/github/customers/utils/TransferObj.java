@@ -2,8 +2,10 @@ package com.github.customers.utils;
 
 import com.github.customers.dto.AddressDto;
 import com.github.customers.dto.CustomerDto;
+import com.github.customers.dto.CustomerStatisticsDto;
 import com.github.customers.entity.Address;
 import com.github.customers.entity.Customer;
+import com.github.customers.entity.CustomerStatistics;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -54,6 +56,15 @@ public class TransferObj {
                 data.getStreetNumber(),
                 data.getFlatNumber(),
                 data.getZipCode()
+        );
+    }
+
+    public static CustomerStatisticsDto fromCustomerStatistics(CustomerStatistics data) {
+        return new CustomerStatisticsDto(
+                data.getId(),
+                data.getTotalOrders(),
+                data.getSuccessOrders(),
+                data.getReturnedOrders()
         );
     }
 

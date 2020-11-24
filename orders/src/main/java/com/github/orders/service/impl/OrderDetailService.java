@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
+import static com.github.orders.entity.OrderStatus.done;
+import static com.github.orders.entity.OrderStatus.returned;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,6 +38,12 @@ public class OrderDetailService implements IOrderDetailService {
     @Cacheable(value = "order", key = "#orderId")
     public OrderDetail readById(Long orderId) {
         return this.orderRepo.findById(orderId)
+                .orElseThrow(NotFound::new);
+    }
+
+    @Override
+    public Long readCustomerIdByOrderId(Long orderId) {
+        return this.orderRepo.findCustomerIdByOrderId(orderId)
                 .orElseThrow(NotFound::new);
     }
 
@@ -65,6 +74,24 @@ public class OrderDetailService implements IOrderDetailService {
     @Cacheable(value = "orders", key = "#staffId", unless = "#result.getTotalElements() == 0")
     public Page<OrderDetail> readByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable) {
         return this.orderRepo.findByStaffIdAndStatus(staffId, status, pageable);
+    }
+
+    @Override
+    public Integer countTotalByCustomerId(Long customerId) {
+        return this.orderRepo.countAllByCustomerId(customerId)
+                .orElse(0);
+    }
+
+    @Override
+    public Integer countSuccessByCustomerId(Long customerId) {
+        return this.orderRepo.countAllByCustomerIdAndStatus(customerId, done)
+                .orElse(0);
+    }
+
+    @Override
+    public Integer countReturnedByCustomerId(Long customerId) {
+        return this.orderRepo.countAllByCustomerIdAndStatus(customerId, returned)
+                .orElse(0);
     }
 
     @Override
