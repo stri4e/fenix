@@ -30,17 +30,17 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 @RequestMapping(path = "/v1")
 public class OrdersDetailController implements IOrdersDetailController {
 
-    private final IOrderDetailService orderService;
-
-    private final IOrderItemsService orderItemsService;
-
-    private final ICustomerService customerService;
-
-    private final IProductService productService;
-
     private final IOrdersNotify ordersNotify;
 
     private final IEmailService emailService;
+
+    private final IProductService productService;
+
+    private final ICustomerService customerService;
+
+    private final IOrderDetailService orderService;
+
+    private final IOrderItemsService orderItemsService;
 
     private final ICustomerStatisticsService customerStatisticsService;
 
