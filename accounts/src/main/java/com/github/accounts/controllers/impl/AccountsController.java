@@ -76,14 +76,12 @@ public class AccountsController implements IAccountsController {
                         this.addressService.create(toAddress(payload.getAddress()))
                 )
         )).and(account ->
-                runAsync(() ->
-                        this.customerService.saveCustomer(
-                                userId,
-                                new CustomerDto(
-                                        payload.getProfile(),
-                                        payload.getContact(),
-                                        payload.getAddress()
-                                )
+                this.customerService.saveCustomer(
+                        userId,
+                        new CustomerDto(
+                                payload.getProfile(),
+                                payload.getContact(),
+                                payload.getAddress()
                         )
                 )
         );

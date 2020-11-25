@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 @Data
@@ -120,7 +121,7 @@ public class OrderDetailDto implements Serializable, Cloneable {
     }
 
     public OrderDetailDto and(Consumer<OrderDetailDto> consumer) {
-        consumer.accept(this);
+        CompletableFuture.runAsync(() -> consumer.accept(this));
         return this;
     }
 

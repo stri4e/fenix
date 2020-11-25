@@ -60,16 +60,14 @@ public class OrdersDetailController implements IOrdersDetailController {
     }
 
     private void andAsync(OrderDetailDto order) {
-        runAsync(() -> {
-            Long customerId = order.getCustomer().getId();
-            this.ordersNotify.orderNotify(order);
-            this.customerStatisticsService.updateTotalOrders(
-                    customerId, this.orderService.countTotalByCustomerId(customerId)
-            );
-            this.emailService.registrationOrderNotify(
-                    registrationOrderNotify(order)
-            );
-        });
+        Long customerId = order.getCustomer().getId();
+        this.ordersNotify.orderNotify(order);
+        this.customerStatisticsService.updateTotalOrders(
+                customerId, this.orderService.countTotalByCustomerId(customerId)
+        );
+        this.emailService.registrationOrderNotify(
+                registrationOrderNotify(order)
+        );
     }
 
     @Override

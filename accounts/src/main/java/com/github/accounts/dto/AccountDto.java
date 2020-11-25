@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 @Data
@@ -36,7 +37,7 @@ public class AccountDto implements Serializable, Cloneable {
     private List<ProductDto> views;
 
     public AccountDto and(Consumer<AccountDto> consumer) {
-        consumer.accept(this);
+        CompletableFuture.runAsync(() -> consumer.accept(this));
         return this;
     }
 
