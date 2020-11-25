@@ -112,13 +112,13 @@ public class Address implements Serializable, Cloneable {
     public static Address addressDef() {
         return new Address(
                 null,
-                "default",
-                "default",
-                "default",
-                "default",
-                "default",
-                "default",
-                "default"
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown"
         );
     }
 

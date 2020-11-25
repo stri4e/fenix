@@ -61,7 +61,7 @@ public class ManagersController implements IManagersController {
             this.confirmService.create(ct);
             runAsync(() -> registration(user, origin, ct));
             runAsync(() -> this.staffService.createStaff(
-                    user.getId(), new StaffDto(user.getFName(), user.getLName(), user.getEmail())
+                    user.getId(), new StaffDto(user.getFName(), user.getLName(), user.getEmail(), user.getPhone())
             ));
         } else {
             throw new Conflict();

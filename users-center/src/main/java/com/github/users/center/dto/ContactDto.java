@@ -19,17 +19,17 @@ public class ContactDto implements Serializable, Cloneable {
     private Long id;
 
     @NotBlank
-    @JsonProperty(value = "phones")
-    private String phones;
+    @JsonProperty(value = "phone")
+    private String phone;
 
     @NotBlank
     @JsonProperty(value = "email")
     private String email;
 
-    public static ContactDto contactDef(String email) {
+    public static ContactDto contactDef(String phone, String email) {
         return new ContactDto(
                 null,
-                "default",
+                phone,
                 email
         );
     }

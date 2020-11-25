@@ -2,6 +2,7 @@ package com.github.accounts.controllers.impl;
 
 import com.github.accounts.controllers.IAccountsController;
 import com.github.accounts.dto.AccountDto;
+import com.github.accounts.dto.CustomerDto;
 import com.github.accounts.dto.ProductDto;
 import com.github.accounts.entity.*;
 import com.github.accounts.services.*;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.accounts.utils.TransferObj.*;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +36,8 @@ public class AccountsController implements IAccountsController {
     private final IAddressService addressService;
 
     private final IContactsService contactsService;
+
+    private final ICustomerService customerService;
 
     @Override
     @HystrixCommand
@@ -70,7 +75,18 @@ public class AccountsController implements IAccountsController {
                         this.contactsService.create(toContact(payload.getContact())),
                         this.addressService.create(toAddress(payload.getAddress()))
                 )
-        ));
+        )).and(account ->
+                runAsync(() ->
+                        this.customerService.saveCustomer(
+                                userId,
+                                new CustomerDto(
+                                        payload.getProfile(),
+                                        payload.getContact(),
+                                        payload.getAddress()
+                                )
+                        )
+                )
+        );
     }
 
     @Override

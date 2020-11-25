@@ -16,6 +16,7 @@ public class CustomerControllerMocks {
                 null,
                 "Vasia",
                 "Utkin",
+                "Utkin",
                 "+7832184214",
                 USER_ID
         );
@@ -25,6 +26,7 @@ public class CustomerControllerMocks {
         return new CustomerDto(
                 1L,
                 "Vasia",
+                "Utkin",
                 "Utkin",
                 "+7832184214",
                 address()
@@ -36,6 +38,7 @@ public class CustomerControllerMocks {
                 1L,
                 "Vasia",
                 "Utkin",
+                "Utkin",
                 "+7832184214",
                 new AddressDto()
         );
@@ -46,6 +49,7 @@ public class CustomerControllerMocks {
                 1L,
                 "Vasia",
                 "Zubkin",
+                "Zubkin",
                 "+7832184214",
                 address()
         );
@@ -55,6 +59,7 @@ public class CustomerControllerMocks {
         return new CustomerDto(
                 1L,
                 "Vasia",
+                "Utkin",
                 "Utkin",
                 "+7832184214",
                 address()

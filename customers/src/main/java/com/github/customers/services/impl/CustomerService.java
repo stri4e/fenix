@@ -35,9 +35,9 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public void update(Long id, String customerName,
+    public void update(Long id, String firstName, String lastName,
                        String customerEmail, String customerPhone) {
-        this.customerRepo.update(id, customerName, customerEmail, customerPhone);
+        this.customerRepo.update(id, firstName, lastName, customerEmail, customerPhone);
     }
 
     @Override

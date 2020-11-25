@@ -23,13 +23,13 @@ public class CustomerDto implements Serializable, Cloneable {
     )
     private Long id;
 
-    @NotBlank(
-            message = "Customer name is required."
-    )
-    @JsonProperty(
-            value = "customerName"
-    )
-    private String customerName;
+    @NotBlank
+    @JsonProperty(value = "firstName")
+    private String firstName;
+
+    @NotBlank
+    @JsonProperty(value = "lastName")
+    private String lastName;
 
     @NotBlank(
             message = "Customer email is required."

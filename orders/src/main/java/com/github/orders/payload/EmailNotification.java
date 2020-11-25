@@ -31,25 +31,26 @@ public class EmailNotification {
         CustomerDto c = order.getCustomer();
         return new EmailNotification(
                 c.getCustomerEmail(),
-                information(order, c.getCustomerName(), c.getCustomerPhone())
+                information(order, c)
         );
     }
 
     private static Map<String, Object>
-    information(OrderDetailDto order, String customerName, String customerPhone) {
+    information(OrderDetailDto order, CustomerDto customer) {
         Map<String, Object> information = Maps.newHashMap();
-        information.put("customerName", customerName);
+        information.put("customerFirstName", customer.getFirstName());
+        information.put("customerLastName", customer.getLastName());
+        information.put("customerPhone", customer.getCustomerPhone());
         information.put("products", order.getOrderItems());
-        information.put("delivery", String.format(
-                "%s, %s, %s, %s",
-                order.getCompany(),
-                order.getCity(),
-                order.getStreet(),
-                order.getStreetNumber()
+        information.put("delivery",
+                String.format(
+                        "%s, %s, %s, %s",
+                        order.getCompany(),
+                        order.getCity(),
+                        order.getStreet(),
+                        order.getStreetNumber()
                 )
         );
-        information.put("customer", String.format("%s, %s", customerName, customerPhone));
-        information.put("recipient", customerName);
         information.put("amount", order.getAmount());
         return information;
     }

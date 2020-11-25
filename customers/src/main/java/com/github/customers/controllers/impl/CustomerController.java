@@ -42,10 +42,18 @@ public class CustomerController implements ICustomerController {
     }
 
     @Override
+    public CustomerDto saveCustomer(UUID userId, CustomerDto payload) {
+        Customer customer = this.customerService.create(toCustomer(payload, userId));
+        this.customerStatisticsService.create(defCustomerStat(customer));
+        return fromCustomer(customer);
+    }
+
+    @Override
     public void updateCustomer(CustomerDto payload) {
         this.customerService.update(
                 payload.getId(),
-                payload.getCustomerName(),
+                payload.getFirstName(),
+                payload.getLastName(),
                 payload.getCustomerEmail(),
                 payload.getCustomerPhone()
         );

@@ -67,8 +67,8 @@ public class Contact implements Serializable, Cloneable {
     public static Contact contactDef() {
         return new Contact(
                 null,
-                "default",
-                "default"
+                "unknown",
+                "unknown"
         );
     }
 

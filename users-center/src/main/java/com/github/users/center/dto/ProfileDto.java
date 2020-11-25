@@ -44,8 +44,8 @@ public class ProfileDto implements Serializable, Cloneable {
                 null,
                 firstName,
                 lastName,
-                "default",
-                "default",
+                "unknown",
+                "unknown",
                 "unknown"
         );
     }

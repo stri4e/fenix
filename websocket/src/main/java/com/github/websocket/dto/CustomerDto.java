@@ -22,8 +22,12 @@ public class CustomerDto implements Serializable, Cloneable {
     private Long id;
 
     @NotBlank
-    @JsonProperty(value = "customerName")
-    private String customerName;
+    @JsonProperty(value = "firstName")
+    private String firstName;
+
+    @NotBlank
+    @JsonProperty(value = "lastName")
+    private String lastName;
 
     @NotBlank
     @JsonProperty(value = "customerEmail")

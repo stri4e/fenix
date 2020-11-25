@@ -19,8 +19,8 @@ public class ContactDto implements Serializable, Cloneable {
     private Long id;
 
     @NotBlank
-    @JsonProperty(value = "phones")
-    private String phones;
+    @JsonProperty(value = "phone")
+    private String phone;
 
     @NotBlank
     @JsonProperty(value = "email")

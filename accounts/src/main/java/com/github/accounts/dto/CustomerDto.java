@@ -1,6 +1,5 @@
-package com.github.orders.dto;
+package com.github.accounts.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +12,10 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CustomerDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6533009128642214593L;
 
-    @NotNull
     @JsonProperty(value = "id")
     private Long id;
 
@@ -41,5 +38,16 @@ public class CustomerDto implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "customerAddress")
     private AddressDto customerAddress;
+
+    public CustomerDto(
+            ProfileDto profile,
+            ContactDto contact,
+            AddressDto customerAddress) {
+        this.firstName = profile.getFirstName();
+        this.lastName = profile.getLastName();
+        this.customerEmail = contact.getEmail();
+        this.customerPhone = contact.getPhone();
+        this.customerAddress = customerAddress;
+    }
 
 }

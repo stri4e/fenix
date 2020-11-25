@@ -30,11 +30,11 @@ public class AccountDto implements Serializable, Cloneable {
     @JsonProperty(value = "address")
     private AddressDto address;
 
-    public static AccountDto accountDef(String firstName, String lastName, String email) {
+    public static AccountDto accountDef(String firstName, String lastName, String phone, String email) {
         return new AccountDto(
                 null,
                 ProfileDto.profileDef(firstName, lastName),
-                ContactDto.contactDef(email),
+                ContactDto.contactDef(phone, email),
                 AddressDto.addressDef()
         );
     }

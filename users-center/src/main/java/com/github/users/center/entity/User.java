@@ -94,6 +94,12 @@ public class User implements Serializable, Cloneable {
     private String pass;
 
     @Column(
+            name = "phone",
+            nullable = false
+    )
+    private String phone;
+
+    @Column(
             name = "is_enable",
             nullable = false,
             columnDefinition = "boolean default false"
@@ -145,6 +151,7 @@ public class User implements Serializable, Cloneable {
             String email,
             String login,
             String pass,
+            String phone,
             Collection<Role> roles
     ) {
         this.fName = fName;
@@ -153,6 +160,7 @@ public class User implements Serializable, Cloneable {
         this.login = login;
         this.pass = pass;
         this.roles = roles;
+        this.phone = phone;
     }
 
 }

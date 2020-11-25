@@ -39,7 +39,7 @@ public class ContactController implements IContactController {
     public void update(ContactDto payload) {
          this.contactsService.update(
                  payload.getId(),
-                 payload.getPhones(),
+                 payload.getPhone(),
                  payload.getEmail()
          );
     }

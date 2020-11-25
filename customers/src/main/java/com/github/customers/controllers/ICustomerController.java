@@ -46,6 +46,14 @@ public interface ICustomerController {
     CustomerDto save(@ApiIgnore @RequestAttribute(name = "userId") UUID userId,
                      @RequestBody CustomerDto payload);
 
+    @PostMapping(
+            path = "/edit/{userId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
+    CustomerDto saveCustomer(@PathVariable(name = "userId") UUID userId,
+                     @RequestBody CustomerDto payload);
+
     @PutMapping
     void updateCustomer(@RequestBody CustomerDto payload);
 

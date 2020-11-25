@@ -41,10 +41,16 @@ public class Customer implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "customer_name",
+            name = "first_name",
             nullable = false
     )
-    private String customerName;
+    private String firstName;
+
+    @Column(
+            name = "last_name",
+            nullable = false
+    )
+    private String lastName;
 
     @Column(
             name = "customer_email",
@@ -98,12 +104,14 @@ public class Customer implements Serializable, Cloneable {
     private LocalDateTime updateAt;
 
     public Customer(Long id,
-                    String customerName,
+                    String firstName,
+                    String lastName,
                     String customerEmail,
                     String customerPhone,
                     UUID userId) {
         this.id = id;
-        this.customerName = customerName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
         this.userId = userId;

@@ -15,16 +15,20 @@ public class StaffDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 5964261600880342887L;
 
-    @NotBlank
+    @NotBlank(message = "Field is required")
     @JsonProperty(value = "firstName")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Field is required")
     @JsonProperty(value = "lastName")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Field is required")
     @JsonProperty(value = "email")
     private String email;
+
+    @NotBlank(message = "Field is required")
+    @JsonProperty(value = "phone")
+    private String phone;
 
 }

@@ -15,7 +15,8 @@ public class TransferObj {
     public static Customer toCustomer(CustomerDto data, UUID userId) {
         return new Customer(
                 data.getId(),
-                data.getCustomerName(),
+                data.getFirstName(),
+                data.getLastName(),
                 data.getCustomerEmail(),
                 data.getCustomerPhone(),
                 userId
@@ -26,7 +27,8 @@ public class TransferObj {
         Address address = data.getAddress();
         return new CustomerDto(
                 data.getId(),
-                data.getCustomerName(),
+                data.getFirstName(),
+                data.getLastName(),
                 data.getCustomerEmail(),
                 data.getCustomerPhone(),
                 Objects.nonNull(address) ? fromAddress(address) : new AddressDto()

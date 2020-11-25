@@ -14,7 +14,8 @@ public interface ICustomerService {
 
     void update(
             Long id,
-            String customerName,
+            String firstName,
+            String lastName,
             String customerEmail,
             String customerPhone
     );

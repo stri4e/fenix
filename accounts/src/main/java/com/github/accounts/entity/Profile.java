@@ -91,10 +91,10 @@ public class Profile implements Serializable, Cloneable {
     public static Profile profileDef() {
         return new Profile(
                 null,
-                "default",
-                "default",
-                "default",
-                "default"
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown"
         );
     }
 

@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ProductService implements IProductService {
 
     @Override
-    public Optional<ProductDto> create(String subcategoryName, String brandName, ProductDto p) {
+    public Optional<ProductDto> create(ProductDto p) {
         return Optional.empty();
     }
 

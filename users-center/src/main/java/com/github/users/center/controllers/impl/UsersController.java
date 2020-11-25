@@ -57,7 +57,7 @@ public class UsersController implements IUsersController {
             this.confirmService.create(ct);
             runAsync(() -> this.registration(user, origin, ct));
             runAsync(() -> this.accountsService.createAccount(
-                    user.getId(), accountDef(user.getFName(), user.getLName(), user.getEmail())
+                    user.getId(), accountDef(user.getFName(), user.getLName(), user.getPhone(), user.getEmail())
             ));
             runAsync(() -> this.clientService.create(
                     new ClientDto(user.getFName(), user.getLName(), user.getEmail())

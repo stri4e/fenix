@@ -24,7 +24,7 @@ public class AddressController implements IAddressController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public AddressDto findAddress(Long addressId) {
-        return TransferObj.fromAddress(this.addressService.readById(addressId));
+        return fromAddress(this.addressService.readById(addressId));
     }
 
     @Override

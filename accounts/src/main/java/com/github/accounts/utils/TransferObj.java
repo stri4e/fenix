@@ -44,7 +44,7 @@ public class TransferObj {
     public static Contact toContact(ContactDto data) {
         return new Contact(
                 data.getId(),
-                data.getPhones(),
+                data.getPhone(),
                 data.getEmail()
 
         );
