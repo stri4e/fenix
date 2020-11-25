@@ -36,8 +36,8 @@ public class AccountDto implements Serializable, Cloneable {
     @JsonProperty(value = "views")
     private List<ProductDto> views;
 
-    public AccountDto and(Consumer<AccountDto> consumer) {
-        CompletableFuture.runAsync(() -> consumer.accept(this));
+    public AccountDto and(Runnable runnable) {
+        CompletableFuture.runAsync(runnable);
         return this;
     }
 

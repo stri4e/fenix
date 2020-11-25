@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.github.accounts.utils.TransferObj.*;
@@ -75,8 +74,8 @@ public class AccountsController implements IAccountsController {
                         this.contactsService.create(toContact(payload.getContact())),
                         this.addressService.create(toAddress(payload.getAddress()))
                 )
-        )).and(account ->
-                this.customerService.saveCustomer(
+        )).and(() ->
+                this.customerService.save(
                         userId,
                         new CustomerDto(
                                 payload.getProfile(),

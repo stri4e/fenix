@@ -9,7 +9,7 @@ import java.util.UUID;
 @Service
 public class CustomerService implements ICustomerService {
     @Override
-    public CustomerDto saveCustomer(UUID userId, CustomerDto payload) {
+    public CustomerDto save(UUID userId, CustomerDto payload) {
         return null;
     }
 }

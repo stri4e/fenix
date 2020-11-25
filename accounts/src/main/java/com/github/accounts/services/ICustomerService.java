@@ -23,7 +23,7 @@ public interface ICustomerService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    CustomerDto saveCustomer(
+    CustomerDto save(
             @PathVariable(name = "userId") UUID userId,
             @RequestBody CustomerDto payload
     );
