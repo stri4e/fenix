@@ -16,8 +16,8 @@ import reactor.core.publisher.Mono;
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
-@Profile(value = "prod")
-public class SecurityConfigProd {
+@Profile(value = "dev")
+public class SecurityConfigDev {
 
     private static final String[] ALLOW_ACCESS = new String[] {
             "/users/**",

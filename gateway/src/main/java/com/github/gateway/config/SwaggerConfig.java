@@ -50,8 +50,17 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
         resources.add(swaggerResource("products","/products/v2/api-docs","1.0"));
         resources.add(swaggerResource("orders","/orders/v2/api-docs","1.0"));
         resources.add(swaggerResource("emails","/emails/v2/api-docs","1.0"));
-        resources.add(swaggerResource("statistics","/statistics/swagger/index.html","1.0"));
-        resources.add(swaggerResource("managers","/managers/swagger/index.html","1.0"));
+        resources.add(swaggerResource("statistics","/statistics/v2/api-docs","1.0"));
+        resources.add(swaggerResource("websocket","/websocket/v2/api-docs","1.0"));
+        resources.add(swaggerResource("managers","/managers/v2/api-docs","1.0"));
+        resources.add(swaggerResource("payments","/payments/v2/api-docs","1.0"));
+        resources.add(swaggerResource("accounts","/accounts/v2/api-docs","1.0"));
+        resources.add(swaggerResource("geolocation","/geolocation/v2/api-docs","1.0"));
+        resources.add(swaggerResource("customers","/customers/v2/api-docs","1.0"));
+        resources.add(swaggerResource("deliveries","/deliveries/v2/api-docs","1.0"));
+        resources.add(swaggerResource("bitcoin","/bitcoin/v2/api-docs","1.0"));
+        resources.add(swaggerResource("ethereum","/ethereum/v2/api-docs","1.0"));
+        resources.add(swaggerResource("master-card","/master-card/v2/api-docs","1.0"));
         return resources;
     }
 

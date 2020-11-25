@@ -18,7 +18,7 @@ public class BillsController {
     private final Broker broker;
 
     @PostMapping(
-            path = "/{ending}"
+            path = "/edit/{ending}"
     )
     @HystrixCommand
     @ResponseStatus(HttpStatus.CREATED)

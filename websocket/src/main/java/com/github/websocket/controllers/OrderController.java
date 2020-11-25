@@ -17,7 +17,7 @@ public class OrderController {
 
     private final Broker broker;
 
-    @PostMapping
+    @PostMapping(path = "/edit")
     @HystrixCommand
     @ResponseStatus(HttpStatus.CREATED)
     @Logging(isTime = true, isReturn = false)

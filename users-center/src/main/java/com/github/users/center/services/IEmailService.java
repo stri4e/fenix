@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public interface IEmailService {
 
     @PostMapping(
-            path = "/v1/submit/reg",
+            path = "/v1/edit/submit/reg",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
     void submitReg(@RequestBody EmailNotification payload);
 
     @PostMapping(
-            path = "/v1/reset/pass",
+            path = "/v1/edit/reset/pass",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
     void resetPass(@RequestBody EmailNotification payload);
 
     @PostMapping(
-            path = "/v1/login/notification",
+            path = "/v1/edit/login/notification",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)
