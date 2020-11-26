@@ -109,4 +109,34 @@ public class TransferObj {
         );
     }
 
+    public static NovaposhtaLegalCounterparty toCounterparty(NovaposhtaLegalCounterpartyDto data) {
+        return new NovaposhtaLegalCounterparty(
+                data.getId(),
+                data.getRef(),
+                data.getDescription(),
+                data.getFirstName(),
+                data.getMiddleName(),
+                data.getLastName(),
+                data.getCounterparty(),
+                data.getOwnershipForm(),
+                data.getEdrpou(),
+                data.getCounterpartyType()
+        );
+    }
+
+    public static NovaposhtaLegalCounterpartyDto fromCounterparty(NovaposhtaLegalCounterparty data) {
+        return new NovaposhtaLegalCounterpartyDto(
+                data.getId(),
+                data.getRef(),
+                data.getDescription(),
+                data.getFirstName(),
+                data.getMiddleName(),
+                data.getLastName(),
+                data.getCounterparty(),
+                data.getOwnershipForm(),
+                data.getEdrpou(),
+                data.getCounterpartyType()
+        );
+    }
+
 }
