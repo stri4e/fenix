@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "novaposta_legal_conterparty", schema = "public")
-public class NovaposhtaLegalCounterparty {
+public class NovaposhtaLegalCounterparty implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 7887895659215330605L;
 
     @Id
     @Column(name = "ID")

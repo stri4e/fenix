@@ -16,8 +16,8 @@ public interface NovaposhtaLegalCounterpartyRepo extends JpaRepository<Novaposht
     Optional<NovaposhtaLegalCounterparty> findByStatus(EntityStatus status);
 
     @Modifying
-    @Query(name = "update NovaposhtaLegalCounterparty nlc set nlc.status=:status where nlc.id=:id")
-    void remove(
+    @Query(value = "update NovaposhtaLegalCounterparty nlc set nlc.status=:status where nlc.id=:id")
+    void update(
             @Param(value = "id") Long id,
             @Param(value = "status") EntityStatus status
     );

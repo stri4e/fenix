@@ -20,7 +20,7 @@ public class AddressControllerMocks {
                 "Dnepr",
                 "Julvern",
                 "1",
-                null,
+                "unknown",
                 "49000"
         );
     }
@@ -33,7 +33,7 @@ public class AddressControllerMocks {
                 "Dnepr",
                 "Julvern",
                 "1",
-                null,
+                "unknown",
                 "49000"
         );
     }
@@ -46,7 +46,7 @@ public class AddressControllerMocks {
                 "Dnepr",
                 "Julvern",
                 "1",
-                null,
+                "unknown",
                 "49000"
         );
     }
@@ -59,7 +59,7 @@ public class AddressControllerMocks {
                 "Dnepr",
                 "Julvern",
                 "1",
-                null,
+                "unknown",
                 "49000"
         );
     }
@@ -72,7 +72,7 @@ public class AddressControllerMocks {
                 "Dnepr",
                 "Julvern",
                 "1",
-                null,
+                "unknown",
                 "49000"
         );
     }

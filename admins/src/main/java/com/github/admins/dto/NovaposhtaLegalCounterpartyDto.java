@@ -6,11 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NovaposhtaLegalCounterpartyDto {
+public class NovaposhtaLegalCounterpartyDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 481937448914300262L;
 
     @JsonProperty("id")
     private Long id;

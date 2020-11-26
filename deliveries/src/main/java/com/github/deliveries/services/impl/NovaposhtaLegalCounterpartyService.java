@@ -35,6 +35,6 @@ public class NovaposhtaLegalCounterpartyService implements INovaposhtaLegalCount
 
     @Override
     public void remove(Long id) {
-        this.novaposhtaLegalCounterpartyRepo.remove(id, EntityStatus.off);
+        this.novaposhtaLegalCounterpartyRepo.update(id, EntityStatus.off);
     }
 }

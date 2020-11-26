@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @FeignClient(
         name = "deliveries",
         fallback = NovaposhtaLegalCounterpartyService.class,
-        contextId = "deliveriId"
+        contextId = "legalCounterpartyId"
 )
 public interface INovaposhtaLegalCounterpartyService {
 

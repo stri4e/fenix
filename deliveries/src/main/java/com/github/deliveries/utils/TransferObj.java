@@ -40,30 +40,6 @@ public class TransferObj {
         );
     }
 
-    public static MeestSettings toMeestSettings(MeestSettingsDto data) {
-        return new MeestSettings(
-                data.getBaseUrl(),
-                data.getHeader()
-        );
-    }
-
-    public static MeestSettingsDto fromMeestSettings(MeestSettings data) {
-        MeestSession tokens = data.getSession();
-        return new MeestSettingsDto(
-                data.getId(),
-                data.getBaseUrl(),
-                Objects.isNull(tokens) ? null : tokens.getToken(),
-                data.getHeader()
-        );
-    }
-
-    public static MeestUser toMeestUser(MeestUserDto data) {
-        return new MeestUser(
-                data.getLogin(),
-                data.getPass()
-        );
-    }
-
     public static CustomerLastDelivery toDelivery(CustomerLastDeliveryDto data, UUID userId) {
         return new CustomerLastDelivery(
                 data.getId(),
@@ -136,6 +112,29 @@ public class TransferObj {
                 data.getOwnershipForm(),
                 data.getEdrpou(),
                 data.getCounterpartyType()
+        );
+    }
+
+    public static NovaposhtaInternetDocumentDto fromNID(NovaposhtaInternetDocument data) {
+        return new NovaposhtaInternetDocumentDto(
+                data.getId(),
+                data.getRef(),
+                data.getCostOnSize(),
+                data.getEstimatedDeliveryDate(),
+                data.getIntDocNumber(),
+                data.getTypeDocument()
+        );
+    }
+
+    public static NovaposhtaInternetDocument toNID(NovaposhtaInternetDocumentDto data, Long orderId) {
+        return new NovaposhtaInternetDocument(
+                data.getId(),
+                data.getRef(),
+                data.getCostOnSize(),
+                data.getEstimatedDeliveryDate(),
+                data.getIntDocNumber(),
+                data.getTypeDocument(),
+                orderId
         );
     }
 
