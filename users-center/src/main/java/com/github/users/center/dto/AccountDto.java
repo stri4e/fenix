@@ -1,6 +1,7 @@
 package com.github.users.center.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.users.center.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,11 @@ public class AccountDto implements Serializable, Cloneable {
     @JsonProperty(value = "address")
     private AddressDto address;
 
-    public static AccountDto accountDef(String firstName, String lastName, String phone, String email) {
+    public static AccountDto accountDef(User user) {
         return new AccountDto(
                 null,
-                ProfileDto.profileDef(firstName, lastName),
-                ContactDto.contactDef(phone, email),
+                ProfileDto.profileDef(user.getFName(), user.getLName()),
+                ContactDto.contactDef(user.getPhone(), user.getEmail()),
                 AddressDto.addressDef()
         );
     }

@@ -1,6 +1,7 @@
 package com.github.users.center.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.users.center.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,18 @@ public class ClientDto implements Serializable, Cloneable {
     @JsonProperty(value = "email")
     @NotBlank(message = "Required field not blank")
     private String email;
+
+    @JsonProperty(value = "phone")
+    @NotBlank(message = "Required field not blank")
+    private String phone;
+
+    public static ClientDto client(User user) {
+        return new ClientDto(
+                user.getFName(),
+                user.getLName(),
+                user.getEmail(),
+                user.getPhone()
+        );
+    }
 
 }

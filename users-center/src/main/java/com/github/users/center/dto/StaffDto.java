@@ -1,6 +1,7 @@
 package com.github.users.center.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.users.center.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,14 @@ public class StaffDto implements Serializable, Cloneable {
     @NotBlank(message = "Field is required")
     @JsonProperty(value = "phone")
     private String phone;
+
+    public static StaffDto staff(User user) {
+        return new StaffDto(
+                user.getFName(),
+                user.getLName(),
+                user.getEmail(),
+                user.getPhone()
+        );
+    }
 
 }

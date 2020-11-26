@@ -42,6 +42,12 @@ public class Client implements Serializable, Cloneable {
     )
     private String email;
 
+    @Column(
+            name = "phone",
+            nullable = false
+    )
+    private String phone;
+
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 

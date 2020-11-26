@@ -30,4 +30,8 @@ public class ClientDto implements Serializable, Cloneable {
     @NotBlank(message = "Required field not blank")
     private String email;
 
+    @JsonProperty(value = "phone")
+    @NotBlank(message = "Required field not blank")
+    private String phone;
+
 }

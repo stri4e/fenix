@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import static com.github.users.center.dto.AccountDto.accountDef;
+import static com.github.users.center.dto.ClientDto.client;
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.ROLE_USER;
 import static java.util.concurrent.CompletableFuture.runAsync;
@@ -57,11 +58,9 @@ public class UsersController implements IUsersController {
             this.confirmService.create(ct);
             runAsync(() -> this.registration(user, origin, ct));
             runAsync(() -> this.accountsService.createAccount(
-                    user.getId(), accountDef(user.getFName(), user.getLName(), user.getPhone(), user.getEmail())
+                    user.getId(), accountDef(user)
             ));
-            runAsync(() -> this.clientService.create(
-                    new ClientDto(user.getFName(), user.getLName(), user.getEmail())
-            ));
+            runAsync(() -> this.clientService.create(client(user)));
         } else {
             throw new Conflict();
         }

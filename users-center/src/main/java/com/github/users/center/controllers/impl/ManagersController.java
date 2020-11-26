@@ -2,7 +2,6 @@ package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IManagersController;
 import com.github.users.center.dto.LoginDto;
-import com.github.users.center.dto.StaffDto;
 import com.github.users.center.dto.UserAuthDto;
 import com.github.users.center.dto.UserRegDto;
 import com.github.users.center.entity.ConfirmToken;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import static com.github.users.center.dto.StaffDto.staff;
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.MANAGER_SCOPE;
 import static com.github.users.center.utils.UsersUtils.ROLE_MANAGER;
@@ -60,9 +60,7 @@ public class ManagersController implements IManagersController {
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
             runAsync(() -> registration(user, origin, ct));
-            runAsync(() -> this.staffService.createStaff(
-                    user.getId(), new StaffDto(user.getFName(), user.getLName(), user.getEmail(), user.getPhone())
-            ));
+            runAsync(() -> this.staffService.createStaff(user.getId(), staff(user)));
         } else {
             throw new Conflict();
         }

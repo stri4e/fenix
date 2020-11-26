@@ -39,7 +39,8 @@ public class TransferObj {
                 data.getId(),
                 data.getFirstName(),
                 data.getLastName(),
-                data.getEmail()
+                data.getEmail(),
+                data.getPhone()
         );
     }
 
