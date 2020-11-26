@@ -68,9 +68,8 @@ public class AdminController implements IAdminController {
     public JwtRefreshResponse
     submitAuth(String ip, String fingerprint, String userAgent, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
-        var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
+        if (user.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass))) {
             var accessToken = this.jwtTokenProvider.adminAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
                     .refreshAdminSession(fingerprint, ip, user, ADMIN_SCOPE);

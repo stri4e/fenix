@@ -72,9 +72,8 @@ public class UsersController implements IUsersController {
     public JwtAuthResponse
     submitAuth(String ip, String userAgent, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
-        var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
+        if (user.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass))) {
             var token = this.jwtTokenProvider.userAccessToken(user);
             runAsync(() -> logins(token, user, ip, userAgent));
             return new JwtAuthResponse(token);

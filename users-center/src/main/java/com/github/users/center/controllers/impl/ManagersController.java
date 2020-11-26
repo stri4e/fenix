@@ -72,9 +72,8 @@ public class ManagersController implements IManagersController {
     public JwtRefreshResponse
     submitAuth(String ip, String fingerprint, String userAgent, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
-        var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
+        if (user.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass))) {
             var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
                     .refreshManagerSession(fingerprint, ip, user, MANAGER_SCOPE);

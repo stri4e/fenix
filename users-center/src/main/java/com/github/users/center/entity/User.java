@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @Data
 @Entity
@@ -161,6 +162,10 @@ public class User implements Serializable, Cloneable {
         this.pass = pass;
         this.roles = roles;
         this.phone = phone;
+    }
+
+    public boolean isAuth(Predicate<String> passwordEquals) {
+        return passwordEquals.test(this.pass) && this.isEnable && !this.isLocked;
     }
 
 }
