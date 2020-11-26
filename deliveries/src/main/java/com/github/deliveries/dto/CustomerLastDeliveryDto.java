@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryDto implements Serializable, Cloneable {
+public class CustomerLastDeliveryDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6600882302610734097L;
 
@@ -32,9 +32,5 @@ public class DeliveryDto implements Serializable, Cloneable {
     @NotNull
     @JsonProperty(value = "address")
     private AddressDto address;
-
-    @NotBlank
-    @JsonProperty(value = "amount")
-    private BigDecimal amount;
 
 }

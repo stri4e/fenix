@@ -3,9 +3,9 @@ package com.github.deliveries.controllers.impl;
 import com.github.deliveries.controllers.IAddressController;
 import com.github.deliveries.dto.AddressDto;
 import com.github.deliveries.entity.Address;
-import com.github.deliveries.entity.Delivery;
+import com.github.deliveries.entity.CustomerLastDelivery;
 import com.github.deliveries.services.IAddressService;
-import com.github.deliveries.services.IDeliveryService;
+import com.github.deliveries.services.ICustomerLastDeliveryService;
 import com.github.deliveries.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class AddressController implements IAddressController {
 
     private final IAddressService addressService;
 
-    private final IDeliveryService deliveryService;
+    private final ICustomerLastDeliveryService deliveryService;
 
     @Override
     @HystrixCommand
@@ -35,7 +35,7 @@ public class AddressController implements IAddressController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public AddressDto save(Long deliveryId, AddressDto payload) {
-        Delivery delivery = this.deliveryService.readById(deliveryId);
+        CustomerLastDelivery delivery = this.deliveryService.readById(deliveryId);
         Address address = this.addressService.create(toAddress(payload));
         this.deliveryService.update(delivery.address(address));
         return fromAddress(address);

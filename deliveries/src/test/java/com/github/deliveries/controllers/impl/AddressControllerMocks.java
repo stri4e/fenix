@@ -2,7 +2,7 @@ package com.github.deliveries.controllers.impl;
 
 import com.github.deliveries.dto.AddressDto;
 import com.github.deliveries.entity.Address;
-import com.github.deliveries.entity.Delivery;
+import com.github.deliveries.entity.CustomerLastDelivery;
 import com.github.deliveries.entity.DeliveryType;
 
 import java.math.BigDecimal;
@@ -77,12 +77,11 @@ public class AddressControllerMocks {
         );
     }
 
-    public static Delivery deliveryForSave() {
-        return new Delivery(
+    public static CustomerLastDelivery deliveryForSave() {
+        return new CustomerLastDelivery(
                 null,
                 DeliveryType.home,
                 "Novaposhta",
-                BigDecimal.TEN,
                 USER_ID
         );
     }

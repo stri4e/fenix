@@ -1,10 +1,10 @@
 package com.github.deliveries.controllers.impl;
 
-import com.github.deliveries.dto.DeliveryDto;
+import com.github.deliveries.dto.CustomerLastDeliveryDto;
 import com.github.deliveries.entity.Address;
-import com.github.deliveries.entity.Delivery;
+import com.github.deliveries.entity.CustomerLastDelivery;
 import com.github.deliveries.repository.AddressRepo;
-import com.github.deliveries.repository.DeliveryRepo;
+import com.github.deliveries.repository.CustomerLastDeliveryRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class DeliveryControllerTest {
+public class CustomerLastDeliveryControllerTest {
 
     @LocalServerPort
     private int port;
@@ -41,7 +41,7 @@ public class DeliveryControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private DeliveryRepo deliveryRepo;
+    private CustomerLastDeliveryRepo deliveryRepo;
 
     @Autowired
     private AddressRepo addressRepo;
@@ -58,36 +58,36 @@ public class DeliveryControllerTest {
 
     @Test
     public void findDelivery() {
-        Address address = DeliveryControllerMocks.addressForSave();
-        DeliveryDto exp = DeliveryControllerMocks.deliveryForEquals();
-        Delivery data = DeliveryControllerMocks.deliveryForSave()
+        Address address = CustomerLastDeliveryControllerMocks.addressForSave();
+        CustomerLastDeliveryDto exp = CustomerLastDeliveryControllerMocks.deliveryForEquals();
+        CustomerLastDelivery data = CustomerLastDeliveryControllerMocks.deliveryForSave()
                 .address(this.addressRepo.save(address));
         this.deliveryRepo.save(data);
-        ResponseEntity<DeliveryDto> response = this.restTemplate.exchange(
-                this.deliveryUrl, HttpMethod.GET, null, DeliveryDto.class
+        ResponseEntity<CustomerLastDeliveryDto> response = this.restTemplate.exchange(
+                this.deliveryUrl, HttpMethod.GET, null, CustomerLastDeliveryDto.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        DeliveryDto act = response.getBody();
+        CustomerLastDeliveryDto act = response.getBody();
         assertEquals(exp, act);
     }
 
     @Test
     public void save() {
-        DeliveryDto exp = DeliveryControllerMocks.deliveryForEquals2();
-        DeliveryDto payload = DeliveryControllerMocks.request();
-        ResponseEntity<DeliveryDto> response = this.restTemplate.exchange(
+        CustomerLastDeliveryDto exp = CustomerLastDeliveryControllerMocks.deliveryForEquals2();
+        CustomerLastDeliveryDto payload = CustomerLastDeliveryControllerMocks.request();
+        ResponseEntity<CustomerLastDeliveryDto> response = this.restTemplate.exchange(
                 this.deliveryUrl, HttpMethod.POST,
-                new HttpEntity<>(payload), DeliveryDto.class
+                new HttpEntity<>(payload), CustomerLastDeliveryDto.class
         );
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        DeliveryDto act = response.getBody();
+        CustomerLastDeliveryDto act = response.getBody();
         assertEquals(exp, act);
     }
 
     @Test
     public void updateDelivery() {
-        DeliveryDto payload = DeliveryControllerMocks.deliveryForUpdate();
-        Delivery data = DeliveryControllerMocks.deliveryForSave();
+        CustomerLastDeliveryDto payload = CustomerLastDeliveryControllerMocks.deliveryForUpdate();
+        CustomerLastDelivery data = CustomerLastDeliveryControllerMocks.deliveryForSave();
         this.deliveryRepo.save(data);
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 this.deliveryUrl, HttpMethod.PUT, new HttpEntity<>(payload), Void.class

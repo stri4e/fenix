@@ -1,10 +1,10 @@
 package com.github.deliveries.services.impl;
 
-import com.github.deliveries.entity.Delivery;
+import com.github.deliveries.entity.CustomerLastDelivery;
 import com.github.deliveries.entity.DeliveryType;
 import com.github.deliveries.exceptions.NotFound;
-import com.github.deliveries.repository.DeliveryRepo;
-import com.github.deliveries.services.IDeliveryService;
+import com.github.deliveries.repository.CustomerLastDeliveryRepo;
+import com.github.deliveries.services.ICustomerLastDeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,34 +15,34 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DeliveryService implements IDeliveryService {
+public class CustomerLastDeliveryService implements ICustomerLastDeliveryService {
 
-    private final DeliveryRepo deliveryRepo;
+    private final CustomerLastDeliveryRepo deliveryRepo;
 
     @Override
-    public Delivery create(Delivery d) {
+    public CustomerLastDelivery create(CustomerLastDelivery d) {
         return this.deliveryRepo.save(d);
     }
 
     @Override
-    public Delivery readById(Long id) {
+    public CustomerLastDelivery readById(Long id) {
         return this.deliveryRepo.findById(id)
                 .orElseThrow(NotFound::new);
     }
 
     @Override
-    public Delivery readByUserId(UUID userId) {
+    public CustomerLastDelivery readByUserId(UUID userId) {
         return this.deliveryRepo.findByUserId(userId)
                 .orElseThrow(NotFound::new);
     }
 
     @Override
-    public void update(Long id, DeliveryType type, String companyName, BigDecimal amount) {
-        this.deliveryRepo.update(id, type, companyName, amount);
+    public void update(Long id, DeliveryType type, String companyName) {
+        this.deliveryRepo.update(id, type, companyName);
     }
 
     @Override
-    public void update(Delivery d) {
+    public void update(CustomerLastDelivery d) {
         this.deliveryRepo.save(d);
     }
 

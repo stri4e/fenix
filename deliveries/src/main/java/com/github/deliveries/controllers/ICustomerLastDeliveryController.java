@@ -1,6 +1,6 @@
 package com.github.deliveries.controllers;
 
-import com.github.deliveries.dto.DeliveryDto;
+import com.github.deliveries.dto.CustomerLastDeliveryDto;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.Valid;
 import java.util.UUID;
 
-public interface IDeliveryController {
+public interface ICustomerLastDeliveryController {
 
     @ApiImplicitParams(
             @ApiImplicitParam(
@@ -25,13 +25,13 @@ public interface IDeliveryController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    DeliveryDto findByUserId(@RequestAttribute(name = "userId") UUID userId);
+    CustomerLastDeliveryDto findByUserId(@RequestAttribute(name = "userId") UUID userId);
 
     @GetMapping(
             path = "/fetch/{deliveryId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    DeliveryDto findByUserId(@PathVariable Long deliveryId);
+    CustomerLastDeliveryDto findByUserId(@PathVariable Long deliveryId);
 
     @ApiImplicitParams(
             @ApiImplicitParam(
@@ -44,10 +44,10 @@ public interface IDeliveryController {
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    DeliveryDto save(@ApiIgnore @RequestAttribute(name = "userId") UUID userId,
-                     @Valid @RequestBody DeliveryDto payload);
+    CustomerLastDeliveryDto save(@ApiIgnore @RequestAttribute(name = "userId") UUID userId,
+                                 @Valid @RequestBody CustomerLastDeliveryDto payload);
 
     @PutMapping
-    void updateDelivery(@Valid @RequestBody DeliveryDto payload);
+    void updateDelivery(@Valid @RequestBody CustomerLastDeliveryDto payload);
 
 }

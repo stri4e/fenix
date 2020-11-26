@@ -1,8 +1,8 @@
 package com.github.deliveries.controllers.impl;
 
-import com.github.deliveries.controllers.IDeliveryController;
-import com.github.deliveries.dto.DeliveryDto;
-import com.github.deliveries.services.IDeliveryService;
+import com.github.deliveries.controllers.ICustomerLastDeliveryController;
+import com.github.deliveries.dto.CustomerLastDeliveryDto;
+import com.github.deliveries.services.ICustomerLastDeliveryService;
 import com.github.deliveries.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +18,26 @@ import static com.github.deliveries.utils.TransferObj.toDelivery;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/deliveries")
-public class DeliveryController implements IDeliveryController {
+public class CustomerLastDeliveryController implements ICustomerLastDeliveryController {
 
-    private final IDeliveryService deliveryService;
+    private final ICustomerLastDeliveryService deliveryService;
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public DeliveryDto findByUserId(UUID userId) {
+    public CustomerLastDeliveryDto findByUserId(UUID userId) {
         return fromDelivery(this.deliveryService.readByUserId(userId));
     }
 
     @Override
-    public DeliveryDto findByUserId(Long deliveryId) {
+    public CustomerLastDeliveryDto findByUserId(Long deliveryId) {
         return fromDelivery(this.deliveryService.readById(deliveryId));
     }
 
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public DeliveryDto save(UUID userId, DeliveryDto payload) {
+    public CustomerLastDeliveryDto save(UUID userId, CustomerLastDeliveryDto payload) {
         return fromDelivery(
             this.deliveryService.create(toDelivery(payload, userId))
         );
@@ -46,12 +46,11 @@ public class DeliveryController implements IDeliveryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateDelivery(DeliveryDto payload) {
+    public void updateDelivery(CustomerLastDeliveryDto payload) {
         this.deliveryService.update(
                 payload.getId(),
                 payload.getType(),
-                payload.getCompanyName(),
-                payload.getAmount()
+                payload.getCompanyName()
         );
     }
 

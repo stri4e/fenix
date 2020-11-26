@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,8 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "delivery", schema = "public")
-public class Delivery implements Serializable, Cloneable {
+@Table(name = "customer_last_delivery", schema = "public")
+public class CustomerLastDelivery implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1655627397181362589L;
 
@@ -57,15 +56,6 @@ public class Delivery implements Serializable, Cloneable {
     private Address address;
 
     @Column(
-            name = "amount",
-            precision = 8,
-            scale = 4,
-            columnDefinition = "DECIMAL(8, 4)",
-            nullable = false
-    )
-    private BigDecimal amount;
-
-    @Column(
             name = "user_id",
             nullable = false,
             unique = true
@@ -91,15 +81,14 @@ public class Delivery implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
-    public Delivery(Long id, DeliveryType type, String companyName, BigDecimal amount, UUID userId) {
+    public CustomerLastDelivery(Long id, DeliveryType type, String companyName, UUID userId) {
         this.id = id;
         this.type = type;
         this.companyName = companyName;
-        this.amount = amount;
         this.userId = userId;
     }
 
-    public Delivery address(Address address) {
+    public CustomerLastDelivery address(Address address) {
         this.address = address;
         return this;
     }

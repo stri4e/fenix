@@ -64,24 +64,22 @@ public class TransferObj {
         );
     }
 
-    public static Delivery toDelivery(DeliveryDto data, UUID userId) {
-        return new Delivery(
+    public static CustomerLastDelivery toDelivery(CustomerLastDeliveryDto data, UUID userId) {
+        return new CustomerLastDelivery(
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                data.getAmount(),
                 userId
         );
     }
 
-    public static DeliveryDto fromDelivery(Delivery data) {
+    public static CustomerLastDeliveryDto fromDelivery(CustomerLastDelivery data) {
         Address address = data.getAddress();
-        return new DeliveryDto(
+        return new CustomerLastDeliveryDto(
                 data.getId(),
                 data.getType(),
                 data.getCompanyName(),
-                Objects.nonNull(address) ? fromAddress(address) : new AddressDto(),
-                data.getAmount()
+                Objects.nonNull(address) ? fromAddress(address) : new AddressDto()
         );
     }
 

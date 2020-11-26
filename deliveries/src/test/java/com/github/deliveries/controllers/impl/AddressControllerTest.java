@@ -3,7 +3,7 @@ package com.github.deliveries.controllers.impl;
 import com.github.deliveries.dto.AddressDto;
 import com.github.deliveries.entity.Address;
 import com.github.deliveries.repository.AddressRepo;
-import com.github.deliveries.repository.DeliveryRepo;
+import com.github.deliveries.repository.CustomerLastDeliveryRepo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +43,7 @@ public class AddressControllerTest {
     private AddressRepo addressRepo;
 
     @Autowired
-    private DeliveryRepo customerRepo;
+    private CustomerLastDeliveryRepo customerRepo;
 
     private String addressUrl;
 

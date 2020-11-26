@@ -40,7 +40,7 @@ public class AddressDto implements Serializable, Cloneable {
     private String streetNumber;
 
     @NotBlank
-    @JsonProperty(value = "streetNumber")
+    @JsonProperty(value = "flatNumber")
     private String flatNumber;
 
     @NotBlank
