@@ -265,3 +265,16 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     entrypoint: "./master-card-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MASTER_CARD} -jar /app/master-card.jar"
+  messenger:
+    container_name: messenger
+    restart: always
+    build: ./messenger
+    ports:
+      - "8098:8098"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./messenger-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MASTER_CARD} -jar /app/messenger.jar"
