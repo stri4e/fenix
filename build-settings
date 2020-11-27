@@ -19,6 +19,7 @@
     "ethereum",
     "bitcoin",
     "master-card",
-    "payments"
+    "payments",
+    "messenger"
   ]
 }
