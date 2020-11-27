@@ -39,8 +39,7 @@ public class InfobipSMSController implements IInfobipSMSController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void broadcastSMS(@Valid BroadcastMessage payload) {
-        OmniResponse resp = this.omniService.broadcastMessage(payload);
-
+        this.omniService.broadcastMessage(payload);
     }
 
 }
