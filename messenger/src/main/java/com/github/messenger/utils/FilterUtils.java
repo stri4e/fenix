@@ -6,12 +6,12 @@ import java.util.function.Predicate;
 
 public class FilterUtils {
 
-   public static Predicate<OmniResponseDetails> FAILURE = r -> {
+   public static final Predicate<OmniResponseDetails> FAILURE = r -> {
         var name = r.getStatus().getGroupName();
         return !"PENDING".equals(name) && !"DELIVERED".equals(name);
     };
 
-    public static Predicate<OmniResponseDetails> SUCCESS = r -> {
+    public static final Predicate<OmniResponseDetails> SUCCESS = r -> {
         var name = r.getStatus().getGroupName();
         return !"PENDING".equals(name) && !"DELIVERED".equals(name);
     };
