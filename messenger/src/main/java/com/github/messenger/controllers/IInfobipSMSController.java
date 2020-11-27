@@ -1,6 +1,7 @@
 package com.github.messenger.controllers;
 
 import com.github.messenger.payload.BroadcastMessage;
+import com.github.messenger.payload.BroadcastReport;
 import com.github.messenger.payload.SingleMessage;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,6 @@ public interface IInfobipSMSController {
     @PostMapping(
             path = "/broadcast/edit"
     )
-    void broadcastSMS(@Valid @RequestBody BroadcastMessage payload);
+    BroadcastReport broadcastSMS(@Valid @RequestBody BroadcastMessage payload);
 
 }
