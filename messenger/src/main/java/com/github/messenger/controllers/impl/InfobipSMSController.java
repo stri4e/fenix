@@ -35,8 +35,7 @@ public class InfobipSMSController implements IInfobipSMSController {
     public void singleSMS(@Valid SingleMessage payload) {
         OmniResponse resp = this.omniService.singleMessage(payload);
         resp.getMessages().stream()
-                .map(r -> r.getStatus().getGroupName())
-                .filter(name -> "PENDING".equals(name) || "DELIVERED".equals(name))
+                .filter(SUCCESS)
                 .findAny()
                 .orElseThrow(BadRequest::new);
     }
