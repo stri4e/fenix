@@ -14,7 +14,14 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users_alias", schema = "public")
+@Table(
+        name = "users_alias",
+        schema = "public",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_users_alias",
+                columnNames = "alias"
+        )
+)
 public class UserAlias implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 377810999923887713L;
@@ -32,15 +39,14 @@ public class UserAlias implements Serializable, Cloneable {
             nullable = false,
             name = "user_id",
             foreignKey = @ForeignKey(
-                    name = "notification_user_fk"
+                    name = "aliases_users_fk"
             )
     )
     private User user;
 
     @Column(
             name = "alias",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private String alias;
 

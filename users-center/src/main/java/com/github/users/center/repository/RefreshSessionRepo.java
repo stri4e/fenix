@@ -9,5 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface RefreshSessionRepo extends JpaRepository<RefreshSession, Long> {
+
     List<RefreshSession> findAllByUserId(UUID userId);
+
 }

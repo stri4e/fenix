@@ -22,7 +22,7 @@ public class UserAliasService implements IUserAliasService {
     }
 
     @Override
-    public String ending(UUID userId) {
-        return this.userAliasRepo.findEnding(userId);
+    public String alias(UUID userId) {
+        return this.userAliasRepo.findAlias(userId);
     }
 }

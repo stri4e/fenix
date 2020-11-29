@@ -46,6 +46,16 @@ import java.util.function.Predicate;
         indexes = {
                 @Index(columnList = "email", name = "email_idx"),
                 @Index(columnList = "login", name = "login_idx")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_users_login",
+                        columnNames = "login"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_email",
+                        columnNames = "email"
+                )
         }
 )
 public class User implements Serializable, Cloneable {
@@ -64,27 +74,29 @@ public class User implements Serializable, Cloneable {
 
     @Column(
             name = "fName",
+            length = 150,
             nullable = false
     )
     private String fName;
 
     @Column(
             name = "lName",
+            length = 150,
             nullable = false
     )
     private String lName;
 
     @Column(
             name = "login",
-            nullable = false,
-            unique = true
+            length = 150,
+            nullable = false
     )
     private String login;
 
     @Column(
             name = "email",
-            nullable = false,
-            unique = true
+            length = 150,
+            nullable = false
     )
     private String email;
 
@@ -96,6 +108,7 @@ public class User implements Serializable, Cloneable {
 
     @Column(
             name = "phone",
+            length = 150,
             nullable = false
     )
     private String phone;
@@ -126,7 +139,11 @@ public class User implements Serializable, Cloneable {
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id",
-                    referencedColumnName = "id"
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "roles_users_fk")
+            ),
+            foreignKey = @ForeignKey(
+                    name = "users_roles_fk"
             )
     )
     private Collection<Role> roles;

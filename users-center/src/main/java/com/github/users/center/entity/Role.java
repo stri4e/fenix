@@ -39,6 +39,7 @@ public class Role implements Serializable, Cloneable {
 
     @Column(
             name = "role",
+            length = 50,
             nullable = false
     )
     @NotBlank(
