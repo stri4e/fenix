@@ -28,19 +28,22 @@ public class Whom implements Serializable, Cloneable {
 
     @Column(
             name = "firs_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String firsName;
 
     @Column(
             name = "last_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String lastName;
 
     @Column(
             name = "patronymic",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String patronymic;
 

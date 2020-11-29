@@ -13,9 +13,9 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "current_rates", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "current_rates", schema = "public")
 public class CurrentRate implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6795243662542762561L;

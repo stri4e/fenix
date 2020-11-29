@@ -15,7 +15,24 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "aliases", schema = "public")
+@NamedQueries(
+        value = @NamedQuery(
+                name = "User.findByBill_Id",
+                query = "select a from Alias a where a.bill.id=:biilId"
+        )
+)
+@Table(
+        name = "aliases",
+        schema = "public",
+        indexes = @Index(
+                columnList = "user_id",
+                name = "alias_user_id_idx"
+        ),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_alias_user_id_login",
+                columnNames = "user_id"
+        )
+)
 public class Alias implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 377810999923887713L;
@@ -31,7 +48,10 @@ public class Alias implements Serializable, Cloneable {
     )
     @JoinColumn(
             name = "bill_id",
-            nullable = false
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "alias_bill_fk"
+            )
     )
     private Bill bill;
 

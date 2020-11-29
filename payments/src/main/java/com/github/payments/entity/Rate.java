@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "rates", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "rates", schema = "public")
 public class Rate implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1453353242609144283L;

@@ -19,6 +19,20 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Bill.findById",
+                query = "select b from Bill b where b.id=:id"
+        ),
+        @NamedQuery(
+                name = "Bill.findAllByStatus",
+                query = "select b from Bill b where b.status=:status"
+        ),
+        @NamedQuery(
+                name = "Bill.findByAddressAndStatus",
+                query = "select b from Bill b where b.address=:address and b.status=:status"
+        )
+})
 @Table(name = "bills", schema = "public")
 public class Bill implements Serializable, Cloneable {
 
@@ -47,9 +61,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private BigInteger amountPaid = BigInteger.ZERO;
 
-    @OneToOne(
-            targetEntity = Asset.class
-    )
+    @OneToOne(targetEntity = Asset.class)
     @JoinColumn(
             name = "asset_id",
             foreignKey = @ForeignKey(
@@ -80,9 +92,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private PaymentTypes paymentType;
 
-    @OneToOne(
-            targetEntity = Who.class
-    )
+    @OneToOne(targetEntity = Who.class)
     @JoinColumn(
             name = "who_id",
             foreignKey = @ForeignKey(
@@ -91,9 +101,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private Who who;
 
-    @OneToOne(
-            targetEntity = Whom.class
-    )
+    @OneToOne(targetEntity = Whom.class)
     @JoinColumn(
             name = "whom_id",
             foreignKey = @ForeignKey(
