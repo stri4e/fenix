@@ -1,4 +1,5 @@
 package com.github.advertising.entity;
 
-public class Advertising {
+public enum EntityStatus {
+    off, on
 }
