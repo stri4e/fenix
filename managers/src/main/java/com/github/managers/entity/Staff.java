@@ -15,7 +15,31 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "staffs", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Staff.findByStatus",
+                query = "select s from Staff s where s.status=:status"
+        ),
+        @NamedQuery(
+                name = "Staff.findByManagerId",
+                query = "select s from Staff s where s.managerId =:managerId"
+        ),
+})
+@Table(
+        name = "staffs",
+        schema = "public",
+        indexes = @Index(columnList = "email", name = "email_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_staff_email",
+                        columnNames = "email"
+                ),
+                @UniqueConstraint(
+                        name = "uk_staff_managerId",
+                        columnNames = "manager_id"
+                )
+        }
+)
 public class Staff implements Serializable, Cloneable {
 
     @Id
@@ -58,8 +82,7 @@ public class Staff implements Serializable, Cloneable {
 
     @Column(
             name = "manager_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private UUID managerId;
 

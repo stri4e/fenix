@@ -18,22 +18,23 @@ public class StaffDto implements Serializable, Cloneable {
     @JsonProperty(value = "id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "firstName")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "lastName")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "email")
     private String email;
 
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "phone")
     private String phone;
 
-    @JsonProperty(value = "phone")
+    @JsonProperty(value = "avatar")
     private String avatar;
 
 }

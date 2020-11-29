@@ -18,36 +18,26 @@ public class CustomerDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 6985662747666560731L;
 
-    @JsonProperty(
-            value = "id"
-    )
+    @JsonProperty(value = "id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "firstName")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Field is required.")
     @JsonProperty(value = "lastName")
     private String lastName;
 
-    @NotBlank(
-            message = "Customer email is required."
-    )
-    @JsonProperty(
-            value = "customerEmail"
-    )
+    @NotBlank(message = "Field is required.")
+    @JsonProperty(value = "customerEmail")
     private String customerEmail;
 
-    @NotBlank(
-            message = "Customer phone is required."
-    )
-    @JsonProperty(
-            value = "customerPhone"
-    )
+    @NotBlank(message = "Field is required.")
+    @JsonProperty(value = "customerPhone")
     private String customerPhone;
 
-    @NotNull
+    @NotNull(message = "Field is required.")
     @JsonProperty(value = "address")
     private AddressDto address;
 

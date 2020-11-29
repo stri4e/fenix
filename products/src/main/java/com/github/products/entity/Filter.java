@@ -17,6 +17,12 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Filter.findById",
+                query = "select f from Filter f where f.id=:id"
+        )
+})
 @Table(name = "filters", schema = "public")
 public class Filter implements Serializable, Cloneable {
 

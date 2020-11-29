@@ -17,7 +17,29 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@Table(name = "sub_categories", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Subcategory.findById",
+                query = "select s from Subcategory s where s.id=:id"
+        ),
+        @NamedQuery(
+                name = "Subcategory.findByName",
+                query = "select s from Subcategory s where s.name=:name"
+        ),
+        @NamedQuery(
+                name = "Subcategory.findAllByStatus",
+                query = "select s from Subcategory s where s.status=:status"
+        )
+})
+@Table(
+        name = "subcategories",
+        schema = "public",
+        indexes = @Index(columnList = "name", name = "subcategory_name_idx"),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_subcategory_name",
+                columnNames = "name"
+        )
+)
 public class Subcategory implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 9085806796284875698L;

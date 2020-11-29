@@ -14,6 +14,12 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Criteria.findById",
+                query = "select c from Criteria c where c.id=:id"
+        )
+})
 @Table(name = "criteria", schema = "public")
 public class Criteria implements Serializable, Cloneable {
 

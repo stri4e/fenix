@@ -17,6 +17,20 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "stocks", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Stock.findByStatus",
+                query = "select s from Stock s where s.status=:status"
+        ),
+        @NamedQuery(
+                name = "Stock.findById",
+                query = "select s from Stock s where s.id=:id"
+        ),
+        @NamedQuery(
+                name = "Stock.findByNameAndNumber",
+                query = "select s from Stock s where s.name=:name and s.number=:number"
+        )
+})
 public class Stock implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 6272521516146573710L;

@@ -18,16 +18,16 @@ public class CustomerStatisticsDto implements Serializable, Cloneable {
     @JsonProperty(value = "id")
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Field is required.")
     @JsonProperty(value = "customerName")
     private Integer totalOrders;
 
-    @NotNull
-    @JsonProperty(value = "customerName")
+    @NotNull(message = "Field is required.")
+    @JsonProperty(value = "successOrders")
     private Integer successOrders;
 
-    @NotNull
-    @JsonProperty(value = "customerName")
+    @NotNull(message = "Field is required.")
+    @JsonProperty(value = "returnedOrders")
     private Integer returnedOrders;
 
 }

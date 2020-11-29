@@ -63,8 +63,10 @@ public class Product extends Item implements Serializable, Cloneable {
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "criteria_id",
-                    referencedColumnName = "id"
-            )
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "criteria_products_fk")
+            ),
+            foreignKey = @ForeignKey(name = "products_criteria_fk")
     )
     private Set<Criteria> criteria = new HashSet<>();
 
@@ -74,7 +76,10 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "sub_category_id"
+            name = "sub_category_id",
+            foreignKey = @ForeignKey(
+                    name = "products_subcategory_fk"
+            )
     )
     private Subcategory subcategory;
 
@@ -84,7 +89,10 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "brand_id"
+            name = "brand_id",
+            foreignKey = @ForeignKey(
+                    name = "products_brand_fk"
+            )
     )
     private Brand brand;
 
@@ -94,7 +102,10 @@ public class Product extends Item implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "stock_id"
+            name = "stock_id",
+            foreignKey = @ForeignKey(
+                    name = "products_stock_fk"
+            )
     )
     private Stock stock;
 
