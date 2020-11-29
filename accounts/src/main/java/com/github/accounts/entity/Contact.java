@@ -29,14 +29,14 @@ public class Contact implements Serializable, Cloneable {
     @Column(
             name = "phone",
             nullable = false,
-            length = 100
+            length = 150
     )
     private String phone;
 
     @Column(
             name = "company_name",
             nullable = false,
-            length = 100
+            length = 150
     )
     private String email;
 

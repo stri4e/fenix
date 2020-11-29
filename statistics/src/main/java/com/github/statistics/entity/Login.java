@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -26,7 +27,7 @@ public class Login implements Serializable, Cloneable {
     private Long id;
 
     @Column(
-            name = "ip",
+            name = "token",
             nullable = false
     )
     private String token;
@@ -40,7 +41,7 @@ public class Login implements Serializable, Cloneable {
     @ElementCollection(
             fetch = FetchType.EAGER
     )
-    private Map<String, String> information;
+    private Map<String, String> information = new HashMap<>();
 
     @Enumerated(value = EnumType.STRING)
     private EntityStatus status = EntityStatus.on;

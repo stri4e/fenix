@@ -20,7 +20,30 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "views")
-@Table(name = "accounts", schema = "public")
+@NamedQueries(
+        value = {
+                @NamedQuery(
+                        name = "Account.findByUserId",
+                        query = "select a from Account a where a.userId=:userId"
+                ),
+                @NamedQuery(
+                        name = "Account.findById",
+                        query = "select a from Account a where a.id=:id"
+                )
+        }
+)
+@Table(
+        name = "accounts",
+        schema = "public",
+        indexes = @Index(
+                columnList = "user_id",
+                name = "account_user_id_idx"
+        ),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_account_user_id_login",
+                columnNames = "user_id"
+        )
+)
 public class Account implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7822776482285231836L;
@@ -32,8 +55,7 @@ public class Account implements Serializable, Cloneable {
 
     @Column(
             name = "user_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private UUID userId;
 

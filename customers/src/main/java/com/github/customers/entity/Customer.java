@@ -18,14 +18,25 @@ import java.util.UUID;
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Customer.findAll",
-                query = "SELECT c FROM Customer c"
+                query = "select c from Customer c"
         ),
         @NamedQuery(
                 name = "Customer.findById",
-                query = "SELECT c FROM Customer c WHERE c.id =:id"
+                query = "select c from Customer c where c.id =:id"
         )
 })
-@Table(name = "customers", schema = "public")
+@Table(
+        name = "customers",
+        schema = "public",
+        indexes = @Index(
+                columnList = "user_id",
+                name = "customer_user_id_idx"
+        ),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_customer_user_id",
+                columnNames = "user_id"
+        )
+)
 public class Customer implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6968351368477077711L;
@@ -35,20 +46,21 @@ public class Customer implements Serializable, Cloneable {
             strategy = GenerationType.IDENTITY
     )
     @Column(
-            name = "ID",
-            unique = true
+            name = "ID"
     )
     private Long id;
 
     @Column(
             name = "first_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String firstName;
 
     @Column(
             name = "last_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String lastName;
 
@@ -80,8 +92,7 @@ public class Customer implements Serializable, Cloneable {
 
     @Column(
             name = "user_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private UUID userId;
 

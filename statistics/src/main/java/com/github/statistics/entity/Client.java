@@ -14,7 +14,18 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clients", schema = "public")
+@Table(
+        name = "clients",
+        schema = "public",
+        indexes = @Index(
+                columnList = "email",
+                name = "client_email_idx"
+        ),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_client_email_login",
+                columnNames = "email"
+        )
+)
 public class Client implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -7692504720260250018L;
@@ -26,13 +37,15 @@ public class Client implements Serializable, Cloneable {
 
     @Column(
             name = "first_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String firstName;
 
     @Column(
             name = "last_name",
-            nullable = false
+            nullable = false,
+            length = 150
     )
     private String lastName;
 
