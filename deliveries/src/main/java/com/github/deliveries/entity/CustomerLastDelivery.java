@@ -15,7 +15,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "customer_last_delivery", schema = "public")
+@Table(
+        name = "customer_last_delivery",
+        schema = "public",
+        indexes = @Index(
+                columnList = "user_id",
+                name = "customer_last_delivery_user_id_idx"
+        ),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_customer_last_delivery_user_id",
+                columnNames = "user_id"
+        )
+)
 public class CustomerLastDelivery implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1655627397181362589L;
@@ -57,8 +68,7 @@ public class CustomerLastDelivery implements Serializable, Cloneable {
 
     @Column(
             name = "user_id",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private UUID userId;
 

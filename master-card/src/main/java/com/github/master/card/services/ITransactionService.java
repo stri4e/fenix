@@ -4,10 +4,12 @@ import com.github.master.card.entity.EntityStatus;
 import com.github.master.card.entity.Transaction;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ITransactionService {
 
     Transaction create(Transaction transaction);
 
-    Page<Transaction> readAllByStatus(EntityStatus status);
+    List<Transaction> readAllByStatus(EntityStatus status);
 
 }

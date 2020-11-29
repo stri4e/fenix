@@ -43,11 +43,12 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
-	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation 'com.github.HellcrowAndrey:facade-ethrereum:0.0.9'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	implementation group: 'org.flywaydb', name: 'flyway-core', version: '6.5.6'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
 	implementation group: 'org.mock-server', name: 'mockserver-client-java', version: '5.11.1'
+	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
