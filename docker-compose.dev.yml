@@ -360,4 +360,17 @@ services:
       - gateway
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
-    entrypoint: "./messenger-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MASTER_CARD} -jar /app/messenger.jar"
+    entrypoint: "./messenger-entrypoint.sh config-server 8888 java ${JAVA_OPTS_MESSENGER} -jar /app/messenger.jar"
+  advertising:
+    container_name: advertising
+    restart: always
+    build: ./advertising
+    ports:
+      - "8099:8099"
+    depends_on:
+      - discovery
+      - config-server
+      - gateway
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    entrypoint: "./advertising-entrypoint.sh config-server 8888 java ${JAVA_OPTS_ADVERTISING} -jar /app/advertising.jar"
