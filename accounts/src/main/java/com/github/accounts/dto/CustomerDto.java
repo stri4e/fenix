@@ -29,15 +29,15 @@ public class CustomerDto implements Serializable, Cloneable {
 
     @NotBlank
     @JsonProperty(value = "customerEmail")
-    private String customerEmail;
+    private String email;
 
     @NotBlank
     @JsonProperty(value = "customerPhone")
-    private String customerPhone;
+    private String phone;
 
     @NotNull
     @JsonProperty(value = "customerAddress")
-    private AddressDto customerAddress;
+    private AddressDto address;
 
     public CustomerDto(
             ProfileDto profile,
@@ -45,9 +45,9 @@ public class CustomerDto implements Serializable, Cloneable {
             AddressDto customerAddress) {
         this.firstName = profile.getFirstName();
         this.lastName = profile.getLastName();
-        this.customerEmail = contact.getEmail();
-        this.customerPhone = contact.getPhone();
-        this.customerAddress = customerAddress;
+        this.email = contact.getEmail();
+        this.phone = contact.getPhone();
+        this.address = customerAddress;
     }
 
 }

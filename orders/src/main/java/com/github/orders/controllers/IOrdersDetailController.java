@@ -45,7 +45,7 @@ public interface IOrdersDetailController {
     OrderDetailDto findById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/{orderId}/{status}"
+            path = "/edit/{orderId}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void updateStatus(

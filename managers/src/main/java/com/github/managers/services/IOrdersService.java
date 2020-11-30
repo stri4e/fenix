@@ -21,7 +21,7 @@ import java.util.Optional;
 )
 public interface IOrdersService {
 
-    @GetMapping(path = "/pages/fetch/staffs/{status}/{staffId}")
+    @GetMapping(path = "/v1/pages/fetch/staffs/{status}/{staffId}")
     @ResponseStatus(code = HttpStatus.OK)
     Page<OrderDetailDto> findStuffOrders(
             @PathVariable(name = "status") String status,
@@ -32,7 +32,7 @@ public interface IOrdersService {
             }) Pageable pageable
     );
 
-    @GetMapping(path = "/pages/fetch/customers/{customerId}")
+    @GetMapping(path = "/v1/pages/fetch/customers/{customerId}")
     @ResponseStatus(code = HttpStatus.OK)
     Page<OrderDetailDto> findCustomerOrders(
             @PathVariable(name = "customerId") Long customerId,
@@ -42,7 +42,6 @@ public interface IOrdersService {
             }) Pageable pageable
     );
 
-
     @GetMapping(
             path = "/v1/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -50,7 +49,7 @@ public interface IOrdersService {
     Optional<OrderDetailDto> readById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/edit/stuff/{orderId}/{staffId}"
+            path = "/v1/edit/stuff/{orderId}/{staffId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
     void assignManager(
@@ -59,7 +58,7 @@ public interface IOrdersService {
     );
 
     @PutMapping(
-            path = "/v1/{orderId}/{status}"
+            path = "/v1/edit/{orderId}/{status}"
     )
     void update(@PathVariable(name = "orderId") Long orderId,
                 @PathVariable(name = "status") String status
