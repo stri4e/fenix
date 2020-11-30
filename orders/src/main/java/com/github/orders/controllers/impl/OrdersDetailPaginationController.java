@@ -75,30 +75,29 @@ public class OrdersDetailPaginationController implements IOrdersDetailPagination
 
     private Page<OrderDetailDto> toOrderPage(Page<OrderDetail> orders, Pageable pageable) {
         List<OrderDetail> content = orders.getContent();
-        OrderDetail order = content.stream().findFirst().orElseThrow(NotFound::new);
+        OrderDetail order = content.stream().findFirst()
+                .orElseThrow(NotFound::new);
+        List<Long> productIds = content.stream()
+                .flatMap(o -> o.getOrderItems().stream()
+                        .map(OrderItem::getProductId)
+                ).distinct()
+                .collect(Collectors.toList());
         CustomerDto customer = this.customerService.readById(order.getCustomerId())
                 .orElseThrow(NotFound::new);
-        return new PageImpl<>(
-                orders.getContent().stream()
-                        .map(o -> collect(o, customer))
-                        .collect(Collectors.toList()),
-                pageable, orders.getTotalElements()
-        );
-    }
-
-    private OrderDetailDto collect(OrderDetail order, CustomerDto customer) {
-        List<OrderItem> items = order.getOrderItems();
-        List<ProductDto> products = this.productService.readByIds(
-                items.stream()
-                        .map(OrderItem::getProductId)
-                        .collect(Collectors.toList()))
+        List<ProductDto> products = this.productService.readByIds(productIds)
                 .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer,
-                items.stream()
-                        .flatMap(o -> products.stream()
-                                .filter(p -> p.getId().equals(o.getProductId()))
-                                .map(p -> TransferObj.fromOrderItem(o, p)))
-                        .collect(Collectors.toList())
+        return new PageImpl<>(
+                content.stream()
+                        .map(o -> fromOrderDetail(
+                                o,
+                                customer,
+                                o.getOrderItems().stream()
+                                        .flatMap(i -> products.stream()
+                                                .filter(p -> i.getProductId().equals(p.getId()))
+                                                .map(p -> TransferObj.fromOrderItem(i, p))
+                                        ).collect(Collectors.toList())
+                        )).collect(Collectors.toList()),
+                pageable, orders.getTotalElements()
         );
     }
 
