@@ -7,6 +7,7 @@ import com.github.accounts.dto.ProductDto;
 import com.github.accounts.entity.*;
 import com.github.accounts.services.*;
 import com.github.accounts.utils.Logging;
+import com.github.accounts.utils.Payloads;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,14 +68,16 @@ public class AccountsController implements IAccountsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public AccountDto save(UUID userId, AccountDto payload) {
-        return fromAccount(this.accountsService.create(
-                new Account(
-                        userId,
-                        this.profilesService.create(toProfile(payload.getProfile())),
-                        this.contactsService.create(toContact(payload.getContact())),
-                        this.addressService.create(toAddress(payload.getAddress()))
-                )
-        )).and(() ->
+        return Payloads.of(
+                fromAccount(this.accountsService.create(
+                        new Account(
+                                userId,
+                                this.profilesService.create(toProfile(payload.getProfile())),
+                                this.contactsService.create(toContact(payload.getContact())),
+                                this.addressService.create(toAddress(payload.getAddress()))
+                        )
+                ))
+        ).doOnNext(() ->
                 this.customerService.save(
                         userId,
                         new CustomerDto(

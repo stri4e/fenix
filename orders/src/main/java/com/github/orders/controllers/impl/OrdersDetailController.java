@@ -10,6 +10,7 @@ import com.github.orders.entity.OrderStatus;
 import com.github.orders.exceptions.NotFound;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
+import com.github.orders.utils.Payloads;
 import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -52,11 +53,13 @@ public class OrdersDetailController implements IOrdersDetailController {
                 payload.getOrderItems().stream()
                         .map(TransferObj::toOrderItem)
                         .collect(Collectors.toList()));
-        return fromOrderDetail(
-                this.orderService.crete(toOrderDetail(payload, items, userId)),
-                payload.getCustomer(),
-                fromOrderItems(items, payload.getOrderItems())
-        ).and(this::andAsync);
+        return Payloads.of(
+                fromOrderDetail(
+                        this.orderService.crete(toOrderDetail(payload, items, userId)),
+                        payload.getCustomer(),
+                        fromOrderItems(items, payload.getOrderItems())
+                )
+        ).doOnNext(this::andAsync);
     }
 
     private void andAsync(OrderDetailDto order) {
