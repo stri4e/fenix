@@ -1,6 +1,6 @@
 package com.github.admins.services.impl;
 
-import com.github.admins.payload.Category;
+import com.github.admins.dto.CategoryDto;
 import com.github.admins.services.ICategoryService;
 import org.springframework.stereotype.Service;
 
@@ -11,22 +11,22 @@ import java.util.Optional;
 public class CategoryService implements ICategoryService {
 
     @Override
-    public Optional<Category> create(Category c) {
+    public Optional<CategoryDto> create(CategoryDto c) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Category> readByName(String name) {
+    public Optional<CategoryDto> readByName(String categoryName) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<List<Category>> readAll() {
+    public Optional<List<CategoryDto>> readAll() {
         return Optional.empty();
     }
 
     @Override
-    public void update(Category c) {
+    public void update(CategoryDto c) {
 
     }
 

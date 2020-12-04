@@ -1,19 +1,27 @@
 package com.github.products.services;
 
+import com.github.products.entity.Criteria;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
+import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Specification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public interface IProductService {
 
     Page<Product> read(Pageable pageable);
 
-    Page<Product> readAllByCategory(
-            String category, Pageable pageable
+    Page<Product> readAllBySubcategory(
+            String subcategory, Pageable pageable
+    );
+
+    Page<Product> readByParams(
+            String subcategoryName,
+            List<Criteria> criteria,
+            Pageable pageable
     );
 
     List<Product> searchProduct(String name, String description);
@@ -22,12 +30,16 @@ public interface IProductService {
 
     Product readById(Long id);
 
-    List<Product> readAllUnPublish();
+    List<Product> readAllOff();
 
     List<Product> readAllByIds(List<Long> ids);
 
-    void updateProduct(Product p);
+    void update(Product p);
 
-    void updateStatus(ProductStatus status, Long id);
+    void updateStatus(EntityStatus status, Long id);
+
+    void updateBoughtCountPlus(Long id);
+
+    void updateBoughtCountMinus(Long id);
 
 }

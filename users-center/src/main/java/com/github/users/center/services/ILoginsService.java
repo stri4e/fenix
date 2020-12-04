@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @FeignClient(
         name = "statistics",
-        fallback = LoginsService.class
+        fallback = LoginsService.class,
+        contextId = "loginsId"
 )
 public interface ILoginsService {
 

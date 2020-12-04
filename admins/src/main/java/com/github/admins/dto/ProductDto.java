@@ -9,14 +9,18 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "This model use for keep product.")
-public class ProductDto {
+public class ProductDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 4895019002261902990L;
 
     @ApiModelProperty(
             value = "Product id",
@@ -24,6 +28,14 @@ public class ProductDto {
     )
     @JsonProperty(value = "id")
     private Long id;
+
+    @ApiModelProperty(
+            value = "Product name",
+            example = "Xiaomi"
+    )
+    @JsonProperty(value = "brandName")
+    @NotBlank(message = "Brand name is required.")
+    private String brandName;
 
     @ApiModelProperty(
             value = "Product name",
@@ -61,6 +73,7 @@ public class ProductDto {
             value = "Product preview image"
     )
     @JsonProperty(value = "previewImage")
+    @NotBlank(message = "Preview Image is required.")
     private String previewImage;
 
     @ApiModelProperty(
@@ -68,5 +81,43 @@ public class ProductDto {
     )
     @JsonProperty(value = "images")
     private List<String> images;
+
+    @ApiModelProperty(
+            value = "Product specifications"
+    )
+    @JsonProperty(value = "specifications")
+    private List<SpecificationDto> specifications;
+
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "comments")
+    private List<CommentDto> comments;
+
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "subcategoryName")
+    @NotBlank(message = "Subcategory Name is required.")
+    private String subcategoryName;
+
+    @ApiModelProperty(
+            value = "Product comments"
+    )
+    @JsonProperty(value = "boughtCount")
+    @NotNull(message = "BoughtCount Name is required.")
+    private Integer boughtCount = 0;
+
+    @ApiModelProperty(
+            value = "Product stock name"
+    )
+    @JsonProperty(value = "stockName")
+    private String stockName;
+
+    @ApiModelProperty(
+            value = "Product stock number"
+    )
+    @JsonProperty(value = "stockNumber")
+    private String stockNumber;
 
 }

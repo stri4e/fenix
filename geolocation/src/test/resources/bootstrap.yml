@@ -1,0 +1,8 @@
+spring:
+  zipkin:
+    enabled: false
+  application:
+    name: geolocation
+  cloud:
+    config:
+      enabled: false

@@ -2,11 +2,13 @@ package com.github.users.center.services;
 
 import com.github.users.center.entity.User;
 
+import java.util.UUID;
+
 public interface IUserService {
 
     void create(User u);
 
-    User readById(Long id);
+    User readById(UUID id);
 
     User readByEmail(String email);
 
@@ -16,9 +18,9 @@ public interface IUserService {
 
     boolean existsByEmailOrLogin(String email, String login);
 
-    void updatePass(String pass, Long id);
+    void updatePass(String pass, UUID id);
 
-    void updateIsEnable(boolean isEnable, Long id);
+    void updateIsEnable(boolean isEnable, UUID id);
 
     void updateIsLocked(String email, boolean isLocked);
 

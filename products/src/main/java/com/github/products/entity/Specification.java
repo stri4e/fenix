@@ -18,15 +18,15 @@ import java.time.LocalDateTime;
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Specification.findAll",
-                query = "SELECT s FROM Specification s"
+                query = "select s from Specification s"
         ),
         @NamedQuery(
                 name = "Specification.findById",
-                query = "SELECT s FROM Specification s WHERE s.id = :id"
+                query = "select s from Specification s where s.id = :id"
         ),
         @NamedQuery(
                 name = "Specification.findByName",
-                query = "SELECT s FROM Specification s WHERE s.name = :name"
+                query = "select s from Specification s where s.name = :name"
         )
 })
 public class Specification implements Serializable, Cloneable {
@@ -52,6 +52,10 @@ public class Specification implements Serializable, Cloneable {
             nullable = false
     )
     private String description;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

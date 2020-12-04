@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
-import com.github.admins.payload.Product;
-import com.github.admins.payload.Specification;
+import com.github.admins.dto.SpecificationDto;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.Header;
@@ -22,30 +21,13 @@ public class SpecificationTestBase {
     }
 
     public void create() {
-        Specification requestPayload = SpecificationControllerMocks.requestPayload();
-        Specification responsePayload = SpecificationControllerMocks.responsePayload();
-        Product product = SpecificationControllerMocks.product();
-
-        this.client.when(
-                HttpRequest.request()
-                        .withMethod(RequestMethod.GET.name())
-                        .withPath("/v1/fetch/1"),
-                Times.exactly(1)
-        ).respond(
-                HttpResponse.response()
-                        .withStatusCode(HttpStatus.OK.value())
-                        .withHeader(
-                                Header.header(
-                                        HttpHeaders.CONTENT_TYPE,
-                                        MediaType.APPLICATION_JSON_VALUE
-                                )
-                        ).withBody(JsonBody.json(product))
-        );
+        SpecificationDto requestPayload = SpecificationControllerMocks.requestPayload();
+        SpecificationDto responsePayload = SpecificationControllerMocks.responsePayload();
 
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.POST.name())
-                        .withPath("/v1/specification/edit")
+                        .withPath("/v1/specification/edit/1")
                         .withBody(JsonBody.json(requestPayload)),
                 Times.exactly(1)
         ).respond(
@@ -56,22 +38,10 @@ public class SpecificationTestBase {
                                 MediaType.APPLICATION_JSON_VALUE
                         )).withBody(JsonBody.json(responsePayload))
         );
-
-        product.addSpecification(responsePayload);
-        this.client.when(
-                HttpRequest.request()
-                        .withMethod(RequestMethod.PUT.name())
-                        .withBody(JsonBody.json(product))
-                        .withPath("/v1/edit"),
-                Times.exactly(1)
-        ).respond(
-                HttpResponse.response().withStatusCode(HttpStatus.OK.value())
-        );
-
     }
 
     public void readById() {
-        Specification responsePayload = SpecificationControllerMocks.responsePayload();
+        SpecificationDto responsePayload = SpecificationControllerMocks.responsePayload();
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.GET.name())
@@ -90,7 +60,7 @@ public class SpecificationTestBase {
     }
 
     public void update() {
-        Specification responsePayload = SpecificationControllerMocks.responsePayload();
+        SpecificationDto responsePayload = SpecificationControllerMocks.responsePayload();
         this.client.when(
                 HttpRequest.request()
                         .withMethod(RequestMethod.PUT.name())

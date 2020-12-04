@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 public interface ICommentController {
 
     @PostMapping(
@@ -15,21 +17,21 @@ public interface ICommentController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    CommentDto saveComment(
+    CommentDto save(
             @PathVariable Long productId,
-            @RequestBody CommentDto payload
+            @Valid @RequestBody CommentDto payload
     );
 
     @GetMapping(
             path = "/fetch/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Comment findById(@PathVariable Long id);
+    CommentDto findById(@PathVariable Long id);
 
     @DeleteMapping(
             path = "/edit/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void removeComment(@PathVariable Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

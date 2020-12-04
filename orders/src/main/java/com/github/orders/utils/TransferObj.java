@@ -2,160 +2,83 @@ package com.github.orders.utils;
 
 import com.github.orders.dto.*;
 import com.github.orders.entity.*;
-import com.github.orders.payload.Category;
-import com.github.orders.payload.Comment;
-import com.github.orders.payload.Product;
-import com.github.orders.payload.Specification;
-import org.springframework.beans.BeanUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Customer toCustomer(CustomerDto data) {
-        return new Customer(
-                data.getCustomerName(),
-                data.getCustomerAddress(),
-                data.getCustomerEmail(),
-                data.getCustomerPhone()
-        );
-    }
-
-    public static OrderDetail toOrderDetail(
-            Customer c, OrderDetailDto data, Long userId) {
+    public static OrderDetail toOrderDetail(OrderDetailDto data, List<OrderItem> items, UUID userId) {
         return new OrderDetail(
-                c, data.getProductsIds(),
-                data.getAmount(), userId, data.getStatus());
+                data.getCustomer().getId(),
+                items,
+                data.getAmount(),
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
+                userId,
+                data.getStatus());
     }
 
-    public static OrderDto
-    fromOrderDetailDto(OrderDetail data, List<Product> products, Delivery delivery) {
-        var customer = fromCustomer(data.getCustomer());
-        var productsDto = products.stream()
-                .map(TransferObj::fromProduct)
-                .collect(Collectors.toList());
-        return new OrderDto(
+    public static OrderDetailDto fromOrderDetail(
+            OrderDetail data,
+            CustomerDto customer,
+            List<OrderItemDto> orderItems) {
+        return new OrderDetailDto(
                 data.getId(),
                 customer,
-                productsDto,
+                orderItems,
                 data.getAmount(),
-                data.getStatus(),
-                fromDelivery(delivery)
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
+                data.getStatus()
         );
     }
 
-    public static CustomerDto fromCustomer(Customer customer) {
-        return new CustomerDto(
-                customer.getId(),
-                customer.getCustomerName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerEmail(),
-                customer.getCustomerPhone()
-        );
-    }
-
-    public static ProductDto fromProduct(Product data) {
-        if (Objects.isNull(data)) {
-            return null;
-        }
-        ProductDto p = new ProductDto();
-        BeanUtils.copyProperties(data, p);
-        return p;
-    }
-
-    public static SpecificationDto fromSpecification(Specification data) {
-        return new SpecificationDto(
+    public static OrderItem toOrderItem(OrderItemDto data) {
+        return new OrderItem(
                 data.getId(),
-                data.getName(),
-                data.getDescription()
+                data.getProduct().getId(),
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
         );
     }
 
-    public static CommentDto fromComment(Comment data) {
-        return new CommentDto(data.getId(), data.getName(), data.getComment());
-    }
-
-    public static CategoryDto fromCategory(Category data) {
-        return new CategoryDto(data.getId(), data.getName());
-    }
-
-    public static Company toCompany(CompanyDto data) {
-        return new Company(
+    public static OrderItemDto fromOrderItem(OrderItem data, ProductDto product) {
+        return new OrderItemDto(
                 data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::toBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                toPrice(data.getPrice())
+                product,
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
         );
     }
 
-    public static CompanyDto fromCompany(Company data) {
-        return new CompanyDto(
-                data.getId(),
-                data.getName(),
-                data.getBranches().stream()
-                        .map(TransferObj::fromBranch)
-                        .collect(Collectors.toSet()),
-                data.getCities(),
-                fromPrice(data.getPrice())
-        );
-    }
-
-    public static Branch toBranch(BranchDto data) {
-        return new Branch(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
-        );
-    }
-
-    public static BranchDto fromBranch(Branch data) {
-        return new BranchDto(
-                data.getId(),
-                data.getNumber(),
-                data.getAddress(),
-                data.getPhone()
-        );
-    }
-
-    public static Delivery toDelivery(DeliveryDto data) {
-        return new Delivery(
-                data.getId(),
-                data.getType(),
-                data.getCompanyName(),
-                data.getBranchAddress()
-        );
-    }
-
-    public static DeliveryDto fromDelivery(Delivery data) {
-        return new DeliveryDto(
-                data.getId(),
-                data.getType(),
-                data.getCompanyName(),
-                data.getBranchAddress()
-        );
-    }
-
-    public static Price toPrice(PriceDto data) {
-        return new Price(
-                data.getId(),
-                data.getToHome(),
-                data.getToBranch()
-        );
-    }
-
-    public static PriceDto fromPrice(Price data) {
-        return new PriceDto(
-                data.getId(),
-                data.getToHome(),
-                data.getToBranch()
-        );
+    public static List<OrderItemDto> fromOrderItems(List<OrderItem> newItems, List<OrderItemDto> oldItems) {
+        return newItems.stream()
+                .flatMap(newItem -> oldItems.stream()
+                        .filter(oldItem -> oldItem.getProduct().getId().equals(newItem.getProductId()))
+                        .map(up -> fromOrderItem(newItem, up.getProduct())))
+                .collect(Collectors.toList());
     }
 
 }

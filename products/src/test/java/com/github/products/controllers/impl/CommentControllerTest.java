@@ -1,12 +1,13 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.dto.CommentDto;
-import com.github.products.entity.Category;
-import com.github.products.entity.Comment;
+import com.github.products.entity.Brand;
 import com.github.products.entity.Product;
-import com.github.products.repository.CategoryRepo;
+import com.github.products.entity.Subcategory;
+import com.github.products.repository.BrandRepo;
 import com.github.products.repository.CommentRepo;
 import com.github.products.repository.ProductRepo;
+import com.github.products.repository.SubcategoryRepo;
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.URL;
 
 import static com.github.products.ProductsConstant.LOCALHOST;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -47,10 +49,13 @@ public class CommentControllerTest {
     private ProductRepo productRepo;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private SubcategoryRepo subcategoryRepo;
 
     @Autowired
     private CommentRepo commentRepo;
+
+    @Autowired
+    private BrandRepo brandRepo;
 
     private String commentUrl;
 
@@ -74,20 +79,22 @@ public class CommentControllerTest {
     }
 
     private void init() {
-        Category categoryData = CommentControllerMocks.category();
-        Category category = this.categoryRepo.save(categoryData);
-        Product data = CommentControllerMocks.product();
-        data.setCategory(category);
+        Brand brand = this.brandRepo.save(SpecificationControllerMocks.brand());
+        Subcategory subcategoryData = SpecificationControllerMocks.subcategoryForSave();
+        Subcategory subcategory = this.subcategoryRepo.save(subcategoryData);
+        Product data = SpecificationControllerMocks.product();
+        data.setSubcategory(subcategory);
+        data.setBrand(brand);
         this.productRepo.save(data);
     }
 
     @Test
     public void findById() {
         this.commentRepo.save(CommentControllerMocks.commentForSave());
-        Comment exp = CommentControllerMocks.comment();
+        CommentDto exp = CommentControllerMocks.responsePayload();
         String url = String.format("%s%s", this.commentUrl, "/fetch/1");
-        ResponseEntity<Comment> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, Comment.class
+        ResponseEntity<CommentDto> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, CommentDto.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
         assertEquals(exp, response.getBody());
@@ -97,8 +104,8 @@ public class CommentControllerTest {
     public void remove() {
         this.commentRepo.save(CommentControllerMocks.commentForSave());
         String url = String.format("%s%s", this.commentUrl, "/edit/1");
-        ResponseEntity<Comment> response = this.restTemplate.exchange(
-                url, HttpMethod.DELETE, null, Comment.class
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.NO_CONTENT));
     }

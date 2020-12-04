@@ -3,32 +3,45 @@ package com.github.products.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "categories", schema = "public")
+@ToString(callSuper = true)
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Category.findAll",
-                query = "SELECT c FROM Category c"
+                query = "select c from Category c"
         ),
         @NamedQuery(
                 name = "Category.findById",
-                query = "SELECT c FROM Category c WHERE c.id = :id"
+                query = "select c from Category c where c.id = :id"
         ),
         @NamedQuery(
                 name = "Category.findByName",
-                query = "SELECT c FROM Category c WHERE c.name = :name"
+                query = "select c from Category c where c.name = :name"
         )
 })
+@Table(
+        name = "categories",
+        schema = "public",
+        indexes = @Index(columnList = "name", name = "category_name_idx"),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_category_name",
+                columnNames = "name"
+        )
+)
 public class Category implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -3168450095167684631L;
@@ -46,6 +59,23 @@ public class Category implements Serializable, Cloneable {
             length = 50
     )
     private String name;
+
+    @OneToMany(
+            targetEntity = Subcategory.class,
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinColumn(
+            name = "subcategory_id"
+    )
+    private List<Subcategory> subcategories = new ArrayList<>();
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(
@@ -69,5 +99,11 @@ public class Category implements Serializable, Cloneable {
     public Category(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategories.add(subcategory);
+        }
     }
 }

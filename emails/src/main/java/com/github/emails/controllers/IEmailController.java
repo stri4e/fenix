@@ -12,24 +12,31 @@ import javax.validation.Valid;
 public interface IEmailController {
 
     @PostMapping(
-            path = "/submit/reg",
+            path = "/edit/submit/reg",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     void submitReg(@Valid @RequestBody EmailNotification payload);
 
     @PostMapping(
-            path = "/reset/pass",
+            path = "/edit/reset/pass",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     void resetPass(@Valid @RequestBody EmailNotification payload);
 
     @PostMapping(
-            path = "/login/notification",
+            path = "/edit/login/notification",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     void loginNotification(@Valid @RequestBody EmailNotification payload);
+
+    @PostMapping(
+            path = "/edit/registration/orders",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
+    void registrationOrderNotify(@Valid @RequestBody EmailNotification payload);
 
 }

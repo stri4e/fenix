@@ -1,6 +1,6 @@
 package com.github.admins.services.impl;
 
-import com.github.admins.payload.Company;
+import com.github.admins.dto.CompanyDto;
 import com.github.admins.services.IDeliveryCompaniesService;
 import org.springframework.stereotype.Service;
 
@@ -10,17 +10,17 @@ import java.util.Optional;
 public class DeliveryCompaniesService implements IDeliveryCompaniesService {
 
     @Override
-    public Optional<Company> save(Company payload) {
+    public Optional<CompanyDto> save(CompanyDto payload) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Company> findById(Long id) {
+    public Optional<CompanyDto> findById(Long id) {
         return Optional.empty();
     }
 
     @Override
-    public void update(Company payload) {
+    public void update(CompanyDto payload) {
 
     }
 

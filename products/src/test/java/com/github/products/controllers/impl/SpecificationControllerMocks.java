@@ -1,16 +1,19 @@
 package com.github.products.controllers.impl;
 
-import com.github.products.entity.Category;
-import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
-import com.github.products.entity.Specification;
+import com.github.products.dto.SpecificationDto;
+import com.github.products.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SpecificationControllerMocks {
+
+    public static Long SUBCATEGORY_ID = 1L;
+
+    public static String SUBCATEGORY_NAME = "IPhone";
+
+    public static String BRAND_NAME = "OLX";
 
     public static final Long ID = 1L;
 
@@ -40,15 +43,31 @@ public class SpecificationControllerMocks {
         add("3");
     }};
 
-    public static Specification requestPayload() {
+    public static Specification specificationForSave() {
         return new Specification(
                 SPECIFICATION_NAME,
                 SPECIFICATION_DESCRIPTION
         );
     }
 
-    public static Specification responsePayload() {
+    public static SpecificationDto requestPayload() {
+        return new SpecificationDto(
+                null,
+                SPECIFICATION_NAME,
+                SPECIFICATION_DESCRIPTION
+        );
+    }
+
+    public static Specification specificationForEquals() {
         return new Specification(
+                ID,
+                SPECIFICATION_NAME,
+                SPECIFICATION_DESCRIPTION
+        );
+    }
+
+    public static SpecificationDto responsePayload() {
+        return new SpecificationDto(
                 ID,
                 SPECIFICATION_NAME,
                 SPECIFICATION_DESCRIPTION
@@ -72,12 +91,31 @@ public class SpecificationControllerMocks {
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setStatus(ProductStatus.used);
+        p.setStatus(EntityStatus.on);
         return p;
+    }
+
+    public static Subcategory subcategoryForSave() {
+        return new Subcategory(
+                SUBCATEGORY_NAME
+        );
+    }
+
+    public static Subcategory subcategoryForEquals() {
+        return new Subcategory(
+                SUBCATEGORY_ID,
+                SUBCATEGORY_NAME
+        );
     }
 
     public static Category category() {
         return new Category(CATEGORY_NAME);
+    }
+
+    public static Brand brand() {
+        return new Brand(
+                BRAND_NAME
+        );
     }
 
 }

@@ -1,14 +1,14 @@
 package com.github.websocket.controllers;
 
-import com.github.websocket.dto.OrderDto;
+import com.github.websocket.dto.OrderDetailDto;
 import com.github.websocket.network.Broker;
 import com.github.websocket.utils.Logging;
-import com.github.websocket.utils.Topics;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/v1/push")
@@ -17,11 +17,11 @@ public class OrderController {
 
     private final Broker broker;
 
-    @PostMapping
+    @PostMapping(path = "/edit")
     @HystrixCommand
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @Logging(isTime = true, isReturn = false)
-    public void pushOrder(@RequestBody OrderDto payload) {
+    public void pushOrder(@Valid @RequestBody OrderDetailDto payload) {
         this.broker.sendOrder(payload);
     }
 

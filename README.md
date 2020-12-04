@@ -8,13 +8,17 @@ Swagger:
         
         http://127.0.0.1:8081/products/swagger-ui.html#/
 
+Single service:
+    
+        http://localhost:8080/swagger-ui.html
+
 Turbine: 
         
         http://localhost:8281/hystrix
 
 Add Zipkin: 
 
-    - docker run -d -p 9411:9411 openzipkin/zipkin
+        docker run -d -p 9411:9411 openzipkin/zipkin
 
 Zipkin logs url:
         
@@ -81,3 +85,12 @@ Start all services use docker-composer:
 Stop all services use docker-composer:
 
         ./run.sh stop_all docker-compose.dev.yml
+
+Meest:
+    
+    https://wiki.meest-group.com/api/ua/v3.0/openAPI#/
+
+Novaposhta:
+
+    https://devcenter.novaposhta.ua/docs/services/
+    

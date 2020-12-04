@@ -1,24 +1,16 @@
 package com.github.orders.controllers;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDto;
-import com.github.orders.entity.OrderDetail;
 import com.github.orders.entity.OrderStatus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.UUID;
 
 public interface IOrdersDetailController {
 
@@ -33,73 +25,47 @@ public interface IOrdersDetailController {
                     example = "Bearer access_token"
             )
     )
-    void saveOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId,
-            @RequestBody @Valid OrderDetailDto payload
-    );
-
-    @GetMapping
-    @ApiImplicitParams(
-            @ApiImplicitParam(
-                    name = "Authorization",
-                    value = "Access Token",
-                    required = true,
-                    paramType = "header",
-                    example = "Bearer access_token"
-            )
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> userOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") Long userId
-    );
-
-    @GetMapping(path = "/fetch/binding/{orderId}")
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchBindingOrders(
-            @PathVariable(name = "orderId") Long orderId
-    );
-
-    @GetMapping(path = "/fetch/{status}/time")
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> fetchOrdersInTime(
-            @PathVariable OrderStatus status,
-            @RequestParam("start") LocalDateTime start,
-            @RequestParam("end") LocalDateTime end
+    OrderDetailDto save(
+            @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
+            @Valid @RequestBody OrderDetailDto payload
     );
 
     @GetMapping(
-            path = "/fetch/{status}",
+            path = "/statuses",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDto> findAllByStatus(@PathVariable OrderStatus status);
+    OrderStatus[] findAllOrderStatus();
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Object findByParams(@RequestParam(name = "orderId") Long orderId,
-                        @RequestParam(name = "ids") List<Long> ids);
+    OrderDetailDto findById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/edit"
+            path = "/edit/{orderId}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOrder(@RequestBody OrderDetail o);
-
-    @PutMapping(
-            path = "/edit/{orderId}/{orderStatus}"
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    void updateOderStatus(
+    void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
-            @PathVariable(name = "orderStatus") OrderStatus orderStatus);
+            @PathVariable(name = "status") OrderStatus status
+    );
+
+    @PutMapping(
+            path = "/edit/stuff/{orderId}/{staffId}"
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void assignManager(
+            @PathVariable(name = "orderId") Long orderId,
+            @PathVariable(name = "staffId") Long staffId
+    );
 
     @DeleteMapping(
             path = "/{id}"
     )
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deleteOrder(@PathVariable(name = "id") Long id);
+    void remove(@PathVariable(name = "id") Long id);
 
 }

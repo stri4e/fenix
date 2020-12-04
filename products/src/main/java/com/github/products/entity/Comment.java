@@ -13,21 +13,21 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comment", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Comment.findAll",
-                query = "SELECT c FROM Comment c"
+                query = "select c from Comment c"
         ),
         @NamedQuery(
                 name = "Comment.findById",
-                query = "SELECT c FROM Comment c WHERE c.id = :id"
+                query = "select c from Comment c where c.id = :id"
         ),
         @NamedQuery(
                 name = "Comment.findByName",
-                query = "SELECT c FROM Comment c WHERE c.name = :name"
+                query = "select c from Comment c where c.name = :name"
         )
 })
+@Table(name = "comment", schema = "public")
 public class Comment {
 
     @Id
@@ -48,6 +48,10 @@ public class Comment {
             nullable = false
     )
     private String comment;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
 
     @CreationTimestamp
     @Column(

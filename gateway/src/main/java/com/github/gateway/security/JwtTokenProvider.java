@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -15,20 +16,24 @@ public class JwtTokenProvider {
 
     private static final String AUTHORITIES = "AUTHORITIES";
 
-    @Value("${app.user.secret.key}")
-    private String userSecretKey;
+    @Value(value = "#{${keys.store}}")
+    private Map<String, String> keysStore;
 
-    public Long getUserFromJwt(final String token) {
+    public String findKey(String authToken) {
+        return this.keysStore.get(getKeyId(authToken));
+    }
+
+    public Long getUserFromJwt(String token, String key) {
         Claims claims = Jwts.parser()
-                .setSigningKey(this.userSecretKey)
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
         return Long.parseLong(claims.getSubject());
     }
 
-    public List<String> getRoles(final String token) {
+    public List<String> getRoles(String token, String key) {
         Claims claims = Jwts.parser()
-                .setSigningKey(this.userSecretKey)
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get(AUTHORITIES, getObjectType());
@@ -41,7 +46,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(final String authToken) {
         try {
-            Jwts.parser().setSigningKey(this.userSecretKey).parseClaimsJws(authToken);
+            Jwts.parser()
+                    .setSigningKey(this.keysStore.get(getKeyId(authToken)))
+                    .parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
@@ -55,6 +62,13 @@ public class JwtTokenProvider {
             log.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    private String getKeyId(String token) {
+        var signatureIndex = token.lastIndexOf('.');
+        var nonSignedToken = token.substring(0, signatureIndex + 1);
+        Header<?> h = Jwts.parser().parseClaimsJwt(nonSignedToken).getHeader();
+        return  (String) h.get(JwsHeader.KEY_ID);
     }
 
 }

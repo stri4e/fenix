@@ -8,12 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keeps category.")
-public class CategoryDto {
+public class CategoryDto implements Serializable, Cloneable {
+
+    private static final long serialVersionUID = 4900184865477114578L;
 
     @ApiModelProperty(
             value = "Category id.",

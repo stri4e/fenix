@@ -60,11 +60,21 @@ public class UserRegDto {
     private String pass;
 
     @ApiModelProperty(
-            value = "User last name.",
+            value = "User confirm password.",
             example = "password"
     )
     @NotBlank(
             message = "Confirm password is required"
     )
     private String confirmPass;
+
+    @ApiModelProperty(
+            value = "User phone.",
+            example = "+3805647892"
+    )
+    @NotBlank(
+            message = "Phone is required"
+    )
+    private String phone;
+
 }

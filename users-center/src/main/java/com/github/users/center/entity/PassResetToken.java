@@ -32,7 +32,13 @@ import static com.github.users.center.utils.UsersUtils.EXPIRATION_TIME;
 @Table(
         name = "pass_reset_token",
         schema = "public",
-        indexes = @Index(columnList = "token", name = "reset_token_idx")
+        indexes = @Index(columnList = "token", name = "reset_token_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_pass_reset",
+                        columnNames = "token"
+                )
+        }
 )
 public class PassResetToken implements Serializable, Cloneable {
 
@@ -45,7 +51,10 @@ public class PassResetToken implements Serializable, Cloneable {
     )
     private Long id;
 
-    @Column(name = "token")
+    @Column(
+            name = "token",
+            nullable = false
+    )
     private String token;
 
     @Temporal(
@@ -63,7 +72,10 @@ public class PassResetToken implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "user_id"
+            name = "user_id",
+            foreignKey = @ForeignKey(
+                    name = "pass_reset_token_users_fk"
+            )
     )
     private User user;
 
@@ -99,6 +111,28 @@ public class PassResetToken implements Serializable, Cloneable {
 
     public boolean isExpired() {
         return new Date().after(this.expireTime);
+    }
+
+    public static PassResetToken build() {
+        return new PassResetToken();
+    }
+
+    public PassResetToken user(User user) {
+        this.user = user;
+        this.token = UUID.randomUUID().toString();
+        return this;
+    }
+
+    public PassResetToken newPass(String newPass) {
+        this.newPass = newPass;
+        return this;
+    }
+
+    public PassResetToken expiryDate(int minute) {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MINUTE, minute);
+        this.expireTime = now.getTime();
+        return this;
     }
 
 }

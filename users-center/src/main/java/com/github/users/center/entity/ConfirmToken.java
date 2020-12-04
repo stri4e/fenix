@@ -29,7 +29,13 @@ import java.util.UUID;
 @Table(
         name = "confirm_token",
         schema = "public",
-        indexes = @Index(columnList = "token", name = "confirm_token_idx")
+        indexes = @Index(columnList = "token", name = "confirm_token_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_confirm_token",
+                        columnNames = "token"
+                )
+        }
 )
 public class ConfirmToken implements Serializable, Cloneable {
 
@@ -44,16 +50,9 @@ public class ConfirmToken implements Serializable, Cloneable {
 
     @Column(
             name = "token",
-            nullable = false,
-            unique = true
-    )
-    private String token;
-
-    @Column(
-            name = "client_url",
             nullable = false
     )
-    private String clientUrl;
+    private String token;
 
     @OneToOne(
             targetEntity = User.class,
@@ -61,7 +60,10 @@ public class ConfirmToken implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "user_id"
+            name = "user_id",
+            foreignKey = @ForeignKey(
+                    name = "confirm_token_users_fk"
+            )
     )
     private User user;
 
@@ -84,10 +86,9 @@ public class ConfirmToken implements Serializable, Cloneable {
     public ConfirmToken() {
     }
 
-    public ConfirmToken(String clientUrl, User user) {
+    public ConfirmToken(User user) {
         this.user = user;
         this.token = UUID.randomUUID().toString();
-        this.clientUrl = clientUrl;
     }
 
 }

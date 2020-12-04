@@ -1,7 +1,7 @@
 package com.github.products.repository;
 
+import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Product;
-import com.github.products.entity.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,16 +17,25 @@ import java.util.List;
 public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
         JpaSpecificationExecutor<Product> {
 
-    Page<Product> findByStatus(ProductStatus status, Pageable pageable);
+    Page<Product> findByStatus(EntityStatus status, Pageable pageable);
 
-    Page<Product> findAllByCategoryName(String name, Pageable pageable);
+    Page<Product> findAllBySubcategoryName(String name, Pageable pageable);
 
     List<Product> findByNameContainingOrDescriptionContaining(String name, String description);
 
     @Modifying
-    @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")
+    @Query(value = "update Product p set p.status =:status where p.id =:id")
     void updateStatus(
-            @Param(value = "status") ProductStatus status,
-            @Param(value = "id") Long id);
+            @Param(value = "status") EntityStatus status,
+            @Param(value = "id") Long id
+    );
+
+    @Modifying
+    @Query(value = "update Product p set p.boughtCount = p.boughtCount + 1 where p.id =:id")
+    void updateBoughCountPlus(@Param(value = "id") Long id);
+
+    @Modifying
+    @Query(value = "update Product p set p.boughtCount = p.boughtCount - 1 where p.id =:id")
+    void updateBoughCountMinus(@Param(value = "id") Long id);
 
 }

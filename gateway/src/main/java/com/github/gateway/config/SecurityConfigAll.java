@@ -16,8 +16,28 @@ import reactor.core.publisher.Mono;
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
-@Profile(value = {"default", "dev", "test"})
+@Profile(value = {"default", "test"})
 public class SecurityConfigAll {
+
+    private static final String[] SWAGGER = new String[]{
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/swagger-resources/**"
+    };
+
+    private static final String[] ALLOW_ACCESS = new String[] {
+            "/**",
+            "/statistics/**",
+            "/users/**",
+            "/admin/**",
+            "/products/**",
+            "/orders/**",
+            "/websocket/**"
+    };
 
     private final AuthenticationManager authenticationManager;
 
@@ -25,12 +45,6 @@ public class SecurityConfigAll {
 
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
-        String[] swagger = new String[]{
-                "/v2/api-docs", "/configuration/ui",
-                "/swagger-resources/**", "/configuration/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger-resources/**"
-        };
-        String[] allowAccess = new String[]{ "/**", "/statistics/**","/users/**", "/admin/**", "/products/**", "/orders/**", "/websocket/**"};
         return http.cors().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
@@ -42,8 +56,8 @@ public class SecurityConfigAll {
                 .authenticationManager(this.authenticationManager)
                 .securityContextRepository(this.securityContextRepository)
                 .authorizeExchange()
-                .pathMatchers(swagger).permitAll()
-                .pathMatchers(allowAccess).permitAll()
+                .pathMatchers(SWAGGER).permitAll()
+                .pathMatchers(ALLOW_ACCESS).permitAll()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyExchange().authenticated()
                 .and()

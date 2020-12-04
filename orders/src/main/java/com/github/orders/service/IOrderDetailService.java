@@ -5,25 +5,34 @@ import com.github.orders.entity.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.UUID;
 
 public interface IOrderDetailService {
 
     OrderDetail crete(OrderDetail o);
 
-    List<OrderDetail> read(OrderStatus status, LocalDateTime start, LocalDateTime end);
-
     OrderDetail readById(Long orderId);
 
-    List<OrderDetail> readUserId(Long userId);
+    Long readCustomerIdByOrderId(Long orderId);
 
-    List<OrderDetail> readByStatus(OrderStatus status);
+    Page<OrderDetail> readUserId(UUID userId, Pageable pageable);
 
-    List<OrderDetail> readByIds(List<Long> ids);
+    Page<OrderDetail> readByCustomerId(Long customerId, Pageable pageable);
+
+    Page<OrderDetail> readByStatus(OrderStatus status, Pageable pageable);
+
+    Page<OrderDetail> readByStaffIdNull(Pageable pageable);
+
+    Page<OrderDetail> readByStaffIdAndStatus(Long staffId, OrderStatus status, Pageable pageable);
+
+    Integer countTotalByCustomerId(Long customerId);
+
+    Integer countSuccessByCustomerId(Long customerId);
+
+    Integer countReturnedByCustomerId(Long customerId);
 
     void update(Long id, OrderStatus status);
 
-    void update(OrderDetail o);
+    void updateOrderManager(Long orderId, Long staffId);
 
 }

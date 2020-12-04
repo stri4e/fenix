@@ -35,29 +35,30 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.1'
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.1'
-	implementation group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.1'
-
-	implementation 'io.micrometer:micrometer-core:1.5.1'
-	implementation 'io.micrometer:micrometer-registry-prometheus:1.5.1'
+	implementation group: 'org.webjars', name: 'bootstrap', version: '4.5.3'
+	implementation group: 'org.webjars.bower', name: 'jquery', version: '3.5.1'
 
 	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	testImplementation group: 'junit', name: 'junit', version: '4.12'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {

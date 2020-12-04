@@ -4,6 +4,7 @@ import com.github.products.ProductsConstant;
 import com.github.products.dto.CategoryDto;
 import com.github.products.entity.Category;
 import com.github.products.repository.CategoryRepo;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
 import org.junit.Before;
@@ -98,7 +99,10 @@ public class CategoryControllerTest {
         );
         Category act = response.getBody();
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("createAt", "updateAt")
+                .isEqualTo(exp);
     }
 
     @Test
@@ -113,7 +117,10 @@ public class CategoryControllerTest {
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
         Category act = this.categoryRepo.findByName(CategoryControllerMocks.CATEGORY_UPDATE_NAME);
-        assertEquals(exp, act);
+        Assertions.assertThat(act)
+                .usingRecursiveComparison()
+                .ignoringFields("createAt", "updateAt")
+                .isEqualTo(exp);
     }
 
     @Test
@@ -125,8 +132,6 @@ public class CategoryControllerTest {
                 url, HttpMethod.DELETE, null, Category.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-        Category act = this.categoryRepo.findByName(CategoryControllerMocks.CATEGORY_UPDATE_NAME);
-        assertNull(act);
     }
 
 }

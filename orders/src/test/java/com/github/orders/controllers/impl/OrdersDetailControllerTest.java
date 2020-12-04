@@ -1,10 +1,7 @@
 package com.github.orders.controllers.impl;
 
 import com.github.orders.dto.OrderDetailDto;
-import com.github.orders.dto.OrderDto;
-import com.github.orders.entity.Customer;
 import com.github.orders.entity.OrderDetail;
-import com.github.orders.repository.CustomerRepo;
 import com.github.orders.repository.OrderDetailRepo;
 import org.assertj.core.util.Lists;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -28,6 +25,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 import static com.github.orders.OrdersConstant.LOCALHOST;
@@ -51,9 +50,6 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
 
     @Autowired
     private OrderDetailRepo orderRepo;
-
-    @Autowired
-    private CustomerRepo customerRepo;
 
     private String orderUrl;
 
@@ -89,59 +85,127 @@ public class OrdersDetailControllerTest extends OrdersDetailTestBase {
 
     @Test
     public void findAllByStatus() {
-        List<OrderDetail> exp = Lists.newArrayList(OrdersDetailControllerMocks.expOrder());
+        readProductsByIds();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch/open");
-        ResponseEntity<List<OrderDto>> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        List<OrderDto> act = response.getBody();
+        List<OrderDetailDto> act = response.getBody();
         assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
     }
 
     @Test
     public void findByOrderId() {
-        OrderDetail exp = OrdersDetailControllerMocks.expOrder();
+        readProductsByIds();
+        OrderDetailDto exp = OrdersDetailControllerMocks.orderForExpected();
         OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
         this.orderRepo.save(order);
         String url = String.format("%s%s", this.orderUrl, "/fetch?orderId=1");
-        ResponseEntity<OrderDetail> response = this.restTemplate
-                .getForEntity(url, OrderDetail.class);
+        ResponseEntity<OrderDetailDto> response = this.restTemplate
+                .getForEntity(url, OrderDetailDto.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        OrderDetail act = response.getBody();
+        OrderDetailDto act = response.getBody();
         assertEquals(exp, act);
     }
 
     @Test
-    public void update() {
-        OrderDetail order = OrdersDetailControllerMocks.orderDetailForUpdate();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
+    public void findOrdersInTime() {
+        readProductsByIds();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
         this.orderRepo.save(order);
-        String url = String.format("%s%s", this.orderUrl, "/edit");
+        LocalDateTime start = LocalDateTime.now()
+                .minus(30L, ChronoField.MINUTE_OF_HOUR.getBaseUnit());
+        LocalDateTime end = LocalDateTime.now();
+        String url = String.format(
+                "%s%s%s%s%s",
+                this.orderUrl,
+                "/fetch/open/?start=",
+                start.toString(),
+                "&end=",
+                end.toString()
+        );
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {}
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void findByUserId() {
+        readProductsByIds();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        this.orderRepo.save(order);
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                this.orderUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void findByIds() {
+        readProductsByIds();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        this.orderRepo.save(order);
+        String url = String.format("%s%s", this.orderUrl, "/fetch?ids=1");
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void findBindingOrders() {
+        readProductsByIds();
+        List<OrderDetailDto> exp = Lists.newArrayList(OrdersDetailControllerMocks.orderForExpected());
+        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
+        this.orderRepo.save(order);
+        String url = String.format("%s%s", this.orderUrl, "/fetch/binding/1");
+        ResponseEntity<List<OrderDetailDto>> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                }
+        );
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<OrderDetailDto> act = response.getBody();
+        assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
+    }
+
+    @Test
+    public void updateOrderStatus() {
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
+        this.orderRepo.save(orderForSave);
+        String url = String.format("%s%s", this.orderUrl, "/edit/1/close");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(order), Void.class
+                url, HttpMethod.PUT, null, Void.class
         );
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
-    public void updateOrderStatus() {
-        OrderDetail order = OrdersDetailControllerMocks.orderDetail();
-        Customer customer = OrdersDetailControllerMocks.customer();
-        this.customerRepo.save(customer);
-        this.orderRepo.save(order);
-        String url = String.format("%s%s", this.orderUrl, "/edit/1/close");
+    public void remove() {
+        removeBillById();
+        OrderDetail orderForSave = OrdersDetailControllerMocks.orderDetail();
+        this.orderRepo.save(orderForSave);
+        String url = String.format("%s%s", this.orderUrl, "/1");
         ResponseEntity<Void> response = this.restTemplate.exchange(
-                url, HttpMethod.PUT, new HttpEntity<>(order), Void.class
+                url, HttpMethod.DELETE, null, Void.class
         );
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
 }

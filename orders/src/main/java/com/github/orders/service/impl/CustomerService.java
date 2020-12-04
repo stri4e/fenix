@@ -1,28 +1,16 @@
 package com.github.orders.service.impl;
 
-import com.github.orders.entity.Customer;
-import com.github.orders.exceptions.BadRequest;
-import com.github.orders.repository.CustomerRepo;
+import com.github.orders.dto.CustomerDto;
 import com.github.orders.service.ICustomerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
 public class CustomerService implements ICustomerService {
 
-    private final CustomerRepo customerRepo;
-
     @Override
-    public Customer create(Customer o) {
-        if (Objects.isNull(o)) {
-            throw new BadRequest();
-        }
-        return this.customerRepo.save(o);
+    public Optional<CustomerDto> readById(Long customerId) {
+        return Optional.empty();
     }
-
 }

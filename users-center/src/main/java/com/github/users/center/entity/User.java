@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 @Data
 @Entity
@@ -44,6 +46,16 @@ import java.util.Collection;
         indexes = {
                 @Index(columnList = "email", name = "email_idx"),
                 @Index(columnList = "login", name = "login_idx")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_users_login",
+                        columnNames = "login"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_email",
+                        columnNames = "email"
+                )
         }
 )
 public class User implements Serializable, Cloneable {
@@ -51,47 +63,40 @@ public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = -669272112576179695L;
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(
-            strategy = GenerationType.IDENTITY
+            generator = "UUID"
     )
-    private Long id;
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
 
     @Column(
             name = "fName",
+            length = 150,
             nullable = false
-    )
-    @NotBlank(
-            message = "First name is required."
     )
     private String fName;
 
     @Column(
             name = "lName",
+            length = 150,
             nullable = false
-    )
-    @NotBlank(
-            message = "Last name is required."
     )
     private String lName;
 
     @Column(
             name = "login",
-            nullable = false,
-            unique = true
-    )
-    @NotBlank(
-            message = "Login is required."
+            length = 150,
+            nullable = false
     )
     private String login;
 
     @Column(
             name = "email",
-            nullable = false,
-            unique = true
-    )
-    @NotBlank(
-            message = "Email is required."
+            length = 150,
+            nullable = false
     )
     private String email;
 
@@ -99,10 +104,14 @@ public class User implements Serializable, Cloneable {
             name = "pass",
             nullable = false
     )
-    @NotBlank(
-            message = "Password is required."
-    )
     private String pass;
+
+    @Column(
+            name = "phone",
+            length = 150,
+            nullable = false
+    )
+    private String phone;
 
     @Column(
             name = "is_enable",
@@ -130,7 +139,11 @@ public class User implements Serializable, Cloneable {
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id",
-                    referencedColumnName = "id"
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "roles_users_fk")
+            ),
+            foreignKey = @ForeignKey(
+                    name = "users_roles_fk"
             )
     )
     private Collection<Role> roles;
@@ -156,6 +169,7 @@ public class User implements Serializable, Cloneable {
             String email,
             String login,
             String pass,
+            String phone,
             Collection<Role> roles
     ) {
         this.fName = fName;
@@ -164,6 +178,11 @@ public class User implements Serializable, Cloneable {
         this.login = login;
         this.pass = pass;
         this.roles = roles;
+        this.phone = phone;
+    }
+
+    public boolean isAuth(Predicate<String> passwordEquals) {
+        return passwordEquals.test(this.pass) && this.isEnable && !this.isLocked;
     }
 
 }

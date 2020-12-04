@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,7 +29,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User readById(Long id) {
+    public User readById(UUID id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
         }
@@ -72,7 +73,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updatePass(String pass, Long id) {
+    public void updatePass(String pass, UUID id) {
         if (!StringUtils.hasText(pass) || Objects.isNull(id)) {
             throw new BadRequest();
         }
@@ -80,7 +81,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateIsEnable(boolean isEnable, Long id) {
+    public void updateIsEnable(boolean isEnable, UUID id) {
         if (Objects.isNull(id)) {
             throw new BadRequest();
         }
