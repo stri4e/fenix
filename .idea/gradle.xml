@@ -4,6 +4,16 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/accounts" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/accounts" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="delegatedBuild" value="true" />
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
@@ -13,6 +23,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/admins" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/advertising" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/advertising" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -35,6 +55,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/config-server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/customers" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/customers" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -106,11 +136,31 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/managers" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/managers" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/master-card" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/master-card" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/messenger" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/messenger" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -157,6 +207,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/products" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/statistics" />
+        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/statistics" />
           </set>
         </option>
       </GradleProjectSettings>

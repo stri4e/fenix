@@ -135,7 +135,7 @@ public class Account implements Serializable, Cloneable {
     private Integer postCode;
 
     @Column(
-            name = "post_code",
+            name = "account_name",
             unique = true
     )
     private String accountName;

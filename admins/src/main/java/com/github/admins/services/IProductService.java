@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.ProductDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.ProductService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -11,21 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 @FeignClient(
-        name = "products-service",
+        name = "products",
         fallback = ProductService.class,
         contextId = "productId"
 )
 public interface IProductService {
 
     @PostMapping(
-            path = "/v1/edit/{subcategoryName}/{brandName}",
+            path = "/v1/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Optional<ProductDto> create(
-            @PathVariable(name = "subcategoryName") String subcategoryName,
-            @PathVariable(name = "brandName") String brandName,
-            @RequestBody ProductDto p
-    );
+    Optional<ProductDto> create(@RequestBody ProductDto p);
 
     @GetMapping(
             path = "/v1/fetch/{id}",
@@ -56,7 +51,7 @@ public interface IProductService {
     )
     void updateStatus(
             @PathVariable Long id,
-            @PathVariable EntityStatus status
+            @PathVariable String status
     );
 
 }

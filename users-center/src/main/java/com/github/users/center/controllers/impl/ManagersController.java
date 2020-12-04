@@ -21,11 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.concurrent.CompletableFuture;
 
+import static com.github.users.center.dto.StaffDto.staff;
 import static com.github.users.center.utils.TransferObj.toUser;
 import static com.github.users.center.utils.UsersUtils.MANAGER_SCOPE;
 import static com.github.users.center.utils.UsersUtils.ROLE_MANAGER;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +47,8 @@ public class ManagersController implements IManagersController {
 
     private final ILoginsService loginsService;
 
+    private final IStaffService staffService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -56,9 +59,11 @@ public class ManagersController implements IManagersController {
             this.userService.create(user);
             ConfirmToken ct = new ConfirmToken(user);
             this.confirmService.create(ct);
-            CompletableFuture.runAsync(() -> registration(user, origin, ct));
+            runAsync(() -> registration(user, origin, ct));
+            runAsync(() -> this.staffService.createStaff(user.getId(), staff(user)));
+        } else {
+            throw new Conflict();
         }
-        throw new Conflict();
     }
 
     @Override
@@ -67,14 +72,13 @@ public class ManagersController implements IManagersController {
     public JwtRefreshResponse
     submitAuth(String ip, String fingerprint, String userAgent, @Valid UserAuthDto payload) {
         var userName = payload.getUserName();
-        var pass = payload.getPass();
         User user = this.userService.readByEmailOrLogin(userName, userName);
-        if (this.passwordEncoder.matches(pass, user.getPass()) && user.isEnable() && !user.isLocked()) {
+        if (user.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass))) {
             var accessToken = this.jwtTokenProvider.managerAccessToken(user);
             RefreshSession rs = this.jwtTokenProvider
                     .refreshManagerSession(fingerprint, ip, user, MANAGER_SCOPE);
             RefreshSession session = this.refreshSessionService.create(rs);
-            CompletableFuture.runAsync(() -> logins(accessToken, user, ip, userAgent));
+            runAsync(() -> logins(accessToken, user, ip, userAgent));
             return new JwtRefreshResponse(accessToken, session.getRefreshToken(), session.expireIn());
         }
         throw new Unauthorized();

@@ -15,6 +15,7 @@ public class TransferObj {
                 dto.getEmail(),
                 dto.getLogin(),
                 dto.getPass(),
+                dto.getPhone(),
                 Collections.singleton(new Role(role))
         );
     }

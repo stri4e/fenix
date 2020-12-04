@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.BillDto;
-import com.github.admins.payload.EntityStatus;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -65,7 +64,7 @@ public class BillsControllerTest extends BillsControllerBase {
     @Test
     public void findByStatus() {
         readByStatus();
-        String url = String.format("%s%s%s", this.billsUrl, "?status=", EntityStatus.on);
+        String url = String.format("%s%s%s", this.billsUrl, "?status=", "on");
         ResponseEntity<List<BillDto>> response = this.restTemplate.exchange(
                 url, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {}

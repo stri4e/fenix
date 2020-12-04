@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.AssetDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.AssetsService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -22,7 +21,7 @@ public interface IAssetsService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<AssetDto>> findAssetsByStatus(
-            @PathVariable(name = "status") EntityStatus status
+            @PathVariable(name = "status") String status
     );
 
     @GetMapping(

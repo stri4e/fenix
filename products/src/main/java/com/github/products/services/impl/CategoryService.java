@@ -45,9 +45,6 @@ public class CategoryService implements ICategoryService {
     @Override
     @Cacheable(value = "category", key = "#name")
     public Category readByName(String name) {
-        if (StringUtils.isEmpty(name)) {
-            throw new BadRequest();
-        }
         return this.categoryRepo.findByName(name);
     }
 

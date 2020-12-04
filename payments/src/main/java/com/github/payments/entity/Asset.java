@@ -14,7 +14,39 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "assets", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Asset.findById",
+                query = "select a from Asset a where a.id=:id"
+        ),
+        @NamedQuery(
+                name = "Asset.findByName",
+                query = "select a from Asset a where a.name=:name"
+        ),
+        @NamedQuery(
+                name = "Asset.findAllByStatus",
+                query = "select a from Asset a where a.status=:status"
+        ),
+        @NamedQuery(
+                name = "Asset.findAllByAssetType",
+                query = "select a from Asset a where a.assetType=:assetType"
+        )
+})
+@Table(
+        name = "assets",
+        schema = "public",
+        indexes = @Index(columnList = "name", name = "asset_name_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_asset_name",
+                        columnNames = "name"
+                ),
+                @UniqueConstraint(
+                        name = "uk_asset_full_name",
+                        columnNames = "full_name"
+                )
+        }
+)
 public class Asset implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1926778909238058312L;
@@ -34,15 +66,13 @@ public class Asset implements Serializable, Cloneable {
 
     @Column(
             name = "name",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private String name;
 
     @Column(
             name = "full_name",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private String fullName;
 

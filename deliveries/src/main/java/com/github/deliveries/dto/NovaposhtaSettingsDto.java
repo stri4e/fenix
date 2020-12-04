@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
@@ -16,11 +17,11 @@ public class NovaposhtaSettingsDto {
     @JsonProperty("id")
     private Long id;
 
-    @NotNull
+    @NotBlank
     @JsonProperty("baseUrl")
     private String baseUrl;
 
-    @NotNull
+    @NotBlank
     @JsonProperty("apiKey")
     private String apiKey;
 

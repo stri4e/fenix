@@ -1,7 +1,6 @@
 package com.github.admins.controllers.impl;
 
 import com.github.admins.dto.AssetDto;
-import com.github.admins.dto.AssetType;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -24,7 +23,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -35,7 +34,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -46,7 +45,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -57,7 +56,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -68,7 +67,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 
@@ -79,7 +78,7 @@ public class AssetsControllerMocks {
                 "Vasia",
                 "Ethereum",
                 8,
-                AssetType.crypto
+                "crypto"
         );
     }
 

@@ -21,19 +21,44 @@ public class SecurityConfigProd {
 
     private static final String[] ALLOW_ACCESS = new String[] {
             "/users/**",
-            "/products/**"
+            "/products/**",
+            "/emails/pages/**"
     };
 
     private static final String[] USER_ACCESS  = new String[] {
             "/products/v1/comments",
+            "/products/v1/many/bought/count/**",
+            "/products/v1/single/bought/count/**",
             "/orders/**",
-            "/statistics/v1/views",
-            "/users/v1/notification/listening/ending"
+            "/statistics/v1/unbooked",
+            "/users/v1/aliases/listening",
+            "/payments/v1/accountant",
+            "/payments/v1/assets",
+            "/payments/v1/bills/**",
+            "/payments/v1/rates/**",
+            "/payments/v1/payment/type",
+            "/accounts/**",
+            "/geolocation/**",
+            "/customers/**",
+            "/deliveries/**",
+            "/bitcoin/v1/accounts/**",
+            "/bitcoin/v1/currency/**",
+            "/ethereum/v1/accounts/**",
+            "/ethereum/v1/contracts/**",
+            "/ethereum/v1/currency/**",
+            "/ethereum/v1/fee/**",
+            "/master-card/v1/account/**",
+            "/master-card/v1/payment/**"
     };
 
     private static final String[] MANAGER_ACCESS  = new String[] {
             "/managers/**",
-            "/users/v1/notification/listening/ending"
+            "/statistics/**",
+            "/users/v1/aliases/listening",
+            "/payments/**",
+            "/geolocation/**",
+            "/customers/**",
+            "/deliveries/**"
     };
 
     private static final String[] ADMIN_ACCESS = new String[] {
@@ -41,10 +66,14 @@ public class SecurityConfigProd {
             "/users/v1/admins/reg",
             "/users/v1/managers/reg",
             "/statistics/**",
-            "/websocket/**",
-            "/users/v1/notification/listening/ending",
+            "/users/v1/aliases/listening",
             "/ethereum/**",
-            "/bitcoin/**"
+            "/bitcoin/**",
+            "/payments/**",
+            "/geolocation/**",
+            "/customers/**",
+            "/deliveries/**",
+            "/master-card/**"
     };
 
     private static final String [] SERVICE_ACCESS = new String[] {

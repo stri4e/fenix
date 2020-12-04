@@ -20,6 +20,7 @@ public class TransferObj {
     }
 
     public static ProductDto fromProduct(Product data) {
+        Stock stock = data.getStock();
         return new ProductDto(
                 data.getId(),
                 data.getBrand().getName(),
@@ -35,7 +36,10 @@ public class TransferObj {
                 data.getComments().stream()
                         .map(TransferObj::fromComment)
                         .collect(Collectors.toList()),
-                data.getSubcategory().getName()
+                data.getSubcategory().getName(),
+                data.getBoughtCount(),
+                stock.getName(),
+                stock.getNumber()
         );
     }
 
@@ -63,7 +67,9 @@ public class TransferObj {
         return new CategoryDto(
                 data.getId(),
                 data.getName(),
-                data.getSubcategories()
+                data.getSubcategories().stream()
+                        .map(TransferObj::fromSubCategory)
+                        .collect(Collectors.toList())
         );
     }
 
@@ -130,6 +136,40 @@ public class TransferObj {
         return new CriteriaDto(
                 data.getId(),
                 data.getValue()
+        );
+    }
+
+    public static Stock toStock(StockDto data) {
+        return new Stock(
+                data.getId(),
+                data.getName(),
+                data.getNumber(),
+                data.getPhone(),
+                data.getEmail(),
+                data.getStaffNames(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getZipCode()
+        );
+    }
+
+    public static StockDto fromStock(Stock data) {
+        return new StockDto(
+                data.getId(),
+                data.getName(),
+                data.getNumber(),
+                data.getPhone(),
+                data.getEmail(),
+                data.getStaffNames(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getZipCode()
         );
     }
 

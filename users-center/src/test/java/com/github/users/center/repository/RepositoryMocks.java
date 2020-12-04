@@ -72,6 +72,8 @@ public class RepositoryMocks {
 
     public static final Date CREATE_AT = new Date(4242342342L);
 
+    public static final String PHONE = "+3809547862";
+
     //=========================================================
     //============== USERS MOCKS ==============================
     //=========================================================
@@ -86,6 +88,7 @@ public class RepositoryMocks {
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
         u.setLocked(Boolean.FALSE);
+        u.setPhone(PHONE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
@@ -100,6 +103,7 @@ public class RepositoryMocks {
         u.setPass(PASS);
         u.setEnable(IS_ENABLE);
         u.setLocked(Boolean.FALSE);
+        u.setPhone(PHONE);
         u.setRoles(Collections.singletonList(role()));
         return u;
     }
@@ -119,7 +123,6 @@ public class RepositoryMocks {
         c.setId(CONFIRM_ID);
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 
@@ -127,7 +130,6 @@ public class RepositoryMocks {
         ConfirmToken c = new ConfirmToken();
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 

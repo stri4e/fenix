@@ -14,6 +14,12 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Accountant.findByStatus",
+                query = "select a from Accountant a where a.status=:status"
+        )
+})
 @Table(name = "accountants", schema = "public")
 public class Accountant implements Serializable, Cloneable {
 

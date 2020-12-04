@@ -2,11 +2,11 @@ package com.github.admins.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.admins.payload.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -21,53 +21,66 @@ public class OrderDetailDto implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1415109953545446323L;
 
-    @JsonProperty(
-            value = "id"
-    )
+    @JsonProperty(value = "id")
     private Long id;
 
-    @NotNull(
-            message = "Customer data is required."
-    )
-    @JsonProperty(
-            value = "customer"
-    )
+    @NotNull
+    @JsonProperty(value = "customer")
     private CustomerDto customer;
 
-    @NotEmpty(
-            message = "Products ids is required."
-    )
-    @JsonProperty(
-            value = "productsIds"
-    )
-    private List<ProductDto> products;
+    @NotEmpty
+    @JsonProperty(value = "orderItems")
+    private List<OrderItemDto> orderItems;
 
-    @NotNull(
-            message = "Order amount is required."
-    )
-    @JsonProperty(
-            value = "amount"
-    )
+    @NotNull
+    @JsonProperty(value = "amount")
     private BigDecimal amount;
 
-    @NotNull(
-            message = "Order status is required."
-    )
-    @JsonProperty(
-            value = "status"
-    )
-    private OrderStatus status;
+    @NotNull
+    @JsonProperty(value = "weight")
+    private BigDecimal weight;
 
-    @NotNull(
-            message = "Delivery is required."
-    )
-    @JsonProperty(value = "delivery")
-    private DeliveryDto delivery;
+    @NotBlank
+    @JsonProperty(value = "company")
+    private String company;
 
-    @NotNull(
-            message = "Bill is required."
-    )
-    @JsonProperty(value = "bill")
-    private BillDto bill;
+    @NotBlank
+    @JsonProperty(value = "country")
+    private String country;
+
+    @NotBlank
+    @JsonProperty(value = "region")
+    private String region;
+
+    @NotBlank
+    @JsonProperty(value = "city")
+    private String city;
+
+    @NotBlank
+    @JsonProperty(value = "street")
+    private String street;
+
+    @NotBlank
+    @JsonProperty(value = "streetNumber")
+    private String streetNumber;
+
+    @JsonProperty(value = "flatNumber")
+    private String flatNumber;
+
+    @NotBlank
+    @JsonProperty(value = "zipCode")
+    private String zipCode;
+
+    @NotBlank
+    @JsonProperty(value = "deliveryData")
+    private String deliveryData;
+
+    @NotNull
+    @JsonProperty(value = "deliveryAmount")
+    private BigDecimal deliveryAmount;
+
+    @NotNull
+    @JsonProperty(value = "status")
+    private String status;
 
 }

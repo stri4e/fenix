@@ -37,13 +37,13 @@ public class AssetDto implements Serializable, Cloneable {
 
     @NotNull
     @JsonProperty(value = "assetType")
-    private AssetType assetType;
+    private String assetType;
 
     public AssetDto(@NotBlank String owner,
                     @NotBlank String name,
                     @NotBlank String fullName,
                     @NotNull Integer pow,
-                    @NotNull AssetType assetType) {
+                    @NotNull String assetType) {
         this.owner = owner;
         this.name = name;
         this.fullName = fullName;

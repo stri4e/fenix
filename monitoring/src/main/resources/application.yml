@@ -1,5 +1,5 @@
 server:
-  port: 8281
+  port: 3032
 turbine:
   app-config: admin-service, products-service
 #  aggregator:

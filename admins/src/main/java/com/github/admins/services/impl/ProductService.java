@@ -1,7 +1,6 @@
 package com.github.admins.services.impl;
 
 import com.github.admins.dto.ProductDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.IProductService;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 public class ProductService implements IProductService {
 
     @Override
-    public Optional<ProductDto> create(String subcategoryName, String brandName, ProductDto p) {
+    public Optional<ProductDto> create(ProductDto p) {
         return Optional.empty();
     }
 
@@ -37,7 +36,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void updateStatus(Long id, EntityStatus status) {
+    public void updateStatus(Long id, String status) {
 
     }
 }

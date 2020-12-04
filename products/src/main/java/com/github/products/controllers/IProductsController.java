@@ -1,65 +1,27 @@
 package com.github.products.controllers;
 
-import com.github.products.dto.BoughtCountDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.EntityStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public interface IProductsController {
 
-    @GetMapping(path = "/page/popular")
-    Page<ProductDto> findProductsByPage(
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "boughtCount", direction = Sort.Direction.ASC),
-            }) Pageable pageable);
-
-    @GetMapping(path = "/page/{subcategory}")
-    Page<ProductDto> findProductsByPage(
-            @PathVariable String subcategory,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
-            }) Pageable pageable
-    );
-
-    @GetMapping(path = "/page/{subcategory}/filters")
-    Page<ProductDto> findProductsByPageAndFilters(
-            @PathVariable String subcategory,
-            @RequestParam(name = "criteria") List<Long> criteria,
-            @PageableDefault(page = 0, size = 20)
-            @SortDefault.SortDefaults(value = {
-                    @SortDefault(sort = "createAt", direction = Sort.Direction.ASC),
-            }) Pageable pageable
-    );
-
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    List<ProductDto> searchProduct(
-            @NotBlank @RequestParam(name = "searchLine") String searchLine
-    );
+    List<ProductDto> searchProduct(@RequestParam(name = "searchLine") String searchLine);
 
     @PostMapping(
-            path = "/edit/{subcategory_name}/{brand_name}",
+            path = "/edit",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto save(@PathVariable(name = "subcategory_name") String subcategoryName,
-                    @PathVariable(name = "brand_name") String brandName,
-                    @Valid @RequestBody ProductDto payload
-    );
+    ProductDto save(@Valid @RequestBody ProductDto payload);
 
     @GetMapping(
             path = "/fetch",
@@ -88,10 +50,35 @@ public interface IProductsController {
     );
 
     @PutMapping(
-            path = "/edit/bought/count",
+            path = "/many/bought/count/plus",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateBoughtCount(@RequestBody List<BoughtCountDto> payload);
+    void updateBoughtCountPlus(@Valid @RequestBody List<Long> payload);
+
+    @PutMapping(
+            path = "/many/bought/count/minus",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCountMinus(@Valid @RequestBody List<Long> payload);
+
+    @PutMapping(
+            path = "/single/bought/count/plus/{productId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCountPlus(
+            @PathVariable(name = "productId") Long productId
+    );
+
+    @PutMapping(
+            path = "/single/bought/count/minus/{productId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    void updateBoughtCountMinus(
+            @PathVariable(name = "productId") Long productId
+    );
 
 }

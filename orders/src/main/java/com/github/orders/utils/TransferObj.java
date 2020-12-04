@@ -9,99 +9,76 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Customer toCustomer(CustomerDto data, UUID userId) {
-        return new Customer(
-                data.getId(),
-                data.getCustomerName(),
-                data.getCustomerEmail(),
-                data.getCustomerPhone(),
-                userId
-        );
-    }
-
-    public static OrderDetail toOrderDetail(
-            Customer customer, OrderDetailDto data, Delivery delivery, UUID userId, Long billId) {
+    public static OrderDetail toOrderDetail(OrderDetailDto data, List<OrderItem> items, UUID userId) {
         return new OrderDetail(
-                customer,
-                data.getProducts().stream()
-                        .map(ProductDto::getId)
-                        .collect(Collectors.toList()),
+                data.getCustomer().getId(),
+                items,
                 data.getAmount(),
-                delivery,
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
                 userId,
-                billId,
                 data.getStatus());
     }
 
-    public static OrderDetailDto fromOrderDetail(OrderDetail data, List<ProductDto> products, BillDto bill) {
+    public static OrderDetailDto fromOrderDetail(
+            OrderDetail data,
+            CustomerDto customer,
+            List<OrderItemDto> orderItems) {
         return new OrderDetailDto(
                 data.getId(),
-                fromCustomer(data.getCustomer()),
-                products,
+                customer,
+                orderItems,
                 data.getAmount(),
-                data.getStatus(),
-                fromDelivery(data.getDelivery()),
-                bill
-        );
-    }
-
-    public static CustomerDto fromCustomer(Customer data) {
-        return new CustomerDto(
-                data.getId(),
-                data.getCustomerName(),
-                data.getCustomerEmail(),
-                data.getCustomerPhone(),
-                fromAddress(data.getAddress())
-        );
-    }
-
-    public static Delivery toDelivery(DeliveryDto data, UUID userId) {
-        return new Delivery(
-                data.getId(),
-                data.getType(),
-                data.getCompanyName(),
-                data.getAmount(),
-                userId
-        );
-    }
-
-    public static DeliveryDto fromDelivery(Delivery data) {
-        return new DeliveryDto(
-                data.getId(),
-                data.getType(),
-                data.getCompanyName(),
-                fromAddress(data.getAddress()),
-                data.getAmount()
-        );
-    }
-
-    public static Address toAddress(AddressDto data, UUID userId) {
-        return new Address(
-                data.getId(),
+                data.getWeight(),
+                data.getCompany(),
                 data.getCountry(),
+                data.getRegion(),
                 data.getCity(),
                 data.getStreet(),
                 data.getStreetNumber(),
                 data.getFlatNumber(),
-                data.getState(),
                 data.getZipCode(),
-                data.getType(),
-                userId
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
+                data.getStatus()
         );
     }
 
-    public static AddressDto fromAddress(Address data) {
-        return new AddressDto(
+    public static OrderItem toOrderItem(OrderItemDto data) {
+        return new OrderItem(
                 data.getId(),
-                data.getCountry(),
-                data.getCity(),
-                data.getStreet(),
-                data.getStreetNumber(),
-                data.getFlatNumber(),
-                data.getState(),
-                data.getZipCode(),
-                data.getType()
+                data.getProduct().getId(),
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
         );
+    }
+
+    public static OrderItemDto fromOrderItem(OrderItem data, ProductDto product) {
+        return new OrderItemDto(
+                data.getId(),
+                product,
+                data.getQuantity(),
+                data.getPrice(),
+                data.getDiscount()
+        );
+    }
+
+    public static List<OrderItemDto> fromOrderItems(List<OrderItem> newItems, List<OrderItemDto> oldItems) {
+        return newItems.stream()
+                .flatMap(newItem -> oldItems.stream()
+                        .filter(oldItem -> oldItem.getProduct().getId().equals(newItem.getProductId()))
+                        .map(up -> fromOrderItem(newItem, up.getProduct())))
+                .collect(Collectors.toList());
     }
 
 }

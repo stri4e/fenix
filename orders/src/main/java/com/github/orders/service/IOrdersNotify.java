@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public interface IOrdersNotify {
 
     @PostMapping(
-            path = "/v1/push",
+            path = "/v1/push/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)

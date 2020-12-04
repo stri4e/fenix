@@ -37,13 +37,13 @@ public class CategoryDto implements Serializable, Cloneable {
     @ApiModelProperty(
             value = "Sub categories.")
     @JsonProperty(value = "subCategories")
-    private List<Subcategory> subcategories;
+    private List<SubcategoryDto> subcategories;
 
     public CategoryDto(@NotBlank(message = "Category name is required") String name) {
         this.name = name;
     }
 
-    public CategoryDto(@NotBlank(message = "Category name is required") String name, List<Subcategory> subcategories) {
+    public CategoryDto(@NotBlank(message = "Category name is required") String name, List<SubcategoryDto> subcategories) {
         this.name = name;
         this.subcategories = subcategories;
     }

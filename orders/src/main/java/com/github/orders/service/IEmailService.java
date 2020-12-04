@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public interface IEmailService {
 
     @PostMapping(
-            path = "/v1/registration/orders",
+            path = "/v1/edit/registration/orders",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(value = HttpStatus.CREATED)

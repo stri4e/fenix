@@ -1,12 +1,10 @@
 package com.github.deliveries.utils;
 
-import com.github.deliveries.dto.CompanyDto;
-import com.github.deliveries.dto.MeestSettingsDto;
-import com.github.deliveries.dto.MeestUserDto;
-import com.github.deliveries.dto.NovaposhtaSettingsDto;
+import com.github.deliveries.dto.*;
 import com.github.deliveries.entity.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class TransferObj {
 
@@ -42,27 +40,101 @@ public class TransferObj {
         );
     }
 
-    public static MeestSettings toMeestSettings(MeestSettingsDto data) {
-        return new MeestSettings(
-                data.getBaseUrl(),
-                data.getHeader()
-        );
-    }
-
-    public static MeestSettingsDto fromMeestSettings(MeestSettings data) {
-        MeestSession tokens = data.getSession();
-        return new MeestSettingsDto(
+    public static CustomerLastDelivery toDelivery(CustomerLastDeliveryDto data, UUID userId) {
+        return new CustomerLastDelivery(
                 data.getId(),
-                data.getBaseUrl(),
-                Objects.isNull(tokens) ? null : tokens.getToken(),
-                data.getHeader()
+                data.getType(),
+                data.getCompanyName(),
+                userId
         );
     }
 
-    public static MeestUser toMeestUser(MeestUserDto data) {
-        return new MeestUser(
-                data.getLogin(),
-                data.getPass()
+    public static CustomerLastDeliveryDto fromDelivery(CustomerLastDelivery data) {
+        Address address = data.getAddress();
+        return new CustomerLastDeliveryDto(
+                data.getId(),
+                data.getType(),
+                data.getCompanyName(),
+                Objects.nonNull(address) ? fromAddress(address) : new AddressDto()
+        );
+    }
+
+    public static Address toAddress(AddressDto data) {
+        return new Address(
+                data.getId(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode()
+        );
+    }
+
+    public static AddressDto fromAddress(Address data) {
+        return new AddressDto(
+                data.getId(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode()
+        );
+    }
+
+    public static NovaposhtaLegalCounterparty toCounterparty(NovaposhtaLegalCounterpartyDto data) {
+        return new NovaposhtaLegalCounterparty(
+                data.getId(),
+                data.getRef(),
+                data.getDescription(),
+                data.getFirstName(),
+                data.getMiddleName(),
+                data.getLastName(),
+                data.getCounterparty(),
+                data.getOwnershipForm(),
+                data.getEdrpou(),
+                data.getCounterpartyType()
+        );
+    }
+
+    public static NovaposhtaLegalCounterpartyDto fromCounterparty(NovaposhtaLegalCounterparty data) {
+        return new NovaposhtaLegalCounterpartyDto(
+                data.getId(),
+                data.getRef(),
+                data.getDescription(),
+                data.getFirstName(),
+                data.getMiddleName(),
+                data.getLastName(),
+                data.getCounterparty(),
+                data.getOwnershipForm(),
+                data.getEdrpou(),
+                data.getCounterpartyType()
+        );
+    }
+
+    public static NovaposhtaInternetDocumentDto fromNID(NovaposhtaInternetDocument data) {
+        return new NovaposhtaInternetDocumentDto(
+                data.getId(),
+                data.getRef(),
+                data.getCostOnSize(),
+                data.getEstimatedDeliveryDate(),
+                data.getIntDocNumber(),
+                data.getTypeDocument()
+        );
+    }
+
+    public static NovaposhtaInternetDocument toNID(NovaposhtaInternetDocumentDto data, Long orderId) {
+        return new NovaposhtaInternetDocument(
+                data.getId(),
+                data.getRef(),
+                data.getCostOnSize(),
+                data.getEstimatedDeliveryDate(),
+                data.getIntDocNumber(),
+                data.getTypeDocument(),
+                orderId
         );
     }
 

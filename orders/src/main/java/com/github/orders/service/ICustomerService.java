@@ -1,24 +1,27 @@
 package com.github.orders.service;
 
-import com.github.orders.entity.Customer;
+import com.github.orders.dto.CustomerDto;
+import com.github.orders.service.impl.CustomerService;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.UUID;
+import java.util.Optional;
 
+@FeignClient(
+        name = "customers",
+        fallback = CustomerService.class,
+        contextId = "customerId"
+)
 public interface ICustomerService {
 
-    Customer create(Customer o);
-
-    Customer readById(Long id);
-
-    Customer readByUserId(UUID userId);
-
-    void update(
-            Long id,
-            String customerName,
-            String customerEmail,
-            String customerPhone
+    @GetMapping(
+            path = "/fetch/{customerId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    Optional<CustomerDto> readById(
+            @PathVariable(name = "customerId") Long customerId
     );
-
-    void update(Customer o);
 
 }

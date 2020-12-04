@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IBillNotifyService {
 
     @PostMapping(
-            path = "/v1/bills/{ending}"
+            path = "/v1/bills/edit/{ending}"
     )
     void billNotify(@PathVariable String ending, @RequestBody BillDto payload);
 

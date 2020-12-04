@@ -8,6 +8,6 @@ public interface IUserAliasService {
 
     void save(UserAlias userAlias);
 
-    String ending(UUID userId);
+    String alias(UUID userId);
 
 }

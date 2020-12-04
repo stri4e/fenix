@@ -30,8 +30,6 @@ public class OrdersDetailControllerMocks {
 
     public static final List<Long> PRODUCT_IDS = Lists.newArrayList(1L, 2L, 3L);
 
-    public static final Long BILL_ID = 1L;
-
     public static CustomerDto customerDto() {
         return new CustomerDto(
                 CUSTOMER_ID,
@@ -46,11 +44,20 @@ public class OrdersDetailControllerMocks {
         return new OrderDetailDto(
                 ORDER_ID,
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_EQ,
                 AMOUNT,
-                OrderStatus.open,
-                delivery(),
-                requestBill()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
@@ -58,104 +65,60 @@ public class OrdersDetailControllerMocks {
         return new OrderDetailDto(
                 ORDER_ID,
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_EQ,
                 AMOUNT,
-                OrderStatus.open,
-                delivery(),
-                responseBill()
-        );
-    }
-
-    public static OrderDetailDto orderForUpdate() {
-        return new OrderDetailDto(
-                ORDER_ID,
-                customerDto(),
-                PRODUCTS_DTO,
-                AMOUNT,
-                OrderStatus.close,
-                delivery(),
-                responseBill()
-        );
-    }
-
-    public static BillDto responseBill() {
-        return new BillDto(
-                1L,
-                BigInteger.valueOf(60L),
-                BigInteger.valueOf(54L),
-                "ethereum",
-                "address",
-                new ArrayList<>(),
-                "crypto",
-                BillType.def,
-                new WhoDto(
-                        1L,
-                        "Vasia",
-                        "Pupkin",
-                        "Galicin"
-                ),
-                new WhomDto(
-                        1L,
-                        "Kolia",
-                        "Zupkin",
-                        "Shmiga"
-                )
-        );
-    }
-
-    public static BillDto requestBill() {
-        return new BillDto(
-                BigInteger.valueOf(60L),
-                BigInteger.valueOf(54L),
-                "ethereum",
-                "address",
-                new ArrayList<>(),
-                "crypto",
-                BillType.def,
-                new WhoDto(
-                        1L,
-                        "Vasia",
-                        "Pupkin",
-                        "Galicin"
-                ),
-                new WhomDto(
-                        1L,
-                        "Kolia",
-                        "Zupkin",
-                        "Shmiga"
-                )
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
     public static OrderDetailDto payload() {
         return new OrderDetailDto(
                 customerDto(),
-                PRODUCTS_DTO,
+                ITEMS_FOR_SA,
                 AMOUNT,
-                OrderStatus.open,
-                delivery(),
-                requestBill()
+                BigDecimal.TEN,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                OrderStatus.open
         );
     }
 
     public static OrderDetail orderDetail() {
         return new OrderDetail(
-                customer(),
-                PRODUCT_IDS,
-                AMOUNT,
-                USER_ID,
-                BILL_ID,
-                OrderStatus.open
-        );
-    }
-
-    public static Customer customer() {
-        return new Customer(
                 CUSTOMER_ID,
-                CUSTOMER_NAME,
-                CUSTOMER_EMAIL,
-                CUSTOMER_PHONE,
-                USER_ID
+                AMOUNT,
+                BigDecimal.ZERO,
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                "default",
+                BigDecimal.TEN,
+                USER_ID,
+                OrderStatus.open
         );
     }
 
@@ -219,68 +182,91 @@ public class OrdersDetailControllerMocks {
         );
     }
 
-    public static final List<ProductDto> PRODUCTS_DTO = Lists.newArrayList(
-            new ProductDto(
+    public static List<OrderItemDto> ITEMS_FOR_EQ = List.of(
+            new OrderItemDto(
                     1L,
-                    "Brand1",
-                    "Nokia",
-                    new BigDecimal("12.2"),
-                    25,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
+                    new ProductDto(
+                            1L,
+                            "Brand1",
+                            "Nokia",
+                            new BigDecimal("12.2"),
+                            25,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
             ),
-            new ProductDto(
+            new OrderItemDto(
                     2L,
-                    "Brand2",
-                    "IPhone",
-                    new BigDecimal("100.2"),
-                    100,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
-            ),
-            new ProductDto(
-                    3L,
-                    "Brand3",
-                    "Sumsung",
-                    new BigDecimal("50.2"),
-                    500,
-                    "This is good product.",
-                    "img",
-                    Lists.newArrayList("1", "2", "3"),
-                    SPECIFICATIONS,
-                    COMMENTS,
-                    "subcategory1"
+                    new ProductDto(
+                            2L,
+                            "Brand2",
+                            "IPhone",
+                            new BigDecimal("100.2"),
+                            100,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
             )
     );
 
-    public static DeliveryDto delivery() {
-        return new DeliveryDto(
-                1L,
-                DeliveryType.home,
-                "Nowa poshta",
-                addressDto(),
-                new BigDecimal("50.2000")
-
-        );
-    }
-
-    public static Delivery deliveryForSave() {
-        return new Delivery(
-                1L,
-                DeliveryType.home,
-                "Nowa poshta",
-                new BigDecimal("50.2000"),
-                USER_ID
-        );
-    }
+    public static List<OrderItemDto> ITEMS_FOR_SA = List.of(
+            new OrderItemDto(
+                    null,
+                    new ProductDto(
+                            1L,
+                            "Brand1",
+                            "Nokia",
+                            new BigDecimal("12.2"),
+                            25,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
+            ),
+            new OrderItemDto(
+                    null,
+                    new ProductDto(
+                            2L,
+                            "Brand2",
+                            "IPhone",
+                            new BigDecimal("100.2"),
+                            100,
+                            "This is good product.",
+                            "img",
+                            Lists.newArrayList("1", "2", "3"),
+                            SPECIFICATIONS,
+                            COMMENTS,
+                            "subcategory1",
+                            0
+                    ),
+                    1,
+                    BigDecimal.TEN,
+                    BigDecimal.ZERO
+            )
+    );
 
     public static AddressDto addressDto() {
         return new AddressDto(
@@ -288,26 +274,10 @@ public class OrdersDetailControllerMocks {
                 "Ukraina",
                 "Dnepr",
                 "Julvern",
-                1,
+                "1",
                 null,
                 null,
-                49000,
-                AddressType.customer
-        );
-    }
-
-    public static Address addressForSave() {
-        return new Address(
-                null,
-                "Ukraina",
-                "Dnepr",
-                "Julvern",
-                1,
-                null,
-                null,
-                49000,
-                AddressType.customer,
-                USER_ID
+                "49000"
         );
     }
 

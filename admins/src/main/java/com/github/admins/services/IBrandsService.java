@@ -1,7 +1,6 @@
 package com.github.admins.services;
 
 import com.github.admins.dto.BrandDto;
-import com.github.admins.payload.EntityStatus;
 import com.github.admins.services.impl.BrandsService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @FeignClient(
-        name = "products-service",
+        name = "products",
         fallback = BrandsService.class,
         contextId = "brandsId"
 )
@@ -36,7 +35,7 @@ public interface IBrandsService {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     Optional<List<BrandDto>> readAllByStatus(
-            @PathVariable(name = "status") EntityStatus status
+            @PathVariable(name = "status") String status
     );
 
     @PutMapping(

@@ -16,7 +16,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@Table(name = "brands", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Brand.findByName",
+                query = "select b from Brand b where b.name=:name"
+        ),
+        @NamedQuery(
+                name = "Brand.findAllByStatus",
+                query = "select b from Brand b where b.status=:status"
+        )
+})
+@Table(
+        name = "brands",
+        schema = "public",
+        indexes = @Index(columnList = "name", name = "brand_name_idx"),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_brands_name",
+                columnNames = "name"
+        )
+)
 public class Brand implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1226440996435440929L;
@@ -31,7 +49,6 @@ public class Brand implements Serializable, Cloneable {
     @Column(
             name = "name",
             nullable = false,
-            unique = true,
             length = 100
     )
     private String name;

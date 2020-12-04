@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -21,12 +22,12 @@ public class CustomerDto implements Serializable, Cloneable {
     private Long id;
 
     @NotBlank
-    @JsonProperty(value = "customerName")
-    private String customerName;
+    @JsonProperty(value = "firstName")
+    private String firstName;
 
     @NotBlank
-    @JsonProperty(value = "customerAddress")
-    private String customerAddress;
+    @JsonProperty(value = "lastName")
+    private String lastName;
 
     @NotBlank
     @JsonProperty(value = "customerEmail")
@@ -35,5 +36,9 @@ public class CustomerDto implements Serializable, Cloneable {
     @NotBlank
     @JsonProperty(value = "customerPhone")
     private String customerPhone;
+
+    @NotNull
+    @JsonProperty(value = "customerAddress")
+    private AddressDto customerAddress;
 
 }

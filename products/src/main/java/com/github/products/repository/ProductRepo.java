@@ -24,17 +24,18 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     List<Product> findByNameContainingOrDescriptionContaining(String name, String description);
 
     @Modifying
-    @Query(value = "UPDATE Product p SET p.status =:status WHERE p.id =:id")
+    @Query(value = "update Product p set p.status =:status where p.id =:id")
     void updateStatus(
             @Param(value = "status") EntityStatus status,
             @Param(value = "id") Long id
     );
 
     @Modifying
-    @Query(value = "UPDATE Product p SET p.boughtCount =:boughtCount WHERE p.id =:id")
-    void updateBoughCount(
-            @Param(value = "id") Long id,
-            @Param(value = "boughtCount") Integer boughtCount
-    );
+    @Query(value = "update Product p set p.boughtCount = p.boughtCount + 1 where p.id =:id")
+    void updateBoughCountPlus(@Param(value = "id") Long id);
+
+    @Modifying
+    @Query(value = "update Product p set p.boughtCount = p.boughtCount - 1 where p.id =:id")
+    void updateBoughCountMinus(@Param(value = "id") Long id);
 
 }

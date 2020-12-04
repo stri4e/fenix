@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @FeignClient(
-        name = "products-service",
+        name = "products",
         fallback = SubcategoryService.class,
         contextId = "subcategoryId"
 )

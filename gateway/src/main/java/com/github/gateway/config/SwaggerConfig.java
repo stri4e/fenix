@@ -44,14 +44,23 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
     @Override
     public List<SwaggerResource> get() {
         List<SwaggerResource> resources = new ArrayList<>();
-        resources.add(swaggerResource("gateway-service","/v2/api-docs","1.0"));
-        resources.add(swaggerResource("admin-service","/admin/v2/api-docs","1.0"));
+        resources.add(swaggerResource("gateway","/v2/api-docs","1.0"));
+        resources.add(swaggerResource("admins","/admins/v2/api-docs","1.0"));
         resources.add(swaggerResource("users-center","/users/v2/api-docs","1.0"));
-        resources.add(swaggerResource("products-service","/products/v2/api-docs","1.0"));
-        resources.add(swaggerResource("orders-service","/orders/v2/api-docs","1.0"));
+        resources.add(swaggerResource("products","/products/v2/api-docs","1.0"));
+        resources.add(swaggerResource("orders","/orders/v2/api-docs","1.0"));
         resources.add(swaggerResource("emails","/emails/v2/api-docs","1.0"));
-        resources.add(swaggerResource("statistics","/statistics/swagger/index.html","1.0"));
-        resources.add(swaggerResource("managers","/managers/swagger/index.html","1.0"));
+        resources.add(swaggerResource("statistics","/statistics/v2/api-docs","1.0"));
+        resources.add(swaggerResource("websocket","/websocket/v2/api-docs","1.0"));
+        resources.add(swaggerResource("managers","/managers/v2/api-docs","1.0"));
+        resources.add(swaggerResource("payments","/payments/v2/api-docs","1.0"));
+        resources.add(swaggerResource("accounts","/accounts/v2/api-docs","1.0"));
+        resources.add(swaggerResource("geolocation","/geolocation/v2/api-docs","1.0"));
+        resources.add(swaggerResource("customers","/customers/v2/api-docs","1.0"));
+        resources.add(swaggerResource("deliveries","/deliveries/v2/api-docs","1.0"));
+        resources.add(swaggerResource("bitcoin","/bitcoin/v2/api-docs","1.0"));
+        resources.add(swaggerResource("ethereum","/ethereum/v2/api-docs","1.0"));
+        resources.add(swaggerResource("master-card","/master-card/v2/api-docs","1.0"));
         return resources;
     }
 

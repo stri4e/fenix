@@ -19,6 +19,20 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "Bill.findById",
+                query = "select b from Bill b where b.id=:id"
+        ),
+        @NamedQuery(
+                name = "Bill.findAllByStatus",
+                query = "select b from Bill b where b.status=:status"
+        ),
+        @NamedQuery(
+                name = "Bill.findByAddressAndStatus",
+                query = "select b from Bill b where b.address=:address and b.status=:status"
+        )
+})
 @Table(name = "bills", schema = "public")
 public class Bill implements Serializable, Cloneable {
 
@@ -28,6 +42,12 @@ public class Bill implements Serializable, Cloneable {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(
+            name = "order_id",
+            nullable = false
+    )
+    private Long orderId;
 
     @Column(
             name = "amount",
@@ -41,9 +61,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private BigInteger amountPaid = BigInteger.ZERO;
 
-    @OneToOne(
-            targetEntity = Asset.class
-    )
+    @OneToOne(targetEntity = Asset.class)
     @JoinColumn(
             name = "asset_id",
             foreignKey = @ForeignKey(
@@ -74,16 +92,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private PaymentTypes paymentType;
 
-    @Column(
-            name = "bill_type",
-            nullable = false
-    )
-    @Enumerated(value = EnumType.STRING)
-    private BillType billType;
-
-    @OneToOne(
-            targetEntity = Who.class
-    )
+    @OneToOne(targetEntity = Who.class)
     @JoinColumn(
             name = "who_id",
             foreignKey = @ForeignKey(
@@ -92,9 +101,7 @@ public class Bill implements Serializable, Cloneable {
     )
     private Who who;
 
-    @OneToOne(
-            targetEntity = Whom.class
-    )
+    @OneToOne(targetEntity = Whom.class)
     @JoinColumn(
             name = "whom_id",
             foreignKey = @ForeignKey(
@@ -147,29 +154,25 @@ public class Bill implements Serializable, Cloneable {
         return this;
     }
 
-    public Bill(Long id, BigInteger amount, BigInteger amountPaid, String address, BillType billType, List<String> transfers) {
+    public Bill(Long id, Long orderId, BigInteger amount, BigInteger amountPaid, String address, List<String> transfers) {
         this.id = id;
+        this.orderId = orderId;
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
-        this.billType = billType;
     }
 
-    public Bill(BigInteger amount, BigInteger amountPaid, Asset asset, String address, List<String> transfers, PaymentTypes paymentType, BillType billType, Who who, Whom whom) {
+    public Bill(Long orderId, BigInteger amount, BigInteger amountPaid, Asset asset, String address,
+                List<String> transfers, PaymentTypes paymentType, Who who, Whom whom) {
         this.amount = amount;
         this.amountPaid = amountPaid;
         this.asset = asset;
         this.address = address;
         this.transfers = Objects.isNull(transfers) ? Lists.newArrayList() : transfers;
         this.paymentType = paymentType;
-        this.billType = billType;
         this.who = who;
         this.whom = whom;
-    }
-
-    public boolean isOther() {
-        return this.billType.equals(BillType.other);
     }
 
 }

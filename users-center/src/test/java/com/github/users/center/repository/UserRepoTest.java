@@ -3,6 +3,8 @@ package com.github.users.center.repository;
 import com.github.users.center.entity.Role;
 import com.github.users.center.entity.User;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

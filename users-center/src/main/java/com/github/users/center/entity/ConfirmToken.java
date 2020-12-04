@@ -29,7 +29,13 @@ import java.util.UUID;
 @Table(
         name = "confirm_token",
         schema = "public",
-        indexes = @Index(columnList = "token", name = "confirm_token_idx")
+        indexes = @Index(columnList = "token", name = "confirm_token_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_confirm_token",
+                        columnNames = "token"
+                )
+        }
 )
 public class ConfirmToken implements Serializable, Cloneable {
 
@@ -44,8 +50,7 @@ public class ConfirmToken implements Serializable, Cloneable {
 
     @Column(
             name = "token",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private String token;
 
@@ -55,7 +60,10 @@ public class ConfirmToken implements Serializable, Cloneable {
     )
     @JoinColumn(
             nullable = false,
-            name = "user_id"
+            name = "user_id",
+            foreignKey = @ForeignKey(
+                    name = "confirm_token_users_fk"
+            )
     )
     private User user;
 

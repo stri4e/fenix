@@ -2,12 +2,14 @@ package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IForgotPassword;
 import com.github.users.center.dto.ForgotPassDto;
+import com.github.users.center.entity.EntityStatus;
 import com.github.users.center.entity.PassResetToken;
 import com.github.users.center.entity.Role;
 import com.github.users.center.entity.User;
 import com.github.users.center.payload.EmailNotification;
 import com.github.users.center.services.IEmailService;
 import com.github.users.center.services.IResetPassService;
+import com.github.users.center.services.IStaffService;
 import com.github.users.center.services.IUserService;
 import com.github.users.center.utils.Logging;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -35,6 +37,8 @@ public class ForgotPassword implements IForgotPassword {
 
     private final IEmailService emailService;
 
+    private final IStaffService staffService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -42,6 +46,7 @@ public class ForgotPassword implements IForgotPassword {
         User user = this.userService.readByEmail(payload.getEmail());
         if (containsRoles(user)) {
             this.userService.updateIsLocked(user.getEmail(), Boolean.TRUE);
+            this.staffService.updateStaffStatus(user.getId(), EntityStatus.off);
         } else {
             var newPass = this.passwordEncoder.encode(payload.getPass());
             PassResetToken rt = PassResetToken.build()

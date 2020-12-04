@@ -17,12 +17,12 @@ public class UserAliasController implements IUserAliasController {
 
     @Override
     public String aliasForPush(UUID userId) {
-        return this.notificationService.ending(userId);
+        return this.notificationService.alias(userId);
     }
 
     @Override
     public String aliasForListening(UUID userId) {
-        return this.notificationService.ending(userId);
+        return this.notificationService.alias(userId);
     }
 
 }

@@ -91,26 +91,8 @@ public class BillsControllerTest extends BillsControllerBase {
         BillDto exp = BillsControllerMocks.response();
         this.paymentTypesRepo.save(BillsControllerMocks.paymentTypesForSave());
         this.assetsRepo.save(BillsControllerMocks.assetForSave());
-        String url = String.format("%s%s", this.billsUrl, "/def");
         ResponseEntity<BillDto> response = this.restTemplate.exchange(
-                url, HttpMethod.POST,
-                new HttpEntity<>(payload),
-                BillDto.class
-        );
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        BillDto act = response.getBody();
-        assertEquals(exp, act);
-    }
-
-    @Test
-    public void saveForOther() {
-        BillDto payload = BillsControllerMocks.request();
-        BillDto exp = BillsControllerMocks.response();
-        this.paymentTypesRepo.save(BillsControllerMocks.paymentTypesForSave());
-        this.assetsRepo.save(BillsControllerMocks.assetForSave());
-        String url = String.format("%s%s", this.billsUrl, "/other");
-        ResponseEntity<BillDto> response = this.restTemplate.exchange(
-                url, HttpMethod.POST,
+                billsUrl, HttpMethod.POST,
                 new HttpEntity<>(payload),
                 BillDto.class
         );

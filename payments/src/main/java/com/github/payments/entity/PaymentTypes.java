@@ -14,7 +14,27 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "payment_type", schema = "public")
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "PaymentTypes.findByAlias",
+                query = "select pt from PaymentTypes pt where pt.alias=:alias"
+        ),
+        @NamedQuery(
+                name = "PaymentTypes.findAllByStatus",
+                query = "select pt from PaymentTypes pt where pt.status=:status"
+        )
+})
+@Table(
+        name = "payment_type",
+        schema = "public",
+        indexes = @Index(columnList = "alias", name = "payment_types_alias_idx"),
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_payment_types_alias",
+                        columnNames = "alias"
+                )
+        }
+)
 public class PaymentTypes implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -4855944889170935433L;
@@ -30,8 +50,7 @@ public class PaymentTypes implements Serializable, Cloneable {
 
     @Column(
             name = "alias",
-            nullable = false,
-            unique = true
+            nullable = false
     )
     private String alias;
 

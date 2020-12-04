@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 public interface IOrdersDetailController {
@@ -28,62 +27,40 @@ public interface IOrdersDetailController {
     )
     OrderDetailDto save(
             @ApiIgnore @RequestAttribute(name = "userId") UUID userId,
-            @RequestBody @Valid OrderDetailDto payload
-    );
-
-    @GetMapping
-    @ApiImplicitParams(
-            @ApiImplicitParam(
-                    name = "Authorization",
-                    value = "Access Token",
-                    required = true,
-                    paramType = "header",
-                    example = "Bearer access_token"
-            )
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> findUserOrders(
-            @ApiIgnore @RequestAttribute(name = "userId") UUID userId
-    );
-
-    @GetMapping(path = "/fetch/binding/{orderId}")
-    @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> findBindingOrders(
-            @PathVariable(name = "orderId") Long orderId
+            @Valid @RequestBody OrderDetailDto payload
     );
 
     @GetMapping(
-            path = "/fetch/{status}",
+            path = "/statuses",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    List<OrderDetailDto> findAllByStatus(
-            @PathVariable OrderStatus status,
-            @RequestParam(value = "start", required = false) String start,
-            @RequestParam(value = "end", required = false) String end
-    );
+    OrderStatus[] findAllOrderStatus();
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.OK)
-    Object findByParams(@RequestParam(name = "orderId", required = false) Long orderId,
-                        @RequestParam(name = "ids", required = false) List<Long> ids);
+    OrderDetailDto findById(@RequestParam(name = "orderId") Long orderId);
 
     @PutMapping(
-            path = "/edit/{orderId}/{orderStatus}"
+            path = "/edit/{orderId}/{status}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOderStatus(
+    void updateStatus(
             @PathVariable(name = "orderId") Long orderId,
-            @PathVariable(name = "orderStatus") OrderStatus orderStatus);
+            @PathVariable(name = "status") OrderStatus status
+    );
 
     @PutMapping(
-            path = "/edit/paid/{billId}"
+            path = "/edit/stuff/{orderId}/{staffId}"
     )
     @ResponseStatus(code = HttpStatus.OK)
-    void updateOrderPaid(@PathVariable(name = "billId") Long billId);
+    void assignManager(
+            @PathVariable(name = "orderId") Long orderId,
+            @PathVariable(name = "staffId") Long staffId
+    );
 
     @DeleteMapping(
             path = "/{id}"

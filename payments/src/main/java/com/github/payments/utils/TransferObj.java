@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static Bill toBill(BillDto data) {
+    public static Bill toBill(BillDto data, Long orderId) {
         return new Bill(
                 data.getId(),
+                orderId,
                 data.getAmount(),
                 data.getAmountPaid(),
                 data.getAddress(),
-                data.getBillType(),
                 data.getTransfers()
         );
     }
@@ -30,7 +30,6 @@ public class TransferObj {
                 data.getAddress(),
                 data.getTransfers(),
                 data.getPaymentType().getAlias(),
-                data.getBillType(),
                 fromWho(data.getWho()),
                 fromWhom(data.getWhom())
         );

@@ -7,24 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.UUID;
 
 public interface IBillsController {
 
     @PostMapping(
-            path = "/def",
+            path = "/{orderId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto saveForDef(@RequestBody BillDto payload);
-
-    @PostMapping(
-            path = "/other",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(code = HttpStatus.CREATED)
-    BillDto saveForOther(@RequestAttribute UUID userId, @RequestBody BillDto payload);
+    BillDto save(@PathVariable Long orderId, @Valid @RequestBody BillDto payload);
 
     @GetMapping(
             path = "/fetch",

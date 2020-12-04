@@ -42,6 +42,8 @@ public class UsersController implements IUsersController {
     }
 
     @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
     public void staffForgotPass(@Valid ForgotPassDto payload) {
         this.usersCenterService.staffForgotPass(payload);
     }

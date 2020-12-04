@@ -19,21 +19,29 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@Table(name = "categories", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Category.findAll",
-                query = "SELECT c FROM Category c"
+                query = "select c from Category c"
         ),
         @NamedQuery(
                 name = "Category.findById",
-                query = "SELECT c FROM Category c WHERE c.id = :id"
+                query = "select c from Category c where c.id = :id"
         ),
         @NamedQuery(
                 name = "Category.findByName",
-                query = "SELECT c FROM Category c WHERE c.name = :name"
+                query = "select c from Category c where c.name = :name"
         )
 })
+@Table(
+        name = "categories",
+        schema = "public",
+        indexes = @Index(columnList = "name", name = "category_name_idx"),
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_category_name",
+                columnNames = "name"
+        )
+)
 public class Category implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -3168450095167684631L;
@@ -48,8 +56,7 @@ public class Category implements Serializable, Cloneable {
     @Column(
             name = "name",
             nullable = false,
-            length = 50,
-            unique = true
+            length = 50
     )
     private String name;
 
@@ -62,10 +69,7 @@ public class Category implements Serializable, Cloneable {
             }
     )
     @JoinColumn(
-            name = "subcaretory_id",
-            foreignKey = @ForeignKey(
-                    name = "category_sub_category_fk"
-            )
+            name = "subcategory_id"
     )
     private List<Subcategory> subcategories = new ArrayList<>();
 
@@ -97,7 +101,7 @@ public class Category implements Serializable, Cloneable {
         this.name = name;
     }
 
-    public void  addSubcategory(Subcategory subcategory) {
+    public void addSubcategory(Subcategory subcategory) {
         if (Objects.nonNull(subcategory)) {
             this.subcategories.add(subcategory);
         }

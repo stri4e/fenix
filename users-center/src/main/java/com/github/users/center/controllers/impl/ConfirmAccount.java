@@ -37,8 +37,7 @@ public class ConfirmAccount implements IConfirmAccount {
         User user = ct.getUser();
         this.userService.updateIsEnable(TRUE, user.getId());
         var alias = UUID.randomUUID().toString();
-        UserAlias notify = new UserAlias(user, alias);
-        this.userAliasService.save(notify);
+        this.userAliasService.save(new UserAlias(user, alias));
         return RenderTemplate.success();
     }
 

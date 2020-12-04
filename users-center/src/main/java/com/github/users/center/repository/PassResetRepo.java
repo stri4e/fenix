@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PassResetRepo extends JpaRepository<PassResetToken, Long> {
+
     Optional<PassResetToken> findByToken(String token);
+
 }

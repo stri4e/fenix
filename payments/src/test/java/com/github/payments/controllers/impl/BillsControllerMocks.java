@@ -28,7 +28,6 @@ public class BillsControllerMocks {
                 ADDRESS_ETH,
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
                 new WhoDto(
                         "Vasia",
                         "Pupkin",
@@ -51,7 +50,6 @@ public class BillsControllerMocks {
                 ADDRESS_ETH,
                 new ArrayList<>(),
                 "crypto",
-                BillType.def,
                 new WhoDto(
                         1L,
                         "Vasia",
@@ -108,13 +106,13 @@ public class BillsControllerMocks {
 
     public static Bill billForSave(Asset asset, PaymentTypes types, Who who, Whom whom) {
         return new Bill(
+                1L,
                 BigInteger.valueOf(60L),
                 BigInteger.valueOf(50L),
                 asset,
                 ADDRESS_ETH,
                 new ArrayList<>(),
                 types,
-                BillType.def,
                 who,
                 whom
         );

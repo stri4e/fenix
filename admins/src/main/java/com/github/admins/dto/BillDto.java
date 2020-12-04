@@ -47,7 +47,7 @@ public class BillDto implements Serializable, Cloneable {
 
     @NotNull
     @JsonProperty(value = "billType")
-    private BillType billType;
+    private String billType;
 
     @NotNull
     @JsonProperty(value = "who")

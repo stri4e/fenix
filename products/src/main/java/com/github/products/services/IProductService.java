@@ -38,6 +38,8 @@ public interface IProductService {
 
     void updateStatus(EntityStatus status, Long id);
 
-    void updateBoughtCount(Long id, Integer percentBought);
+    void updateBoughtCountPlus(Long id);
+
+    void updateBoughtCountMinus(Long id);
 
 }

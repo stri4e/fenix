@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @Data
 @Entity
@@ -45,6 +46,16 @@ import java.util.UUID;
         indexes = {
                 @Index(columnList = "email", name = "email_idx"),
                 @Index(columnList = "login", name = "login_idx")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_users_login",
+                        columnNames = "login"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_email",
+                        columnNames = "email"
+                )
         }
 )
 public class User implements Serializable, Cloneable {
@@ -63,27 +74,29 @@ public class User implements Serializable, Cloneable {
 
     @Column(
             name = "fName",
+            length = 150,
             nullable = false
     )
     private String fName;
 
     @Column(
             name = "lName",
+            length = 150,
             nullable = false
     )
     private String lName;
 
     @Column(
             name = "login",
-            nullable = false,
-            unique = true
+            length = 150,
+            nullable = false
     )
     private String login;
 
     @Column(
             name = "email",
-            nullable = false,
-            unique = true
+            length = 150,
+            nullable = false
     )
     private String email;
 
@@ -92,6 +105,13 @@ public class User implements Serializable, Cloneable {
             nullable = false
     )
     private String pass;
+
+    @Column(
+            name = "phone",
+            length = 150,
+            nullable = false
+    )
+    private String phone;
 
     @Column(
             name = "is_enable",
@@ -119,7 +139,11 @@ public class User implements Serializable, Cloneable {
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id",
-                    referencedColumnName = "id"
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "roles_users_fk")
+            ),
+            foreignKey = @ForeignKey(
+                    name = "users_roles_fk"
             )
     )
     private Collection<Role> roles;
@@ -145,6 +169,7 @@ public class User implements Serializable, Cloneable {
             String email,
             String login,
             String pass,
+            String phone,
             Collection<Role> roles
     ) {
         this.fName = fName;
@@ -153,6 +178,11 @@ public class User implements Serializable, Cloneable {
         this.login = login;
         this.pass = pass;
         this.roles = roles;
+        this.phone = phone;
+    }
+
+    public boolean isAuth(Predicate<String> passwordEquals) {
+        return passwordEquals.test(this.pass) && this.isEnable && !this.isLocked;
     }
 
 }

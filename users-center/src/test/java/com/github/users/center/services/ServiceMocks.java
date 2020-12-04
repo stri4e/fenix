@@ -112,7 +112,6 @@ public class ServiceMocks {
         c.setId(CONFIRM_ID);
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 
@@ -120,7 +119,6 @@ public class ServiceMocks {
         ConfirmToken c = new ConfirmToken();
         c.setToken(TOKEN);
         c.setUser(userExp());
-        c.setClientUrl(LOCALHOST_AUTH_FRONT);
         return c;
     }
 

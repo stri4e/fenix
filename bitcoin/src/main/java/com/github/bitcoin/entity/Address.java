@@ -57,7 +57,10 @@ public class Address implements Serializable, Cloneable {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "account_id"
+            name = "account_id",
+            foreignKey = @ForeignKey(
+                    name = "addresses_accounts_fk"
+            )
     )
     private Account account;
 

@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,31 +47,105 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(
+    @Column(
             name = "customer_id",
             nullable = false
     )
-    private Customer customer;
+    private Long customerId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Long> productIds;
+    @OneToMany(
+            targetEntity = OrderItem.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinColumn(
+            name = "order_item_id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "orders_order_item_fk"
+            )
+    )
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(
             name = "amount",
             precision = 8,
             scale = 4,
-            columnDefinition="DECIMAL(8, 4)",
+            columnDefinition = "DECIMAL(8, 4)",
             nullable = false
     )
     private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(
-            name = "delivery_id",
+    @Column(
+            name = "weight",
+            precision = 8,
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
             nullable = false
     )
-    private Delivery delivery;
+    private BigDecimal weight;
+
+    @Column(
+            name = "company",
+            nullable = false
+    )
+    private String company;
+
+    @Column(
+            name = "country",
+            nullable = false
+    )
+    private String country;
+
+    @Column(
+            name = "region",
+            nullable = false
+    )
+    private String region;
+
+    @Column(
+            name = "city",
+            nullable = false
+    )
+    private String city;
+
+    @Column(
+            name = "street",
+            nullable = false
+    )
+    private String street;
+
+    @Column(
+            name = "street_number",
+            nullable = false
+    )
+    private String streetNumber;
+
+    @Column(
+            name = "flat_number",
+            nullable = false
+    )
+    private String flatNumber;
+
+    @Column(
+            name = "zip_code",
+            nullable = false
+    )
+    private String zipCode;
+
+    @Column(
+            name = "delivery_data",
+            nullable = false
+    )
+    private String deliveryData;
+
+    @Column(
+            name = "delivery_amount",
+            precision = 8,
+            scale = 4,
+            columnDefinition = "DECIMAL(8, 4)",
+            nullable = false
+    )
+    private BigDecimal deliveryAmount;
 
     @Column(
             name = "user_id",
@@ -79,10 +154,9 @@ public class OrderDetail implements Serializable, Cloneable {
     private UUID userId;
 
     @Column(
-            name = "bill_id",
-            nullable = false
+            name = "staff_id"
     )
-    private Long billId;
+    private Long staffId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -103,26 +177,74 @@ public class OrderDetail implements Serializable, Cloneable {
     )
     private LocalDateTime updateAt;
 
+    //Constructor for tests
     public OrderDetail(
-            Customer customer, List<Long> productIds,
-            BigDecimal amount, UUID userId, Long billId, OrderStatus status) {
-        this.customer = customer;
-        this.productIds = productIds;
+            Long customerId,
+            BigDecimal amount,
+            BigDecimal weight,
+            String company,
+            String country,
+            String region,
+            String city,
+            String street,
+            String streetNumber,
+            String flatNumber,
+            String zipCode,
+            String deliveryData,
+            BigDecimal deliveryAmount,
+            UUID userId,
+            OrderStatus status
+    ) {
+        this.customerId = customerId;
         this.amount = amount;
+        this.weight = weight;
+        this.company = company;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.flatNumber = flatNumber;
+        this.zipCode = zipCode;
+        this.deliveryData = deliveryData;
+        this.deliveryAmount = deliveryAmount;
         this.userId = userId;
-        this.billId = billId;
         this.status = status;
     }
 
     public OrderDetail(
-            Customer customer, List<Long> productIds,
-            BigDecimal amount, Delivery delivery, UUID userId, Long billId, OrderStatus status) {
-        this.customer = customer;
-        this.productIds = productIds;
+            Long customerId,
+            List<OrderItem> orderItems,
+            BigDecimal amount,
+            BigDecimal weight,
+            String company,
+            String country,
+            String region,
+            String city,
+            String street,
+            String streetNumber,
+            String flatNumber,
+            String zipCode,
+            String deliveryData,
+            BigDecimal deliveryAmount,
+            UUID userId,
+            OrderStatus status
+    ) {
+        this.customerId = customerId;
+        this.orderItems = orderItems;
         this.amount = amount;
-        this.delivery = delivery;
+        this.weight = weight;
+        this.company = company;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.flatNumber = flatNumber;
+        this.zipCode = zipCode;
+        this.deliveryData = deliveryData;
+        this.deliveryAmount = deliveryAmount;
         this.userId = userId;
-        this.billId = billId;
         this.status = status;
     }
 

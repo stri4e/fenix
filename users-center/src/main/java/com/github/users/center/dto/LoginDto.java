@@ -24,7 +24,7 @@ public class LoginDto {
     private String ip;
 
     @JsonProperty(value = "information")
-    @NotBlank(message = "Required field not blank")
+    @NotNull(message = "Required field not blank")
     private Map<String, Object> information;
 
 

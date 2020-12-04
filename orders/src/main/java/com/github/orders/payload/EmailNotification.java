@@ -3,7 +3,6 @@ package com.github.orders.payload;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.orders.dto.CustomerDto;
-import com.github.orders.dto.DeliveryDto;
 import com.github.orders.dto.OrderDetailDto;
 import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
@@ -32,21 +31,26 @@ public class EmailNotification {
         CustomerDto c = order.getCustomer();
         return new EmailNotification(
                 c.getCustomerEmail(),
-                information(order, c.getCustomerName(), c.getCustomerPhone())
+                information(order, c)
         );
     }
 
     private static Map<String, Object>
-    information(OrderDetailDto order, String customerName, String customerPhone) {
-        DeliveryDto delivery = order.getDelivery();
-        String payment = order.getBill().getPaymentType();
+    information(OrderDetailDto order, CustomerDto customer) {
         Map<String, Object> information = Maps.newHashMap();
-        information.put("customerName", customerName);
-        information.put("products", order.getProducts());
-        information.put("delivery", String.format("%s: %s", delivery.getCompanyName(), delivery.getAddress()));
-        information.put("payment", payment);
-        information.put("customer", String.format("%s, %s", customerName, customerPhone));
-        information.put("recipient", customerName);
+        information.put("customerFirstName", customer.getFirstName());
+        information.put("customerLastName", customer.getLastName());
+        information.put("customerPhone", customer.getCustomerPhone());
+        information.put("products", order.getOrderItems());
+        information.put("delivery",
+                String.format(
+                        "%s, %s, %s, %s",
+                        order.getCompany(),
+                        order.getCity(),
+                        order.getStreet(),
+                        order.getStreetNumber()
+                )
+        );
         information.put("amount", order.getAmount());
         return information;
     }

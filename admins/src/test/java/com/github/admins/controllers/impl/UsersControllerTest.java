@@ -84,7 +84,7 @@ public class UsersControllerTest extends UsersControllerBase {
     public void updateManagersIsLocked() {
         updateManagers();
         LockedDto request = UsersControllerMocks.requestLocked();
-        String url = String.format("%s%s", this.userstUrl, "/managers/locked");
+        String url = String.format("%s%s", this.userstUrl, "/locked");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.PUT,
                 new HttpEntity<>(request), Void.class
@@ -96,7 +96,7 @@ public class UsersControllerTest extends UsersControllerBase {
     public void updateAdminsIsLocked() {
         updateAdmins();
         LockedDto request = UsersControllerMocks.requestLocked();
-        String url = String.format("%s%s", this.userstUrl, "/admins/locked");
+        String url = String.format("%s%s", this.userstUrl, "/locked");
         ResponseEntity<Void> response = this.restTemplate.exchange(
                 url, HttpMethod.PUT,
                 new HttpEntity<>(request), Void.class
