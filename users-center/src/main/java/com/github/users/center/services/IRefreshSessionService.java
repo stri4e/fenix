@@ -1,5 +1,6 @@
 package com.github.users.center.services;
 
+import com.github.users.center.entity.EntityStatus;
 import com.github.users.center.entity.RefreshSession;
 
 import java.util.List;
@@ -11,6 +12,10 @@ public interface IRefreshSessionService {
 
     List<RefreshSession> readAllByUserId(UUID userId);
 
+    RefreshSession readActiveByUserId(UUID userId);
+
     void remove(Long sessionId);
+
+    void update(Long sessionId, EntityStatus status);
 
 }

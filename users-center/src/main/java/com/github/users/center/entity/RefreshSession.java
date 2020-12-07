@@ -63,6 +63,9 @@ public class RefreshSession implements Serializable, Cloneable {
     @Column(name = "expire_in")
     private Date expireIn;
 
+    @Enumerated(EnumType.STRING)
+    private EntityStatus status = EntityStatus.on;
+
     @CreationTimestamp
     @Column(
             name = "create_at",
