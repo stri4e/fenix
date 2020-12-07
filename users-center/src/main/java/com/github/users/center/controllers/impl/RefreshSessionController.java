@@ -1,6 +1,7 @@
 package com.github.users.center.controllers.impl;
 
 import com.github.users.center.controllers.IRefreshSessionController;
+import com.github.users.center.entity.EntityStatus;
 import com.github.users.center.entity.RefreshSession;
 import com.github.users.center.entity.User;
 import com.github.users.center.exceptions.Unauthorized;
@@ -13,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Comparator;
-import java.util.List;
 
-import static com.github.users.center.utils.UsersUtils.*;
+import static com.github.users.center.utils.UsersUtils.ADMIN_SCOPE;
+import static com.github.users.center.utils.UsersUtils.MANAGER_SCOPE;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,15 +34,17 @@ public class RefreshSessionController implements IRefreshSessionController {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
             var userId = this.jwtTokenProvider.fetchUser(refreshToken);
             var fingerprint = this.jwtTokenProvider.fetchFingerprint(refreshToken);
-            List<RefreshSession> sessions = this.refreshSessionService.readAllByUserId(userId);
-            RefreshSession session = findSession(sessions, fingerprint);
+            RefreshSession session = this.refreshSessionService.readActiveByUserId(userId);
             if (!session.isExpired()) {
                 User user = this.userService.readById(userId);
                 var accessToken = this.jwtTokenProvider.adminAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider
                         .refreshAdminSession(fingerprint, session.getIp(), user, ADMIN_SCOPE);
-                return jwtRefreshResponse(session, accessToken, newSession);
+                this.refreshSessionService.update(session.getId(), EntityStatus.off);
+                this.refreshSessionService.create(newSession);
+                return new JwtRefreshResponse(accessToken, newSession.getRefreshToken(), newSession.expireIn());
             }
+            this.refreshSessionService.update(session.getId(), EntityStatus.off);
         }
         throw new Unauthorized();
     }
@@ -52,46 +54,19 @@ public class RefreshSessionController implements IRefreshSessionController {
         if (this.jwtTokenProvider.validateRefreshToken(refreshToken)) {
             var userId = this.jwtTokenProvider.fetchUser(refreshToken);
             var fingerprint = this.jwtTokenProvider.fetchFingerprint(refreshToken);
-            List<RefreshSession> sessions = this.refreshSessionService.readAllByUserId(userId);
-            RefreshSession session = findSession(sessions, fingerprint);
+            RefreshSession session = this.refreshSessionService.readActiveByUserId(userId);
             if (!session.isExpired()) {
                 User user = this.userService.readById(userId);
                 var accessToken = this.jwtTokenProvider.managerAccessToken(user);
                 RefreshSession newSession = this.jwtTokenProvider
                         .refreshManagerSession(fingerprint, session.getIp(), user, MANAGER_SCOPE);
-                return jwtRefreshResponse(session, accessToken, newSession);
+                this.refreshSessionService.update(session.getId(), EntityStatus.off);
+                this.refreshSessionService.create(newSession);
+                return new JwtRefreshResponse(accessToken, newSession.getRefreshToken(), newSession.expireIn());
             }
+            this.refreshSessionService.update(session.getId(), EntityStatus.off);
         }
         throw new Unauthorized();
-    }
-
-    private RefreshSession findSession(List<RefreshSession> rss, String fingerprint) {
-        RefreshSession session;
-        if (rss.size() > MAX_REFRESH_SESSION) {
-            session = rss.stream()
-                    .max(Comparator.comparing(RefreshSession::getExpireIn))
-                    .filter(f -> fingerprint.equals(f.getFingerprint()))
-                    .orElseThrow(Unauthorized::new);
-            rss.stream()
-                    .filter(s -> !s.equals(session))
-                    .forEach(s -> this.refreshSessionService.remove(s.getId()));
-        } else {
-            session = rss.stream()
-                    .filter(f -> fingerprint.equals(f.getFingerprint()))
-                    .findFirst().orElseThrow(Unauthorized::new);
-        }
-        return session;
-    }
-
-    private JwtRefreshResponse
-    jwtRefreshResponse(RefreshSession session, String accessToken, RefreshSession newSession) {
-        this.refreshSessionService.remove(session.getId());
-        this.refreshSessionService.create(newSession);
-        return new JwtRefreshResponse(
-                accessToken,
-                newSession.getRefreshToken(),
-                newSession.expireIn()
-        );
     }
 
 }
