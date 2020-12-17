@@ -17,8 +17,8 @@ public class TransferObj {
                 data.getId(),
                 data.getFirstName(),
                 data.getLastName(),
-                data.getCustomerEmail(),
-                data.getCustomerPhone(),
+                data.getEmail(),
+                data.getPhone(),
                 userId
         );
     }

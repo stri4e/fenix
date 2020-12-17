@@ -3,8 +3,10 @@ package com.github.customers.controllers.impl;
 import com.github.customers.controllers.ICustomerController;
 import com.github.customers.dto.CustomerDto;
 import com.github.customers.entity.Customer;
+import com.github.customers.services.IAccountService;
 import com.github.customers.services.ICustomerService;
 import com.github.customers.services.ICustomerStatisticsService;
+import com.github.customers.utils.Payloads;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,8 @@ public class CustomerController implements ICustomerController {
 
     private final ICustomerStatisticsService customerStatisticsService;
 
+    private final IAccountService accountService;
+
     @Override
     public CustomerDto findByUserId(UUID userId) {
         return fromCustomer(this.customerService.readByUserId(userId));
@@ -38,7 +42,8 @@ public class CustomerController implements ICustomerController {
     public CustomerDto save(UUID userId, CustomerDto payload) {
         Customer customer = this.customerService.create(toCustomer(payload, userId));
         this.customerStatisticsService.create(defCustomerStat(customer));
-        return fromCustomer(customer);
+        return Payloads.of(fromCustomer(customer))
+                .doOnNext(c -> this.accountService.updateByCustomer(userId, c));
     }
 
     @Override
@@ -54,10 +59,13 @@ public class CustomerController implements ICustomerController {
                 payload.getId(),
                 payload.getFirstName(),
                 payload.getLastName(),
-                payload.getCustomerEmail(),
-                payload.getCustomerPhone()
+                payload.getEmail(),
+                payload.getPhone()
         );
+        Payloads.async(() -> {
+            Customer customer = this.customerService.readById(payload.getId());
+            this.accountService.updateByCustomer(customer.getUserId(), payload);
+        });
     }
 
 }
-

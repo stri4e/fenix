@@ -1,6 +1,7 @@
 package com.github.accounts.controllers;
 
 import com.github.accounts.dto.AccountDto;
+import com.github.accounts.dto.CustomerDto;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,11 @@ public interface IAccountsController {
     )
     @ResponseStatus(value = HttpStatus.CREATED)
     AccountDto saveDefault(@Valid @RequestAttribute UUID userId);
+
+    @PutMapping(
+            path = "/edit/{userId}"
+    )
+    @ResponseStatus(value = HttpStatus.OK)
+    void updateByCustomer(@PathVariable UUID userId, @Valid @RequestBody CustomerDto payload);
 
 }

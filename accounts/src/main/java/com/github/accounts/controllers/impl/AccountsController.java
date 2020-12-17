@@ -2,6 +2,7 @@ package com.github.accounts.controllers.impl;
 
 import com.github.accounts.controllers.IAccountsController;
 import com.github.accounts.dto.AccountDto;
+import com.github.accounts.dto.AddressDto;
 import com.github.accounts.dto.CustomerDto;
 import com.github.accounts.dto.ProductDto;
 import com.github.accounts.entity.*;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -98,6 +101,31 @@ public class AccountsController implements IAccountsController {
         Address addressDef = this.addressService.create(Address.addressDef());
         Account account = new Account(userId, profileDef, contactDef, addressDef);
         return fromAccount(this.accountsService.create(account));
+    }
+
+    @Override
+    @HystrixCommand
+    @Logging(isTime = true, isReturn = false)
+    public void updateByCustomer(UUID userId, @Valid CustomerDto payload) {
+        Account account = this.accountsService.readByUserId(userId);
+        Contact contact = account.getContact();
+        Address address = account.getAddress();
+        Profile profile = account.getProfile();
+        AddressDto customerAddress = payload.getAddress();
+        this.profilesService.update(
+                profile.getId(), payload.getFirstName(),
+                payload.getLastName(), profile.getPatronymic(),
+                profile.getDateOfBirth(), profile.getSex()
+        );
+        this.contactsService.update(
+                contact.getId(), payload.getPhone(), payload.getEmail()
+        );
+        this.addressService.update(
+                address.getId(), customerAddress.getCountry(),
+                customerAddress.getRegion(), customerAddress.getCity(),
+                customerAddress.getStreet(), customerAddress.getStreetNumber(),
+                customerAddress.getFlatNumber(), customerAddress.getZipCode()
+        );
     }
 
 }

@@ -29,14 +29,14 @@ public class CustomerDto implements Serializable, Cloneable {
 
     @NotBlank
     @JsonProperty(value = "customerEmail")
-    private String customerEmail;
+    private String email;
 
     @NotBlank
     @JsonProperty(value = "customerPhone")
-    private String customerPhone;
+    private String phone;
 
     @NotNull
     @JsonProperty(value = "customerAddress")
-    private AddressDto customerAddress;
+    private AddressDto address;
 
 }
