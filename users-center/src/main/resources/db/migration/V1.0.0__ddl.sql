@@ -28,6 +28,7 @@ create table public.refresh_session
     fingerprint varchar(255) not null,
     ip varchar(255) not null,
     refresh_token text not null,
+    status varchar(255) not null,
     update_at timestamp not null,
     user_id uuid not null,
     primary key (id)

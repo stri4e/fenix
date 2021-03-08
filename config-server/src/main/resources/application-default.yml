@@ -5,11 +5,28 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:3000/eureka
 spring:
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+    url: jdbc:postgresql://0.0.0.0:5432/config_server.db
+    password: password
+    username: user
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   application:
     name: config-server
+  profiles:
+    active: jdbc, git
   cloud:
     config:
       server:
+        jdbc:
+          sql: SELECT key, value FROM properties WHERE application=? AND profile=? AND (label=? OR label='latest') AND status='on'
+          order: 0
         git:
           uri: file://${user.home}/config-properties
           searchPaths:

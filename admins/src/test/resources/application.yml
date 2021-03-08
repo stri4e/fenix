@@ -10,3 +10,6 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+spring:
+  main:
+    lazy-initialization: true
