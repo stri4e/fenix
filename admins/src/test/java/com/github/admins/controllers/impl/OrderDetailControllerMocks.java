@@ -28,6 +28,7 @@ public class OrderDetailControllerMocks {
                         "Zigmud Tupizin",
                         "River street 8",
                         "zigmud@gmail.com",
+                        "+84384328423",
                         addressDto()
                 ),
                 ITEMS_FOR_EQ,
@@ -55,6 +56,7 @@ public class OrderDetailControllerMocks {
                         "Zigmud Tupizin",
                         "River street 8",
                         "zigmud@gmail.com",
+                        "+84384328423",
                         addressDto()
                 ),
                 ITEMS_FOR_EQ,
