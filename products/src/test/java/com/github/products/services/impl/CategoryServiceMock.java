@@ -1,7 +1,6 @@
 package com.github.products.services.impl;
 
 import com.github.products.entity.Category;
-import com.github.products.entity.Subcategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
