@@ -42,4 +42,12 @@ public class CustomerDto implements Serializable, Cloneable {
     @JsonProperty(value = "customerAddress")
     private AddressDto customerAddress;
 
+
+    public CustomerDto(@NotNull Long id, @NotBlank String firstName, @NotBlank String customerEmail, @NotBlank String customerPhone, @NotNull AddressDto customerAddress) {
+        this.id = id;
+        this.firstName = firstName;
+        this.customerEmail = customerEmail;
+        this.customerPhone = customerPhone;
+        this.customerAddress = customerAddress;
+    }
 }

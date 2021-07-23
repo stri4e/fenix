@@ -3,17 +3,10 @@ package com.github.products.controllers.impl;
 import com.github.products.CustomPageImpl;
 import com.github.products.ProductsConstant;
 import com.github.products.dto.ProductDto;
-import com.github.products.entity.Brand;
-import com.github.products.entity.Criteria;
-import com.github.products.entity.Product;
-import com.github.products.entity.Subcategory;
-import com.github.products.repository.BrandRepo;
-import com.github.products.repository.CriteriaRepo;
-import com.github.products.repository.ProductRepo;
-import com.github.products.repository.SubcategoryRepo;
+import com.github.products.entity.*;
+import com.github.products.repository.*;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -64,6 +55,9 @@ public class ProductsControllerTest {
 
     @Autowired
     private CriteriaRepo criteriaRepo;
+
+    @Autowired
+    private StocksRepo stocksRepo;
 
     private String productUrl;
 
@@ -148,13 +142,29 @@ public class ProductsControllerTest {
 
     @Test
     public void update() {
+        Stock stock = new Stock(
+                "stok_name_test",
+                "132342134",
+                "32321321312",
+                "email",
+                Set.of("1", "2", "333"),
+                "uk",
+                "bk",
+                "da",
+                "gr",
+                "23",
+                "dsadsa"
+        );
+
         Product product = ProductControllerMocks.productForCreate();
         Brand brand = this.brandRepo.save(ProductControllerMocks.brandForSave());
         Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
         product.setSubcategory(subcategory);
         product.setBrand(brand);
+        product.setStock(this.stocksRepo.save(stock));
         this.productRepo.save(product);
         ProductDto payload = ProductControllerMocks.responseProductForUpdate();
+        payload.setImages(List.of("432", "$343", "4343"));
         String url = String.format("%s%s", this.productUrl, "/edit");
         ResponseEntity<ProductDto> response = this.restTemplate.exchange(
                 url, HttpMethod.PUT, new HttpEntity<>(payload), ProductDto.class

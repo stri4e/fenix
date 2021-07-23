@@ -49,7 +49,7 @@ public class OrdersDetailTestBase {
                                         HttpHeaders.CONTENT_TYPE,
                                         MediaType.APPLICATION_JSON_VALUE
                                 )
-                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.PRODUCTS_DTO))
+                        ).withBody(JsonBody.json(OrdersDetailControllerMocks.PRODUCTS))
         );
     }
 

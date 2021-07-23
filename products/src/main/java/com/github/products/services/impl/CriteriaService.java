@@ -35,8 +35,10 @@ public class CriteriaService implements ICriteriaService {
     }
 
     @Override
-    public void update(Criteria criteria) {
-        this.criteriaRepo.save(criteria);
+    public void update(Criteria c) {
+        Criteria criteria = this.criteriaRepo.findById(c.getId())
+                .orElseThrow(NotFound::new);
+        criteria.setValue(c.getValue());
     }
 
     @Override

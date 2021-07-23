@@ -34,6 +34,11 @@ public class FiltersService implements IFiltersService {
     }
 
     @Override
+    public void updateTitle(Filter filter) {
+        this.filtersRepo.updateTitle(filter);
+    }
+
+    @Override
     public void delete(Long id) {
         this.filtersRepo.updateStatus(id, EntityStatus.off);
     }

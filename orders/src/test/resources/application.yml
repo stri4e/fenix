@@ -13,7 +13,10 @@ spring:
     generate-ddl: false
     database-platform: H2
     show-sql: true
-
+  flyway:
+    enabled: false
+  main:
+    lazy-initialization: true
 eureka:
   client:
     enabled: false
@@ -26,3 +29,5 @@ ribbon:
 feign:
   hystrix:
     enabled: false
+    flyway:
+      enabled: false

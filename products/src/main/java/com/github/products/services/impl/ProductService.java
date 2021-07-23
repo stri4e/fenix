@@ -97,6 +97,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public void updateProduct(Product p) {
+        this.productRepo.updateProduct(p);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "product", key = "#id"),
             evict = {

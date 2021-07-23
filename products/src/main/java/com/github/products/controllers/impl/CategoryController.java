@@ -51,9 +51,7 @@ public class CategoryController implements ICategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(CategoryDto payload) {
-        Category category = this.categoryService.readById(payload.getId());
-        category.setName(payload.getName());
-        this.categoryService.update(category);
+        this.categoryService.update(TransferObj.toCategory(payload));
     }
 
     @Override

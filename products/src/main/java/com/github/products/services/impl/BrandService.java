@@ -41,8 +41,10 @@ public class BrandService implements IBrandService {
     }
 
     @Override
-    public void update(Brand brand) {
-        this.brandRepo.save(brand);
+    public void update(Long id, String name) {
+        Brand brand = this.brandRepo.findById(id)
+                .orElseThrow(NotFound::new);
+        brand.setName(name);
     }
 
     @Override

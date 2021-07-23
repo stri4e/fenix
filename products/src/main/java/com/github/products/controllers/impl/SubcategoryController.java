@@ -58,9 +58,7 @@ public class SubcategoryController implements ISubcategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(SubcategoryDto payload) {
-        Subcategory subCategory = this.subcategoryService.readById(payload.getId());
-        subCategory.setName(payload.getName());
-        this.subcategoryService.update(subCategory);
+        this.subcategoryService.update(toSubCategory(payload));
     }
 
     @Override

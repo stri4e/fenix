@@ -150,4 +150,28 @@ public class Stock implements Serializable, Cloneable {
         this.zipCode = zipCode;
     }
 
+    public Stock(
+            String name,
+            String number,
+            String phone,
+            String email,
+            Set<String> staffNames,
+            String country,
+            String region,
+            String city,
+            String street,
+            String streetNumber,
+            String zipCode) {
+        this.name = name;
+        this.number = number;
+        this.phone = phone;
+        this.email = email;
+        this.staffNames = staffNames;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.streetNumber = streetNumber;
+        this.zipCode = zipCode;
+    }
 }

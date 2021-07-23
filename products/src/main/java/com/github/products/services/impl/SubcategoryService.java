@@ -46,6 +46,11 @@ public class SubcategoryService implements ISubcategoryService {
     }
 
     @Override
+    public void updateSub(Subcategory subCategory) {
+        this.subCategoryRepo.updateStatus(subCategory.getId(), subCategory.getName());
+    }
+
+    @Override
     public void delete(Long id) {
         this.subCategoryRepo.updateStatus(id, EntityStatus.off);
     }

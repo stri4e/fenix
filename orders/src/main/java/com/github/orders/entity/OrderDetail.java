@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -54,15 +55,9 @@ public class OrderDetail implements Serializable, Cloneable {
     private Long customerId;
 
     @OneToMany(
+            mappedBy = "orderDetail",
             targetEntity = OrderItem.class,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "order_item_id",
-            nullable = false,
-            foreignKey = @ForeignKey(
-                    name = "orders_order_item_fk"
-            )
+            fetch = FetchType.LAZY
     )
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -231,7 +226,7 @@ public class OrderDetail implements Serializable, Cloneable {
             OrderStatus status
     ) {
         this.customerId = customerId;
-        this.orderItems = orderItems;
+        orderItems.forEach(this::wearingOrderItems);
         this.amount = amount;
         this.weight = weight;
         this.company = company;
@@ -246,6 +241,11 @@ public class OrderDetail implements Serializable, Cloneable {
         this.deliveryAmount = deliveryAmount;
         this.userId = userId;
         this.status = status;
+    }
+
+    public void wearingOrderItems(OrderItem item) {
+        this.orderItems.add(item);
+        item.setOrderDetail(this);
     }
 
 }

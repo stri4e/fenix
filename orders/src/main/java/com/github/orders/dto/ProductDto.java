@@ -119,4 +119,29 @@ public class ProductDto implements Serializable, Cloneable {
     @JsonProperty(value = "stockNumber")
     private String stockNumber;
 
+    public ProductDto(Long id,
+                      @NotBlank(message = "Brand name is required.") String brandName,
+                      @NotBlank(message = "Name is required.") String name,
+                      @NotNull(message = "Price is required.") BigDecimal price,
+                      @NotNull(message = "Quantity is required.") Integer quantity,
+                      @NotBlank(message = "Description is required.") String description,
+                      @NotBlank(message = "Preview Image is required.") String previewImage,
+                      List<String> images,
+                      List<SpecificationDto> specifications,
+                      List<CommentDto> comments,
+                      @NotBlank(message = "Subcategory Name is required.") String subcategoryName,
+                      @NotNull(message = "BoughtCount Name is required.") Integer boughtCount) {
+        this.id = id;
+        this.brandName = brandName;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.previewImage = previewImage;
+        this.images = images;
+        this.specifications = specifications;
+        this.comments = comments;
+        this.subcategoryName = subcategoryName;
+        this.boughtCount = boughtCount;
+    }
 }

@@ -79,14 +79,7 @@ public class ProductsController implements IProductsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void updateProduct(ProductDto payload) {
-        Product product = this.productService.readById(payload.getId());
-        product.setName(payload.getName());
-        product.setPrice(payload.getPrice());
-        product.setQuantity(payload.getQuantity());
-        product.setDescription(payload.getDescription());
-        product.setPreviewImage(payload.getPreviewImage());
-        product.setImages(payload.getImages());
-        this.productService.update(product);
+        this.productService.updateProduct(toProduct(payload));
     }
 
     @Override

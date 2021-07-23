@@ -24,4 +24,8 @@ public interface SpecificationRepo
 
     List<Specification> findDistinctByNameAndDescriptionContains(String name, String patter);
 
+    @Modifying
+    @Query(value = "update Specification s set s.name=:#{#spec.name}, s.description=:#{#spec.description} where s.id=:#{#spec.id}")
+    void updateSpec(@Param(value = "spec") Specification spec);
+
 }

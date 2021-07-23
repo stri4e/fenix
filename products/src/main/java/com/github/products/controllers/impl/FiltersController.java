@@ -46,9 +46,7 @@ public class FiltersController implements IFiltersController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(FilterDto payload) {
-        Filter filter = this.filtersService.readById(payload.getId());
-        filter.setTitle(payload.getTitle());
-        this.filtersService.update(filter);
+        this.filtersService.updateTitle(toFilter(payload));
     }
 
     @Override

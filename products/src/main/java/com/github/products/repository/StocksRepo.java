@@ -25,4 +25,10 @@ public interface StocksRepo extends JpaRepository<Stock, Long> {
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Stock s set s.name=:#{#stock.name}, s.number=:#{#stock.number}, s.phone=:#{#stock.phone}," +
+            "s.email=:#{#stock.email}, s.country=:#{#stock.country}, s.region=:#{#stock.region}," +
+            "s.city=:#{#stock.city}, s.street=:#{#stock.street}, s.streetNumber=:#{#stock.streetNumber}, s.zipCode=:#{#stock.zipCode}  where s.id=:#{#stock.id}")
+    void updateStock(@Param(value = "stock") Stock stock);
+
 }

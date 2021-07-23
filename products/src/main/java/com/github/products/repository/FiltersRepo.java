@@ -18,4 +18,8 @@ public interface FiltersRepo extends JpaRepository<Filter, Long> {
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Filter f set f.title=:#{#flt.title} where f.id=:#{#flt.id}")
+    void updateTitle(@Param(value = "flt") Filter flt);
+
 }

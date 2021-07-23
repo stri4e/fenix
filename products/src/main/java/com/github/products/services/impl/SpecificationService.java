@@ -56,6 +56,11 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
+    public void updateSpec(Specification s) {
+        this.specificationRepo.updateSpec(s);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "specification", key = "#id")
     )

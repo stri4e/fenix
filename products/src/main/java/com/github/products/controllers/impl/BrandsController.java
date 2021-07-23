@@ -2,7 +2,6 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IBrandsController;
 import com.github.products.dto.BrandDto;
-import com.github.products.entity.Brand;
 import com.github.products.entity.EntityStatus;
 import com.github.products.services.IBrandService;
 import com.github.products.utils.Logging;
@@ -52,9 +51,7 @@ public class BrandsController implements IBrandsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(BrandDto payload) {
-        Brand brand = this.brandService.readById(payload.getId());
-        brand.setName(payload.getName());
-        this.brandService.update(brand);
+        this.brandService.update(payload.getId(), payload.getName());
     }
 
     @Override

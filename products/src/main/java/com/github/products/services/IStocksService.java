@@ -17,6 +17,8 @@ public interface IStocksService {
 
     void update(Stock stock);
 
+    void updateStock(Stock stock);
+
     void remove(Long id);
 
 }

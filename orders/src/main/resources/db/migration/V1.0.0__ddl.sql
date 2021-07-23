@@ -31,8 +31,8 @@ create table public.order_items
     quantity int4 not null,
     status varchar(255),
     update_at timestamp not null,
-    order_item_id int8 not null,
+    order_detail_id int8 not null,
     primary key (id)
 )
 
-alter table if exists public.order_items add constraint orders_order_item_fk foreign key (order_item_id) references public.order_details
+alter table if exists public.order_items add constraint orders_order_item_fk foreign key (order_detail_id) references public.order_details

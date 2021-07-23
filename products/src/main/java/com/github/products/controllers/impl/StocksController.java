@@ -38,18 +38,7 @@ public class StocksController implements IStocksController {
 
     @Override
     public void update(@Valid StockDto payload) {
-        Stock stock = this.stocksService.readById(payload.getId());
-        stock.setName(payload.getName());
-        stock.setNumber(payload.getNumber());
-        stock.setPhone(payload.getPhone());
-        stock.setEmail(payload.getEmail());
-        stock.setCountry(payload.getCountry());
-        stock.setRegion(payload.getRegion());
-        stock.setCity(payload.getCity());
-        stock.setStreet(payload.getStreet());
-        stock.setStreetNumber(payload.getStreetNumber());
-        stock.setZipCode(payload.getZipCode());
-        this.stocksService.update(stock);
+        this.stocksService.updateStock(toStock(payload));
     }
 
     @Override

@@ -17,6 +17,8 @@ public interface ISubcategoryService {
 
     void update(Subcategory subCategory);
 
+    void updateSub(Subcategory subCategory);
+
     void delete(Long id);
 
 }

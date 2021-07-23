@@ -4,15 +4,19 @@ import com.github.orders.dto.*;
 import com.github.orders.entity.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    public static OrderDetail toOrderDetail(OrderDetailDto data, List<OrderItem> items, UUID userId) {
+    public static OrderDetail toOrderDetail(OrderDetailDto data, UUID userId) {
         return new OrderDetail(
                 data.getCustomer().getId(),
-                items,
+                data.getOrderItems().stream()
+                        .map(TransferObj::toOrderItem)
+                        .collect(Collectors.toList()),
                 data.getAmount(),
                 data.getWeight(),
                 data.getCompany(),
@@ -27,6 +31,34 @@ public class TransferObj {
                 data.getDeliveryAmount(),
                 userId,
                 data.getStatus());
+    }
+
+    public static
+    OrderDetailDto fromOrderDetail(
+            OrderDetail data, OrderDetailDto payload) {
+        Map<Long, ProductDto> productsGroupById = payload.getOrderItems().stream()
+                .map(OrderItemDto::getProduct)
+                .collect(Collectors.toMap(ProductDto::getId, Function.identity()));
+        return new OrderDetailDto(
+                data.getId(),
+                payload.getCustomer(),
+                data.getOrderItems().stream()
+                        .map(item -> fromOrderItem(item, productsGroupById.get(item.getProductId())))
+                        .collect(Collectors.toList()),
+                data.getAmount(),
+                data.getWeight(),
+                data.getCompany(),
+                data.getCountry(),
+                data.getRegion(),
+                data.getCity(),
+                data.getStreet(),
+                data.getStreetNumber(),
+                data.getFlatNumber(),
+                data.getZipCode(),
+                data.getDeliveryData(),
+                data.getDeliveryAmount(),
+                data.getStatus()
+        );
     }
 
     public static OrderDetailDto fromOrderDetail(
@@ -71,14 +103,6 @@ public class TransferObj {
                 data.getPrice(),
                 data.getDiscount()
         );
-    }
-
-    public static List<OrderItemDto> fromOrderItems(List<OrderItem> newItems, List<OrderItemDto> oldItems) {
-        return newItems.stream()
-                .flatMap(newItem -> oldItems.stream()
-                        .filter(oldItem -> oldItem.getProduct().getId().equals(newItem.getProductId()))
-                        .map(up -> fromOrderItem(newItem, up.getProduct())))
-                .collect(Collectors.toList());
     }
 
 }

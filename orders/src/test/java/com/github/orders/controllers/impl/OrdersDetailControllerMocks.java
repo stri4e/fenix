@@ -30,6 +30,79 @@ public class OrdersDetailControllerMocks {
 
     public static final List<Long> PRODUCT_IDS = Lists.newArrayList(1L, 2L, 3L);
 
+    public static final List<ProductDto> PRODUCTS = Lists.newArrayList(
+            new ProductDto(
+                    1L,
+                    "brand",
+                    "Nokia",
+                    new BigDecimal("12.2"),
+                    25,
+                    "This is good product.",
+                    "img",
+                    new ArrayList<>(),
+                    null,
+                    null,
+                    null,
+                    0
+            ),
+            new ProductDto(
+                    2L,
+                    "brand",
+                    "IPhone",
+                    new BigDecimal("100.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    new ArrayList<>(),
+                    null,
+                    null,
+                    null,
+                    0
+            ),
+            new ProductDto(
+                    3L,
+                    "brand",
+                    "Sumsung",
+                    new BigDecimal("50.2"),
+                    500,
+                    "This is good product.",
+                    "img",
+                    new ArrayList<>(),
+                    null,
+                    null,
+                    null,
+                    0
+            ),
+            new ProductDto(
+                    4L,
+                    "brand",
+                    "Xiaomi",
+                    new BigDecimal("14.2"),
+                    100,
+                    "This is good product.",
+                    "img",
+                    new ArrayList<>(),
+                    null,
+                    null,
+                    null,
+                    0
+            ),
+            new ProductDto(
+                    5L,
+                    "brand",
+                    "Huawei",
+                    new BigDecimal("24.2"),
+                    560,
+                    "This is good product.",
+                    "img",
+                    new ArrayList<>(),
+                    null,
+                    null,
+                    null,
+                    0
+            )
+    );
+
     public static CustomerDto customerDto() {
         return new CustomerDto(
                 CUSTOMER_ID,

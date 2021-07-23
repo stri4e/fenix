@@ -11,14 +11,15 @@ import com.github.orders.exceptions.NotFound;
 import com.github.orders.service.*;
 import com.github.orders.utils.Logging;
 import com.github.orders.utils.Payloads;
-import com.github.orders.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.orders.entity.OrderStatus.returned;
@@ -49,17 +50,9 @@ public class OrdersDetailController implements IOrdersDetailController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public OrderDetailDto save(UUID userId, OrderDetailDto payload) {
-        List<OrderItem> items = this.orderItemsService.createAll(
-                payload.getOrderItems().stream()
-                        .map(TransferObj::toOrderItem)
-                        .collect(Collectors.toList()));
-        return Payloads.of(
-                fromOrderDetail(
-                        this.orderService.crete(toOrderDetail(payload, items, userId)),
-                        payload.getCustomer(),
-                        fromOrderItems(items, payload.getOrderItems())
-                )
-        ).doOnNext(this::andAsync);
+        OrderDetail order = this.orderService.crete(toOrderDetail(payload, userId));
+        return Payloads.of(fromOrderDetail(order, payload))
+                .doOnNext(this::andAsync);
     }
 
     private void andAsync(OrderDetailDto order) {
@@ -89,16 +82,18 @@ public class OrdersDetailController implements IOrdersDetailController {
         List<ProductDto> products = this.productService.readByIds(
                 orderItems.stream()
                         .map(OrderItem::getProductId)
-                        .collect(Collectors.toList()))
-                .orElseThrow(NotFound::new);
-        CustomerDto customer = this.customerService.readById(order.getCustomerId())
-                .orElseThrow(NotFound::new);
-        return fromOrderDetail(order, customer,
+                        .collect(Collectors.toList())
+        ).orElseThrow(NotFound::new);
+        Map<Long, ProductDto> productsGroupById = products.stream()
+                .collect(Collectors.toMap(ProductDto::getId, Function.identity()));
+        return fromOrderDetail(
+                order,
+                this.customerService.readById(order.getCustomerId())
+                        .orElseThrow(NotFound::new),
                 orderItems.stream()
-                        .flatMap(o -> products.stream()
-                                .filter(p -> p.getId().equals(o.getProductId()))
-                                .map(p -> fromOrderItem(o, p))
-                        ).collect(Collectors.toList()));
+                        .map(o -> fromOrderItem(o, productsGroupById.get(o.getProductId())))
+                        .collect(Collectors.toList())
+        );
     }
 
     @Override

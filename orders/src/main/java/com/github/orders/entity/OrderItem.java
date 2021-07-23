@@ -56,6 +56,13 @@ public class OrderItem implements Serializable, Cloneable {
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
 
+    @ManyToOne(
+            targetEntity = OrderDetail.class,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "order_id")
+    private OrderDetail orderDetail;
+
     @CreationTimestamp
     @Column(
             name = "create_at",

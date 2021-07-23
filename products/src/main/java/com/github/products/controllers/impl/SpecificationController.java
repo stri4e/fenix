@@ -47,10 +47,7 @@ public class SpecificationController implements ISpecificationController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(SpecificationDto payload) {
-        Specification spec = this.specificationService.readById(payload.getId());
-        spec.setName(payload.getName());
-        spec.setDescription(payload.getDescription());
-        this.specificationService.update(spec);
+        this.specificationService.updateSpec(toSpecification(payload));
     }
 
     @Override

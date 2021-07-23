@@ -13,6 +13,8 @@ public interface ISpecificationService {
 
     void update(Specification s);
 
+    void updateSpec(Specification s);
+
     void delete(Long id);
 
     List<Specification> readByParams(String name, String patter);

@@ -46,6 +46,11 @@ public class StocksService implements IStocksService {
     }
 
     @Override
+    public void updateStock(Stock stock) {
+
+    }
+
+    @Override
     public void remove(Long id) {
         this.stocksRepo.update(id, EntityStatus.off);
     }

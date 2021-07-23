@@ -10,6 +10,8 @@ public interface IFiltersService {
 
     void update(Filter filter);
 
+    void updateTitle(Filter filter);
+
     void delete(Long id);
 
 }

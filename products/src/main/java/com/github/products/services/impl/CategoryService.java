@@ -60,7 +60,9 @@ public class CategoryService implements ICategoryService {
             evict = @CacheEvict(value = "categories", allEntries = true)
     )
     public void update(Category c) {
-        this.categoryRepo.save(c);
+        Category cat = this.categoryRepo.findById(c.getId())
+                .orElseThrow(NotFound::new);
+        cat.setName(c.getName());
     }
 
     @Override

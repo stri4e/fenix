@@ -15,7 +15,7 @@ public interface IBrandService {
 
     List<Brand> readAllByStatus(EntityStatus status);
 
-    void update(Brand brand);
+    void update(Long id, String name);
 
     void delete(Long id);
 

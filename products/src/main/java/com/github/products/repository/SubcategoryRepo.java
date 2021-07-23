@@ -25,4 +25,11 @@ public interface SubcategoryRepo extends JpaRepository<Subcategory, Long> {
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Subcategory sc set sc.name=:name where sc.id=:id")
+    void updateStatus(
+            @Param(value = "id") Long id,
+            @Param(value = "name") String name
+    );
+
 }

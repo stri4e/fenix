@@ -3,7 +3,7 @@ package com.github.orders.controllers.impl;
 import com.github.orders.dto.OrderDetailDto;
 import com.github.orders.entity.OrderDetail;
 import com.github.orders.repository.OrderDetailRepo;
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.AfterClass;
 import org.junit.Before;
