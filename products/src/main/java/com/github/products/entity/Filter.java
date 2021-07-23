@@ -24,7 +24,7 @@ import java.util.Objects;
         )
 })
 @Table(name = "filters", schema = "public")
-public class Filter implements Serializable, Cloneable {
+public class Filter implements Serializable {
 
     private static final long serialVersionUID = 7706390004430335311L;
 

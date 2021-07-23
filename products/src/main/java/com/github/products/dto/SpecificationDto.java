@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keep specification.")
-public class SpecificationDto implements Serializable, Cloneable {
+public class SpecificationDto implements Serializable {
 
     private static final long serialVersionUID = 8393941766603142335L;
 

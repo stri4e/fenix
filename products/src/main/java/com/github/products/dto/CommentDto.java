@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "This model use for keep comment.")
-public class CommentDto implements Serializable, Cloneable {
+public class CommentDto implements Serializable {
 
     private static final long serialVersionUID = 1623792402872314887L;
 

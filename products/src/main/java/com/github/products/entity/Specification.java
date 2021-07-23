@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
                 query = "select s from Specification s where s.name = :name"
         )
 })
-public class Specification implements Serializable, Cloneable {
+public class Specification implements Serializable {
 
     private static final long serialVersionUID = -8426888996223798372L;
 

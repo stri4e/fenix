@@ -2,7 +2,7 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Stock;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.StocksRepo;
 import com.github.products.services.IStocksService;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ public class StocksService implements IStocksService {
     @Override
     public Stock readById(Long id) {
         return this.stocksRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
     public Stock readByNameAndNumber(String name, String number) {
         return this.stocksRepo.findByNameAndNumber(name, number)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class StocksService implements IStocksService {
 
     @Override
     public void updateStock(Stock stock) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override

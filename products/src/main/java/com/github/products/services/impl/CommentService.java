@@ -2,8 +2,7 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.Comment;
 import com.github.products.entity.EntityStatus;
-import com.github.products.exceptions.BadRequest;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.CommentRepo;
 import com.github.products.services.ICommentService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -33,7 +31,7 @@ public class CommentService implements ICommentService {
     @Cacheable(value = "comment", key = "#id")
     public Comment readById(Long id) {
         return this.commentRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override

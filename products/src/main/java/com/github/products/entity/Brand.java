@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
                 columnNames = "name"
         )
 )
-public class Brand implements Serializable, Cloneable {
+public class Brand implements Serializable {
 
     private static final long serialVersionUID = 1226440996435440929L;
 
@@ -79,5 +79,11 @@ public class Brand implements Serializable, Cloneable {
     public Brand(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Brand(Long id, String name, EntityStatus status) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
     }
 }

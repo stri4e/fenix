@@ -42,7 +42,7 @@ import java.util.Objects;
                 columnNames = "name"
         )
 )
-public class Category implements Serializable, Cloneable {
+public class Category implements Serializable {
 
     private static final long serialVersionUID = -3168450095167684631L;
 

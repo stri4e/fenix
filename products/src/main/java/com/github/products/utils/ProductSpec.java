@@ -1,15 +1,16 @@
 package com.github.products.utils;
 
 import com.github.products.entity.Criteria;
-import com.github.products.entity.Product;
 import com.github.products.entity.EntityStatus;
+import com.github.products.entity.Product;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProductSpec {
+
+    private ProductSpec() {
+    }
 
     public static Specification<Product> statusOn() {
         return (root, query, cb) -> cb.equal(root.get("status"), EntityStatus.on);

@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CriteriaDto implements Serializable, Cloneable {
+public class CriteriaDto implements Serializable {
 
     private static final long serialVersionUID = -8395912449017126288L;
 

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
         )
 })
 @Table(name = "criteria", schema = "public")
-public class Criteria implements Serializable, Cloneable {
+public class Criteria implements Serializable {
 
     private static final long serialVersionUID = 8592780795812353558L;
 

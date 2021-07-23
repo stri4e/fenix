@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,7 +29,9 @@ import java.time.LocalDateTime;
         )
 })
 @Table(name = "comment", schema = "public")
-public class Comment {
+public class Comment implements Serializable {
+
+    private static final long serialVersionUID = -7686291621942651724L;
 
     @Id
     @Column(name = "ID")

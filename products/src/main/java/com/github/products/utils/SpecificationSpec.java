@@ -4,6 +4,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class SpecificationSpec {
 
+    private SpecificationSpec() {}
+
     public static Specification<com.github.products.entity.Specification> selectBy(String name, String description) {
         return ((root, query, cb) -> {
             query.distinct(Boolean.TRUE);

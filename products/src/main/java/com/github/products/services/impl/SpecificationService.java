@@ -2,17 +2,18 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Specification;
-import com.github.products.exceptions.BadRequest;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityBadRequest;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.SpecificationRepo;
 import com.github.products.services.ISpecificationService;
-import com.github.products.utils.SpecificationSpec;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +33,7 @@ public class SpecificationService implements ISpecificationService {
     )
     public Specification create(Specification s) {
         if (Objects.isNull(s)) {
-            throw new BadRequest();
+            throw new EntityBadRequest();
         }
         return this.specificationRepo.save(s);
     }
@@ -41,10 +42,10 @@ public class SpecificationService implements ISpecificationService {
     @Cacheable(value = "specification", key = "#id")
     public Specification readById(Long id) {
         if (Objects.isNull(id)) {
-            throw new BadRequest();
+            throw new EntityBadRequest();
         }
         return this.specificationRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override

@@ -24,4 +24,10 @@ public interface BrandRepo extends JpaRepository<Brand, Long> {
                       @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Brand b set b.name=:name where b.id=:id")
+    void updateName(@Param(value = "id") Long id,
+                      @Param(value = "name") String name
+    );
+
 }

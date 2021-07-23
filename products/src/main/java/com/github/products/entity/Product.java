@@ -23,7 +23,7 @@ import java.util.*;
                 query = "SELECT p FROM Product p WHERE p.id = :id"
         )
 })
-public class Product extends Item implements Serializable, Cloneable {
+public class Product extends Item implements Serializable {
 
     private static final long serialVersionUID = -3490371538827798606L;
 

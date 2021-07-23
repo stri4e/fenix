@@ -3,7 +3,7 @@ package com.github.products.services.impl;
 import com.github.products.entity.Criteria;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Product;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.ProductRepo;
 import com.github.products.services.IProductService;
 import com.github.products.utils.ProductSpec;
@@ -68,7 +68,7 @@ public class ProductService implements IProductService {
     @Cacheable(value = "product", key = "#id")
     public Product readById(Long id) {
         return this.productRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override

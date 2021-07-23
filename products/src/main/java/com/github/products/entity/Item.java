@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @MappedSuperclass
-public abstract class Item implements Serializable, Cloneable {
+public abstract class Item implements Serializable {
 
     private static final long serialVersionUID = -7416895101550698061L;
 

@@ -40,7 +40,7 @@ import java.util.*;
                 columnNames = "name"
         )
 )
-public class Subcategory implements Serializable, Cloneable {
+public class Subcategory implements Serializable {
 
     private static final long serialVersionUID = 9085806796284875698L;
 

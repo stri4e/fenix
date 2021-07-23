@@ -2,7 +2,7 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.Criteria;
 import com.github.products.entity.EntityStatus;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.CriteriaRepo;
 import com.github.products.services.ICriteriaService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CriteriaService implements ICriteriaService {
     @Override
     public Criteria readById(Long id) {
         return this.criteriaRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CriteriaService implements ICriteriaService {
     @Override
     public void update(Criteria c) {
         Criteria criteria = this.criteriaRepo.findById(c.getId())
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
         criteria.setValue(c.getValue());
     }
 

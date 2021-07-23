@@ -4,7 +4,6 @@ import com.github.products.controllers.ICommentController;
 import com.github.products.dto.CommentDto;
 import com.github.products.entity.Comment;
 import com.github.products.entity.Product;
-import com.github.products.exceptions.BadRequest;
 import com.github.products.services.ICommentService;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
@@ -12,8 +11,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Objects;
 
 import static com.github.products.utils.TransferObj.fromComment;
 import static com.github.products.utils.TransferObj.toComment;

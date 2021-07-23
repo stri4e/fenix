@@ -1,7 +1,6 @@
 package com.github.products.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.products.entity.Subcategory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keeps catogory.")
-public class CategoryDto implements Serializable, Cloneable {
+public class CategoryDto implements Serializable {
 
     private static final long serialVersionUID = -570839933846137004L;
 

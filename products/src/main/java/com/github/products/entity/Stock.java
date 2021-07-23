@@ -31,7 +31,7 @@ import java.util.Set;
                 query = "select s from Stock s where s.name=:name and s.number=:number"
         )
 })
-public class Stock implements Serializable, Cloneable {
+public class Stock implements Serializable {
 
     private static final long serialVersionUID = 6272521516146573710L;
 

@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 public class TransferObj {
 
+    private TransferObj() {}
+
     public static Product toProduct(ProductDto data) {
         Product result = new Product();
         result.setId(data.getId());

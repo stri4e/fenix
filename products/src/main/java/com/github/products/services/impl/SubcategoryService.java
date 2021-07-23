@@ -2,7 +2,7 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.SubcategoryRepo;
 import com.github.products.services.ISubcategoryService;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ public class SubcategoryService implements ISubcategoryService {
     @Override
     public Subcategory readByName(String name) {
         return this.subCategoryRepo.findByName(name)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
     public Subcategory readById(Long id) {
         return this.subCategoryRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override

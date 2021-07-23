@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockDto implements Serializable, Cloneable {
+public class StockDto implements Serializable {
 
     private static final long serialVersionUID = -1888766794324478502L;
 

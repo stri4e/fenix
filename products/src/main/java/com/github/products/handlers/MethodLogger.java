@@ -32,44 +32,48 @@ public class MethodLogger {
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        if (method.isAnnotationPresent(Logging.class)) {
-            if (log.isDebugEnabled() && method.getAnnotation(Logging.class).isReturn()) {
-                log.debug("Enter: {}.{}() with argument[s] {} returned result {}.",
-                        joinPoint.getSignature().getDeclaringTypeName(),
-                        joinPoint.getSignature().getName(),
-                        Arrays.toString(joinPoint.getArgs()),
-                        result);
-            }
+        if (method.isAnnotationPresent(Logging.class) && isDebugEnableAndIsReturnTrue(method)) {
+            log.debug("Enter: {}.{}() with argument[s] {} returned result {}.",
+                    joinPoint.getSignature().getDeclaringTypeName(),
+                    joinPoint.getSignature().getName(),
+                    Arrays.toString(joinPoint.getArgs()),
+                    result);
         }
+    }
+
+    private static boolean isDebugEnableAndIsReturnTrue(Method method) {
+        return log.isDebugEnabled() && method.getAnnotation(Logging.class).isReturn();
     }
 
     @Around("@annotation(com.github.products.utils.Logging)")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        if (method.isAnnotationPresent(Logging.class)) {
-            if (log.isDebugEnabled() && method.getAnnotation(Logging.class).isTime()) {
-                long start = System.currentTimeMillis();
-                try {
-                    Object result = joinPoint.proceed();
-                    long elapsedTime = System.currentTimeMillis() - start;
-                    log.debug("Enter: {}.{}() with argument[s] {} returned result {}, time {}.",
-                            signature.getDeclaringTypeName(),
-                            signature.getName(),
-                            Arrays.toString(joinPoint.getArgs()),
-                            result, elapsedTime);
-                    return result;
-                } catch (IllegalArgumentException e) {
-                    log.error("Enter: {}.{}() with argument[s] {} throw exception {}",
-                            joinPoint.getSignature().getDeclaringTypeName(),
-                            joinPoint.getSignature().getName(),
-                            Arrays.toString(joinPoint.getArgs()),
-                            e);
-                    throw e;
-                }
+        if (method.isAnnotationPresent(Logging.class) && isDebugEnableAndIsTimeTrue(method)) {
+            long start = System.currentTimeMillis();
+            try {
+                Object result = joinPoint.proceed();
+                long elapsedTime = System.currentTimeMillis() - start;
+                log.debug("Enter: {}.{}() with argument[s] {} returned result {}, time {}.",
+                        signature.getDeclaringTypeName(),
+                        signature.getName(),
+                        Arrays.toString(joinPoint.getArgs()),
+                        result, elapsedTime);
+                return result;
+            } catch (IllegalArgumentException e) {
+                log.error("Enter: {}.{}() with argument[s] {} throw exception {}",
+                        joinPoint.getSignature().getDeclaringTypeName(),
+                        joinPoint.getSignature().getName(),
+                        Arrays.toString(joinPoint.getArgs()),
+                        e);
+                throw e;
             }
         }
         return joinPoint.proceed();
+    }
+
+    private static boolean isDebugEnableAndIsTimeTrue(Method method) {
+        return log.isDebugEnabled() && method.getAnnotation(Logging.class).isTime();
     }
 
     @AfterThrowing(

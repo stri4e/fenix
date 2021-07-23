@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "This model use for keep product.")
-public class ProductDto implements Serializable, Cloneable {
+public class ProductDto implements Serializable {
 
     private static final long serialVersionUID = -4851060288664633909L;
 

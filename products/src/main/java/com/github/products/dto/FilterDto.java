@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "This model use for keeps filter information.")
-public class FilterDto implements Serializable, Cloneable {
+public class FilterDto implements Serializable {
 
     private static final long serialVersionUID = -9009582168098182244L;
 

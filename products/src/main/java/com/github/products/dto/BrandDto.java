@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandDto implements Serializable, Cloneable {
+public class BrandDto implements Serializable {
 
     private static final long serialVersionUID = -6943992056966122890L;
 

@@ -2,15 +2,14 @@ package com.github.products.services.impl;
 
 import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
-import com.github.products.exceptions.BadRequest;
-import com.github.products.exceptions.NotFound;
+import com.github.products.exceptions.EntityBadRequest;
+import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.CategoryRepo;
 import com.github.products.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -37,7 +36,7 @@ public class CategoryService implements ICategoryService {
     )
     public Category create(Category c) {
         if (Objects.isNull(c)) {
-            throw new BadRequest();
+            throw new EntityBadRequest();
         }
         return this.categoryRepo.save(c);
     }
@@ -51,7 +50,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category readById(Long id) {
         return this.categoryRepo.findById(id)
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class CategoryService implements ICategoryService {
     )
     public void update(Category c) {
         Category cat = this.categoryRepo.findById(c.getId())
-                .orElseThrow(NotFound::new);
+                .orElseThrow(EntityNotFound::new);
         cat.setName(c.getName());
     }
 
