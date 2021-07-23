@@ -4,16 +4,20 @@ import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
 import com.github.products.exceptions.EntityBadRequest;
 import com.github.products.exceptions.EntityNotFound;
+import com.github.products.exceptions.ParametersBadRequest;
 import com.github.products.repository.CategoryRepo;
 import com.github.products.services.ICategoryService;
+import com.github.products.utils.NullSafety;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
+
+import static com.github.products.utils.NullSafety.*;
 
 @Service
 @Transactional
@@ -35,22 +39,24 @@ public class CategoryService implements ICategoryService {
             evict = @CacheEvict(value = "categories", allEntries = true)
     )
     public Category create(Category c) {
-        if (Objects.isNull(c)) {
-            throw new EntityBadRequest();
-        }
-        return this.categoryRepo.save(c);
+        return this.categoryRepo.save(
+                requiredNotNull(c, EntityBadRequest::new)
+        );
     }
 
     @Override
     @Cacheable(value = "category", key = "#name")
     public Category readByName(String name) {
-        return this.categoryRepo.findByName(name);
+        return this.categoryRepo.findByName(
+                requiredNotBlank(name, ParametersBadRequest::new)
+        );
     }
 
     @Override
     public Category readById(Long id) {
-        return this.categoryRepo.findById(id)
-                .orElseThrow(EntityNotFound::new);
+        return this.categoryRepo.findById(
+                requiredNotNull(id, ParametersBadRequest::new)
+        ).orElseThrow(EntityNotFound::new);
     }
 
     @Override
@@ -59,9 +65,8 @@ public class CategoryService implements ICategoryService {
             evict = @CacheEvict(value = "categories", allEntries = true)
     )
     public void update(Category c) {
-        Category cat = this.categoryRepo.findById(c.getId())
-                .orElseThrow(EntityNotFound::new);
-        cat.setName(c.getName());
+        throwIfNull(c, EntityBadRequest::new);
+        this.categoryRepo.updateName(c.getId(), c.getName());
     }
 
     @Override
@@ -70,7 +75,10 @@ public class CategoryService implements ICategoryService {
             @CacheEvict(value = "categories", allEntries = true)
     })
     public void remove(Long id) {
-        this.categoryRepo.updateStatus(id, EntityStatus.off);
+        this.categoryRepo.updateStatus(
+                requiredNotNull(id, ParametersBadRequest::new),
+                EntityStatus.off
+        );
     }
 
     @Override

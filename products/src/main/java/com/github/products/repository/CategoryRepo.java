@@ -26,4 +26,11 @@ public interface CategoryRepo extends PagingAndSortingRepository<Category, Long>
             @Param(value = "status") EntityStatus status
     );
 
+    @Modifying
+    @Query(value = "update Category c set c.name=:name where c.id=:id")
+    void updateName(
+            @Param(value = "id") Long id,
+            @Param(value = "name") String name
+    );
+
 }

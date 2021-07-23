@@ -101,6 +101,22 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    public Category(Long id, String name, List<Subcategory> subcategories, LocalDateTime createAt, LocalDateTime updateAt) {
+        this.id = id;
+        this.name = name;
+        this.subcategories = subcategories;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+    }
+
+    public Category(String name, List<Subcategory> subcategories, LocalDateTime createAt, LocalDateTime updateAt) {
+        this.id = id;
+        this.name = name;
+        this.subcategories = subcategories;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+    }
+
     public void addSubcategory(Subcategory subcategory) {
         if (Objects.nonNull(subcategory)) {
             this.subcategories.add(subcategory);
