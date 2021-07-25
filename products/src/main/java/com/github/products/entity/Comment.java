@@ -23,10 +23,6 @@ import java.util.UUID;
         @NamedQuery(
                 name = "Comment.findById",
                 query = "select c from Comment c where c.id = :id"
-        ),
-        @NamedQuery(
-                name = "Comment.findByName",
-                query = "select c from Comment c where c.author = :name"
         )
 })
 @Table(name = "comment", schema = "public")

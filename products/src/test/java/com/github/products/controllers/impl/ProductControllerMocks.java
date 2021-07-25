@@ -73,7 +73,7 @@ public class ProductControllerMocks {
         Product p = new Product();
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
+//        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
@@ -85,11 +85,11 @@ public class ProductControllerMocks {
         p.setName(PRODUCT_NAME);
         p.setBrandName(BRAND_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
+//        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setSubcategoryName(SUBCATEGORY_NAME);
+//        p.setSubcategoryName(SUBCATEGORY_NAME);
         return p;
     }
 
@@ -99,11 +99,11 @@ public class ProductControllerMocks {
         p.setName(PRODUCT_NAME);
         p.setBrandName(BRAND_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
+//        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
-        p.setSubcategoryName(SUBCATEGORY_NAME);
+//        p.setSubcategoryName(SUBCATEGORY_NAME);
         p.setSpecifications(new ArrayList<>());
         p.setComments(new ArrayList<>());
         return p;
@@ -113,10 +113,10 @@ public class ProductControllerMocks {
         ProductDto p = new ProductDto();
         p.setId(PRODUCT_ID);
         p.setBrandName(BRAND_NAME);
-        p.setSubcategoryName(SUBCATEGORY_NAME);
+//        p.setSubcategoryName(SUBCATEGORY_NAME);
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
+//        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION_FOR_UPDATE);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
@@ -141,12 +141,12 @@ public class ProductControllerMocks {
         p1.setId(1L);
         p1.setName("Nokia");
         p1.setPrice(new BigDecimal("12.200"));
-        p1.setQuantity(25);
+//        p1.setQuantity(25);
         p1.setDescription("This is phone for coll.");
         p1.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p1.setImages(IMAGES);
         p1.setBrandName(BRAND_NAME);
-        p1.setSubcategoryName(SUBCATEGORY_NAME);
+//        p1.setSubcategoryName(SUBCATEGORY_NAME);
         p1.setComments(new ArrayList<>());
         p1.setSpecifications(new ArrayList<>());
 
@@ -154,12 +154,12 @@ public class ProductControllerMocks {
         p2.setId(2L);
         p2.setName("Sumsung");
         p2.setPrice(new BigDecimal("5.200"));
-        p2.setQuantity(190);
+//        p2.setQuantity(190);
         p2.setDescription("This is phone for coll.");
         p2.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p2.setImages(IMAGES);
         p2.setBrandName(BRAND_NAME);
-        p2.setSubcategoryName(SUBCATEGORY_NAME);
+//        p2.setSubcategoryName(SUBCATEGORY_NAME);
         p2.setComments(new ArrayList<>());
         p2.setSpecifications(new ArrayList<>());
 
@@ -167,12 +167,12 @@ public class ProductControllerMocks {
         p3.setId(3L);
         p3.setName("Xiaomi");
         p3.setPrice(new BigDecimal("50.200"));
-        p3.setQuantity(1220);
+//        p3.setQuantity(1220);
         p3.setDescription("This is phone for coll.");
         p3.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p3.setImages(IMAGES);
         p3.setBrandName(BRAND_NAME);
-        p3.setSubcategoryName(SUBCATEGORY_NAME);
+//        p3.setSubcategoryName(SUBCATEGORY_NAME);
         p3.setComments(new ArrayList<>());
         p3.setSpecifications(new ArrayList<>());
 
@@ -180,12 +180,12 @@ public class ProductControllerMocks {
         p4.setId(4L);
         p4.setName("IPhone");
         p4.setPrice(new BigDecimal("120.200"));
-        p4.setQuantity(520);
+//        p4.setQuantity(520);
         p4.setDescription("This is phone for coll.");
         p4.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p4.setImages(IMAGES);
         p4.setBrandName(BRAND_NAME);
-        p4.setSubcategoryName(SUBCATEGORY_NAME);
+//        p4.setSubcategoryName(SUBCATEGORY_NAME);
         p4.setComments(new ArrayList<>());
         p4.setSpecifications(new ArrayList<>());
 
@@ -196,7 +196,7 @@ public class ProductControllerMocks {
         Product p1 = new Product();
         p1.setName("Nokia");
         p1.setPrice(new BigDecimal("12.200"));
-        p1.setQuantity(25);
+//        p1.setQuantity(25);
         p1.setDescription("This is phone for coll.");
         p1.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p1.setImages(IMAGES);
@@ -206,7 +206,7 @@ public class ProductControllerMocks {
         Product p2 = new Product();
         p2.setName("Sumsung");
         p2.setPrice(new BigDecimal("5.200"));
-        p2.setQuantity(190);
+//        p2.setQuantity(190);
         p2.setDescription("This is phone for coll.");
         p2.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p2.setImages(IMAGES);
@@ -216,7 +216,7 @@ public class ProductControllerMocks {
         Product p3 = new Product();
         p3.setName("Xiaomi");
         p3.setPrice(new BigDecimal("50.200"));
-        p3.setQuantity(1220);
+//        p3.setQuantity(1220);
         p3.setDescription("This is phone for coll.");
         p3.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p3.setImages(IMAGES);
@@ -226,7 +226,7 @@ public class ProductControllerMocks {
         Product p4 = new Product();
         p4.setName("IPhone");
         p4.setPrice(new BigDecimal("120.200"));
-        p4.setQuantity(520);
+//        p4.setQuantity(520);
         p4.setDescription("This is phone for coll.");
         p4.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p4.setImages(IMAGES);
@@ -240,7 +240,7 @@ public class ProductControllerMocks {
         Product p1 = new Product();
         p1.setName("Nokia");
         p1.setPrice(new BigDecimal("12.200"));
-        p1.setQuantity(25);
+//        p1.setQuantity(25);
         p1.setDescription("This is phone for coll.");
         p1.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p1.setImages(IMAGES);
@@ -251,7 +251,7 @@ public class ProductControllerMocks {
         Product p2 = new Product();
         p2.setName("Sumsung");
         p2.setPrice(new BigDecimal("5.200"));
-        p2.setQuantity(190);
+//        p2.setQuantity(190);
         p2.setDescription("This is phone for coll.");
         p2.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p2.setImages(IMAGES);
@@ -262,7 +262,7 @@ public class ProductControllerMocks {
         Product p3 = new Product();
         p3.setName("Xiaomi");
         p3.setPrice(new BigDecimal("50.200"));
-        p3.setQuantity(1220);
+//        p3.setQuantity(1220);
         p3.setDescription("This is phone for coll.");
         p3.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p3.setImages(IMAGES);
@@ -273,7 +273,7 @@ public class ProductControllerMocks {
         Product p4 = new Product();
         p4.setName("IPhone");
         p4.setPrice(new BigDecimal("120.200"));
-        p4.setQuantity(520);
+//        p4.setQuantity(520);
         p4.setDescription("This is phone for coll.");
         p4.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p4.setImages(IMAGES);
@@ -288,7 +288,7 @@ public class ProductControllerMocks {
         Product p1 = new Product();
         p1.setName("Nokia");
         p1.setPrice(new BigDecimal("12.200"));
-        p1.setQuantity(25);
+//        p1.setQuantity(25);
         p1.setDescription("This is phone for coll.");
         p1.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p1.setImages(IMAGES);
@@ -298,7 +298,6 @@ public class ProductControllerMocks {
         Product p2 = new Product();
         p2.setName("Sumsung");
         p2.setPrice(new BigDecimal("5.200"));
-        p2.setQuantity(190);
         p2.setDescription("This is phone for coll.");
         p2.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p2.setImages(IMAGES);
@@ -308,7 +307,6 @@ public class ProductControllerMocks {
         Product p3 = new Product();
         p3.setName("Xiaomi");
         p3.setPrice(new BigDecimal("50.200"));
-        p3.setQuantity(1220);
         p3.setDescription("This is phone for coll.");
         p3.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p3.setImages(IMAGES);
@@ -318,7 +316,6 @@ public class ProductControllerMocks {
         Product p4 = new Product();
         p4.setName("IPhone");
         p4.setPrice(new BigDecimal("120.200"));
-        p4.setQuantity(520);
         p4.setDescription("This is phone for coll.");
         p4.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p4.setImages(IMAGES);

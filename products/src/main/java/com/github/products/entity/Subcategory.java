@@ -66,11 +66,15 @@ public class Subcategory implements Serializable {
     @JoinColumn(
             name = "category_id",
             referencedColumnName = "id",
-            nullable = false
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "subcategory_category_fk"
+            )
     )
     private Category category;
 
     @OneToMany(
+            mappedBy = "subcategory",
             targetEntity = Filter.class,
             fetch = FetchType.LAZY,
             cascade = {

@@ -46,4 +46,5 @@ public class CommentDto implements Serializable {
         this.lastName = lastName;
         this.text = text;
     }
+
 }

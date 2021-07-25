@@ -66,17 +66,13 @@ public class Stock implements Serializable {
     )
     private String email;
 
-    @ElementCollection(targetClass = StockStaff.class)
-    @CollectionTable(
-            name = "stock_staff",
-            joinColumns = @JoinColumn(
-                    name = "stock_id",
-                    foreignKey = @ForeignKey(
-                            name = "stock_staff_fk"
-                    )
-            )
+    @OneToMany(
+            mappedBy = "stock",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = StockStaff.class
     )
-    private Set<StockStaff> staffNames = new HashSet<>();
+    private Set<StockStaff> staffs = new HashSet<>();
 
     @OneToMany(
             mappedBy = "stock",
@@ -146,7 +142,7 @@ public class Stock implements Serializable {
             String number,
             String phone,
             String email,
-            Set<StockStaff> staffNames,
+            Set<StockStaff> staffs,
             String country,
             String region,
             String city,
@@ -158,7 +154,7 @@ public class Stock implements Serializable {
         this.number = number;
         this.phone = phone;
         this.email = email;
-        this.staffNames = staffNames;
+        this.staffs = staffs;
         this.country = country;
         this.region = region;
         this.city = city;
@@ -172,7 +168,7 @@ public class Stock implements Serializable {
             String number,
             String phone,
             String email,
-            Set<StockStaff> staffNames,
+            Set<StockStaff> staffs,
             String country,
             String region,
             String city,
@@ -183,7 +179,7 @@ public class Stock implements Serializable {
         this.number = number;
         this.phone = phone;
         this.email = email;
-        this.staffNames = staffNames;
+        this.staffs = staffs;
         this.country = country;
         this.region = region;
         this.city = city;

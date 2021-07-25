@@ -7,14 +7,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_stock_registration", schema = "publick")
-public class ProductStockLink {
+@Table(name = "product_stock_registration", schema = "public")
+public class ProductStockLink implements Serializable {
+
+    private static final long serialVersionUID = 7346673027877099739L;
 
     @Id
     @GeneratedValue(

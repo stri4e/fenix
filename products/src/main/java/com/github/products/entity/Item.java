@@ -54,6 +54,13 @@ public abstract class Item implements Serializable {
     @ElementCollection(
             fetch = FetchType.EAGER
     )
+    @JoinColumn(
+            name = "product_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "images_product_fk"
+            )
+    )
     private List<String> images = new ArrayList<>();
 
     @Column(

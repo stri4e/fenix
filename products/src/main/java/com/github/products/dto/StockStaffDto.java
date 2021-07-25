@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockStaffDto {
+public class StockStaffDto implements Serializable {
+
+    private static final long serialVersionUID = -7052318227944088224L;
+
+    private Long id;
 
     private String firstName;
 
@@ -17,6 +22,6 @@ public class StockStaffDto {
 
     private String email;
 
-    private List<String> phone;
+    private Set<String> phones;
 
 }

@@ -56,9 +56,13 @@ public class Product extends Item implements Serializable {
             inverseJoinColumns = @JoinColumn(
                     name = "criteria_id",
                     referencedColumnName = "id",
-                    foreignKey = @ForeignKey(name = "criteria_products_fk")
+                    foreignKey = @ForeignKey(
+                            name = "criteria_products_fk"
+                    )
             ),
-            foreignKey = @ForeignKey(name = "products_criteria_fk")
+            foreignKey = @ForeignKey(
+                    name = "products_criteria_fk"
+            )
     )
     private Set<Criteria> criteria = new HashSet<>();
 

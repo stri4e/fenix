@@ -154,14 +154,14 @@ public class TransferObj {
                 data.getNumber(),
                 data.getPhone(),
                 data.getEmail(),
-                data.getStaffNames().stream()
+                data.getStaffs().stream()
                         .map(staff -> new StockStaff(
+                                staff.getId(),
                                 staff.getFirstName(),
                                 staff.getLastName(),
                                 staff.getEmail(),
-                                staff.getPhone()
-                        ))
-                        .collect(Collectors.toSet()),
+                                staff.getPhones()
+                        )).collect(Collectors.toSet()),
                 data.getCountry(),
                 data.getRegion(),
                 data.getCity(),
@@ -178,12 +178,13 @@ public class TransferObj {
                 data.getNumber(),
                 data.getPhone(),
                 data.getEmail(),
-                data.getStaffNames().stream()
+                data.getStaffs().stream()
                         .map(staff -> new StockStaffDto(
+                                staff.getId(),
                                 staff.getFirstName(),
                                 staff.getLastName(),
                                 staff.getEmail(),
-                                staff.getPhone()
+                                staff.getPhones()
                         ))
                         .collect(Collectors.toSet()),
                 data.getCountry(),

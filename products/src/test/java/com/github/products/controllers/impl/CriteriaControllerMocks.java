@@ -61,7 +61,6 @@ public class CriteriaControllerMocks {
         Product p = new Product();
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);

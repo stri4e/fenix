@@ -31,7 +31,7 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Long>,
     );
 
     @Modifying
-    @Query(value = "update Product p set p.name =:#{#product.name}, p.price=:#{#product.price}, p.quantity=:#{#product.quantity}, p.description=:#{#product.description}," +
+    @Query(value = "update Product p set p.name =:#{#product.name}, p.price=:#{#product.price}, p.description=:#{#product.description}," +
             "p.previewImage=:#{#product.previewImage} where p.id =:#{#product.id}")
     void updateProduct(@Param(value = "product") Product product);
 

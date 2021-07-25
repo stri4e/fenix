@@ -147,7 +147,11 @@ public class ProductsControllerTest {
                 "132342134",
                 "32321321312",
                 "email",
-                Set.of("1", "2", "333"),
+                Set.of(
+                        new StockStaff(1L, "", "", "", Set.of()),
+                        new StockStaff(2L,"", "", "", Set.of()),
+                        new StockStaff(3L,"", "", "", Set.of())
+                ),
                 "uk",
                 "bk",
                 "da",
@@ -161,7 +165,7 @@ public class ProductsControllerTest {
         Subcategory subcategory = this.subcategoryRepo.save(ProductControllerMocks.subcategoryForSave());
         product.setSubcategory(subcategory);
         product.setBrand(brand);
-        product.setStock(this.stocksRepo.save(stock));
+//        product.setStock(this.stocksRepo.save(stock));
         this.productRepo.save(product);
         ProductDto payload = ProductControllerMocks.responseProductForUpdate();
         payload.setImages(List.of("432", "$343", "4343"));

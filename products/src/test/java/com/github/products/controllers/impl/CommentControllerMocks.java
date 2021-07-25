@@ -6,6 +6,7 @@ import com.github.products.entity.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CommentControllerMocks {
 
@@ -42,14 +43,16 @@ public class CommentControllerMocks {
     public static CommentDto responsePayload() {
         return new CommentDto(
                 COMMENT_ID,
-                COMMENT_NAME,
+                "",
+                "",
                 COMMENT_DESC
         );
     }
 
     public static CommentDto requestPayload() {
         return new CommentDto(
-                COMMENT_NAME,
+                "",
+                "",
                 COMMENT_DESC
         );
     }
@@ -57,14 +60,18 @@ public class CommentControllerMocks {
     public static Comment comment() {
         return new Comment(
                 COMMENT_ID,
-                COMMENT_NAME,
+                "",
+                "",
+                UUID.randomUUID(),
                 COMMENT_DESC
         );
     }
 
     public static Comment commentForSave() {
         return new Comment(
-                COMMENT_NAME,
+                "",
+                "",
+                UUID.randomUUID(),
                 COMMENT_DESC
         );
     }
@@ -96,7 +103,6 @@ public class CommentControllerMocks {
         Product p = new Product();
         p.setName(PRODUCT_NAME);
         p.setPrice(PRODUCT_PRICE);
-        p.setQuantity(PRODUCT_QUANTITY);
         p.setDescription(PRODUCT_DESCRIPTION);
         p.setPreviewImage(PRODUCT_PREVIEW_IMAGE);
         p.setImages(IMAGES);
