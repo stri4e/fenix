@@ -1,7 +1,6 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
-import com.github.products.dto.ProductDetailDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
 import com.github.products.services.IBrandService;
@@ -49,17 +48,19 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto save(@Valid ProductDetailDto payload) {
+    public ProductDto save(@Valid ProductDto payload) {
         Map<Long, Integer> quantityGroupByStockId = payload.getQuantityGroupByStockId();
-        ProductDto product = payload.getProduct();
-        Subcategory category = this.subCategoryService.readById(product.getSubcategoryId());
-        Brand brand = this.brandService.readByName(product.getBrandName());
+        Subcategory category = this.subCategoryService.readById(payload.getSubcategoryId());
+        Brand brand = this.brandService.readByName(payload.getBrandName());
         List<ProductStockLink> links = this.stocksService.readAll(quantityGroupByStockId.keySet()).stream()
                 .map(stock -> new ProductStockLink()
                         .addStock(stock)
                         .quantity(quantityGroupByStockId.get(stock.getId())))
                 .collect(Collectors.toList());
-        Product tmp = toProduct(product).subcategory(category).brand(brand).addLink(links);
+        Product tmp = toProduct(payload)
+                .subcategory(category)
+                .brand(brand)
+                .addLink(links);
         return fromProduct(this.productService.create(tmp));
     }
 

@@ -38,7 +38,7 @@ public class StockDto implements Serializable {
 
     @NotNull(message = "Field is required.")
     @JsonProperty(value = "staffNames")
-    private Set<String> staffNames;
+    private Set<StockStaffDto> staffNames;
 
     @NotBlank(message = "Field is required.")
     @JsonProperty(value = "country")

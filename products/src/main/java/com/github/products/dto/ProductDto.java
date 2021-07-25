@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -51,14 +52,6 @@ public class ProductDto implements Serializable {
     @JsonProperty(value = "price")
     @NotNull(message = "Price is required.")
     private BigDecimal price;
-
-    @ApiModelProperty(
-            value = "Product quantity",
-            example = "250"
-    )
-    @JsonProperty(value = "quantity")
-    @NotNull(message = "Quantity is required.")
-    private Integer quantity;
 
     @ApiModelProperty(
             value = "Product description",
@@ -106,5 +99,8 @@ public class ProductDto implements Serializable {
     @JsonProperty(value = "boughtCount")
     @NotNull(message = "BoughtCount Name is required.")
     private Integer boughtCount = 0;
+
+    @JsonProperty(value = "quantityGroupByStockId")
+    private Map<Long, Integer> quantityGroupByStockId;
 
 }
