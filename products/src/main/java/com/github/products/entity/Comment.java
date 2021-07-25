@@ -40,11 +40,8 @@ public class Comment implements Serializable {
     )
     private Long id;
 
-    @Column(
-            name = "author",
-            nullable = false
-    )
-    private String author;
+    @Embedded
+    private Author author;
 
     @Column(
             name = "text",
@@ -85,14 +82,15 @@ public class Comment implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public Comment(String author, String text) {
+    public Comment(Author author, String text) {
         this.author = author;
         this.text = text;
     }
 
-    public Comment(Long id, String author, String text) {
+    public Comment(Long id, Author author, String text) {
         this.id = id;
         this.author = author;
         this.text = text;
     }
+
 }
