@@ -3,18 +3,19 @@ package com.github.products.utils;
 import com.github.products.dto.*;
 import com.github.products.entity.*;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TransferObj {
 
-    private TransferObj() {}
+    private TransferObj() {
+    }
 
     public static Product toProduct(ProductDto data) {
         Product result = new Product();
         result.setId(data.getId());
         result.setName(data.getName());
         result.setPrice(data.getPrice());
-        result.setQuantity(data.getQuantity());
         result.setDescription(data.getDescription());
         result.setPreviewImage(data.getPreviewImage());
         result.setImages(data.getImages());
@@ -22,13 +23,16 @@ public class TransferObj {
     }
 
     public static ProductDto fromProduct(Product data) {
-        Stock stock = data.getStock();
+        Map<Long, Integer> quantityGroupByStockId = data.getLinks().stream()
+                .collect(Collectors.toMap(
+                        ProductStockLink::getId,
+                        ProductStockLink::getQuantity
+                ));
         return new ProductDto(
                 data.getId(),
                 data.getBrand().getName(),
                 data.getName(),
                 data.getPrice(),
-                data.getQuantity(),
                 data.getDescription(),
                 data.getPreviewImage(),
                 data.getImages(),
@@ -38,10 +42,9 @@ public class TransferObj {
                 data.getComments().stream()
                         .map(TransferObj::fromComment)
                         .collect(Collectors.toList()),
-                data.getSubcategory().getName(),
+                data.getSubcategory().getId(),
                 data.getBoughtCount(),
-                stock.getName(),
-                stock.getNumber()
+                quantityGroupByStockId
         );
     }
 
@@ -54,7 +57,7 @@ public class TransferObj {
     }
 
     public static CommentDto fromComment(Comment c) {
-        return new CommentDto(c.getId(), c.getName(), c.getComment());
+        return new CommentDto(c.getId(), c.getAuthor(), c.getText());
     }
 
     public static Comment toComment(CommentDto c) {
@@ -148,7 +151,14 @@ public class TransferObj {
                 data.getNumber(),
                 data.getPhone(),
                 data.getEmail(),
-                data.getStaffNames(),
+                data.getStaffNames().stream()
+                        .map(staff -> new StockStaff(
+                                staff.getFirstName(),
+                                staff.getLastName(),
+                                staff.getEmail(),
+                                staff.getPhone()
+                        ))
+                        .collect(Collectors.toSet()),
                 data.getCountry(),
                 data.getRegion(),
                 data.getCity(),
@@ -165,7 +175,14 @@ public class TransferObj {
                 data.getNumber(),
                 data.getPhone(),
                 data.getEmail(),
-                data.getStaffNames(),
+                data.getStaffNames().stream()
+                        .map(staff -> new StockStaffDto(
+                                staff.getFirstName(),
+                                staff.getLastName(),
+                                staff.getEmail(),
+                                staff.getPhone()
+                        ))
+                        .collect(Collectors.toSet()),
                 data.getCountry(),
                 data.getRegion(),
                 data.getCity(),
