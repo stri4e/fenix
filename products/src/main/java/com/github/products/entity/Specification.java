@@ -53,6 +53,21 @@ public class Specification implements Serializable {
     )
     private String description;
 
+    @ManyToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            targetEntity = Product.class
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "product_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "product_specification_fk"
+            )
+    )
+    private Product product;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;

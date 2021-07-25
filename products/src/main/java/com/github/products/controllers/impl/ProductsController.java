@@ -1,6 +1,7 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
+import com.github.products.dto.ProductDetailDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
 import com.github.products.services.IBrandService;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromProduct;
@@ -49,13 +49,18 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public ProductDto save(@Valid ProductDto payload) {
-        Subcategory category = this.subCategoryService.readByName(payload.getSubcategoryName());
-        Brand brand = this.brandService.readByName(payload.getBrandName());
-        Stock stock = this.stocksService.readByNameAndNumber(payload.getStockName(), payload.getStockNumber());
-        Product tmp = toProduct(payload).subcategory(category).brand(brand).stock(stock);
-        Product product = this.productService.create(tmp);
-        return fromProduct(product);
+    public ProductDto save(@Valid ProductDetailDto payload) {
+        Map<Long, Integer> quantityGroupByStockId = payload.getQuantityGroupByStockId();
+        ProductDto product = payload.getProduct();
+        Subcategory category = this.subCategoryService.readById(product.getSubcategoryId());
+        Brand brand = this.brandService.readByName(product.getBrandName());
+        List<ProductStockLink> links = this.stocksService.readAll(quantityGroupByStockId.keySet()).stream()
+                .map(stock -> new ProductStockLink()
+                        .addStock(stock)
+                        .quantity(quantityGroupByStockId.get(stock.getId())))
+                .collect(Collectors.toList());
+        Product tmp = toProduct(product).subcategory(category).brand(brand).addLink(links);
+        return fromProduct(this.productService.create(tmp));
     }
 
     @Override
@@ -70,7 +75,7 @@ public class ProductsController implements IProductsController {
                     .map(TransferObj::fromProduct)
                     .collect(Collectors.toList());
         }
-        return this.productService.readAllOff().stream()
+        return this.productService.readAllByStatusOff().stream()
                 .map(TransferObj::fromProduct)
                 .collect(Collectors.toList());
     }

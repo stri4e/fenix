@@ -40,12 +40,6 @@ public abstract class Item implements Serializable {
     private BigDecimal price;
 
     @Column(
-            name = "quantity",
-            nullable = false
-    )
-    private Integer quantity;
-
-    @Column(
             name = "description",
             nullable = false
     )

@@ -1,5 +1,6 @@
 package com.github.products.controllers;
 
+import com.github.products.dto.ProductDetailDto;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.EntityStatus;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public interface IProductsController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    ProductDto save(@Valid @RequestBody ProductDto payload);
+    ProductDto save(@Valid @RequestBody ProductDetailDto payload);
 
     @GetMapping(
             path = "/fetch",

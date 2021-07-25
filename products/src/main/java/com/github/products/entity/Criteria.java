@@ -39,6 +39,20 @@ public class Criteria implements Serializable {
     )
     private String value;
 
+    @ManyToOne(
+            targetEntity = Filter.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "criteria_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "filters_criteria_fk"
+            )
+    )
+    private Filter filter;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;

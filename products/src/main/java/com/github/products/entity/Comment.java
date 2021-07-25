@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
         ),
         @NamedQuery(
                 name = "Comment.findByName",
-                query = "select c from Comment c where c.name = :name"
+                query = "select c from Comment c where c.author = :name"
         )
 })
 @Table(name = "comment", schema = "public")
@@ -34,23 +34,37 @@ public class Comment implements Serializable {
     private static final long serialVersionUID = -7686291621942651724L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
     private Long id;
 
     @Column(
-            name = "name",
+            name = "author",
             nullable = false
     )
-    private String name;
+    private String author;
 
     @Column(
-            name = "comment",
+            name = "text",
             nullable = false
     )
-    private String comment;
+    private String text;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Product.class
+    )
+    @JoinColumn(
+            name = "product_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "product_comments_fk"
+            )
+    )
+    private Product product;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -71,14 +85,14 @@ public class Comment implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public Comment(String name, String comment) {
-        this.name = name;
-        this.comment = comment;
+    public Comment(String author, String text) {
+        this.author = author;
+        this.text = text;
     }
 
-    public Comment(Long id, String name, String comment) {
+    public Comment(Long id, String author, String text) {
         this.id = id;
-        this.name = name;
-        this.comment = comment;
+        this.author = author;
+        this.text = text;
     }
 }

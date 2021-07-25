@@ -58,17 +58,38 @@ public class Subcategory implements Serializable {
     )
     private String name;
 
-    @OneToMany(
-            targetEntity = Filter.class,
-            fetch = FetchType.EAGER
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            targetEntity = Category.class,
+            cascade = CascadeType.ALL
     )
     @JoinColumn(
-            name = "filter_title_id",
-            foreignKey = @ForeignKey(
-                    name = "sub_category_filter_title_fk"
-            )
+            name = "category_id",
+            referencedColumnName = "id",
+            nullable = false
+    )
+    private Category category;
+
+    @OneToMany(
+            targetEntity = Filter.class,
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            }
     )
     private Set<Filter> filters = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "subcategory",
+            targetEntity = Product.class,
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
+            }
+    )
+    private Set<Product> products = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

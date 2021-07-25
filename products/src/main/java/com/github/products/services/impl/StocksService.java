@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -26,6 +27,11 @@ public class StocksService implements IStocksService {
     @Override
     public List<Stock> readAll(EntityStatus status) {
         return this.stocksRepo.findByStatus(status);
+    }
+
+    @Override
+    public List<Stock> readAll(Set<Long> ids) {
+        return this.stocksRepo.findAllById(ids);
     }
 
     @Override

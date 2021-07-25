@@ -10,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -56,6 +58,14 @@ public class Brand implements Serializable {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private EntityStatus status = EntityStatus.on;
+
+    @OneToMany(
+            mappedBy = "brand",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Product.class
+    )
+    private Set<Product> products = new HashSet<>();
 
     @CreationTimestamp
     @Column(

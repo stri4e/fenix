@@ -36,7 +36,7 @@ public class Stock implements Serializable {
     private static final long serialVersionUID = 6272521516146573710L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -66,8 +66,25 @@ public class Stock implements Serializable {
     )
     private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> staffNames = new HashSet<>();
+    @ElementCollection(targetClass = StockStaff.class)
+    @CollectionTable(
+            name = "stock_staff",
+            joinColumns = @JoinColumn(
+                    name = "stock_id",
+                    foreignKey = @ForeignKey(
+                            name = "stock_staff_fk"
+                    )
+            )
+    )
+    private Set<StockStaff> staffNames = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "stock",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = ProductStockLink.class
+    )
+    private Set<ProductStockLink> links = new HashSet<>();
 
     @Column(
             name = "country",
@@ -129,7 +146,7 @@ public class Stock implements Serializable {
             String number,
             String phone,
             String email,
-            Set<String> staffNames,
+            Set<StockStaff> staffNames,
             String country,
             String region,
             String city,
@@ -155,7 +172,7 @@ public class Stock implements Serializable {
             String number,
             String phone,
             String email,
-            Set<String> staffNames,
+            Set<StockStaff> staffNames,
             String country,
             String region,
             String city,
@@ -174,4 +191,10 @@ public class Stock implements Serializable {
         this.streetNumber = streetNumber;
         this.zipCode = zipCode;
     }
+
+    public Stock addLink(ProductStockLink link) {
+        this.links.add(link);
+        return this;
+    }
+
 }

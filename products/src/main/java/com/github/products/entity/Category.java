@@ -62,14 +62,12 @@ public class Category implements Serializable {
 
     @OneToMany(
             targetEntity = Subcategory.class,
-            fetch = FetchType.EAGER,
+            mappedBy = "category",
+            fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             }
-    )
-    @JoinColumn(
-            name = "subcategory_id"
     )
     private List<Subcategory> subcategories = new ArrayList<>();
 
@@ -110,7 +108,6 @@ public class Category implements Serializable {
     }
 
     public Category(String name, List<Subcategory> subcategories, LocalDateTime createAt, LocalDateTime updateAt) {
-        this.id = id;
         this.name = name;
         this.subcategories = subcategories;
         this.createAt = createAt;

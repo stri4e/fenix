@@ -94,11 +94,11 @@ public class ProductDto implements Serializable {
     private List<CommentDto> comments;
 
     @ApiModelProperty(
-            value = "Product comments"
+            value = "2"
     )
-    @JsonProperty(value = "subcategoryName")
-    @NotBlank(message = "Subcategory Name is required.")
-    private String subcategoryName;
+    @JsonProperty(value = "subcategoryId")
+    @NotBlank(message = "Subcategory Id is required.")
+    private Long subcategoryId;
 
     @ApiModelProperty(
             value = "Product comments"
@@ -106,17 +106,5 @@ public class ProductDto implements Serializable {
     @JsonProperty(value = "boughtCount")
     @NotNull(message = "BoughtCount Name is required.")
     private Integer boughtCount = 0;
-
-    @ApiModelProperty(
-            value = "Product stock name"
-    )
-    @JsonProperty(value = "stockName")
-    private String stockName;
-
-    @ApiModelProperty(
-            value = "Product stock number"
-    )
-    @JsonProperty(value = "stockNumber")
-    private String stockNumber;
 
 }

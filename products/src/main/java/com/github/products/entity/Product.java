@@ -28,32 +28,24 @@ public class Product extends Item implements Serializable {
     private static final long serialVersionUID = -3490371538827798606L;
 
     @OneToMany(
-            targetEntity = Specification.class,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "specification_id",
-            foreignKey = @ForeignKey(
-                    name = "products_specification_fk"
-            )
+            mappedBy = "product",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Specification.class
     )
     private Set<Specification> specifications = new HashSet<>();
 
     @OneToMany(
-            targetEntity = Comment.class,
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "comment_id",
-            foreignKey = @ForeignKey(
-                    name = "product_comments_fk"
-            )
+            mappedBy = "product",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Comment.class
     )
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(
             targetEntity = Criteria.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinTable(
             name = "products_criteria",
@@ -71,12 +63,14 @@ public class Product extends Item implements Serializable {
     private Set<Criteria> criteria = new HashSet<>();
 
     @ManyToOne(
-            targetEntity = Subcategory.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Subcategory.class
     )
     @JoinColumn(
             nullable = false,
-            name = "sub_category_id",
+            name = "subcategory_id",
+            referencedColumnName = "id",
             foreignKey = @ForeignKey(
                     name = "products_subcategory_fk"
             )
@@ -85,29 +79,26 @@ public class Product extends Item implements Serializable {
 
     @ManyToOne(
             targetEntity = Brand.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     @JoinColumn(
             nullable = false,
             name = "brand_id",
+            referencedColumnName = "id",
             foreignKey = @ForeignKey(
                     name = "products_brand_fk"
             )
     )
     private Brand brand;
 
-    @ManyToOne(
-            targetEntity = Stock.class,
-            fetch = FetchType.EAGER
+    @OneToMany(
+            mappedBy = "product",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = ProductStockLink.class
     )
-    @JoinColumn(
-            nullable = false,
-            name = "stock_id",
-            foreignKey = @ForeignKey(
-                    name = "products_stock_fk"
-            )
-    )
-    private Stock stock;
+    private Set<ProductStockLink> links = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -147,8 +138,9 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product stock(Stock stock) {
-        this.stock = stock;
+    public Product addLink(List<ProductStockLink> links) {
+        this.links.addAll(links);
+        links.forEach(l -> l.setProduct(this));
         return this;
     }
 

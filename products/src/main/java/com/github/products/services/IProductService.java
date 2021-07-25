@@ -30,7 +30,7 @@ public interface IProductService {
 
     Product readById(Long id);
 
-    List<Product> readAllOff();
+    List<Product> readAllByStatusOff();
 
     List<Product> readAllByIds(List<Long> ids);
 

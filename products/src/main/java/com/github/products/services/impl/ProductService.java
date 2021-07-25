@@ -73,7 +73,7 @@ public class ProductService implements IProductService {
 
     @Override
     @Cacheable(value = "products_unpublished", unless = "#result.size() == 0")
-    public List<Product> readAllOff() {
+    public List<Product> readAllByStatusOff() {
         return this.productRepo
                 .findAll(ProductSpec.statusOff());
     }

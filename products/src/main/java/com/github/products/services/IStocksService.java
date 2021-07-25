@@ -4,12 +4,15 @@ import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Stock;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IStocksService {
 
     Stock create(Stock stock);
 
     List<Stock> readAll(EntityStatus status);
+
+    List<Stock> readAll(Set<Long> ids);
 
     Stock readById(Long id);
 

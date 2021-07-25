@@ -42,15 +42,26 @@ public class Filter implements Serializable {
     )
     private String title;
 
-    @OneToMany(
-            targetEntity = Criteria.class,
-            fetch = FetchType.EAGER
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            targetEntity = Subcategory.class,
+            cascade = CascadeType.ALL
     )
     @JoinColumn(
-            name = "criteria_id",
+            nullable = false,
+            name = "subcategory_id",
+            referencedColumnName = "id",
             foreignKey = @ForeignKey(
-                    name = "filters_criteria_fk"
+                    name = "subcategory_filter_fk"
             )
+    )
+    private Subcategory subcategory;
+
+    @OneToMany(
+            mappedBy = "filter",
+            targetEntity = Criteria.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private List<Criteria> criteria = new ArrayList<>();
 
