@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -40,8 +41,14 @@ public class Comment implements Serializable {
     )
     private Long id;
 
-    @Embedded
-    private Author author;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(
             name = "text",
@@ -82,14 +89,18 @@ public class Comment implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public Comment(Author author, String text) {
-        this.author = author;
+    public Comment(Long id, String firstName, String lastName, UUID userId, String text) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userId = userId;
         this.text = text;
     }
 
-    public Comment(Long id, Author author, String text) {
-        this.id = id;
-        this.author = author;
+    public Comment(String firstName, String lastName, UUID userId, String text) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userId = userId;
         this.text = text;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 public interface ICommentController {
 
@@ -19,6 +20,7 @@ public interface ICommentController {
     @ResponseStatus(code = HttpStatus.CREATED)
     CommentDto save(
             @PathVariable Long productId,
+            @RequestAttribute(name = "userId") UUID userId,
             @Valid @RequestBody CommentDto payload
     );
 

@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 import static com.github.products.utils.TransferObj.fromComment;
 import static com.github.products.utils.TransferObj.toComment;
 
@@ -28,8 +30,8 @@ public class CommentController implements ICommentController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CommentDto
-    save(Long productId, CommentDto payload) {
-        Comment tc = toComment(payload);
+    save(Long productId, UUID userId, CommentDto payload) {
+        Comment tc = toComment(payload, userId);
         Product product = this.productService.readById(productId);
         Comment comment = this.commentService.create(tc);
         product.addComment(comment);

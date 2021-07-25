@@ -25,8 +25,13 @@ public class CommentDto implements Serializable {
     @JsonProperty(value = "id")
     private Long id;
 
-    @JsonProperty(value = "name")
-    private AuthorDto author;
+    @NotBlank(message = "Comment first name is required.")
+    @JsonProperty(value = "firstName")
+    private String firstName;
+
+    @NotBlank(message = "Comment last name is required.")
+    @JsonProperty(value = "lastName")
+    private String lastName;
 
     @NotBlank(message = "Comment description is required.")
     @ApiModelProperty(
@@ -34,10 +39,11 @@ public class CommentDto implements Serializable {
             example = "This is supper phone."
     )
     @JsonProperty(value = "description")
-    private String description;
+    private String text;
 
-    public CommentDto(AuthorDto author, String description) {
-        this.author = author;
-        this.description = description;
+    public CommentDto(String firstName, String lastName, @NotBlank(message = "Comment description is required.") String text) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.text = text;
     }
 }

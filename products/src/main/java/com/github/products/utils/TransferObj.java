@@ -4,6 +4,7 @@ import com.github.products.dto.*;
 import com.github.products.entity.*;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TransferObj {
@@ -57,14 +58,16 @@ public class TransferObj {
     }
 
     public static CommentDto fromComment(Comment c) {
-        return new CommentDto(c.getId(), c.getAuthor(), c.getText());
+        return new CommentDto(c.getId(), c.getFirstName(), c.getLastName(), c.getText());
     }
 
-    public static Comment toComment(CommentDto c) {
+    public static Comment toComment(CommentDto c, UUID userId) {
         return new Comment(
                 c.getId(),
-                c.getName(),
-                c.getDescription()
+                c.getFirstName(),
+                c.getLastName(),
+                userId,
+                c.getText()
         );
     }
 
