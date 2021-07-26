@@ -19,6 +19,22 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
+@NamedEntityGraphs(value = {
+        @NamedEntityGraph(
+                name = "category-find-all-entity-graph",
+                attributeNodes = {
+                        @NamedAttributeNode(value = "subcategories", subgraph = "subcategory-subgraph")
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "subcategory-subgraph",
+                                attributeNodes = {
+                                        @NamedAttributeNode(value = "filters")
+                                }
+                        )
+                }
+        )
+})
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Category.findAll",

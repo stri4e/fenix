@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
@@ -58,11 +59,14 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void findAllCategories() {
-        this.categoryRepo.saveAll(CategoryControllerMocks.CATEGORIES_FOR_SAVE);
+    @Sql(value = {"/products-schema.sql", "/products-data.sql"})
+    public void givenCategories_whenFindAllCategories_thenReturnListOfCategoryDto() {
+//        this.categoryRepo.saveAll(CategoryControllerMocks.CATEGORIES_FOR_SAVE);
         ResponseEntity<List<CategoryDto>> response = this.restTemplate.exchange(
-                this.categoryUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-                }
+                this.categoryUrl,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
         assertThat(

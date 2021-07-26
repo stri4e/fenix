@@ -3,6 +3,7 @@ package com.github.products.repository;
 import com.github.products.entity.Category;
 import com.github.products.entity.EntityStatus;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,7 @@ import java.util.List;
 @Repository
 public interface CategoryRepo extends PagingAndSortingRepository<Category, Long>, JpaRepository<Category, Long> {
 
+    @EntityGraph(value = "category-find-all-entity-graph")
     List<Category> findAll(Sort sort);
 
     Category findByName(String name);

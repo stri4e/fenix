@@ -148,20 +148,20 @@ create table public.subcategories
     primary key (id)
 );
 
-create
-index public.brand_name_idx on public.brands (name)
-alter table public.brands
-    add constraint uk_brands_name unique (name);
+-- create
+-- index public.brand_name_idx on public.brands (name)
+-- alter table public.brands
+--     add constraint uk_brands_name unique (name);
 
-create
-index public.category_name_idx on public.categories (name)
-alter table public.categories
-    add constraint uk_category_name unique (name);
-
-create
-index public.subcategory_name_idx on public.subcategories (name)
-alter table public.subcategories
-    add constraint uk_subcategory_name unique (name);
+-- create
+-- index public.category_name_idx on public.categories (name)
+-- alter table public.categories
+--     add constraint uk_category_name unique (name);
+--
+-- create
+-- index public.subcategory_name_idx on public.subcategories (name)
+-- alter table public.subcategories
+--     add constraint uk_subcategory_name unique (name);
 
 create table product_images
 (

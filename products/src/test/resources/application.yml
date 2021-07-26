@@ -11,10 +11,12 @@ spring:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     generate-ddl: false
     database-platform: H2
     show-sql: true
+  flyway:
+    enabled: false
 
 eureka:
   client:
@@ -24,7 +26,6 @@ ribbon:
   eureka:
     enable: false
   listOfServers: http://localhost:2222
-
 feign:
   hystrix:
     enabled: false
