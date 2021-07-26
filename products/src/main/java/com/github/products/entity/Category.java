@@ -1,18 +1,13 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @Entity
@@ -29,7 +24,13 @@ import java.util.Objects;
                         @NamedSubgraph(
                                 name = "subcategory-subgraph",
                                 attributeNodes = {
-                                        @NamedAttributeNode(value = "filters")
+                                        @NamedAttributeNode(value = "filters", subgraph = "filters-criteria")
+                                }
+                        ),
+                        @NamedSubgraph(
+                                name = "filters-criteria",
+                                attributeNodes = {
+                                        @NamedAttributeNode(value = "criteria")
                                 }
                         )
                 }
@@ -85,7 +86,9 @@ public class Category implements Serializable {
                     CascadeType.MERGE
             }
     )
-    private List<Subcategory> subcategories = new ArrayList<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Subcategory> subcategories = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -118,14 +121,14 @@ public class Category implements Serializable {
     public Category(Long id, String name, List<Subcategory> subcategories, LocalDateTime createAt, LocalDateTime updateAt) {
         this.id = id;
         this.name = name;
-        this.subcategories = subcategories;
+        this.subcategories = new HashSet<>(subcategories);
         this.createAt = createAt;
         this.updateAt = updateAt;
     }
 
     public Category(String name, List<Subcategory> subcategories, LocalDateTime createAt, LocalDateTime updateAt) {
         this.name = name;
-        this.subcategories = subcategories;
+        this.subcategories = new HashSet<>(subcategories);
         this.createAt = createAt;
         this.updateAt = updateAt;
     }

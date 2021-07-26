@@ -1,9 +1,6 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -71,6 +68,8 @@ public class Subcategory implements Serializable {
                     name = "subcategory_category_fk"
             )
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Category category;
 
     @OneToMany(
@@ -82,6 +81,8 @@ public class Subcategory implements Serializable {
                     CascadeType.PERSIST
             }
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Filter> filters = new HashSet<>();
 
     @OneToMany(
@@ -93,6 +94,8 @@ public class Subcategory implements Serializable {
                     CascadeType.PERSIST
             }
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Product> products = new HashSet<>();
 
     @Column(name = "status")

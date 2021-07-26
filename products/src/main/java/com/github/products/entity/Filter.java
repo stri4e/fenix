@@ -1,17 +1,13 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @Entity
@@ -55,6 +51,8 @@ public class Filter implements Serializable {
                     name = "subcategory_filter_fk"
             )
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Subcategory subcategory;
 
     @OneToMany(
@@ -63,7 +61,9 @@ public class Filter implements Serializable {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    private List<Criteria> criteria = new ArrayList<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Criteria> criteria = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -91,13 +91,13 @@ public class Filter implements Serializable {
 
     public Filter(String title, List<Criteria> criteria) {
         this.title = title;
-        this.criteria = criteria;
+        this.criteria = new HashSet<>(criteria);
     }
 
     public Filter(Long id, String title, List<Criteria> criteria) {
         this.id = id;
         this.title = title;
-        this.criteria = criteria;
+        this.criteria = new HashSet<>(criteria);
     }
 
     public void addCriteria(Criteria criteria) {

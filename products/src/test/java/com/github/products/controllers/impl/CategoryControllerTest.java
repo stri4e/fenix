@@ -61,7 +61,6 @@ public class CategoryControllerTest {
     @Test
     @Sql(value = {"/products-schema.sql", "/products-data.sql"})
     public void givenCategories_whenFindAllCategories_thenReturnListOfCategoryDto() {
-//        this.categoryRepo.saveAll(CategoryControllerMocks.CATEGORIES_FOR_SAVE);
         ResponseEntity<List<CategoryDto>> response = this.restTemplate.exchange(
                 this.categoryUrl,
                 HttpMethod.GET,
