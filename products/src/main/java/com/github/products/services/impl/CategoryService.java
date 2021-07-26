@@ -73,10 +73,11 @@ public class CategoryService implements ICategoryService {
             @CacheEvict(value = "categories", allEntries = true)
     })
     public void remove(Long id) {
-        this.categoryRepo.updateStatus(
-                requiredNotNull(id, ParametersBadRequest::new),
-                EntityStatus.off
-        );
+        this.categoryRepo.deleteById(id);
+//        this.categoryRepo.updateStatus(
+//                requiredNotNull(id, ParametersBadRequest::new),
+//                EntityStatus.off
+//        );
     }
 
     @Override

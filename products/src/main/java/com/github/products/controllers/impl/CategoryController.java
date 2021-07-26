@@ -25,7 +25,7 @@ public class CategoryController implements ICategoryController {
 
     @Override
     @HystrixCommand
-//    @Logging(isTime = true, isReturn = false)
+    @Logging(isTime = true, isReturn = false)
     public List<CategoryDto> findAllCategories() {
         return this.categoryService.read().stream()
                 .map(TransferObj::fromCategory)

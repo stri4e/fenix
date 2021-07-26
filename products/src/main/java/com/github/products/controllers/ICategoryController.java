@@ -41,7 +41,7 @@ public interface ICategoryController {
     @DeleteMapping(
             path = "/edit/{id}"
     )
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void remove(@PathVariable Long id);
 
 }

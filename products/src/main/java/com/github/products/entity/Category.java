@@ -2,6 +2,7 @@ package com.github.products.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -59,6 +60,7 @@ import java.util.*;
                 columnNames = "name"
         )
 )
+@SQLDelete(sql = "update categories as c set c.status='off' where c.id=?")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = -3168450095167684631L;
@@ -81,10 +83,7 @@ public class Category implements Serializable {
             targetEntity = Subcategory.class,
             mappedBy = "category",
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
+            cascade = CascadeType.ALL
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

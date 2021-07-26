@@ -2,6 +2,7 @@ package com.github.products.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ import java.util.*;
                 columnNames = "name"
         )
 )
+@SQLDelete(sql = "update subcategories as s set s.status='off' where s.id=?")
 public class Subcategory implements Serializable {
 
     private static final long serialVersionUID = 9085806796284875698L;
@@ -76,10 +78,7 @@ public class Subcategory implements Serializable {
             mappedBy = "subcategory",
             targetEntity = Filter.class,
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            }
+            cascade = CascadeType.ALL
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -89,10 +88,7 @@ public class Subcategory implements Serializable {
             mappedBy = "subcategory",
             targetEntity = Product.class,
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.PERSIST
-            }
+            cascade = CascadeType.ALL
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

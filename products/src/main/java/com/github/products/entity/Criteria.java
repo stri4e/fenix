@@ -2,6 +2,7 @@ package com.github.products.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
         )
 })
 @Table(name = "criteria", schema = "public")
+@SQLDelete(sql = "update criteria as c set c.status='off' where c.id=?")
 public class Criteria implements Serializable {
 
     private static final long serialVersionUID = 8592780795812353558L;

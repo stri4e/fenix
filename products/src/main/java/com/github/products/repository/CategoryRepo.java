@@ -19,6 +19,9 @@ public interface CategoryRepo extends PagingAndSortingRepository<Category, Long>
     @EntityGraph(value = "category-find-all-entity-graph")
     List<Category> findAll(Sort sort);
 
+    @EntityGraph(value = "category-find-all-entity-graph")
+    List<Category> findAllByStatus(EntityStatus status, Sort sort);
+
     Category findByName(String name);
 
     @Modifying

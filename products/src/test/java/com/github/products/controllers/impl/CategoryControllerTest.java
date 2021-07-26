@@ -60,7 +60,7 @@ public class CategoryControllerTest {
 
     @Test
     @Sql(value = {"/products-schema.sql", "/products-data.sql"})
-    public void givenCategories_whenFindAllCategories_thenReturnListOfCategoryDto() {
+    public void givenCategories_whenFindAllCategories_thenReturnListOfCategoryDtoStatusOk() {
         ResponseEntity<List<CategoryDto>> response = this.restTemplate.exchange(
                 this.categoryUrl,
                 HttpMethod.GET,
@@ -77,7 +77,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void saveCategory() {
+    public void givenCategory_whenSaveCategory_thenSaveItAndReturnCategoryDtoStatusCreate() {
         Category exp = CategoryControllerMocks.expCategory();
         Category payload = CategoryControllerMocks.payloadCategory();
         String url = String.format("%s%s", this.categoryUrl, "/edit");
@@ -90,17 +90,16 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void findByName() {
-        Category data = CategoryControllerMocks.payloadCategory();
-        Category exp = this.categoryRepo.save(data);
+    public void givenCategoryName_whenFindByName_thenReturnCategoryStatusOk() {
+        CategoryDto exp = new CategoryDto();
         String url = String.format(
                 "%s%s%s", this.categoryUrl,
                 "/fetch/", CategoryControllerMocks.CATEGORY_NAME
         );
-        ResponseEntity<Category> response = this.restTemplate.exchange(
-                url, HttpMethod.GET, null, Category.class
+        ResponseEntity<CategoryDto> response = this.restTemplate.exchange(
+                url, HttpMethod.GET, null, CategoryDto.class
         );
-        Category act = response.getBody();
+        CategoryDto act = response.getBody();
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
         Assertions.assertThat(act)
                 .usingRecursiveComparison()
@@ -109,9 +108,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void updateCategory() {
-        Category data = CategoryControllerMocks.payloadCategory();
-        this.categoryRepo.save(data);
+    public void givenCategory_whenUpdateCategory_thenUpdateFieldStatusOk() {
         Category payload = CategoryControllerMocks.payloadCategoryForUpdate();
         Category exp = CategoryControllerMocks.payloadCategoryForUpdate();
         String url = String.format("%s%s", this.categoryUrl, "/edit");
@@ -127,14 +124,13 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void removeCategory() {
-        Category data = CategoryControllerMocks.payloadCategory();
-        this.categoryRepo.save(data);
+    @Sql(value = {"/products-schema.sql", "/products-data.sql"})
+    public void givenCategoryID_whenRemove_thenUpdateStatusOnOffStatusNoContent() {
         String url = String.format("%s%s", this.categoryUrl, "/edit/1");
-        ResponseEntity<Category> response = this.restTemplate.exchange(
-                url, HttpMethod.DELETE, null, Category.class
+        ResponseEntity<Void> response = this.restTemplate.exchange(
+                url, HttpMethod.DELETE, null, Void.class
         );
-        assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
+        assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.NO_CONTENT));
     }
 
 }
