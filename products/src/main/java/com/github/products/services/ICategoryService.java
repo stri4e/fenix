@@ -6,17 +6,19 @@ import java.util.List;
 
 public interface ICategoryService {
 
-    List<Category> read();
+    List<Category> readAllStatusOn();
 
     Category create(Category c);
 
     Category readByName(String name);
 
+    Category getByName(String name);
+
     Category readById(Long id);
 
     void update(Category c);
 
-    void remove(Long id);
+    void removeId(Long id);
 
     List<Category> readAll();
 

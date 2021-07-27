@@ -2,6 +2,8 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.ICategoryController;
 import com.github.products.dto.CategoryDto;
+import com.github.products.entity.Category;
+import com.github.products.entity.EntityStatus;
 import com.github.products.services.ICategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
@@ -13,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.products.utils.TransferObj.fromCategory;
-import static com.github.products.utils.TransferObj.toCategory;
+import static com.github.products.utils.TransferObj.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,8 +27,8 @@ public class CategoryController implements ICategoryController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<CategoryDto> findAllCategories() {
-        return this.categoryService.read().stream()
+    public List<CategoryDto> findAllCategories(EntityStatus status) {
+        return this.categoryService.readAllStatusOn().stream()
                 .map(TransferObj::fromCategory)
                 .collect(Collectors.toList());
     }
@@ -57,7 +58,7 @@ public class CategoryController implements ICategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void remove(Long id) {
-        this.categoryService.remove(id);
+        this.categoryService.removeId(id);
     }
 
 }

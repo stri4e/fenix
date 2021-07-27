@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
         )
 })
 @Table(name = "criteria", schema = "public")
-@SQLDelete(sql = "update criteria as c set c.status='off' where c.id=?")
 public class Criteria implements Serializable {
 
     private static final long serialVersionUID = 8592780795812353558L;

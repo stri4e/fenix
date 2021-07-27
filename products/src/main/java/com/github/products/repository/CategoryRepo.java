@@ -12,17 +12,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepo extends PagingAndSortingRepository<Category, Long>, JpaRepository<Category, Long> {
 
+    @Override
     @EntityGraph(value = "category-find-all-entity-graph")
     List<Category> findAll(Sort sort);
 
     @EntityGraph(value = "category-find-all-entity-graph")
     List<Category> findAllByStatus(EntityStatus status, Sort sort);
 
-    Category findByName(String name);
+    Optional<Category> getByName(String name);
+
+    @EntityGraph(value = "category-find-all-entity-graph")
+    Optional<Category> findByName(String name);
 
     @Modifying
     @Query(value = "update Category c set c.status=:status where c.id=:id")

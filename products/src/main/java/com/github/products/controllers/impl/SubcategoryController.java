@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromSubCategory;
-import static com.github.products.utils.TransferObj.toSubCategory;
+import static com.github.products.utils.TransferObj.toSubcategory;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ public class SubcategoryController implements ISubcategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
-        Category category = this.categoryService.readByName(categoryName);
-        Subcategory tmp = toSubCategory(payload);
+        Category category = this.categoryService.getByName(categoryName);
+        Subcategory tmp = toSubcategory(payload);
         Subcategory subcategory = this.subcategoryService.create(tmp);
         category.addSubcategory(subcategory);
         this.categoryService.update(category);
@@ -58,7 +58,7 @@ public class SubcategoryController implements ISubcategoryController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void update(SubcategoryDto payload) {
-        this.subcategoryService.update(toSubCategory(payload));
+        this.subcategoryService.update(toSubcategory(payload));
     }
 
     @Override

@@ -27,8 +27,8 @@ public class CategoryService implements ICategoryService {
 
     @Override
     @Cacheable(value = "categories", unless = "#result.size() == 0")
-    public List<Category> read() {
-        return this.categoryRepo.findAll(Sort.by("id"));
+    public List<Category> readAllStatusOn() {
+        return this.categoryRepo.findAllByStatus(EntityStatus.on, Sort.by("id"));
     }
 
     @Override
@@ -47,7 +47,13 @@ public class CategoryService implements ICategoryService {
     public Category readByName(String name) {
         return this.categoryRepo.findByName(
                 requiredNotBlank(name, ParametersBadRequest::new)
-        );
+        ).orElseThrow(EntityNotFound::new);
+    }
+
+    @Override
+    public Category getByName(String name) {
+        return this.categoryRepo.getByName(name)
+                .orElseThrow(EntityNotFound::new);
     }
 
     @Override
@@ -72,12 +78,11 @@ public class CategoryService implements ICategoryService {
             @CacheEvict(value = "category", key = "#id"),
             @CacheEvict(value = "categories", allEntries = true)
     })
-    public void remove(Long id) {
-        this.categoryRepo.deleteById(id);
-//        this.categoryRepo.updateStatus(
-//                requiredNotNull(id, ParametersBadRequest::new),
-//                EntityStatus.off
-//        );
+    public void removeId(Long id) {
+        this.categoryRepo.updateStatus(
+                requiredNotNull(id, ParametersBadRequest::new),
+                EntityStatus.off
+        );
     }
 
     @Override

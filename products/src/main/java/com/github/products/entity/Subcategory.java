@@ -38,7 +38,6 @@ import java.util.*;
                 columnNames = "name"
         )
 )
-@SQLDelete(sql = "update subcategories as s set s.status='off' where s.id=?")
 public class Subcategory implements Serializable {
 
     private static final long serialVersionUID = 9085806796284875698L;

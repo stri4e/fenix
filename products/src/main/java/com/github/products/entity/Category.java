@@ -2,13 +2,15 @@ package com.github.products.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
@@ -60,7 +62,6 @@ import java.util.*;
                 columnNames = "name"
         )
 )
-@SQLDelete(sql = "update categories as c set c.status='off' where c.id=?")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = -3168450095167684631L;
@@ -135,6 +136,8 @@ public class Category implements Serializable {
     public void addSubcategory(Subcategory subcategory) {
         if (Objects.nonNull(subcategory)) {
             this.subcategories.add(subcategory);
+            subcategory.setCategory(this);
         }
     }
+
 }

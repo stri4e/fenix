@@ -37,7 +37,7 @@ public class CategoryServiceTest {
         List<Category> exp = entities_inDatabase_statusOn();
         Mockito.when(this.categoryRepo.findAll(Sort.by("id")))
                 .thenReturn(exp);
-        List<Category> act = this.categoryService.read();
+        List<Category> act = this.categoryService.readAllStatusOn();
         assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
     }
 
@@ -111,14 +111,14 @@ public class CategoryServiceTest {
         var categoryId = 1L;
         Mockito.doNothing().when(this.categoryRepo)
                 .updateStatus(categoryId, EntityStatus.off);
-        this.categoryService.remove(categoryId);
+        this.categoryService.removeId(categoryId);
         Mockito.verify(this.categoryRepo)
                 .updateStatus(categoryId, EntityStatus.off);
     }
 
     @Test(expected = ParametersBadRequest.class)
     public void givenNullId_whenRemove_thenDoUpdateCategoryStatusOnOff() {
-        this.categoryService.remove(null);
+        this.categoryService.removeId(null);
     }
 
     @Test

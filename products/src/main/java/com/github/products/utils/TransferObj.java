@@ -88,7 +88,7 @@ public class TransferObj {
         );
     }
 
-    public static Subcategory toSubCategory(SubcategoryDto data) {
+    public static Subcategory toSubcategory(SubcategoryDto data) {
         return new Subcategory(
                 data.getId(),
                 data.getName()

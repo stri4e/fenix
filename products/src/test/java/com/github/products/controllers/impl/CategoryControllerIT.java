@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class CategoryControllerTest {
+public class CategoryControllerIT {
 
     @LocalServerPort
     private int port;
