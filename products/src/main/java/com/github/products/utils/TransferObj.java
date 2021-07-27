@@ -3,7 +3,9 @@ package com.github.products.utils;
 import com.github.products.dto.*;
 import com.github.products.entity.*;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -92,6 +94,9 @@ public class TransferObj {
         return new Subcategory(
                 data.getId(),
                 data.getName()
+        ).addFilters(data.getFilters().stream()
+                .map(TransferObj::toFilter)
+                .collect(Collectors.toList())
         );
     }
 
@@ -106,7 +111,11 @@ public class TransferObj {
     }
 
     public static Filter toFilter(FilterDto data) {
-        return new Filter(data.getId(), data.getTitle());
+        return new Filter(data.getId(), data.getTitle()).addCriteria(
+                data.getCriteria().stream()
+                        .map(TransferObj::toCriteria)
+                        .collect(Collectors.toList())
+        );
     }
 
     public static FilterDto fromFilter(Filter data) {

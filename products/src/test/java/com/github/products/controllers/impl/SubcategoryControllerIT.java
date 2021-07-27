@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
@@ -36,7 +37,7 @@ import static org.junit.Assert.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles(profiles = "test")
-public class SubcategoryControllerTest {
+public class SubcategoryControllerIT {
 
     @LocalServerPort
     private int port;
@@ -62,14 +63,14 @@ public class SubcategoryControllerTest {
     }
 
     @Test
-    public void save() {
+    @Sql(value = {"/products-schema.sql", "/products-data.sql"})
+    public void givenSubcategoryAndCategoryName_whenCreate_thenReturnSubcategoryDto_Success() {
+        var categoryName = "category-test-1";
         SubcategoryDto exp = SubcategoryControllerMocks.subcategoryEquals();
-        Category category = SubcategoryControllerMocks.categoryForSave();
-        this.categoryRepo.save(category);
         SubcategoryDto payload = SubcategoryControllerMocks.subcategory();
         String url = String.format(
                 "%s%s%s", this.subcategoryUrl, "/edit/",
-                SubcategoryControllerMocks.CATEGORY_NAME
+                categoryName
         );
         ResponseEntity<SubcategoryDto> response = this.restTemplate.exchange(
                 url, HttpMethod.POST, new HttpEntity<>(payload), SubcategoryDto.class

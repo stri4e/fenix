@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -50,5 +52,9 @@ public class SubcategoryDto implements Serializable {
     public SubcategoryDto(String name, List<FilterDto> filters) {
         this.name = name;
         this.filters = filters;
+    }
+
+    public List<FilterDto> getFilters() {
+        return Objects.requireNonNullElse(filters, new ArrayList<>());
     }
 }

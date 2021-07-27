@@ -135,7 +135,7 @@ public class Category implements Serializable {
 
     public void addSubcategory(Subcategory subcategory) {
         if (Objects.nonNull(subcategory)) {
-            this.subcategories.add(subcategory);
+//            this.subcategories.add(subcategory);
             subcategory.setCategory(this);
         }
     }

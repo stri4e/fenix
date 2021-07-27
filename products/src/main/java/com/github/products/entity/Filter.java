@@ -104,7 +104,15 @@ public class Filter implements Serializable {
     public void addCriteria(Criteria criteria) {
         if (Objects.nonNull(criteria)) {
             this.criteria.add(criteria);
+            criteria.setFilter(this);
         }
+    }
+
+    public Filter addCriteria(List<Criteria> criteria) {
+        if (Objects.nonNull(criteria) && !criteria.isEmpty()){
+            criteria.forEach(this::addCriteria);
+        }
+        return this;
     }
 
 }

@@ -61,7 +61,7 @@ public class CategoryServiceTest {
         var categoryName = "category-test-1";
         Category exp = entity_inDatabase();
         Mockito.when(this.categoryRepo.findByName(categoryName))
-                .thenReturn(exp);
+                .thenReturn(Optional.ofNullable(exp));
         Category act = this.categoryService.readByName(categoryName);
         assertEquals("Should comparing categories and return true ", exp, act);
     }

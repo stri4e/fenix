@@ -1,5 +1,7 @@
 package com.github.products.controllers.impl;
 
+import com.github.products.dto.CriteriaDto;
+import com.github.products.dto.FilterDto;
 import com.github.products.dto.SubcategoryDto;
 import com.github.products.entity.Category;
 import com.github.products.entity.Subcategory;
@@ -40,7 +42,15 @@ public class SubcategoryControllerMocks {
 
     public static SubcategoryDto subcategory() {
         return new SubcategoryDto(
-                SUBCATEGORY_NAME
+                SUBCATEGORY_NAME,
+                List.of(
+                        new FilterDto(
+                                "custom-filter-1",
+                                List.of(
+                                     new CriteriaDto("50$")
+                                )
+                        )
+                )
         );
     }
 

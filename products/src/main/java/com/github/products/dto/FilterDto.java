@@ -38,4 +38,8 @@ public class FilterDto implements Serializable {
     @JsonProperty(value = "criteria")
     private List<CriteriaDto> criteria;
 
+    public FilterDto(String title, List<CriteriaDto> criteria) {
+        this.title = title;
+        this.criteria = criteria;
+    }
 }

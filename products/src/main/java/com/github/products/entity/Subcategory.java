@@ -15,6 +15,16 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
+@NamedEntityGraphs(
+        value = {
+                @NamedEntityGraph(
+                        name = "subcategory-filter-entity-graph",
+                        attributeNodes = @NamedAttributeNode(
+                                value = "filters"
+                        )
+                )
+        }
+)
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Subcategory.findById",
@@ -124,7 +134,23 @@ public class Subcategory implements Serializable {
     public void addFilter(Filter filter) {
         if (Objects.nonNull(filter)) {
             this.filters.add(filter);
+            filter.setSubcategory(this);
         }
+    }
+
+    public Subcategory addFilters(List<Filter> filters) {
+        if (Objects.nonNull(filters) && !filters.isEmpty()) {
+            filters.forEach(this::addFilter);
+        }
+        return this;
+    }
+
+    public Subcategory addCategory(Category category) {
+        if (Objects.nonNull(category)) {
+            this.category = category;
+            category.addSubcategory(this);
+        }
+        return this;
     }
 
 }

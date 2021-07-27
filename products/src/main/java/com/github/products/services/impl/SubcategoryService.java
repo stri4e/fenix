@@ -3,6 +3,7 @@ package com.github.products.services.impl;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
 import com.github.products.exceptions.EntityNotFound;
+import com.github.products.repository.CategoryRepo;
 import com.github.products.repository.SubcategoryRepo;
 import com.github.products.services.ISubcategoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,13 @@ public class SubcategoryService implements ISubcategoryService {
 
     private final SubcategoryRepo subCategoryRepo;
 
+    private final CategoryRepo categoryRepo;
+
     @Override
-    public Subcategory create(Subcategory subCategory) {
-        return this.subCategoryRepo.save(subCategory);
+    public Subcategory create(String categoryName, Subcategory subCategory) {
+        return this.subCategoryRepo.save(subCategory.addCategory(
+                this.categoryRepo.getByName(categoryName).orElseThrow(EntityNotFound::new))
+        );
     }
 
     @Override

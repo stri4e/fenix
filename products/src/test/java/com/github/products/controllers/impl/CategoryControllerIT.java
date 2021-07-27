@@ -116,7 +116,8 @@ public class CategoryControllerIT {
                 url, HttpMethod.PUT, new HttpEntity<>(payload), Category.class
         );
         assertThat(response.getStatusCode(), IsEqual.equalTo(HttpStatus.OK));
-        Category act = this.categoryRepo.findByName(CategoryControllerMocks.CATEGORY_UPDATE_NAME);
+        Category act = this.categoryRepo.findByName(CategoryControllerMocks.CATEGORY_UPDATE_NAME)
+                .orElseThrow();
         Assertions.assertThat(act)
                 .usingRecursiveComparison()
                 .ignoringFields("createAt", "updateAt")

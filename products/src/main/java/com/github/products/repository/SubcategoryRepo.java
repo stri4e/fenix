@@ -2,6 +2,7 @@ package com.github.products.repository;
 
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Subcategory;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +14,10 @@ import java.util.Optional;
 
 @Repository
 public interface SubcategoryRepo extends JpaRepository<Subcategory, Long> {
+
+    @Override
+    @EntityGraph(value = "subcategory-filter-entity-graph")
+    Optional<Subcategory> findById(Long aLong);
 
     Optional<Subcategory> findByName(String name);
 
