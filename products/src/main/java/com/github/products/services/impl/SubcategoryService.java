@@ -24,8 +24,9 @@ public class SubcategoryService implements ISubcategoryService {
     @Override
     public Subcategory create(String categoryName, Subcategory subCategory) {
         return this.subCategoryRepo.save(subCategory.addCategory(
-                this.categoryRepo.getByName(categoryName).orElseThrow(EntityNotFound::new))
-        );
+                this.categoryRepo.getByName(categoryName)
+                        .orElseThrow(EntityNotFound::new)
+        ));
     }
 
     @Override
