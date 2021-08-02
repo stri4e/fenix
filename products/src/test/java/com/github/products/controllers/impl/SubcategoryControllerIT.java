@@ -27,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -47,9 +48,6 @@ public class SubcategoryControllerIT {
 
     @Autowired
     private SubcategoryRepo subcategoryRepo;
-
-    @Autowired
-    private CategoryRepo categoryRepo;
 
     private String subcategoryUrl;
 

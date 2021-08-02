@@ -79,7 +79,7 @@ public class ServiceApplicationContextConfig {
 
     @Bean
     public ISubcategoryService subcategoryService() {
-        return new SubcategoryService(this.subcategoryRepo, this.categoryRepo);
+        return new SubcategoryService(this.subcategoryRepo);
     }
 
 }

@@ -69,7 +69,7 @@ public class Subcategory implements Serializable {
     @ManyToOne(
             fetch = FetchType.LAZY,
             targetEntity = Category.class,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(
             name = "category_id",
@@ -148,7 +148,7 @@ public class Subcategory implements Serializable {
     public Subcategory addCategory(Category category) {
         if (Objects.nonNull(category)) {
             this.category = category;
-            category.addSubcategory(this);
+//            category.addSubcategory(this);
         }
         return this;
     }

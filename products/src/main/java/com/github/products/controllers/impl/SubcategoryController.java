@@ -3,12 +3,12 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.ISubcategoryController;
 import com.github.products.dto.SubcategoryDto;
 import com.github.products.entity.EntityStatus;
+import com.github.products.services.ICategoryService;
 import com.github.products.services.ISubcategoryService;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,13 +25,17 @@ public class SubcategoryController implements ISubcategoryController {
 
     private final ISubcategoryService subcategoryService;
 
+    private final ICategoryService categoryService;
+
     @Override
-    @Transactional
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         return fromSubCategory(
-                this.subcategoryService.create(categoryName, toSubcategory(payload))
+                this.subcategoryService.create(categoryName, toSubcategory(payload)
+                        .addCategory(this.categoryService.getByName(categoryName)
+                        )
+                )
         );
     }
 
