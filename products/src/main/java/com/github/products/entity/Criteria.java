@@ -41,7 +41,7 @@ public class Criteria implements Serializable {
     @ManyToOne(
             targetEntity = Filter.class,
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(
             name = "criteria_id",

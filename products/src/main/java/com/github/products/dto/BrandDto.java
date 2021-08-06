@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
@@ -22,6 +23,7 @@ public class BrandDto implements Serializable {
     @JsonProperty(value = "id")
     private Long id;
 
+    @NotBlank(message = "Field name is required.")
     @ApiModelProperty(
             value = "Brand name.",
             example = "1"
@@ -29,4 +31,7 @@ public class BrandDto implements Serializable {
     @JsonProperty(value = "name")
     private String name;
 
+    public BrandDto(String name) {
+        this.name = name;
+    }
 }

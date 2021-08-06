@@ -69,7 +69,7 @@ public class Product extends Item implements Serializable {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             targetEntity = Subcategory.class
     )
     @JoinColumn(
@@ -85,7 +85,7 @@ public class Product extends Item implements Serializable {
     @ManyToOne(
             targetEntity = Brand.class,
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(
             nullable = false,

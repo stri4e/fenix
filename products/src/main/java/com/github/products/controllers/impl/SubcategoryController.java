@@ -33,8 +33,7 @@ public class SubcategoryController implements ISubcategoryController {
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         return fromSubCategory(
                 this.subcategoryService.create(categoryName, toSubcategory(payload)
-                        .addCategory(this.categoryService.getByName(categoryName)
-                        )
+                        .addCategory(this.categoryService.getByName(categoryName))
                 )
         );
     }

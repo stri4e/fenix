@@ -42,7 +42,7 @@ public class Filter implements Serializable {
     @ManyToOne(
             fetch = FetchType.LAZY,
             targetEntity = Subcategory.class,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.MERGE
     )
     @JoinColumn(
             nullable = false,

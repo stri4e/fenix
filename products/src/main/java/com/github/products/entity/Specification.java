@@ -54,8 +54,8 @@ public class Specification implements Serializable {
     private String description;
 
     @ManyToOne(
-            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
+            cascade = CascadeType.MERGE,
             targetEntity = Product.class
     )
     @JoinColumn(

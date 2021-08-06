@@ -27,7 +27,7 @@ public class ProductStockLink implements Serializable {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             targetEntity = Product.class
     )
     @JoinColumn(
@@ -41,7 +41,7 @@ public class ProductStockLink implements Serializable {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             targetEntity = Stock.class
     )
     @JoinColumn(

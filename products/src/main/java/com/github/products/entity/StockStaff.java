@@ -44,7 +44,7 @@ public class StockStaff implements Serializable {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             targetEntity = Stock.class
     )
     @JoinColumn(
