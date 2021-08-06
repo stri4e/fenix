@@ -31,6 +31,10 @@ public class BrandDto implements Serializable {
     @JsonProperty(value = "name")
     private String name;
 
+    public BrandDto(Long id) {
+        this.id = id;
+    }
+
     public BrandDto(String name) {
         this.name = name;
     }

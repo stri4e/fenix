@@ -3,8 +3,10 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.IBrandsController;
 import com.github.products.dto.BrandDto;
 import com.github.products.entity.EntityStatus;
+import com.github.products.exceptions.ParametersBadRequest;
 import com.github.products.services.IBrandService;
 import com.github.products.utils.Logging;
+import com.github.products.utils.NullSafety;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromBrand;
@@ -57,7 +60,8 @@ public class BrandsController implements IBrandsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void remove(Long id) {
+    public void remove(long id) {
         this.brandService.delete(id);
     }
+
 }
