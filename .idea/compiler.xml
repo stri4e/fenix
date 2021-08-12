@@ -18,6 +18,8 @@
       <module name="ethrereum" target="11" />
       <module name="ethrereum.main" target="11" />
       <module name="ethrereum.test" target="11" />
+      <module name="products.integrationTest" target="11" />
+      <module name="products.itest" target="11" />
       <module name="server-mocks" target="11" />
       <module name="server-mocks.main" target="11" />
       <module name="server-mocks.test" target="11" />

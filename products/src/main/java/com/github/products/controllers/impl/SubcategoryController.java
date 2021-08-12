@@ -32,7 +32,7 @@ public class SubcategoryController implements ISubcategoryController {
     @Logging(isTime = true, isReturn = false)
     public SubcategoryDto save(String categoryName, SubcategoryDto payload) {
         return fromSubCategory(
-                this.subcategoryService.create(categoryName, toSubcategory(payload)
+                this.subcategoryService.create(toSubcategory(payload)
                         .addCategory(this.categoryService.getByName(categoryName))
                 )
         );

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ISubcategoryService {
 
-    Subcategory create(String categoryName, Subcategory subCategory);
+    Subcategory create(Subcategory subCategory);
 
     List<Subcategory> readAllByStatus(EntityStatus status);
 

@@ -19,7 +19,7 @@ public class SubcategoryService implements ISubcategoryService {
     private final SubcategoryRepo subCategoryRepo;
 
     @Override
-    public Subcategory create(String categoryName, Subcategory subCategory) {
+    public Subcategory create(Subcategory subCategory) {
         return this.subCategoryRepo.save(subCategory);
     }
 
