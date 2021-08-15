@@ -115,4 +115,11 @@ public class Filter implements Serializable {
         return this;
     }
 
+    public Filter addSub(Subcategory subcategory) {
+        if (Objects.nonNull(criteria)) {
+            this.subcategory = subcategory;
+        }
+        return this;
+    }
+
 }

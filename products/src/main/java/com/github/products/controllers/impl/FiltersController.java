@@ -28,11 +28,9 @@ public class FiltersController implements IFiltersController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public FilterDto save(String subcategoryName, FilterDto payload) {
-        Subcategory subcategory = this.subCategoryService
-                .readByName(subcategoryName);
-        Filter filter = this.filtersService.create(toFilter(payload));
-        subcategory.addFilter(filter);
-        return fromFilter(filter);
+        return fromFilter(this.filtersService.create(
+                toFilter(payload).addSub(this.subCategoryService.readByName(subcategoryName))
+        ));
     }
 
     @Override
