@@ -85,6 +85,10 @@ public class Filter implements Serializable {
     )
     private LocalDateTime updateAt;
 
+    public Filter(String title) {
+        this.title = title;
+    }
+
     public Filter(Long id, String title) {
         this.id = id;
         this.title = title;
