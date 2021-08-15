@@ -52,8 +52,9 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getByName(String name) {
-        return this.categoryRepo.getByName(name)
-                .orElseThrow(EntityNotFound::new);
+        return this.categoryRepo.getByName(
+                requiredNotBlank(name, ParametersBadRequest::new)
+        ).orElseThrow(EntityNotFound::new);
     }
 
     @Override

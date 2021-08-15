@@ -47,7 +47,7 @@ public class CriteriaController implements ICriteriaController {
     @Logging(isTime = true, isReturn = false)
     public void saveToProducts(Long productId, List<Long> payload) {
         Product product = this.productService.readById(productId);
-        List<Criteria> criteria = this.criteriaService.readAll(payload);
+        List<Criteria> criteria = this.criteriaService.readAllByIds(payload);
         product.addCriteria(criteria);
         this.productService.update(product);
     }

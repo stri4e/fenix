@@ -35,7 +35,7 @@ public class CategoryServiceTest {
     @Test
     public void whenRead_thenReturnListOfCategory() {
         List<Category> exp = entities_inDatabase_statusOn();
-        Mockito.when(this.categoryRepo.findAll(Sort.by("id")))
+        Mockito.when(this.categoryRepo.findAllByStatus(EntityStatus.on, Sort.by("id")))
                 .thenReturn(exp);
         List<Category> act = this.categoryService.readAllStatusOn();
         assertThat(act, IsIterableContainingInAnyOrder.containsInAnyOrder(exp.toArray()));
@@ -74,6 +74,26 @@ public class CategoryServiceTest {
     @Test(expected = ParametersBadRequest.class)
     public void givenEmptyCategoryName_whenReadByName_thenThrowParametersBadRequest() {
         this.categoryService.readByName("");
+    }
+
+    @Test
+    public void givenCategoryName_whenGetByName_thenReturnCategory() {
+        var categoryName = "category-test-1";
+        Category exp = entity_inDatabase();
+        Mockito.when(this.categoryRepo.getByName(categoryName))
+                .thenReturn(Optional.ofNullable(exp));
+        Category act = this.categoryService.getByName(categoryName);
+        assertEquals("Should comparing categories and return true ", exp, act);
+    }
+
+    @Test(expected = ParametersBadRequest.class)
+    public void givenNullCategoryName_whenGetByName_thenThrowParametersBadRequest() {
+        this.categoryService.getByName(null);
+    }
+
+    @Test(expected = ParametersBadRequest.class)
+    public void givenEmptyCategoryName_whenGetByName_thenThrowParametersBadRequest() {
+        this.categoryService.getByName("");
     }
 
     @Test

@@ -60,7 +60,7 @@ public class ProductsPagesController implements IProductsPagesController {
     @Logging(isTime = true, isReturn = false)
     public Page<ProductDto>
     findProductsByPageAndFilters(String subcategory, List<Long> criteria, Pageable pageable) {
-        List<Criteria> crs = this.criteriaService.readAll(criteria);
+        List<Criteria> crs = this.criteriaService.readAllByIds(criteria);
         Page<Product> products = this.productService.readByParams(subcategory, crs, pageable);
         return new PageImpl<>(
                 products.stream()

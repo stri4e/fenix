@@ -11,7 +11,7 @@ public interface ICriteriaService {
 
     Criteria readById(Long id);
 
-    List<Criteria> readAll(List<Long> ids);
+    List<Criteria> readAllByIds(List<Long> ids);
 
     void update(Criteria criteria);
 
