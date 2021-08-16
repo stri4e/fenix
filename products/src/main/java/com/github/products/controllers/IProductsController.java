@@ -7,7 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Map;
 
 public interface IProductsController {
 
@@ -22,6 +24,13 @@ public interface IProductsController {
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     ProductDto save(@Valid @RequestBody ProductDto payload);
+
+    @PostMapping(path = "/edit/product/stock/links/{productId}")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    void saveProductStockLinks(
+            @PathVariable(name = "productId") Long productId,
+            @NotEmpty @RequestBody Map<Long, Integer> quantityGroupByStockId
+    );
 
     @GetMapping(
             path = "/fetch",

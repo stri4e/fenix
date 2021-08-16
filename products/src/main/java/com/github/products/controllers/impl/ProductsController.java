@@ -3,10 +3,7 @@ package com.github.products.controllers.impl;
 import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
 import com.github.products.entity.*;
-import com.github.products.services.IBrandService;
-import com.github.products.services.IProductService;
-import com.github.products.services.IStocksService;
-import com.github.products.services.ISubcategoryService;
+import com.github.products.services.*;
 import com.github.products.utils.Logging;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -34,6 +31,8 @@ public class ProductsController implements IProductsController {
 
     private final IStocksService stocksService;
 
+    private final IProductStockLinkService productStockLinkService;
+
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -49,19 +48,25 @@ public class ProductsController implements IProductsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public ProductDto save(@Valid ProductDto payload) {
-        Map<Long, Integer> quantityGroupByStockId = payload.getQuantityGroupByStockId();
         Subcategory category = this.subCategoryService.readById(payload.getSubcategoryId());
         Brand brand = this.brandService.readByName(payload.getBrandName());
-        List<ProductStockLink> links = this.stocksService.readAll(quantityGroupByStockId.keySet()).stream()
-                .map(stock -> new ProductStockLink()
-                        .addStock(stock)
-                        .quantity(quantityGroupByStockId.get(stock.getId())))
-                .collect(Collectors.toList());
-        Product tmp = toProduct(payload)
-                .subcategory(category)
-                .brand(brand)
-                .addLink(links);
-        return fromProduct(this.productService.create(tmp));
+        Product product = this.productService.create(
+                toProduct(payload).subcategory(category).brand(brand)
+        );
+        return fromProduct(product);
+    }
+
+    @Override
+    public void
+    saveProductStockLinks(Long productId, Map<Long, Integer> quantityGroupByStockId) {
+        Product product = this.productService.readById(productId);
+        List<Stock> stocks = this.stocksService.readAll(quantityGroupByStockId.keySet());
+        List<ProductStockLink> links = stocks.stream()
+                .map(stock -> new ProductStockLink(
+                        product, stock, quantityGroupByStockId.get(stock.getId())
+                )).collect(Collectors.toList());
+
+        this.productStockLinkService.createAll(links);
     }
 
     @Override

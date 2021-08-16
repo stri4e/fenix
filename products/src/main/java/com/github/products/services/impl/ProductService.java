@@ -3,6 +3,7 @@ package com.github.products.services.impl;
 import com.github.products.entity.Criteria;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Product;
+import com.github.products.entity.ProductStockLink;
 import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.ProductRepo;
 import com.github.products.services.IProductService;
