@@ -34,7 +34,7 @@ public class ProductStockLinksController implements IProductStockLinksController
     @Logging(isTime = true, isReturn = false)
     public void
     saveAllLinks(Long productId, @NotEmpty Map<Long, Integer> quantityGroupByStockId) {
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         List<Stock> stocks = this.stocksService.readAll(quantityGroupByStockId.keySet());
         List<ProductStockLink> links = stocks.stream()
                 .map(stock -> new ProductStockLink(
@@ -47,7 +47,7 @@ public class ProductStockLinksController implements IProductStockLinksController
     @Override
     @Logging(isTime = true, isReturn = false)
     public void saveLink(@Valid ProductStockLinkDto payload) {
-        Product product = this.productService.readById(payload.getProductId());
+        Product product = this.productService.getById(payload.getProductId());
         Stock stock = this.stocksService.readById(payload.getStockId());
         this.productStockLinkService.create(
                 new ProductStockLink(product, stock, payload.getQuantity())

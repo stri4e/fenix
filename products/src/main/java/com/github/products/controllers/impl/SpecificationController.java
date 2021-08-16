@@ -28,7 +28,7 @@ public class SpecificationController implements ISpecificationController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public SpecificationDto save(Long productId, SpecificationDto payload) {
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         Specification tmp = toSpecification(payload);
         Specification specification = this.specificationService.create(tmp);
         product.addSpecification(specification);

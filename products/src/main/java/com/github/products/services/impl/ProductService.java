@@ -73,6 +73,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public Product getById(Long id) {
+        return this.productRepo.getOne(id);
+    }
+
+    @Override
     @Cacheable(value = "products_unpublished", unless = "#result.size() == 0")
     public List<Product> readAllByStatusOff() {
         return this.productRepo

@@ -32,7 +32,7 @@ public class CommentController implements ICommentController {
     public CommentDto
     save(Long productId, UUID userId, CommentDto payload) {
         Comment tc = toComment(payload, userId);
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         Comment comment = this.commentService.create(tc);
         product.addComment(comment);
         this.productService.update(product);

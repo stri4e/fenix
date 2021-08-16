@@ -28,6 +28,8 @@ public interface IProductService {
 
     Product readById(Long id);
 
+    Product getById(Long id);
+
     List<Product> readAllByStatusOff();
 
     List<Product> readAllByIds(List<Long> ids);

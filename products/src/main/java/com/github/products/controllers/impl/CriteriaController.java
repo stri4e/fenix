@@ -46,7 +46,7 @@ public class CriteriaController implements ICriteriaController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void saveToProducts(Long productId, List<Long> payload) {
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         List<Criteria> criteria = this.criteriaService.readAllByIds(payload);
         product.addCriteria(criteria);
         this.productService.update(product);
@@ -72,7 +72,7 @@ public class CriteriaController implements ICriteriaController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void updateInProducts(Long productId, Long criteriaId) {
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         Criteria criteria = this.criteriaService.readById(criteriaId);
         product.addCriteria(criteria);
         this.productService.update(product);
@@ -82,7 +82,7 @@ public class CriteriaController implements ICriteriaController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public void removeInProducts(Long productId, Long criteriaId) {
-        Product product = this.productService.readById(productId);
+        Product product = this.productService.getById(productId);
         Criteria criteria = this.criteriaService.readById(criteriaId);
         product.getCriteria().remove(criteria);
         this.productService.update(product);
