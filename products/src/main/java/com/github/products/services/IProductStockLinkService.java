@@ -8,4 +8,8 @@ public interface IProductStockLinkService {
 
     void createAll(List<ProductStockLink> links);
 
+    void create(ProductStockLink link);
+
+    void deleteById(Long id);
+
 }

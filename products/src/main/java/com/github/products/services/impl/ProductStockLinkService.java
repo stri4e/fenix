@@ -21,4 +21,14 @@ public class ProductStockLinkService implements IProductStockLinkService {
         this.productStockLinkRepo.saveAll(links);
     }
 
+    @Override
+    public void create(ProductStockLink link) {
+        this.productStockLinkRepo.save(link);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.productStockLinkRepo.deleteById(id);
+    }
+
 }

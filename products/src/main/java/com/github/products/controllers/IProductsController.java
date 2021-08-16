@@ -25,13 +25,6 @@ public interface IProductsController {
     @ResponseStatus(code = HttpStatus.CREATED)
     ProductDto save(@Valid @RequestBody ProductDto payload);
 
-    @PostMapping(path = "/edit/product/stock/links/{productId}")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    void saveProductStockLinks(
-            @PathVariable(name = "productId") Long productId,
-            @NotEmpty @RequestBody Map<Long, Integer> quantityGroupByStockId
-    );
-
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE

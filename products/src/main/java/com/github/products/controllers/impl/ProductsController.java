@@ -29,10 +29,6 @@ public class ProductsController implements IProductsController {
 
     private final IBrandService brandService;
 
-    private final IStocksService stocksService;
-
-    private final IProductStockLinkService productStockLinkService;
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
@@ -54,19 +50,6 @@ public class ProductsController implements IProductsController {
                 toProduct(payload).subcategory(category).brand(brand)
         );
         return fromProduct(product);
-    }
-
-    @Override
-    public void
-    saveProductStockLinks(Long productId, Map<Long, Integer> quantityGroupByStockId) {
-        Product product = this.productService.readById(productId);
-        List<Stock> stocks = this.stocksService.readAll(quantityGroupByStockId.keySet());
-        List<ProductStockLink> links = stocks.stream()
-                .map(stock -> new ProductStockLink(
-                        product, stock, quantityGroupByStockId.get(stock.getId())
-                )).collect(Collectors.toList());
-
-        this.productStockLinkService.createAll(links);
     }
 
     @Override
