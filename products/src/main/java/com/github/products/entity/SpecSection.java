@@ -34,7 +34,7 @@ public class SpecSection implements Serializable {
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "specSections",
-            cascade = CascadeType.MERGE,
+            cascade = CascadeType.ALL,
             targetEntity = Specification.class
     )
     private Set<Specification> specifications;
