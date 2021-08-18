@@ -7,6 +7,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/accounts" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/accounts" />
@@ -14,12 +15,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/admins" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
-        <option name="gradleJvm" value="11" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/admins" />
@@ -30,6 +29,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/advertising" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/advertising" />
@@ -40,6 +40,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/bitcoin" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/bitcoin" />
@@ -47,11 +48,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/config-server" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/config-server" />
@@ -62,6 +62,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/customers" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/customers" />
@@ -72,6 +73,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/deliveries" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/deliveries" />
@@ -79,11 +81,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/discovery" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/discovery" />
@@ -91,11 +92,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/emails" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/emails" />
@@ -106,6 +106,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/ethereum" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/ethereum" />
@@ -113,11 +114,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/gateway" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/gateway" />
@@ -128,6 +128,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/geolocation" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/geolocation" />
@@ -138,6 +139,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/managers" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/managers" />
@@ -148,6 +150,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/master-card" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/master-card" />
@@ -158,6 +161,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/messenger" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/messenger" />
@@ -165,11 +169,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/monitoring" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/monitoring" />
@@ -177,11 +180,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/orders" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/orders" />
@@ -192,6 +194,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/payments" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/payments" />
@@ -199,11 +202,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/products" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/products" />
@@ -214,6 +216,7 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/statistics" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/statistics" />
@@ -221,11 +224,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/users-center" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/users-center" />
@@ -233,11 +235,10 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/websocket" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/websocket" />

@@ -21,14 +21,9 @@
     <file type="web" url="file://$PROJECT_DIR$/orders" />
     <file type="web" url="file://$PROJECT_DIR$/payments" />
     <file type="web" url="file://$PROJECT_DIR$/products" />
-    <file type="web" url="file://$PROJECT_DIR$/server-mocks" />
     <file type="web" url="file://$PROJECT_DIR$/statistics" />
-    <file type="web" url="file://$PROJECT_DIR$/stub-server" />
     <file type="web" url="file://$PROJECT_DIR$/users-center" />
     <file type="web" url="file://$PROJECT_DIR$/websocket" />
-  </component>
-  <component name="JavaScriptSettings">
-    <option name="languageLevel" value="ES6" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
