@@ -56,5 +56,8 @@
 /statistics/.idea/workspace.xml
 /managers/build/
 /.idea/
+/.idea/*
+/.idea/vcs.xml
 /statistics/go.sum
 /.~lock.service-ports.html#
+
