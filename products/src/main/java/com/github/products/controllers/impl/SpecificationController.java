@@ -31,7 +31,7 @@ public class SpecificationController implements ISpecificationController {
         Product product = this.productService.getById(productId);
         Specification tmp = toSpecification(payload);
         Specification specification = this.specificationService.create(tmp);
-        product.addSpecification(specification);
+        //product.addSpecification(specification);
         this.productService.update(product);
         return fromSpecification(specification);
     }

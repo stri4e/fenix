@@ -1,7 +1,6 @@
 package com.github.products.entity;
 
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,9 +31,9 @@ public class Product extends Item implements Serializable {
             mappedBy = "product",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            targetEntity = Specification.class
+            targetEntity = SpecSection.class
     )
-    private Set<Specification> specifications = new HashSet<>();
+    private Set<SpecSection> specSections = new HashSet<>();
 
     @OneToMany(
             mappedBy = "product",
@@ -115,9 +114,9 @@ public class Product extends Item implements Serializable {
         }
     }
 
-    public void addSpecification(Specification s) {
+    public void addSpecification(SpecSection s) {
         if (Objects.nonNull(s)) {
-            this.specifications.add(s);
+            this.specSections.add(s);
         }
     }
 

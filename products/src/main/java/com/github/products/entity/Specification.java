@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -53,20 +54,27 @@ public class Specification implements Serializable {
     )
     private String description;
 
-    @ManyToOne(
+    @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.MERGE,
-            targetEntity = Product.class
+            cascade = CascadeType.ALL,
+            targetEntity = SpecSection.class
     )
-    @JoinColumn(
-            nullable = false,
-            name = "product_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(
-                    name = "product_specification_fk"
+    @JoinTable(
+            name = "spec_section_specifications",
+            joinColumns = @JoinColumn(
+                    name = "spec_section_id",
+                    foreignKey = @ForeignKey(
+                            name = "spec_section_specification_fk"
+                    )
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "specification_id",
+                    foreignKey = @ForeignKey(
+                            name = "specification_spec_section_fk"
+                    )
             )
     )
-    private Product product;
+    private Set<SpecSection> specSections;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

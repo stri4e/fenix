@@ -39,9 +39,7 @@ public class TransferObj {
                 data.getDescription(),
                 data.getPreviewImage(),
                 data.getImages(),
-                data.getSpecifications().stream()
-                        .map(TransferObj::fromSpecification)
-                        .collect(Collectors.toList()),
+                null,
                 data.getComments().stream()
                         .map(TransferObj::fromComment)
                         .collect(Collectors.toList()),

@@ -1,6 +1,7 @@
 package com.github.products.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,10 +10,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "titles", schema = "public")
+@Table(
+        name = "titles",
+        schema = "public",
+        uniqueConstraints = @UniqueConstraint(
+                name = "title_field_uk",
+                columnNames = "title"
+        )
+)
 public class Title implements Serializable {
 
     private static final long serialVersionUID = 1903965003513157155L;
@@ -21,7 +30,10 @@ public class Title implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(
+            name = "title",
+            nullable = false
+    )
     private String title;
 
     @CreationTimestamp
