@@ -8,7 +8,8 @@ import java.util.function.Supplier;
 
 public class NullSafety {
 
-    private NullSafety() {}
+    private NullSafety() {
+    }
 
     public static String requiredNotBlank(String value, Supplier<RuntimeException> exception) {
         if (StringUtils.isBlank(value)) {
