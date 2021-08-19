@@ -10,13 +10,12 @@ import javax.validation.Valid;
 public interface ISpecificationController {
 
     @PostMapping(
-            path = "/edit/{productId}",
+            path = "/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(code = HttpStatus.CREATED)
     SpecificationDto save(
-            @PathVariable(name = "productId") Long productId,
             @Valid @RequestBody SpecificationDto payload
     );
 

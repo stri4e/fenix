@@ -22,18 +22,15 @@ public class SpecificationController implements ISpecificationController {
 
     private final ISpecificationService specificationService;
 
-    private final IProductService productService;
-
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public SpecificationDto save(Long productId, SpecificationDto payload) {
-        Product product = this.productService.getById(productId);
-        Specification tmp = toSpecification(payload);
-        Specification specification = this.specificationService.create(tmp);
-        //product.addSpecification(specification);
-        this.productService.update(product);
-        return fromSpecification(specification);
+    public SpecificationDto save(SpecificationDto payload) {
+        return fromSpecification(
+                this.specificationService.create(
+                        toSpecification(payload)
+                )
+        );
     }
 
     @Override
