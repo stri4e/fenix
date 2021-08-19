@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Deprecated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/product/stock")
