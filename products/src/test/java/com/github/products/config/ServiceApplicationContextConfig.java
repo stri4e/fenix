@@ -37,6 +37,9 @@ public class ServiceApplicationContextConfig {
     @MockBean
     private SubcategoryRepo subcategoryRepo;
 
+    @MockBean
+    private SpecSectionRepo specSectionRepo;
+
     @Bean
     public IBrandService brandService() {
         return new BrandService(this.brandRepo);
@@ -80,6 +83,11 @@ public class ServiceApplicationContextConfig {
     @Bean
     public ISubcategoryService subcategoryService() {
         return new SubcategoryService(this.subcategoryRepo);
+    }
+
+    @Bean
+    public ISpecSectionService specSectionService() {
+        return new SpecSectionService(this.specSectionRepo);
     }
 
 }

@@ -1,11 +1,12 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -31,6 +32,8 @@ public class SpecSection implements Serializable {
             cascade = CascadeType.MERGE,
             targetEntity = Specification.class
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Specification> specifications;
 
     @ManyToOne(
@@ -46,6 +49,27 @@ public class SpecSection implements Serializable {
                     name = "product_spec_section_fk"
             )
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Product product;
 
+    @CreationTimestamp
+    @Column(
+            name = "create_at",
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(
+            name = "update_at",
+            nullable = false
+    )
+    private LocalDateTime updateAt;
+
+    public SpecSection(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 }

@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import static com.github.products.utils.TransferObj.fromProduct;
 import static com.github.products.utils.TransferObj.toProduct;
 
+@Deprecated
 @RestController
 @RequestMapping(path = "/v1")
 @RequiredArgsConstructor
