@@ -19,22 +19,16 @@ public class SpecSection implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(
-            fetch = FetchType.EAGER,
-            targetEntity = Title.class,
-            cascade = CascadeType.MERGE
+    @Column(
+            name = "title",
+            nullable = false
     )
-    @JoinColumn(
-            foreignKey = @ForeignKey(
-                    name = "spec_section_title_fk"
-            )
-    )
-    private Title title;
+    private String title;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "specSections",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             targetEntity = Specification.class
     )
     private Set<Specification> specifications;
