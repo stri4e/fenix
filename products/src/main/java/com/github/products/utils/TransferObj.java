@@ -3,9 +3,7 @@ package com.github.products.utils;
 import com.github.products.dto.*;
 import com.github.products.entity.*;
 
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,6 +20,7 @@ public class TransferObj {
         result.setDescription(data.getDescription());
         result.setPreviewImage(data.getPreviewImage());
         result.setImages(data.getImages());
+        result.setProportions(toProportions(data.getProportions()));
         return result;
     }
 
@@ -45,7 +44,28 @@ public class TransferObj {
                         .collect(Collectors.toList()),
                 data.getSubcategory().getId(),
                 data.getBoughtCount(),
-                quantityGroupByStockId
+                quantityGroupByStockId,
+                fromProportions(data.getProportions())
+        );
+    }
+
+    public static Proportions toProportions(ProportionsDto proportions) {
+        return new Proportions(
+                proportions.getTitle(),
+                proportions.getWidth(),
+                proportions.getHeight(),
+                proportions.getWeight(),
+                proportions.getDepth()
+        );
+    }
+
+    public static ProportionsDto fromProportions(Proportions proportions) {
+        return new ProportionsDto(
+                proportions.getTitle(),
+                proportions.getWidth(),
+                proportions.getHeight(),
+                proportions.getWeight(),
+                proportions.getDepth()
         );
     }
 

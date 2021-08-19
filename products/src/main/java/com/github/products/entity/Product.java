@@ -27,6 +27,9 @@ public class Product extends Item implements Serializable {
 
     private static final long serialVersionUID = -3490371538827798606L;
 
+    @Embedded
+    private Proportions proportions;
+
     @OneToMany(
             mappedBy = "product",
             fetch = FetchType.LAZY,

@@ -103,4 +103,8 @@ public class ProductDto implements Serializable {
     @JsonProperty(value = "quantityGroupByStockId")
     private Map<Long, Integer> quantityGroupByStockId;
 
+    @NotNull
+    @JsonProperty(value = "proportions")
+    private ProportionsDto proportions;
+
 }
