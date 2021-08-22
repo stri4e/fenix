@@ -24,6 +24,22 @@ public class TransferObj {
         return result;
     }
 
+    public static Product toProduct(ProductDetailsDto data) {
+        Product result = new Product();
+        result.setId(data.getId());
+        result.setName(data.getName());
+        result.setPrice(data.getPrice());
+        result.setDescription(data.getDescription());
+        result.setPreviewImage(data.getPreviewImage());
+        result.setImages(data.getImages());
+        result.setProportions(toProportions(data.getProportions()));
+        return result;
+    }
+
+    public static ProductDetailsDto ofProduct(Product data) {
+        return null;
+    }
+
     public static ProductDto fromProduct(Product data) {
         Map<Long, Integer> quantityGroupByStockId = data.getLinks().stream()
                 .collect(Collectors.toMap(

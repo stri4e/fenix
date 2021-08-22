@@ -151,4 +151,33 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
+    public Product addSpecSection(List<SpecSection> sections) {
+        if (Objects.nonNull(sections)) {
+            this.specSections.addAll(sections);
+        }
+        return this;
+    }
+
+    public Product addBrand(Brand brand) {
+        if (Objects.nonNull(brand)) {
+            this.brand = brand;
+        }
+        return this;
+    }
+
+
+    public Product addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategory = subcategory;
+        }
+        return this;
+    }
+
+    public Product addAllCriteria(List<Criteria> c) {
+        if (Objects.nonNull(c)) {
+            this.criteria.addAll(c);
+        }
+        return this;
+    }
+
 }

@@ -8,6 +8,8 @@ import com.github.products.services.ISpecSectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.github.products.utils.NullSafety.*;
 
 @Service
@@ -28,6 +30,11 @@ public class SpecSectionService implements ISpecSectionService {
         return this.specSectionRepo.findById(
                 requiredNotNull(id, EntityBadRequest::new)
         ).orElseThrow(EntityNotFound::new);
+    }
+
+    @Override
+    public List<SpecSection> readAllByIds(List<Long> ids) {
+        return this.specSectionRepo.findAllById(ids);
     }
 
     @Override
