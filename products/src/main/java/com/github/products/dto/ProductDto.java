@@ -78,13 +78,7 @@ public class ProductDto implements Serializable {
             value = "Product specifications"
     )
     @JsonProperty(value = "specifications")
-    private List<SpecificationDto> specifications;
-
-    @ApiModelProperty(
-            value = "Product comments"
-    )
-    @JsonProperty(value = "comments")
-    private List<CommentDto> comments;
+    private List<SpecSectionDto> specifications;
 
     @ApiModelProperty(
             value = "2"
@@ -99,9 +93,6 @@ public class ProductDto implements Serializable {
     @JsonProperty(value = "boughtCount")
     @NotNull(message = "BoughtCount Name is required.")
     private Integer boughtCount = 0;
-
-    @JsonProperty(value = "quantityGroupByStockId")
-    private Map<Long, Integer> quantityGroupByStockId;
 
     @NotNull
     @JsonProperty(value = "proportions")

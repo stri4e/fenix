@@ -78,9 +78,9 @@ public class Stock implements Serializable {
             mappedBy = "stock",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            targetEntity = ProductStockLink.class
+            targetEntity = StocksQuantity.class
     )
-    private Set<ProductStockLink> links = new HashSet<>();
+    private Set<StocksQuantity> links = new HashSet<>();
 
     @Column(
             name = "country",
@@ -188,7 +188,7 @@ public class Stock implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public Stock addLink(ProductStockLink link) {
+    public Stock addLink(StocksQuantity link) {
         this.links.add(link);
         return this;
     }

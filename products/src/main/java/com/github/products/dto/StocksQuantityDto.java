@@ -9,9 +9,11 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockQuantityDto implements Serializable {
+public class StocksQuantityDto implements Serializable {
 
     private static final long serialVersionUID = 2472962899429007468L;
+
+    private Long id;
 
     private StockDto stock;
 

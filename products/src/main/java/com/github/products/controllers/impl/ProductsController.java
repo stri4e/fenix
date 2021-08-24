@@ -2,6 +2,7 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
+import com.github.products.dto.SpecSectionDto;
 import com.github.products.entity.*;
 import com.github.products.services.*;
 import com.github.products.utils.Logging;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 import static com.github.products.utils.TransferObj.fromProduct;
 import static com.github.products.utils.TransferObj.toProduct;
 
-@Deprecated
 @RestController
 @RequestMapping(path = "/v1")
 @RequiredArgsConstructor
@@ -27,6 +27,8 @@ public class ProductsController implements IProductsController {
     private final IProductService productService;
 
     private final ISubcategoryService subCategoryService;
+
+    private final ISpecSectionService specSectionService;
 
     private final IBrandService brandService;
 
@@ -47,8 +49,16 @@ public class ProductsController implements IProductsController {
     public ProductDto save(@Valid ProductDto payload) {
         Subcategory category = this.subCategoryService.readById(payload.getSubcategoryId());
         Brand brand = this.brandService.readByName(payload.getBrandName());
+        List<SpecSection> sections = this.specSectionService.readAllByIds(
+                payload.getSpecifications().stream()
+                        .map(SpecSectionDto::getId)
+                        .collect(Collectors.toList())
+        );
         Product product = this.productService.create(
-                toProduct(payload).subcategory(category).brand(brand)
+                toProduct(payload)
+                        .subcategory(category)
+                        .brand(brand)
+                        .addSpecSection(sections)
         );
         return fromProduct(product);
     }

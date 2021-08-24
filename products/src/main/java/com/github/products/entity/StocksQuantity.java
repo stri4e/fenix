@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_stock_registration", schema = "public")
-public class ProductStockLink implements Serializable {
+@Table(name = "stocks_quantity", schema = "public")
+public class StocksQuantity implements Serializable {
 
     private static final long serialVersionUID = 7346673027877099739L;
 
@@ -74,24 +74,24 @@ public class ProductStockLink implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public ProductStockLink(Stock stock, Integer quantity) {
+    public StocksQuantity(Stock stock, Integer quantity) {
         this.stock = stock;
         this.quantity = quantity;
     }
 
-    public ProductStockLink(Product product, Stock stock, Integer quantity) {
+    public StocksQuantity(Product product, Stock stock, Integer quantity) {
         this.product = product;
         this.stock = stock;
         this.quantity = quantity;
     }
 
-    public ProductStockLink addStock(Stock stock) {
+    public StocksQuantity addStock(Stock stock) {
         this.stock = stock;
         this.stock.addLink(this);
         return this;
     }
 
-    public ProductStockLink quantity(Integer quantity) {
+    public StocksQuantity quantity(Integer quantity) {
         this.quantity = quantity;
         return this;
     }

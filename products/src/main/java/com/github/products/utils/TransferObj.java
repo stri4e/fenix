@@ -41,11 +41,6 @@ public class TransferObj {
     }
 
     public static ProductDto fromProduct(Product data) {
-        Map<Long, Integer> quantityGroupByStockId = data.getLinks().stream()
-                .collect(Collectors.toMap(
-                        ProductStockLink::getId,
-                        ProductStockLink::getQuantity
-                ));
         return new ProductDto(
                 data.getId(),
                 data.getBrand().getName(),
@@ -54,14 +49,22 @@ public class TransferObj {
                 data.getDescription(),
                 data.getPreviewImage(),
                 data.getImages(),
-                null,
-                data.getComments().stream()
-                        .map(TransferObj::fromComment)
+                data.getSpecSections().stream()
+                        .map(TransferObj::fromSpecSection)
                         .collect(Collectors.toList()),
                 data.getSubcategory().getId(),
                 data.getBoughtCount(),
-                quantityGroupByStockId,
                 fromProportions(data.getProportions())
+        );
+    }
+
+    public static SpecSectionDto fromSpecSection(SpecSection data) {
+        return new SpecSectionDto(
+                data.getId(),
+                data.getTitle(),
+                data.getSpecifications().stream()
+                        .map(TransferObj::fromSpecification)
+                        .collect(Collectors.toList())
         );
     }
 
@@ -236,6 +239,14 @@ public class TransferObj {
                 data.getStreet(),
                 data.getStreetNumber(),
                 data.getZipCode()
+        );
+    }
+
+    public static StocksQuantityDto fromStocksQuantity(StocksQuantity data) {
+        return new StocksQuantityDto(
+                data.getId(),
+                fromStock(data.getStock()),
+                data.getQuantity()
         );
     }
 

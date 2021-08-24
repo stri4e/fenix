@@ -103,9 +103,9 @@ public class Product extends Item implements Serializable {
             mappedBy = "product",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            targetEntity = ProductStockLink.class
+            targetEntity = StocksQuantity.class
     )
-    private Set<ProductStockLink> links = new HashSet<>();
+    private Set<StocksQuantity> links = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -145,7 +145,7 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product addLink(List<ProductStockLink> links) {
+    public Product addLink(List<StocksQuantity> links) {
         this.links.addAll(links);
         links.forEach(l -> l.setProduct(this));
         return this;
