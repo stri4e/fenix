@@ -99,13 +99,12 @@ public class Product extends Item implements Serializable {
     )
     private Brand brand;
 
-    @OneToMany(
-            mappedBy = "product",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            targetEntity = StocksQuantity.class
+    @ElementCollection
+    @CollectionTable(name = "stocks_quantity",
+            joinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<StocksQuantity> links = new HashSet<>();
+    @MapKeyJoinColumn(name = "stock_id")
+    private Map<Stock, Integer> stocksQuantity = new HashMap<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -114,12 +113,6 @@ public class Product extends Item implements Serializable {
     public void addComment(Comment c) {
         if (Objects.nonNull(c)) {
             this.comments.add(c);
-        }
-    }
-
-    public void addSpecification(SpecSection s) {
-        if (Objects.nonNull(s)) {
-            this.specSections.add(s);
         }
     }
 
@@ -145,12 +138,6 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product addLink(List<StocksQuantity> links) {
-        this.links.addAll(links);
-        links.forEach(l -> l.setProduct(this));
-        return this;
-    }
-
     public Product addSpecSection(List<SpecSection> sections) {
         if (Objects.nonNull(sections)) {
             this.specSections.addAll(sections);
@@ -158,24 +145,9 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product addBrand(Brand brand) {
-        if (Objects.nonNull(brand)) {
-            this.brand = brand;
-        }
-        return this;
-    }
-
-
-    public Product addSubcategory(Subcategory subcategory) {
-        if (Objects.nonNull(subcategory)) {
-            this.subcategory = subcategory;
-        }
-        return this;
-    }
-
-    public Product addAllCriteria(List<Criteria> c) {
-        if (Objects.nonNull(c)) {
-            this.criteria.addAll(c);
+    public Product addStocksQuantity(Map<Stock, Integer> stocksQuantity) {
+        if (Objects.nonNull(stocksQuantity) && !stocksQuantity.isEmpty()) {
+            this.stocksQuantity.putAll(stocksQuantity);
         }
         return this;
     }

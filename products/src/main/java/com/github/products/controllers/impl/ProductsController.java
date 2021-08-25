@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromProduct;
@@ -24,13 +25,15 @@ import static com.github.products.utils.TransferObj.toProduct;
 @RequiredArgsConstructor
 public class ProductsController implements IProductsController {
 
+    private final IBrandService brandService;
+
+    private final IStocksService stocksService;
+
     private final IProductService productService;
 
     private final ISubcategoryService subCategoryService;
 
     private final ISpecSectionService specSectionService;
-
-    private final IBrandService brandService;
 
     @Override
     @HystrixCommand
@@ -54,13 +57,16 @@ public class ProductsController implements IProductsController {
                         .map(SpecSectionDto::getId)
                         .collect(Collectors.toList())
         );
-        Product product = this.productService.create(
+        Map<Long, Integer> quantities = payload.getStocksQuantity();
+        Map<Stock, Integer> stocksQuantity = this.stocksService.readAll(quantities.keySet()).stream()
+                .collect(Collectors.toMap(Function.identity(), v -> quantities.get(v.getId())));
+        return fromProduct(this.productService.create(
                 toProduct(payload)
                         .subcategory(category)
                         .brand(brand)
                         .addSpecSection(sections)
-        );
-        return fromProduct(product);
+                        .addStocksQuantity(stocksQuantity)
+        ));
     }
 
     @Override

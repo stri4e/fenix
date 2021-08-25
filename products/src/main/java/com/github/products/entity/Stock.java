@@ -9,7 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -74,13 +76,12 @@ public class Stock implements Serializable {
     )
     private Set<StockStaff> staffs = new HashSet<>();
 
-    @OneToMany(
-            mappedBy = "stock",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            targetEntity = StocksQuantity.class
+    @ElementCollection
+    @CollectionTable(name = "stocks_quantity",
+            joinColumns = @JoinColumn(name = "stock_id")
     )
-    private Set<StocksQuantity> links = new HashSet<>();
+    @MapKeyJoinColumn(name = "product_id")
+    private Map<Product, Integer> stocksQuantity = new HashMap<>();
 
     @Column(
             name = "country",
@@ -186,11 +187,6 @@ public class Stock implements Serializable {
         this.street = street;
         this.streetNumber = streetNumber;
         this.zipCode = zipCode;
-    }
-
-    public Stock addLink(StocksQuantity link) {
-        this.links.add(link);
-        return this;
     }
 
 }
