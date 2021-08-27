@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,14 @@ public class SubcategoryDto implements Serializable {
     )
     @JsonProperty(value = "id")
     private Long id;
+
+    @ApiModelProperty(
+            value = "Subcategory preview image.",
+            example = "image"
+    )
+    @JsonProperty(value = "previewImage")
+    @NotBlank(message = "Subcategory preview image is required")
+    private String previewImage;
 
     @ApiModelProperty(
             value = "sub category name",

@@ -121,6 +121,7 @@ public class TransferObj {
     public static Subcategory toSubcategory(SubcategoryDto data) {
         return new Subcategory(
                 data.getId(),
+                data.getPreviewImage(),
                 data.getName()
         ).addFilters(data.getFilters().stream()
                 .map(TransferObj::toFilter)
@@ -131,6 +132,7 @@ public class TransferObj {
     public static SubcategoryDto fromSubCategory(Subcategory data) {
         return new SubcategoryDto(
                 data.getId(),
+                data.getPreviewImage(),
                 data.getName(),
                 data.getFilters().stream()
                         .map(TransferObj::fromFilter)
