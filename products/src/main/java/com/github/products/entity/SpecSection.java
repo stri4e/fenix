@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -72,4 +74,12 @@ public class SpecSection implements Serializable {
         this.id = id;
         this.title = title;
     }
+
+    public SpecSection addSpecifications(List<Specification> specifications) {
+        if (Objects.nonNull(specifications)) {
+            this.specifications.addAll(specifications);
+        }
+        return this;
+    }
+
 }

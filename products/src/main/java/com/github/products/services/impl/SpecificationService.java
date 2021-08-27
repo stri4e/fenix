@@ -49,6 +49,11 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
+    public List<Specification> readAllById(List<Long> ids) {
+        return this.specificationRepo.findAllById(ids);
+    }
+
+    @Override
     @Caching(
             put = @CachePut(value = "specification", key = "#s.id")
     )

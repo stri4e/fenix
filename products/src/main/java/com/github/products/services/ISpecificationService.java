@@ -11,6 +11,8 @@ public interface ISpecificationService {
 
     Specification readById(Long id);
 
+    List<Specification> readAllById(List<Long> ids);
+
     void update(Specification s);
 
     void updateSpec(Specification s);

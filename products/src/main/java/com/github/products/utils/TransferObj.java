@@ -85,6 +85,13 @@ public class TransferObj {
         return new Specification(s.getId(), s.getName(), s.getDescription());
     }
 
+    public static SpecSection toSpecSection(SpecSectionDto data) {
+        return new SpecSection(
+                data.getId(),
+                data.getTitle()
+        );
+    }
+
     public static CommentDto fromComment(Comment c) {
         return new CommentDto(c.getId(), c.getFirstName(), c.getLastName(), c.getText());
     }
