@@ -74,6 +74,12 @@ public class Category implements Serializable {
     private Long id;
 
     @Column(
+            name = "preview_image",
+            nullable = false
+    )
+    private String previewImage;
+
+    @Column(
             name = "name",
             nullable = false,
             length = 50
@@ -113,8 +119,9 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public Category(Long id, String name) {
+    public Category(Long id, String previewImage, String name) {
         this.id = id;
+        this.previewImage = previewImage;
         this.name = name;
     }
 

@@ -25,6 +25,12 @@ public abstract class Item implements Serializable {
     private Long id;
 
     @Column(
+            name = "vin_code",
+            nullable = false
+    )
+    private String vinCode;
+
+    @Column(
             name = "name",
             nullable = false,
             length = 100

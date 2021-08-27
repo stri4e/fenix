@@ -15,6 +15,7 @@ public class TransferObj {
     public static Product toProduct(ProductDto data) {
         Product result = new Product();
         result.setId(data.getId());
+        result.setVinCode(data.getVinCode());
         result.setName(data.getName());
         result.setPrice(data.getPrice());
         result.setDescription(data.getDescription());
@@ -28,6 +29,7 @@ public class TransferObj {
         Map<Stock, Integer> quantities = data.getStocksQuantity();
         return new ProductDto(
                 data.getId(),
+                data.getVinCode(),
                 data.getBrand().getName(),
                 data.getName(),
                 data.getPrice(),
@@ -100,6 +102,7 @@ public class TransferObj {
     public static CategoryDto fromCategory(Category data) {
         return new CategoryDto(
                 data.getId(),
+                data.getPreviewImage(),
                 data.getName(),
                 data.getSubcategories().stream()
                         .map(TransferObj::fromSubCategory)
@@ -110,6 +113,7 @@ public class TransferObj {
     public static Category toCategory(CategoryDto data) {
         return new Category(
                 data.getId(),
+                data.getPreviewImage(),
                 data.getName()
         );
     }

@@ -60,6 +60,12 @@ public class Subcategory implements Serializable {
     private Long id;
 
     @Column(
+            name = "preview_image",
+            nullable = false
+    )
+    private String previewImage;
+
+    @Column(
             name = "name",
             nullable = false,
             length = 50
@@ -122,12 +128,13 @@ public class Subcategory implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public Subcategory(Long id, String name) {
-        this.id = id;
+    public Subcategory(String name) {
         this.name = name;
     }
 
-    public Subcategory(String name) {
+    public Subcategory(Long id, String previewImage, String name) {
+        this.id = id;
+        this.previewImage = previewImage;
         this.name = name;
     }
 
@@ -148,7 +155,6 @@ public class Subcategory implements Serializable {
     public Subcategory addCategory(Category category) {
         if (Objects.nonNull(category)) {
             this.category = category;
-//            category.addSubcategory(this);
         }
         return this;
     }

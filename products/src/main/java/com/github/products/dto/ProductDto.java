@@ -32,6 +32,13 @@ public class ProductDto implements Serializable {
     private Long id;
 
     @ApiModelProperty(
+            value = "VinCode",
+            example = "132543"
+    )
+    @JsonProperty(value = "vinCode")
+    private String vinCode;
+
+    @ApiModelProperty(
             value = "Product name",
             example = "Xiaomi"
     )
