@@ -15,6 +15,8 @@ public interface ISubcategoryService {
 
     Subcategory readById(Long id);
 
+    Subcategory getById(Long id);
+
     void update(Subcategory subCategory);
 
     void updateSub(Subcategory subCategory);

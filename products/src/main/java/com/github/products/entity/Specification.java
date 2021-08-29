@@ -1,14 +1,13 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -53,6 +52,23 @@ public class Specification implements Serializable {
             nullable = false
     )
     private String description;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            targetEntity = Subcategory.class,
+            cascade = CascadeType.MERGE
+    )
+    @JoinColumn(
+            nullable = false,
+            name = "subcategory_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "subcategory_filter_fk"
+            )
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Subcategory subcategory;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -105,4 +121,13 @@ public class Specification implements Serializable {
         this.name = name;
         this.description = description;
     }
+
+    public Specification addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategory = subcategory;
+            subcategory.addSpecification(this);
+        }
+        return this;
+    }
+
 }

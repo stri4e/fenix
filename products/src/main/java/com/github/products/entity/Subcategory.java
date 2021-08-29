@@ -101,6 +101,16 @@ public class Subcategory implements Serializable {
 
     @OneToMany(
             mappedBy = "subcategory",
+            targetEntity = Specification.class,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Specification> specifications = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "subcategory",
             targetEntity = Product.class,
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
@@ -155,6 +165,13 @@ public class Subcategory implements Serializable {
     public Subcategory addCategory(Category category) {
         if (Objects.nonNull(category)) {
             this.category = category;
+        }
+        return this;
+    }
+
+    public Subcategory addSpecification(Specification specification) {
+        if (Objects.nonNull(specification)) {
+            this.specifications.add(specification);
         }
         return this;
     }
