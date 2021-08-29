@@ -4,8 +4,10 @@ import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
 import com.github.products.dto.SpecSectionDto;
 import com.github.products.entity.*;
+import com.github.products.exceptions.ParametersBadRequest;
 import com.github.products.services.*;
 import com.github.products.utils.Logging;
+import com.github.products.utils.ProductBoughtCount;
 import com.github.products.utils.TransferObj;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -103,29 +107,17 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCountPlus(List<Long> payload) {
-        payload.forEach(this.productService::updateBoughtCountPlus);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCountMinus(List<Long> payload) {
-        payload.forEach(this.productService::updateBoughtCountMinus);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCountPlus(Long productId) {
-        this.productService.updateBoughtCountPlus(productId);
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
-    public void updateBoughtCountMinus(Long productId) {
-        this.productService.updateBoughtCountMinus(productId);
+    public void updateBoughtCount(ProductBoughtCount bought, List<Long> payload) {
+        switch (bought) {
+            case plus:
+                payload.forEach(this.productService::updateBoughtCountPlus);
+                break;
+            case minus:
+                payload.forEach(this.productService::updateBoughtCountMinus);
+                break;
+            default:
+                throw new ParametersBadRequest();
+        }
     }
 
 }
