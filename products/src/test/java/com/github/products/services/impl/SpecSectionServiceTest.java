@@ -46,13 +46,13 @@ public class SpecSectionServiceTest {
         SpecSection exp = entityAfterFindById();
         Mockito.when(this.specSectionRepo.findById(specSectionId))
                 .thenReturn(Optional.of(exp));
-        SpecSection act = this.instance.findById(specSectionId);
+        SpecSection act = this.instance.readById(specSectionId);
         assertEquals(exp, act);
     }
 
     @Test(expected = EntityBadRequest.class)
     public void givenNullSpecSectionId_whenFindById_thenThrowEntityBadRequest() {
-        this.instance.findById(null);
+        this.instance.readById(null);
     }
 
     @Test

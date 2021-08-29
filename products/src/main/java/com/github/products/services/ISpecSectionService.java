@@ -8,13 +8,15 @@ public interface ISpecSectionService {
 
     SpecSection create(SpecSection ss);
 
-    SpecSection findById(Long id);
+    SpecSection readById(Long id);
+
+    SpecSection getById(Long id);
 
     List<SpecSection> readAllByIds(List<Long> ids);
 
     void updateTitle(Long id, String title);
 
-    void update(SpecSection ss);
+    void update(SpecSection section);
 
     void remove(Long id);
 

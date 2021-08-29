@@ -26,10 +26,15 @@ public class SpecSectionService implements ISpecSectionService {
     }
 
     @Override
-    public SpecSection findById(Long id) {
+    public SpecSection readById(Long id) {
         return this.specSectionRepo.findById(
                 requiredNotNull(id, EntityBadRequest::new)
         ).orElseThrow(EntityNotFound::new);
+    }
+
+    @Override
+    public SpecSection getById(Long id) {
+        return this.specSectionRepo.getOne(id);
     }
 
     @Override

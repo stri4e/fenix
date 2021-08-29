@@ -64,7 +64,7 @@ public class ProductsController implements IProductsController {
                 toProduct(payload)
                         .subcategory(category)
                         .brand(brand)
-                        .addSpecSection(sections)
+                        .addSpecSections(sections)
                         .addStocksQuantity(stocksQuantity)
         ));
     }

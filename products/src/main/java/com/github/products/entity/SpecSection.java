@@ -75,9 +75,24 @@ public class SpecSection implements Serializable {
         this.title = title;
     }
 
+    public SpecSection addProduct(Product product) {
+        if (Objects.nonNull(product)) {
+            this.product = product;
+            product.addSpecSection(this);
+        }
+        return this;
+    }
+
     public SpecSection addSpecifications(List<Specification> specifications) {
         if (Objects.nonNull(specifications)) {
             this.specifications.addAll(specifications);
+        }
+        return this;
+    }
+
+    public SpecSection addSpecification(Specification specification) {
+        if (Objects.nonNull(specification)) {
+            this.specifications.add(specification);
         }
         return this;
     }

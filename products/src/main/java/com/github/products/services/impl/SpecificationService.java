@@ -49,6 +49,11 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
+    public Specification getById(Long id) {
+        return this.specificationRepo.getOne(id);
+    }
+
+    @Override
     public List<Specification> readAllById(List<Long> ids) {
         return this.specificationRepo.findAllById(ids);
     }

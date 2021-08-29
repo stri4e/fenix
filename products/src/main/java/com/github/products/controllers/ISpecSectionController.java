@@ -9,15 +9,33 @@ import javax.validation.Valid;
 public interface ISpecSectionController {
 
     @PostMapping(
-            path = "/edit"
+            path = "/edit/{productId}"
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    SpecSectionDto save(@Valid @RequestBody SpecSectionDto payload);
+    SpecSectionDto save(
+            @PathVariable(value = "productId") Long productId,
+            @Valid @RequestBody SpecSectionDto payload
+    );
+
+    @PutMapping(
+            path = "/edit/specification/{sectionId}/{specificationId}"
+    )
+    @ResponseStatus(code = HttpStatus.CREATED)
+    SpecSectionDto save(
+            @PathVariable(value = "sectionId") Long sectionId,
+            @PathVariable(value = "specificationId") Long specificationId
+    );
 
     @PutMapping(path = "/edit/{specSectionId}/{title}")
     void updateTitle(
             @PathVariable(name = "specSectionId") Long specSectionId,
             @PathVariable(name = "title") String title
+    );
+
+    @DeleteMapping(path = "/edit/specification/{sectionId}/{specificationId}")
+    void deleteSpec(
+            @PathVariable(value = "sectionId") Long sectionId,
+            @PathVariable(value = "specificationId") Long specificationId
     );
 
     @DeleteMapping(path = "/edit/{specSectionId}")

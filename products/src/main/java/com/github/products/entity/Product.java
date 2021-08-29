@@ -138,11 +138,17 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product addSpecSection(List<SpecSection> sections) {
+    public Product addSpecSections(List<SpecSection> sections) {
         if (Objects.nonNull(sections)) {
             this.specSections.addAll(sections);
         }
         return this;
+    }
+
+    public void addSpecSection(SpecSection section) {
+        if (Objects.nonNull(section)) {
+            this.specSections.add(section);
+        }
     }
 
     public Product addStocksQuantity(Map<Stock, Integer> stocksQuantity) {
