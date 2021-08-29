@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -98,6 +99,14 @@ public class Comment implements Serializable {
         this.lastName = lastName;
         this.userId = userId;
         this.text = text;
+    }
+
+    public Comment addProduct(Product product) {
+        if (Objects.nonNull(product)) {
+            this.product = product;
+            product.addComment(this);
+        }
+        return this;
     }
 
 }

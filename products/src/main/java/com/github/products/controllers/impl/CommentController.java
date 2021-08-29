@@ -2,8 +2,6 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.ICommentController;
 import com.github.products.dto.CommentDto;
-import com.github.products.entity.Comment;
-import com.github.products.entity.Product;
 import com.github.products.services.ICommentService;
 import com.github.products.services.IProductService;
 import com.github.products.utils.Logging;
@@ -31,12 +29,12 @@ public class CommentController implements ICommentController {
     @Logging(isTime = true, isReturn = false)
     public CommentDto
     save(Long productId, UUID userId, CommentDto payload) {
-        Comment tc = toComment(payload, userId);
-        Product product = this.productService.getById(productId);
-        Comment comment = this.commentService.create(tc);
-        product.addComment(comment);
-        this.productService.update(product);
-        return fromComment(comment);
+        return fromComment(
+                this.commentService.create(
+                        toComment(payload, userId)
+                                .addProduct(this.productService.getById(productId))
+                )
+        );
     }
 
     @Override
