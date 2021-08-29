@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -80,6 +81,14 @@ public class Criteria implements Serializable {
     public Criteria(Long id, String value) {
         this.id = id;
         this.value = value;
+    }
+
+    public Criteria addFilter(Filter filter) {
+        if (Objects.nonNull(filter)) {
+            this.filter = filter;
+            this.filter.addCriteria(this);
+        }
+        return this;
     }
 
 }

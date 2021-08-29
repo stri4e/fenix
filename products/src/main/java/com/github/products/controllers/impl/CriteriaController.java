@@ -35,11 +35,11 @@ public class CriteriaController implements ICriteriaController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public CriteriaDto saveToFilters(Long filterId, CriteriaDto payload) {
-        Filter filter = this.filtersService.readById(filterId);
-        Criteria criteria = this.criteriaService.create(toCriteria(payload));
-        filter.addCriteria(criteria);
-        this.filtersService.update(filter);
-        return fromCriteria(criteria);
+        return fromCriteria(
+                this.criteriaService.create(
+                        toCriteria(payload).addFilter(this.filtersService.readById(filterId))
+                )
+        );
     }
 
     @Override
