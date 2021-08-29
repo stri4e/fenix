@@ -1,14 +1,13 @@
 package com.github.products.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor

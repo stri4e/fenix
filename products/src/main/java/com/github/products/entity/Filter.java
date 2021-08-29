@@ -1,16 +1,22 @@
 package com.github.products.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,8 +58,6 @@ public class Filter implements Serializable {
                     name = "subcategory_filter_fk"
             )
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Subcategory subcategory;
 
     @OneToMany(
@@ -62,8 +66,6 @@ public class Filter implements Serializable {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Criteria> criteria = new HashSet<>();
 
     @Column(name = "status")

@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -66,8 +67,6 @@ public class Specification implements Serializable {
                     name = "subcategory_filter_fk"
             )
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Subcategory subcategory;
 
     @ManyToMany(

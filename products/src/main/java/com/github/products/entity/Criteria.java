@@ -1,8 +1,10 @@
 package com.github.products.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -10,7 +12,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,8 +54,6 @@ public class Criteria implements Serializable {
                     name = "filters_criteria_fk"
             )
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Filter filter;
 
     @Column(name = "status")

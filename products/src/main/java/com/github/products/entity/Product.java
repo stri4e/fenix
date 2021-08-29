@@ -6,12 +6,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 @Table(name = "products", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(

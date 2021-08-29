@@ -1,9 +1,9 @@
 package com.github.products.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @NamedQueries(value = {
         @NamedQuery(
                 name = "Brand.findByName",
@@ -42,7 +42,7 @@ public class Brand implements Serializable {
     private static final long serialVersionUID = 1226440996435440929L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )

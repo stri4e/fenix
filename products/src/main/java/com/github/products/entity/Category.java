@@ -1,6 +1,9 @@
 package com.github.products.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,11 +15,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @NamedEntityGraphs(value = {
         @NamedEntityGraph(
                 name = "category-find-all-entity-graph",
@@ -92,8 +95,6 @@ public class Category implements Serializable {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Subcategory> subcategories = new HashSet<>();
 
     @Column(name = "status")
