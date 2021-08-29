@@ -22,7 +22,7 @@ public interface SpecificationRepo
             @Param(value = "status") EntityStatus status
     );
 
-    List<Specification> findDistinctByNameAndDescriptionContains(String name, String patter);
+    List<Specification> findDistinctBySubcategory_IdAndStatus(Long subcategoryId, EntityStatus status);
 
     @Modifying
     @Query(value = "update Specification s set s.name=:#{#spec.name}, s.description=:#{#spec.description} where s.id=:#{#spec.id}")

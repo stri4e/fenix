@@ -80,8 +80,8 @@ public class SpecificationService implements ISpecificationService {
     }
 
     @Override
-    public List<Specification> readByParams(String name, String patter) {
-        return this.specificationRepo.findAll(selectBy(name, patter));
+    public List<Specification> readAllBySubcategoryIdAndStatus(Long subcategoryId, EntityStatus status) {
+        return this.specificationRepo.findDistinctBySubcategory_IdAndStatus(subcategoryId, status);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.github.products.services;
 
+import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Specification;
 
 import java.util.Collection;
@@ -21,6 +22,6 @@ public interface ISpecificationService {
 
     void delete(Long id);
 
-    List<Specification> readByParams(String name, String patter);
+    List<Specification> readAllBySubcategoryIdAndStatus(Long subcategoryId, EntityStatus status);
 
 }

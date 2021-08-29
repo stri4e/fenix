@@ -1,11 +1,13 @@
 package com.github.products.controllers;
 
 import com.github.products.dto.SpecificationDto;
+import com.github.products.entity.EntityStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public interface ISpecificationController {
 
@@ -26,6 +28,16 @@ public interface ISpecificationController {
     )
     @ResponseStatus(code = HttpStatus.OK)
     SpecificationDto findById(@PathVariable Long id);
+
+    @GetMapping(
+            path = "/fetch/all/{subcategoryId}/{status}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(code = HttpStatus.OK)
+    List<SpecificationDto> findByAll(
+            @PathVariable(name = "subcategoryId") Long subcategoryId,
+            @PathVariable(name = "status")EntityStatus status
+    );
 
     @PutMapping(
             path = "/edit",
