@@ -1,6 +1,5 @@
 package com.github.products.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -93,4 +93,28 @@ public abstract class Item implements Serializable {
     )
     private LocalDateTime updateAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.id) &&
+                Objects.equals(vinCode, item.vinCode) &&
+                Objects.equals(name, item.name) &&
+                Objects.equals(price, item.price) &&
+                Objects.equals(description, item.description) &&
+                Objects.equals(previewImage, item.previewImage) &&
+                Objects.equals(images, item.images) &&
+                Objects.equals(boughtCount, item.boughtCount) &&
+                Objects.equals(createAt, item.createAt) &&
+                Objects.equals(updateAt, item.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id, vinCode, name, price, description,
+                previewImage, images, boughtCount, createAt, updateAt
+        );
+    }
 }

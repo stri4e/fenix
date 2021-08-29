@@ -2,13 +2,15 @@ package com.github.products.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
@@ -176,4 +178,27 @@ public class Subcategory implements Serializable {
         return this;
     }
 
+    public void addProduct(Product product) {
+        if (Objects.nonNull(product)) {
+            this.products.add(product);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Subcategory)) return false;
+        Subcategory that = (Subcategory) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(previewImage, that.previewImage) &&
+                Objects.equals(name, that.name) &&
+                status == that.status &&
+                Objects.equals(createAt, that.createAt) &&
+                Objects.equals(updateAt, that.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, previewImage, name, status, createAt, updateAt);
+    }
 }

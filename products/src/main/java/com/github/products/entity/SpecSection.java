@@ -97,4 +97,19 @@ public class SpecSection implements Serializable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SpecSection)) return false;
+        SpecSection that = (SpecSection) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(createAt, that.createAt) &&
+                Objects.equals(updateAt, that.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, createAt, updateAt);
+    }
 }

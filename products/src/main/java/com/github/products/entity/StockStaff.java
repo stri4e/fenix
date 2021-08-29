@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -23,13 +24,22 @@ public class StockStaff implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(
+            name = "first_name",
+            nullable = false
+    )
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(
+            name = "last_name",
+            nullable = false
+    )
     private String lastName;
 
-    @Column(name = "email", nullable = false)
+    @Column(
+            name = "email",
+            nullable = false
+    )
     private String email;
 
     @ElementCollection(
@@ -64,5 +74,22 @@ public class StockStaff implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.phones = phones;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StockStaff)) return false;
+        StockStaff that = (StockStaff) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(phones, that.phones);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, phones, stock);
     }
 }

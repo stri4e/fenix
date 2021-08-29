@@ -141,11 +141,21 @@ public class Category implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public void addSubcategory(Subcategory subcategory) {
-        if (Objects.nonNull(subcategory)) {
-            this.subcategories.add(subcategory);
-            subcategory.setCategory(this);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) &&
+                Objects.equals(previewImage, category.previewImage) &&
+                Objects.equals(name, category.name) &&
+                status == category.status &&
+                Objects.equals(createAt, category.createAt) &&
+                Objects.equals(updateAt, category.updateAt);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, previewImage, name, status, createAt, updateAt);
+    }
 }

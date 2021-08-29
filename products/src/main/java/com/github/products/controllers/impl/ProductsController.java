@@ -54,7 +54,7 @@ public class ProductsController implements IProductsController {
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
     public ProductDto save(@Valid ProductDto payload) {
-        Subcategory category = this.subCategoryService.readById(payload.getSubcategoryId());
+        Subcategory subcategory = this.subCategoryService.readById(payload.getSubcategoryId());
         Brand brand = this.brandService.readByName(payload.getBrandName());
         List<SpecSection> sections = this.specSectionService.readAllByIds(
                 payload.getSpecifications().stream()
@@ -66,7 +66,7 @@ public class ProductsController implements IProductsController {
                 .collect(Collectors.toMap(Function.identity(), v -> quantities.get(v.getId())));
         return fromProduct(this.productService.create(
                 toProduct(payload)
-                        .subcategory(category)
+                        .addSubcategory(subcategory)
                         .brand(brand)
                         .addSpecSections(sections)
                         .addStocksQuantity(stocksQuantity)

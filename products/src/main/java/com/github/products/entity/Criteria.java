@@ -92,4 +92,20 @@ public class Criteria implements Serializable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Criteria criteria = (Criteria) o;
+        return Objects.equals(id, criteria.id) &&
+                Objects.equals(value, criteria.value) &&
+                status == criteria.status &&
+                Objects.equals(createAt, criteria.createAt) &&
+                Objects.equals(updateAt, criteria.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, value, status, createAt, updateAt);
+    }
 }

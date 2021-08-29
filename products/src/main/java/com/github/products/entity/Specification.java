@@ -129,4 +129,23 @@ public class Specification implements Serializable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Specification)) return false;
+        Specification that = (Specification) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(subcategory, that.subcategory) &&
+                Objects.equals(specSections, that.specSections) &&
+                status == that.status &&
+                Objects.equals(createAt, that.createAt) &&
+                Objects.equals(updateAt, that.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, status, createAt, updateAt);
+    }
 }

@@ -128,4 +128,20 @@ public class Filter implements Serializable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Filter filter = (Filter) o;
+        return Objects.equals(id, filter.id) &&
+                Objects.equals(title, filter.title) &&
+                status == filter.status &&
+                Objects.equals(createAt, filter.createAt) &&
+                Objects.equals(updateAt, filter.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, status, createAt, updateAt);
+    }
 }

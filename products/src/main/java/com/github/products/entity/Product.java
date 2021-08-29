@@ -127,13 +127,19 @@ public class Product extends Item implements Serializable {
         }
     }
 
-    public Product subcategory(Subcategory subcategory) {
-        this.subcategory = subcategory;
+    public Product addSubcategory(Subcategory subcategory) {
+        if (Objects.nonNull(subcategory)) {
+            this.subcategory = subcategory;
+            subcategory.addProduct(this);
+        }
         return this;
     }
 
     public Product brand(Brand brand) {
-        this.brand = brand;
+        if (Objects.nonNull(brand)) {
+            this.brand = brand;
+            brand.addProduct(this);
+        }
         return this;
     }
 
@@ -157,4 +163,17 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Product product = (Product) o;
+        return super.equals(o) && Objects.equals(proportions, product.proportions) && status == product.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), proportions, status);
+    }
 }

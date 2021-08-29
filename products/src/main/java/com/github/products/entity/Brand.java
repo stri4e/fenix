@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -95,5 +96,28 @@ public class Brand implements Serializable {
         this.id = id;
         this.name = name;
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Brand brand = (Brand) o;
+        return Objects.equals(id, brand.id) &&
+                Objects.equals(name, brand.name) &&
+                status == brand.status &&
+                Objects.equals(createAt, brand.createAt) &&
+                Objects.equals(updateAt, brand.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, status, createAt, updateAt);
+    }
+
+    public void addProduct(Product product) {
+        if (Objects.nonNull(product)) {
+            this.products.add(product);
+        }
     }
 }

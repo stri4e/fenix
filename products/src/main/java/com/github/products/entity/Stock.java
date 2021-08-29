@@ -10,10 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -191,4 +188,29 @@ public class Stock implements Serializable {
         this.zipCode = zipCode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stock)) return false;
+        Stock stock = (Stock) o;
+        return Objects.equals(id, stock.id) &&
+                Objects.equals(name, stock.name) &&
+                Objects.equals(number, stock.number) &&
+                Objects.equals(phone, stock.phone) &&
+                Objects.equals(email, stock.email) &&
+                Objects.equals(country, stock.country) &&
+                Objects.equals(region, stock.region) &&
+                Objects.equals(city, stock.city) &&
+                Objects.equals(street, stock.street) &&
+                Objects.equals(streetNumber, stock.streetNumber) &&
+                Objects.equals(zipCode, stock.zipCode) &&
+                status == stock.status &&
+                Objects.equals(createAt, stock.createAt) &&
+                Objects.equals(updateAt, stock.updateAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, number, phone, email, country, region, city, street, streetNumber, zipCode, status, createAt, updateAt);
+    }
 }
