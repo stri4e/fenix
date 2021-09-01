@@ -21,6 +21,7 @@ public class TransferObj {
         result.setDescription(data.getDescription());
         result.setPreviewImage(data.getPreviewImage());
         result.setImages(data.getImages());
+        result.setDiscount(toDiscount(data.getDiscount()));
         result.setProportions(toProportions(data.getProportions()));
         return result;
     }
@@ -41,6 +42,7 @@ public class TransferObj {
                         .collect(Collectors.toList()),
                 data.getSubcategory().getId(),
                 data.getBoughtCount(),
+                fromDiscount(data.getDiscount()),
                 fromProportions(data.getProportions()),
                 quantities.keySet().stream()
                         .collect(Collectors.toMap(Stock::getId, quantities::get))
@@ -239,6 +241,34 @@ public class TransferObj {
                 data.getStreet(),
                 data.getStreetNumber(),
                 data.getZipCode()
+        );
+    }
+
+    public static Discount toDiscount(DiscountDto data) {
+        return new Discount(
+                data.getDiscountPercent(),
+                data.getDiscountValue(),
+                data.getMinimalOrderValue(),
+                data.getMaxOrderValue(),
+                data.getCouponCode(),
+                data.getStartDate(),
+                data.getStartTime(),
+                data.getEndDate(),
+                data.getEndTime()
+        );
+    }
+
+    public static DiscountDto fromDiscount(Discount data) {
+        return new DiscountDto(
+                data.getDiscountPercent(),
+                data.getDiscountValue(),
+                data.getMinimalOrderValue(),
+                data.getMaxOrderValue(),
+                data.getCouponCode(),
+                data.getStartDate(),
+                data.getStartTime(),
+                data.getEndDate(),
+                data.getEndTime()
         );
     }
 

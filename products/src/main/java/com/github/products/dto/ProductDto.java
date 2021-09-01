@@ -104,6 +104,10 @@ public class ProductDto implements Serializable {
     private Integer boughtCount = 0;
 
     @NotNull
+    @JsonProperty(value = "discount")
+    private DiscountDto discount;
+
+    @NotNull
     @JsonProperty(value = "proportions")
     private ProportionsDto proportions;
 
