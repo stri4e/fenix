@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -66,7 +67,10 @@ public class Criteria implements Serializable {
             name = "products_criteria",
             joinColumns = @JoinColumn(
                     name = "product_id",
-                    referencedColumnName = "id"
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(
+                            name = "products_criteria_fk"
+                    )
             ),
             inverseJoinColumns = @JoinColumn(
                     name = "criteria_id",
@@ -74,12 +78,9 @@ public class Criteria implements Serializable {
                     foreignKey = @ForeignKey(
                             name = "criteria_products_fk"
                     )
-            ),
-            foreignKey = @ForeignKey(
-                    name = "products_criteria_fk"
             )
     )
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
