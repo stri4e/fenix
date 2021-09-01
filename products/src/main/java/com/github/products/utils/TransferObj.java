@@ -113,6 +113,7 @@ public class TransferObj {
                 data.getId(),
                 data.getPreviewImage(),
                 data.getName(),
+                fromDiscount(data.getDiscount()),
                 data.getSubcategories().stream()
                         .map(TransferObj::fromSubCategory)
                         .collect(Collectors.toList())

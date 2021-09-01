@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
@@ -42,18 +41,13 @@ public class CategoryDto implements Serializable {
     @NotBlank(message = "Category name is required")
     private String name;
 
+    @ApiModelProperty(value = "discount")
+    @JsonProperty(value = "discount")
+    private DiscountDto discount;
+
     @ApiModelProperty(
             value = "Sub categories.")
     @JsonProperty(value = "subCategories")
     private List<SubcategoryDto> subcategories;
-
-    public CategoryDto(@NotBlank(message = "Category name is required") String name) {
-        this.name = name;
-    }
-
-    public CategoryDto(@NotBlank(message = "Category name is required") String name, List<SubcategoryDto> subcategories) {
-        this.name = name;
-        this.subcategories = subcategories;
-    }
 
 }

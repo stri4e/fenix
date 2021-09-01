@@ -89,6 +89,9 @@ public class Category implements Serializable {
     )
     private String name;
 
+    @Embedded
+    private Discount discount;
+
     @OneToMany(
             targetEntity = Subcategory.class,
             mappedBy = "category",
