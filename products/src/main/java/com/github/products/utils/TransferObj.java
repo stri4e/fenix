@@ -37,7 +37,7 @@ public class TransferObj {
                 data.getDescription(),
                 data.getPreviewImage(),
                 data.getImages(),
-                data.getSpecSections().stream()
+                data.getSections().stream()
                         .map(TransferObj::fromSpecSection)
                         .collect(Collectors.toList()),
                 data.getSubcategory().getId(),
@@ -49,8 +49,8 @@ public class TransferObj {
         );
     }
 
-    public static SpecSectionDto fromSpecSection(SpecSection data) {
-        return new SpecSectionDto(
+    public static SpecificationSectionDto fromSpecSection(SpecificationSection data) {
+        return new SpecificationSectionDto(
                 data.getId(),
                 data.getTitle(),
                 data.getSpecifications().stream()
@@ -87,8 +87,8 @@ public class TransferObj {
         return new Specification(s.getId(), s.getName(), s.getDescription());
     }
 
-    public static SpecSection toSpecSection(SpecSectionDto data) {
-        return new SpecSection(
+    public static SpecificationSection toSpecSection(SpecificationSectionDto data) {
+        return new SpecificationSection(
                 data.getId(),
                 data.getTitle()
         );

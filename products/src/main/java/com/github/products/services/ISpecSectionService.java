@@ -1,22 +1,22 @@
 package com.github.products.services;
 
-import com.github.products.entity.SpecSection;
+import com.github.products.entity.SpecificationSection;
 
 import java.util.List;
 
 public interface ISpecSectionService {
 
-    SpecSection create(SpecSection ss);
+    SpecificationSection create(SpecificationSection ss);
 
-    SpecSection readById(Long id);
+    SpecificationSection readById(Long id);
 
-    SpecSection getById(Long id);
+    SpecificationSection getById(Long id);
 
-    List<SpecSection> readAllByIds(List<Long> ids);
+    List<SpecificationSection> readAllByIds(List<Long> ids);
 
     void updateTitle(Long id, String title);
 
-    void update(SpecSection section);
+    void update(SpecificationSection section);
 
     void remove(Long id);
 

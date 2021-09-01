@@ -87,7 +87,7 @@ public class ProductDto implements Serializable {
             value = "Product specifications"
     )
     @JsonProperty(value = "specifications")
-    private List<SpecSectionDto> specifications;
+    private List<SpecificationSectionDto> specifications;
 
     @ApiModelProperty(
             value = "2"

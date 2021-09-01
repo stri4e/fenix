@@ -1,7 +1,7 @@
 package com.github.products.services.impl;
 
 import com.github.products.config.ServiceApplicationContextConfig;
-import com.github.products.entity.SpecSection;
+import com.github.products.entity.SpecificationSection;
 import com.github.products.exceptions.EntityBadRequest;
 import com.github.products.repository.SpecSectionRepo;
 import com.github.products.services.ISpecSectionService;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 @RunWith(value = SpringRunner.class)
 @Import(value = ServiceApplicationContextConfig.class)
-public class SpecSectionServiceTest {
+public class SpecificationSectionServiceTest {
 
     @Autowired private SpecSectionRepo specSectionRepo;
 
@@ -27,11 +27,11 @@ public class SpecSectionServiceTest {
 
     @Test
     public void givenSpecSection_whenCreate_thenReturnNewSpecSection() {
-        SpecSection data = entityBeforeSave();
-        SpecSection exp = entityAfterSave();
+        SpecificationSection data = entityBeforeSave();
+        SpecificationSection exp = entityAfterSave();
         Mockito.when(this.specSectionRepo.save(data))
                 .thenReturn(exp);
-        SpecSection act = this.instance.create(data);
+        SpecificationSection act = this.instance.create(data);
         assertEquals(exp, act);
     }
 
@@ -43,10 +43,10 @@ public class SpecSectionServiceTest {
     @Test
     public void givenSpecSectionId_whenFindById_thenReturnSpecSection() {
         var specSectionId = 1L;
-        SpecSection exp = entityAfterFindById();
+        SpecificationSection exp = entityAfterFindById();
         Mockito.when(this.specSectionRepo.findById(specSectionId))
                 .thenReturn(Optional.of(exp));
-        SpecSection act = this.instance.readById(specSectionId);
+        SpecificationSection act = this.instance.readById(specSectionId);
         assertEquals(exp, act);
     }
 
@@ -86,7 +86,7 @@ public class SpecSectionServiceTest {
 
     @Test
     public void givenSpecSection_whenUpdate_thenCallToSave() {
-        SpecSection data = entityToUpdate();
+        SpecificationSection data = entityToUpdate();
         Mockito.when(this.specSectionRepo.save(data))
                 .thenReturn(data);
         this.instance.update(data);

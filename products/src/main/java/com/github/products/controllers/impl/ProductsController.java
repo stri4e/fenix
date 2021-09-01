@@ -2,7 +2,7 @@ package com.github.products.controllers.impl;
 
 import com.github.products.controllers.IProductsController;
 import com.github.products.dto.ProductDto;
-import com.github.products.dto.SpecSectionDto;
+import com.github.products.dto.SpecificationSectionDto;
 import com.github.products.entity.*;
 import com.github.products.exceptions.ParametersBadRequest;
 import com.github.products.services.*;
@@ -56,9 +56,9 @@ public class ProductsController implements IProductsController {
     public ProductDto save(@Valid ProductDto payload) {
         Subcategory subcategory = this.subCategoryService.readById(payload.getSubcategoryId());
         Brand brand = this.brandService.readByName(payload.getBrandName());
-        List<SpecSection> sections = this.specSectionService.readAllByIds(
+        List<SpecificationSection> sections = this.specSectionService.readAllByIds(
                 payload.getSpecifications().stream()
-                        .map(SpecSectionDto::getId)
+                        .map(SpecificationSectionDto::getId)
                         .collect(Collectors.toList())
         );
         Map<Long, Integer> quantities = payload.getStocksQuantity();

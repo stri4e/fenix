@@ -36,9 +36,9 @@ public class Product extends Item implements Serializable {
             mappedBy = "product",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            targetEntity = SpecSection.class
+            targetEntity = SpecificationSection.class
     )
-    private Set<SpecSection> specSections = new HashSet<>();
+    private Set<SpecificationSection> sections = new HashSet<>();
 
     @OneToMany(
             mappedBy = "product",
@@ -146,16 +146,16 @@ public class Product extends Item implements Serializable {
         return this;
     }
 
-    public Product addSpecSections(List<SpecSection> sections) {
+    public Product addSpecSections(List<SpecificationSection> sections) {
         if (Objects.nonNull(sections)) {
-            this.specSections.addAll(sections);
+            this.sections.addAll(sections);
         }
         return this;
     }
 
-    public void addSpecSection(SpecSection section) {
+    public void addSpecSection(SpecificationSection section) {
         if (Objects.nonNull(section)) {
-            this.specSections.add(section);
+            this.sections.add(section);
         }
     }
 

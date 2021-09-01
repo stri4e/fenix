@@ -1,21 +1,16 @@
 package com.github.products.controllers.impl;
 
 import com.github.products.controllers.ISpecSectionController;
-import com.github.products.dto.SpecSectionDto;
+import com.github.products.dto.SpecificationSectionDto;
 import com.github.products.dto.SpecificationDto;
-import com.github.products.entity.Product;
-import com.github.products.entity.SpecSection;
-import com.github.products.entity.Specification;
+import com.github.products.entity.SpecificationSection;
 import com.github.products.services.IProductService;
 import com.github.products.services.ISpecSectionService;
 import com.github.products.services.ISpecificationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.github.products.utils.TransferObj.fromSpecSection;
@@ -33,7 +28,7 @@ public class SpecSectionController implements ISpecSectionController {
     private final ISpecificationService specificationService;
 
     @Override
-    public SpecSectionDto save(Long productId, SpecSectionDto payload) {
+    public SpecificationSectionDto save(Long productId, SpecificationSectionDto payload) {
         return fromSpecSection(
                 this.specSectionService.create(
                         toSpecSection(payload)
@@ -50,7 +45,7 @@ public class SpecSectionController implements ISpecSectionController {
     }
 
     @Override
-    public SpecSectionDto save(Long sectionId, Long specificationId) {
+    public SpecificationSectionDto save(Long sectionId, Long specificationId) {
         return fromSpecSection(
                 this.specSectionService.getById(sectionId)
                         .addSpecification(this.specificationService.getById(sectionId))
@@ -64,7 +59,7 @@ public class SpecSectionController implements ISpecSectionController {
 
     @Override
     public void deleteSpec(Long sectionId, Long specificationId) {
-        SpecSection section = this.specSectionService.readById(sectionId);
+        SpecificationSection section = this.specSectionService.readById(sectionId);
         section.getSpecifications().removeIf(specification -> specification.getId().equals(sectionId));
         this.specSectionService.update(section);
     }

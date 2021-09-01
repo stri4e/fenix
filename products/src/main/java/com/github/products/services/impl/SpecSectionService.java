@@ -1,6 +1,6 @@
 package com.github.products.services.impl;
 
-import com.github.products.entity.SpecSection;
+import com.github.products.entity.SpecificationSection;
 import com.github.products.exceptions.EntityBadRequest;
 import com.github.products.exceptions.EntityNotFound;
 import com.github.products.repository.SpecSectionRepo;
@@ -19,26 +19,26 @@ public class SpecSectionService implements ISpecSectionService {
     private final SpecSectionRepo specSectionRepo;
 
     @Override
-    public SpecSection create(SpecSection specSection) {
+    public SpecificationSection create(SpecificationSection specSection) {
         return this.specSectionRepo.save(
                 requiredNotNull(specSection, EntityBadRequest::new)
         );
     }
 
     @Override
-    public SpecSection readById(Long id) {
+    public SpecificationSection readById(Long id) {
         return this.specSectionRepo.findById(
                 requiredNotNull(id, EntityBadRequest::new)
         ).orElseThrow(EntityNotFound::new);
     }
 
     @Override
-    public SpecSection getById(Long id) {
+    public SpecificationSection getById(Long id) {
         return this.specSectionRepo.getOne(id);
     }
 
     @Override
-    public List<SpecSection> readAllByIds(List<Long> ids) {
+    public List<SpecificationSection> readAllByIds(List<Long> ids) {
         return this.specSectionRepo.findAllById(ids);
     }
 
@@ -51,7 +51,7 @@ public class SpecSectionService implements ISpecSectionService {
     }
 
     @Override
-    public void update(SpecSection specSection) {
+    public void update(SpecificationSection specSection) {
         this.specSectionRepo.save(
                 requiredNotNull(specSection, EntityBadRequest::new)
         );

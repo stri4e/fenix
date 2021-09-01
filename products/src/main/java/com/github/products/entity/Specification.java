@@ -72,7 +72,7 @@ public class Specification implements Serializable {
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            targetEntity = SpecSection.class
+            targetEntity = SpecificationSection.class
     )
     @JoinTable(
             name = "spec_section_specifications",
@@ -89,7 +89,7 @@ public class Specification implements Serializable {
                     )
             )
     )
-    private Set<SpecSection> specSections;
+    private Set<SpecificationSection> specSections;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

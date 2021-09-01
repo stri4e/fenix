@@ -1,6 +1,6 @@
 package com.github.products.controllers;
 
-import com.github.products.dto.SpecSectionDto;
+import com.github.products.dto.SpecificationSectionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ public interface ISpecSectionController {
             path = "/edit/{productId}"
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    SpecSectionDto save(
+    SpecificationSectionDto save(
             @PathVariable(value = "productId") Long productId,
-            @Valid @RequestBody SpecSectionDto payload
+            @Valid @RequestBody SpecificationSectionDto payload
     );
 
     @PutMapping(
             path = "/edit/specification/{sectionId}/{specificationId}"
     )
     @ResponseStatus(code = HttpStatus.CREATED)
-    SpecSectionDto save(
+    SpecificationSectionDto save(
             @PathVariable(value = "sectionId") Long sectionId,
             @PathVariable(value = "specificationId") Long specificationId
     );

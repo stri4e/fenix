@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "specification_sections", schema = "public")
-public class SpecSection implements Serializable {
+public class SpecificationSection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,12 +70,12 @@ public class SpecSection implements Serializable {
     )
     private LocalDateTime updateAt;
 
-    public SpecSection(Long id, String title) {
+    public SpecificationSection(Long id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public SpecSection addProduct(Product product) {
+    public SpecificationSection addProduct(Product product) {
         if (Objects.nonNull(product)) {
             this.product = product;
             product.addSpecSection(this);
@@ -83,14 +83,14 @@ public class SpecSection implements Serializable {
         return this;
     }
 
-    public SpecSection addSpecifications(List<Specification> specifications) {
+    public SpecificationSection addSpecifications(List<Specification> specifications) {
         if (Objects.nonNull(specifications)) {
             this.specifications.addAll(specifications);
         }
         return this;
     }
 
-    public SpecSection addSpecification(Specification specification) {
+    public SpecificationSection addSpecification(Specification specification) {
         if (Objects.nonNull(specification)) {
             this.specifications.add(specification);
         }
@@ -100,8 +100,8 @@ public class SpecSection implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SpecSection)) return false;
-        SpecSection that = (SpecSection) o;
+        if (!(o instanceof SpecificationSection)) return false;
+        SpecificationSection that = (SpecificationSection) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(createAt, that.createAt) &&
