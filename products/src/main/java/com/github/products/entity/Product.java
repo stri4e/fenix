@@ -157,7 +157,9 @@ public class Product extends Item implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Product product = (Product) o;
-        return super.equals(o) && Objects.equals(proportions, product.proportions) && status == product.status;
+        return super.equals(o) &&
+                Objects.equals(proportions, product.proportions) &&
+                status == product.status;
     }
 
     @Override

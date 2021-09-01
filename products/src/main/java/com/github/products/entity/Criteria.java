@@ -134,4 +134,11 @@ public class Criteria implements Serializable {
     public int hashCode() {
         return Objects.hash(id, value, status, createAt, updateAt);
     }
+
+    public void addProduct(Product product) {
+        if (Objects.nonNull(product)) {
+            this.products.add(product);
+        }
+    }
+
 }

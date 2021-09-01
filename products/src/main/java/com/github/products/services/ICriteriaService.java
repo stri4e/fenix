@@ -15,6 +15,8 @@ public interface ICriteriaService {
 
     void update(Criteria criteria);
 
+    void updateAll(List<Criteria> criteria);
+
     void updateStatus(Long id, EntityStatus status);
 
 }

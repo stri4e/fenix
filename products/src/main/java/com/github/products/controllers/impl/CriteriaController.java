@@ -48,8 +48,8 @@ public class CriteriaController implements ICriteriaController {
     public void saveToProducts(Long productId, List<Long> payload) {
         Product product = this.productService.getById(productId);
         List<Criteria> criteria = this.criteriaService.readAllByIds(payload);
-        product.addCriteria(criteria);
-        this.productService.update(product);
+        criteria.forEach(c -> c.addProduct(product));
+        this.criteriaService.updateAll(criteria);
     }
 
     @Override

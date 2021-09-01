@@ -50,6 +50,11 @@ public class CriteriaService implements ICriteriaService {
     }
 
     @Override
+    public void updateAll(List<Criteria> criteria) {
+        this.criteriaRepo.saveAll(requiredNotNull(criteria, EntityBadRequest::new));
+    }
+
+    @Override
     public void updateStatus(Long id, EntityStatus status) {
         this.criteriaRepo.updateStatus(
                 requiredNotNull(id, EntityBadRequest::new), status
