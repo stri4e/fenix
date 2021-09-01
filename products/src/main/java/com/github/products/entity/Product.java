@@ -49,25 +49,10 @@ public class Product extends Item implements Serializable {
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(
-            targetEntity = Criteria.class,
-            fetch = FetchType.LAZY
-    )
-    @JoinTable(
-            name = "products_criteria",
-            joinColumns = @JoinColumn(
-                    name = "product_id",
-                    referencedColumnName = "id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "criteria_id",
-                    referencedColumnName = "id",
-                    foreignKey = @ForeignKey(
-                            name = "criteria_products_fk"
-                    )
-            ),
-            foreignKey = @ForeignKey(
-                    name = "products_criteria_fk"
-            )
+            mappedBy = "products",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.MERGE,
+            targetEntity = Criteria.class
     )
     private Set<Criteria> criteria = new HashSet<>();
 

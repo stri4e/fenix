@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -55,6 +56,30 @@ public class Criteria implements Serializable {
             )
     )
     private Filter filter;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.MERGE,
+            targetEntity = Product.class
+    )
+    @JoinTable(
+            name = "products_criteria",
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "criteria_id",
+                    referencedColumnName = "id",
+                    foreignKey = @ForeignKey(
+                            name = "criteria_products_fk"
+                    )
+            ),
+            foreignKey = @ForeignKey(
+                    name = "products_criteria_fk"
+            )
+    )
+    private Set<Product> products;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
