@@ -33,6 +33,7 @@ public abstract class Item implements Serializable {
             name = "vin_code",
             nullable = false
     )
+    @Field
     private String vinCode;
 
     @Column(
