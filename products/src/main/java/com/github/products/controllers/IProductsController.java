@@ -8,16 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.Map;
 
 public interface IProductsController {
-
-    @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    List<ProductDto> searchProduct(@RequestParam(name = "searchLine") String searchLine);
 
     @PostMapping(
             path = "/edit",

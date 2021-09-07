@@ -42,17 +42,6 @@ public class ProductsController implements IProductsController {
     @Override
     @HystrixCommand
     @Logging(isTime = true, isReturn = false)
-    public List<ProductDto> searchProduct(String searchLine) {
-        List<Product> products = this.productService
-                .searchProduct(searchLine, searchLine);
-        return products.stream()
-                .map(TransferObj::fromProduct)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @HystrixCommand
-    @Logging(isTime = true, isReturn = false)
     public ProductDto save(@Valid ProductDto payload) {
         Subcategory subcategory = this.subCategoryService.readById(payload.getSubcategoryId());
         Brand brand = this.brandService.readByName(payload.getBrandName());

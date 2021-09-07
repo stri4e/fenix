@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface IProductsPagesController {
+
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    Page<ProductDto> searchProduct(@RequestParam(name = "searchLine") String searchLine);
 
     @GetMapping(path = "/page/popular")
     Page<ProductDto> findProductsByPage(

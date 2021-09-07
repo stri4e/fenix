@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IProductPaginationService {
 
+    Page<Product> searchProduct(String text);
+
     Page<Product> read(Pageable pageable);
 
     Page<Product> readAllBySubcategory(

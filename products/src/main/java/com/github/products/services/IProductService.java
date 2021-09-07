@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface IProductService {
 
-    List<Product> searchProduct(String name, String description);
-
     Product create(Product p);
 
     Product readById(Long id);

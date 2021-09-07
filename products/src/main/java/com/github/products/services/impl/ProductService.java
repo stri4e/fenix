@@ -1,6 +1,5 @@
 package com.github.products.services.impl;
 
-import com.github.products.entity.Criteria;
 import com.github.products.entity.EntityStatus;
 import com.github.products.entity.Product;
 import com.github.products.exceptions.EntityNotFound;
@@ -10,14 +9,10 @@ import com.github.products.utils.ProductSpec;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-
-import static com.github.products.utils.ProductSpec.*;
 
 @Service
 @Transactional
@@ -26,11 +21,6 @@ import static com.github.products.utils.ProductSpec.*;
 public class ProductService implements IProductService {
 
     private final ProductRepo productRepo;
-
-    @Override
-    public List<Product> searchProduct(String name, String description) {
-        return this.productRepo.findByNameContainingOrDescriptionContaining(name, description);
-    }
 
     @Override
     @Caching(
