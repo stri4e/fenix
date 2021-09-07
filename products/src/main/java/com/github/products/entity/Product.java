@@ -1,6 +1,8 @@
 package com.github.products.entity;
 
 import lombok.*;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Indexed(index = "idx_products")
 @Table(name = "products", schema = "public")
 @NamedQueries(value = {
         @NamedQuery(

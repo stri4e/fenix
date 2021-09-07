@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,6 +40,7 @@ public abstract class Item implements Serializable {
             nullable = false,
             length = 100
     )
+    @Field
     private String name;
 
     @Column(
@@ -52,6 +55,7 @@ public abstract class Item implements Serializable {
             name = "description",
             nullable = false
     )
+    @Field
     private String description;
 
     @Column(
