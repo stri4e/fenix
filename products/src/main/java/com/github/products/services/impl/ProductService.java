@@ -28,25 +28,6 @@ public class ProductService implements IProductService {
     private final ProductRepo productRepo;
 
     @Override
-    @Cacheable(value = "products", unless = "#result.getTotalElements() == 0")
-    public Page<Product> read(Pageable pageable) {
-        return this.productRepo.findAll(statusOn(), pageable);
-    }
-
-    @Override
-    @Cacheable(value = "products_by_subcategory", key = "#subcategory")
-    public Page<Product>
-    readAllBySubcategory(String subcategory, Pageable pageable) {
-        return this.productRepo.findAll(bySubcategory(subcategory), pageable);
-    }
-
-    @Override
-    public Page<Product>
-    readByParams(String subcategoryName, List<Criteria> criteria, Pageable pageable) {
-        return this.productRepo.findAll(selectCriteriaIn(subcategoryName, criteria), pageable);
-    }
-
-    @Override
     public List<Product> searchProduct(String name, String description) {
         return this.productRepo.findByNameContainingOrDescriptionContaining(name, description);
     }
