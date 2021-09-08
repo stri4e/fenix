@@ -91,7 +91,8 @@ public class Product extends Item implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "stocks_quantity",
-            joinColumns = @JoinColumn(name = "product_id")
+            joinColumns = @JoinColumn(name = "product_id"),
+            foreignKey = @ForeignKey(name = "product_stock_quantity_fk")
     )
     @MapKeyJoinColumn(name = "stock_id")
     private Map<Stock, Integer> stocksQuantity = new HashMap<>();

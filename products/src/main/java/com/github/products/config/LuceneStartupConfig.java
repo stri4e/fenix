@@ -1,7 +1,6 @@
 package com.github.products.config;
 
 import com.github.products.exceptions.FullTextSearchInitializeException;
-import com.github.products.utils.Logging;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
@@ -11,22 +10,17 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Slf4j
 @Configurable
 public class LuceneStartupConfig {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Bean
-    @Logging
-    public ApplicationListener<ApplicationReadyEvent> springStartUpAndCreateIndexes() {
+    public ApplicationListener<ApplicationReadyEvent> springStartUpAndCreateIndexes(EntityManager entityManager) {
         return e -> {
             try {
                 FullTextEntityManager fullTextEntityManager =
-                        Search.getFullTextEntityManager(this.entityManager);
+                        Search.getFullTextEntityManager(entityManager);
                 fullTextEntityManager.createIndexer().startAndWait();
             } catch (InterruptedException ex) {
                 throw new FullTextSearchInitializeException(ex.getMessage());

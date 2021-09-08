@@ -77,7 +77,8 @@ public class Stock implements Serializable {
 
     @ElementCollection
     @CollectionTable(name = "stocks_quantity",
-            joinColumns = @JoinColumn(name = "stock_id")
+            joinColumns = @JoinColumn(name = "stock_id"),
+            foreignKey = @ForeignKey(name = "stock_quantity_product_fk")
     )
     @MapKeyJoinColumn(name = "product_id")
     private Map<Product, Integer> stocksQuantity = new HashMap<>();

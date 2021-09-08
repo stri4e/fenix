@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.TermVector;
 
@@ -27,6 +28,7 @@ public abstract class Item implements Serializable {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
+    @DocumentId
     private Long id;
 
     @Column(
