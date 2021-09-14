@@ -35,6 +35,7 @@ public class SecurityConfigProd {
     private static final String [] DENY_ALL = new String[] {
             "**/fetch/**",
             "**/edit/**",
+            "**/employees/**"
     };
 
     private final AuthenticationManager authenticationManager;
