@@ -1,8 +1,0 @@
-spring:
-  zipkin:
-    enabled: false
-  application:
-    name: admin-service
-  cloud:
-    config:
-      enabled: false
