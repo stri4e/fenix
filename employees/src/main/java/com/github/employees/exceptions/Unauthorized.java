@@ -1,0 +1,11 @@
+package com.github.employees.exceptions;
+
+public class Unauthorized extends RuntimeException {
+
+    public Unauthorized() {
+    }
+
+    public Unauthorized(String message) {
+        super(message);
+    }
+}
