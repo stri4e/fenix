@@ -6,13 +6,13 @@
     <file type="web" url="file://$PROJECT_DIR$/admins" />
     <file type="web" url="file://$PROJECT_DIR$/advertising" />
     <file type="web" url="file://$PROJECT_DIR$/bitcoin" />
+    <file type="web" url="file://$PROJECT_DIR$/clients-gateway" />
     <file type="web" url="file://$PROJECT_DIR$/config-server" />
     <file type="web" url="file://$PROJECT_DIR$/customers" />
     <file type="web" url="file://$PROJECT_DIR$/deliveries" />
     <file type="web" url="file://$PROJECT_DIR$/discovery" />
     <file type="web" url="file://$PROJECT_DIR$/emails" />
     <file type="web" url="file://$PROJECT_DIR$/ethereum" />
-    <file type="web" url="file://$PROJECT_DIR$/gateway" />
     <file type="web" url="file://$PROJECT_DIR$/geolocation" />
     <file type="web" url="file://$PROJECT_DIR$/managers" />
     <file type="web" url="file://$PROJECT_DIR$/master-card" />
