@@ -16,17 +16,6 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/admins" />
-        <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/admins" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/advertising" />
         <option name="gradleHome" value="/opt/gradle/gradle-5.0" />
         <option name="gradleJvm" value="#JAVA_HOME" />
