@@ -1,8 +1,0 @@
-spring:
-  zipkin:
-    enabled: false
-  application:
-    name: bitcoin
-  cloud:
-    config:
-      enabled: false

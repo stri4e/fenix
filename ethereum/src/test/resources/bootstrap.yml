@@ -1,8 +1,0 @@
-spring:
-  zipkin:
-    enabled: false
-  application:
-    name: ethereum
-  cloud:
-    config:
-      enabled: false
