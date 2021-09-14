@@ -1,8 +1,0 @@
-spring:
-  zipkin:
-    enabled: false
-  application:
-    name: wevsocket
-  cloud:
-    config:
-      enabled: false
