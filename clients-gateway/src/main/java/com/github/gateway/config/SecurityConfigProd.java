@@ -27,56 +27,12 @@ public class SecurityConfigProd {
 
     private static final String[] USER_ACCESS  = new String[] {
             "/products/v1/comments",
-            "/products/v1/many/bought/count/**",
-            "/products/v1/single/bought/count/**",
             "/orders/**",
-            "/statistics/v1/unbooked",
-            "/users/v1/aliases/listening",
-            "/payments/v1/accountant",
-            "/payments/v1/assets",
-            "/payments/v1/bills/**",
-            "/payments/v1/rates/**",
-            "/payments/v1/payment/type",
-            "/accounts/**",
-            "/geolocation/**",
             "/customers/**",
-            "/deliveries/**",
-            "/bitcoin/v1/accounts/**",
-            "/bitcoin/v1/currency/**",
-            "/ethereum/v1/accounts/**",
-            "/ethereum/v1/contracts/**",
-            "/ethereum/v1/currency/**",
-            "/ethereum/v1/fee/**",
-            "/master-card/v1/account/**",
-            "/master-card/v1/payment/**"
+            "/geolocation/**"
     };
 
-    private static final String[] MANAGER_ACCESS  = new String[] {
-            "/managers/**",
-            "/statistics/**",
-            "/users/v1/aliases/listening",
-            "/payments/**",
-            "/geolocation/**",
-            "/customers/**",
-            "/deliveries/**"
-    };
-
-    private static final String[] ADMIN_ACCESS = new String[] {
-            "/admin/**",
-            "/users/v1/admins/reg",
-            "/users/v1/managers/reg",
-            "/statistics/**",
-            "/users/v1/aliases/listening",
-            "/ethereum/**",
-            "/bitcoin/**",
-            "/payments/**",
-            "/geolocation/**",
-            "/customers/**",
-            "/deliveries/**",
-            "/master-card/**"
-    };
-
-    private static final String [] SERVICE_ACCESS = new String[] {
+    private static final String [] DENY_ALL = new String[] {
             "**/fetch/**",
             "**/edit/**",
     };
@@ -100,9 +56,7 @@ public class SecurityConfigProd {
                 .authorizeExchange()
                 .pathMatchers(ALLOW_ACCESS).permitAll()
                 .pathMatchers(USER_ACCESS).hasRole("USER")
-                .pathMatchers(ADMIN_ACCESS).hasRole("ADMIN")
-                .pathMatchers(MANAGER_ACCESS).hasRole("MANAGER")
-                .pathMatchers(SERVICE_ACCESS).hasRole("ROLE_SERVICE")
+                .pathMatchers(DENY_ALL).denyAll()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyExchange().authenticated()
                 .and()
