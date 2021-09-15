@@ -3,6 +3,11 @@ package com.github.employees.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,11 +18,13 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(value = "reset_pass_token")
 public class ResetPassToken implements Serializable {
 
     private static final long serialVersionUID = -2891754208417175650L;
 
-    private Long id;
+    @Id
+    private String id;
 
     private String token;
 
@@ -25,14 +32,22 @@ public class ResetPassToken implements Serializable {
 
     private String newPass;
 
-    private Employee employee;
+    private UUID employeeId;
 
-    private LocalDateTime createAt;
+    @CreatedBy
+    private UUID createBy;
 
+    @LastModifiedDate
+    private UUID updateBy;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public ResetPassToken(Employee employee) {
-        this.employee = employee;
+    public ResetPassToken(UUID employeeId) {
+        this.employeeId = employeeId;
         this.token = UUID.randomUUID().toString();
     }
 
@@ -50,8 +65,8 @@ public class ResetPassToken implements Serializable {
         return new ResetPassToken();
     }
 
-    public ResetPassToken user(Employee employee) {
-        this.employee = employee;
+    public ResetPassToken user(UUID employeeId) {
+        this.employeeId = employeeId;
         this.token = UUID.randomUUID().toString();
         return this;
     }

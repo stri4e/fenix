@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -31,11 +30,5 @@ public class Address implements Serializable {
     private String flatNumber;
 
     private String zipCode;
-
-    private EntityStatus status = EntityStatus.on;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 
 }

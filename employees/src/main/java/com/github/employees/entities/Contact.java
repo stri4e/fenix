@@ -20,12 +20,6 @@ public class Contact implements Serializable {
 
     private String extraPhone;
 
-    private EntityStatus status = EntityStatus.on;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
-
     public Contact(Long id, String phone) {
         this.id = id;
         this.phone = phone;

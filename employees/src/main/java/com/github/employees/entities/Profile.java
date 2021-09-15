@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,12 +15,14 @@ public class Profile implements Serializable {
 
     private Long id;
 
+    private String firstName;
+
+    private String lastName;
+
+    private String patronymic;
+
     private String dateOfBirth;
 
     private Sex sex = Sex.unknown;
-
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
 
 }

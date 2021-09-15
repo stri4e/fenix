@@ -22,8 +22,4 @@ public class EmergencyContact implements Serializable {
 
     private String phone;
 
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
-
 }

@@ -3,6 +3,11 @@ package com.github.employees.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,11 +17,13 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Document
 public class RefreshSession implements Serializable {
 
     private static final long serialVersionUID = -8022389211207894683L;
 
-    private Long id;
+    @Id
+    private String id;
 
     private UUID userId;
 
@@ -30,9 +37,18 @@ public class RefreshSession implements Serializable {
 
     private EntityStatus status = EntityStatus.on;
 
-    private LocalDateTime createAt;
+    @CreatedBy
+    private UUID createBy;
 
+    @LastModifiedDate
+    private UUID updateBy;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
     private LocalDateTime updateAt;
+
 
     public boolean isExpired() {
         return new Date().after(this.expireIn);
