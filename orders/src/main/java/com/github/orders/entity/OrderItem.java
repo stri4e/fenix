@@ -17,12 +17,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "order_items", schema = "public")
-public class OrderItem implements Serializable, Cloneable {
+public class OrderItem implements Serializable {
 
     public static final long serialVersionUID = 1442733155841937274L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -57,10 +57,18 @@ public class OrderItem implements Serializable, Cloneable {
     private EntityStatus status = EntityStatus.on;
 
     @ManyToOne(
+            fetch = FetchType.LAZY,
             targetEntity = OrderDetail.class,
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "order_id")
+    @JoinColumn(
+            name = "order_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(
+                    name = "order_details_order_item_fk"
+            )
+    )
     private OrderDetail orderDetail;
 
     @CreationTimestamp

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -37,12 +36,12 @@ import java.util.stream.Collectors;
         name = "order_details",
         schema = "public"
 )
-public class OrderDetail implements Serializable, Cloneable {
+public class OrderDetail implements Serializable {
 
     private static final long serialVersionUID = -8001976834441332571L;
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -56,8 +55,9 @@ public class OrderDetail implements Serializable, Cloneable {
 
     @OneToMany(
             mappedBy = "orderDetail",
+            fetch = FetchType.LAZY,
             targetEntity = OrderItem.class,
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL
     )
     private List<OrderItem> orderItems = new ArrayList<>();
 
