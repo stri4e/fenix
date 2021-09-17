@@ -1,4 +1,15 @@
 package com.github.employees.repository;
 
-public interface EmployeesRepo {
+import com.github.employees.entities.Employee;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
+
+@Repository
+public interface EmployeesRepo extends ReactiveMongoRepository<Employee, UUID> {
+
+    Mono<Boolean> existsByEmailOrLogin(String email, String login);
+
 }
