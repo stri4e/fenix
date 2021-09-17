@@ -13,8 +13,6 @@ public class Address implements Serializable {
 
     private static final long serialVersionUID = -2190901916194264898L;
 
-    private Long id;
-
     private String country;
 
     private String region;
@@ -31,4 +29,16 @@ public class Address implements Serializable {
 
     private String zipCode;
 
+    public static Address defaultAddress() {
+        return new Address(
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown",
+                "unknown"
+        );
+    }
 }

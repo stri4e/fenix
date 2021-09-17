@@ -14,15 +14,19 @@ public class Contact implements Serializable {
 
     private static final long serialVersionUID = -5630927194373190406L;
 
-    private Long id;
-
     private String phone;
 
     private String extraPhone;
 
-    public Contact(Long id, String phone) {
-        this.id = id;
+    public Contact(String phone, String extraPhone) {
         this.phone = phone;
+        this.extraPhone = extraPhone;
     }
 
+    public static Contact defaultContact() {
+        return new Contact(
+                "unknown",
+                "unknown"
+        );
+    }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +13,6 @@ import java.util.UUID;
 public class EmployeeDto implements Serializable {
 
     private static final long serialVersionUID = -4782435250676883500L;
-
-    private UUID id;
 
     private String firstName;
 
@@ -27,5 +25,7 @@ public class EmployeeDto implements Serializable {
     private String email;
 
     private String pass;
+
+    private Set<String> roles;
 
 }

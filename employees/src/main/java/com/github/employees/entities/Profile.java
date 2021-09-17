@@ -25,4 +25,16 @@ public class Profile implements Serializable {
 
     private Sex sex = Sex.unknown;
 
+    public Profile(String firstName, String lastName, String patronymic, String dateOfBirth, Sex sex) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+    }
+
+    public static Profile defaultProfile(String firstName, String lastName, String patronymic) {
+        return new Profile(firstName, lastName, patronymic, "unknown", Sex.unknown);
+    }
+
 }

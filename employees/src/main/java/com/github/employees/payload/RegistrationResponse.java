@@ -9,12 +9,12 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDto implements Serializable {
+public class RegistrationResponse implements Serializable {
 
-    private static final long serialVersionUID = -5524420904663290354L;
+    private static final long serialVersionUID = -3173306727261701846L;
 
-    private Long id;
+    private String email;
 
-    private String role;
+    private String pass;
 
 }

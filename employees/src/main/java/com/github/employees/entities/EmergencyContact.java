@@ -14,12 +14,17 @@ public class EmergencyContact implements Serializable {
 
     private static final long serialVersionUID = 8123210420854015201L;
 
-    private Long id;
-
     private String firstName;
 
     private String lastName;
 
     private String phone;
 
+    public static EmergencyContact defaultEmergencyContact() {
+        return new EmergencyContact(
+                "unknown",
+                "unknown",
+                "unknown"
+        );
+    }
 }

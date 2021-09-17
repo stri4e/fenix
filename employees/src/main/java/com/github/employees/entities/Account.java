@@ -46,4 +46,28 @@ public class Account implements Serializable {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
+    public Account(Profile profile, Contact contact, EmergencyContact emergencyContact, Address address, UUID employeeId, EntityStatus status) {
+        this.profile = profile;
+        this.contact = contact;
+        this.emergencyContact = emergencyContact;
+        this.address = address;
+        this.employeeId = employeeId;
+        this.status = status;
+    }
+
+    public static Account defaultAccount(Employee employee) {
+        return new Account(
+                Profile.defaultProfile(
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getPatronymic()
+                ),
+                Contact.defaultContact(),
+                EmergencyContact.defaultEmergencyContact(),
+                Address.defaultAddress(),
+                employee.getId(),
+                EntityStatus.off
+        );
+    }
+
 }

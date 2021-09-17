@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.ReactiveAuditorAware;
 import org.springframework.data.mongodb.config.EnableReactiveMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -18,6 +20,12 @@ public class AppConfig {
     @Bean
     public ReactiveAuditorAware<UUID> auditProvider() {
         return () -> Mono.deferContextual(context -> context.get("userId"));
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

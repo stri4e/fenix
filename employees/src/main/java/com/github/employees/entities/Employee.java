@@ -54,6 +54,49 @@ public class Employee implements Serializable {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
+    public Employee(
+            UUID id,
+            String firstName,
+            String lastName,
+            String patronymic,
+            String login,
+            String email,
+            boolean isLocked,
+            Set<String> roles
+    ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.login = login;
+        this.email = email;
+        this.isLocked = isLocked;
+        this.roles = roles;
+    }
+
+    public static Employee newEmployee(String firstName,
+                                       String lastName,
+                                       String patronymic,
+                                       String login,
+                                       String email,
+                                       Set<String> roles) {
+        return new Employee(
+                UUID.randomUUID(),
+                firstName,
+                lastName,
+                patronymic,
+                login,
+                email,
+                Boolean.TRUE,
+                roles
+        );
+    }
+
+    public Employee encodedPassword(String pass) {
+        this.pass = pass;
+        return this;
+    }
+
     public boolean isAuth(Predicate<String> passwordEquals) {
         return passwordEquals.test(this.pass) && !this.isLocked;
     }
