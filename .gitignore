@@ -19,8 +19,8 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
-.idea/gradle.xml
-.idea/misc.xml
+/.idea/workspace.xml
+/.idea/misc.xml
 lucene
 *.iws
 *.iml
