@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService implements IAccountService {
@@ -15,6 +17,21 @@ public class AccountService implements IAccountService {
 
     @Override
     public Mono<Void> createDefaultAccount(Account account) {
+        return this.accountRepo.save(account).then();
+    }
+
+    @Override
+    public Mono<Account> create(Account account) {
+        return this.accountRepo.save(account);
+    }
+
+    @Override
+    public Mono<Account> readByEmployeeId(UUID employeeId) {
+        return this.accountRepo.findByEmployeeId(employeeId);
+    }
+
+    @Override
+    public Mono<Void> update(Account account) {
         return this.accountRepo.save(account).then();
     }
 

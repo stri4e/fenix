@@ -70,4 +70,14 @@ public class Account implements Serializable {
         );
     }
 
+    public Account employeeId(UUID employeeId) {
+        this.employeeId = employeeId;
+        return this;
+    }
+
+    public Account status(EntityStatus status) {
+        this.status = status;
+        return this;
+    }
+
 }
