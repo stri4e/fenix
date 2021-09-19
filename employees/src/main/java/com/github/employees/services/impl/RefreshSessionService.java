@@ -25,7 +25,7 @@ public class RefreshSessionService implements IRefreshSessionService {
     public Mono<JwtRefreshResponse>
     session(Employee employee, String ip, String fingerprint, String userAgent) {
         return this.refreshSessionRepo.findByEmployeeId(employee.getId())
-                .map(RefreshSession::statusOff)
+                .map(oldSession -> this.refreshSessionRepo.save(oldSession.statusOff()))
                 .flatMap(oldSession -> this.roleRepo.findAllById(employee.getRoles()).collectList()
                         .flatMap(roles -> this.refreshSessionRepo.save(
                                         this.jwtTokenProvider.refreshSession(fingerprint, ip, employee, roles)
