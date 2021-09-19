@@ -25,7 +25,7 @@ public class RefreshSession implements Serializable {
     @Id
     private String id;
 
-    private UUID userId;
+    private UUID employeeId;
 
     private String refreshToken;
 
@@ -49,8 +49,8 @@ public class RefreshSession implements Serializable {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public RefreshSession(UUID userId, String refreshToken, String fingerprint, String ip, Date expireIn) {
-        this.userId = userId;
+    public RefreshSession(UUID employeeId, String refreshToken, String fingerprint, String ip, Date expireIn) {
+        this.employeeId = employeeId;
         this.refreshToken = refreshToken;
         this.fingerprint = fingerprint;
         this.ip = ip;
@@ -63,6 +63,11 @@ public class RefreshSession implements Serializable {
 
     public long expireIn() {
         return this.expireIn.getTime();
+    }
+
+    public RefreshSession statusOff() {
+        this.status = EntityStatus.off;
+        return this;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.employees.services.impl;
 
 import com.github.employees.entities.Employee;
+import com.github.employees.entities.RefreshSession;
 import com.github.employees.payload.JwtRefreshResponse;
 import com.github.employees.repository.RefreshSessionRepo;
 import com.github.employees.repository.RoleRepo;
@@ -23,16 +24,18 @@ public class RefreshSessionService implements IRefreshSessionService {
     @Override
     public Mono<JwtRefreshResponse>
     session(Employee employee, String ip, String fingerprint, String userAgent) {
-        return this.roleRepo.findAllById(employee.getRoles()).collectList()
-                .flatMap(roles -> this.refreshSessionRepo.save(
-                                this.jwtTokenProvider.refreshSession(fingerprint, ip, employee, roles)
-                        ).map(rs -> new JwtRefreshResponse(
-                                        this.jwtTokenProvider.accessToken(employee, roles),
-                                        rs.getRefreshToken(),
-                                        rs.expireIn()
+        return this.refreshSessionRepo.findByEmployeeId(employee.getId())
+                .map(RefreshSession::statusOff)
+                .flatMap(oldSession -> this.roleRepo.findAllById(employee.getRoles()).collectList()
+                        .flatMap(roles -> this.refreshSessionRepo.save(
+                                        this.jwtTokenProvider.refreshSession(fingerprint, ip, employee, roles)
+                                ).map(rs -> new JwtRefreshResponse(
+                                                this.jwtTokenProvider.accessToken(employee, roles),
+                                                rs.getRefreshToken(),
+                                                rs.expireIn()
+                                        )
                                 )
-                        )
-                );
+                        ));
     }
 
 }
