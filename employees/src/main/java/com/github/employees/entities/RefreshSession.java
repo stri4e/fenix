@@ -49,6 +49,13 @@ public class RefreshSession implements Serializable {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
+    public RefreshSession(UUID userId, String refreshToken, String fingerprint, String ip, Date expireIn) {
+        this.userId = userId;
+        this.refreshToken = refreshToken;
+        this.fingerprint = fingerprint;
+        this.ip = ip;
+        this.expireIn = expireIn;
+    }
 
     public boolean isExpired() {
         return new Date().after(this.expireIn);

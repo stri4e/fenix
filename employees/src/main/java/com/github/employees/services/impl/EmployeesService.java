@@ -19,8 +19,13 @@ public class EmployeesService implements IEmployeesService {
     }
 
     @Override
-    public Mono<Employee> save(Employee employee) {
+    public Mono<Employee> create(Employee employee) {
         return this.employeesRepo.save(employee);
+    }
+
+    @Override
+    public Mono<Employee> readByEmailOrLogin(String email, String login) {
+        return this.employeesRepo.findByEmailOrLogin(email, login);
     }
 
 

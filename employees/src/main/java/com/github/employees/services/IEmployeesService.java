@@ -7,6 +7,8 @@ public interface IEmployeesService {
 
     Mono<Boolean> existByEmailOrLogin(String email, String login);
 
-    Mono<Employee> save(Employee employee);
+    Mono<Employee> create(Employee employee);
+
+    Mono<Employee> readByEmailOrLogin(String email, String login);
 
 }

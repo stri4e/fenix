@@ -12,4 +12,6 @@ public interface EmployeesRepo extends ReactiveMongoRepository<Employee, UUID> {
 
     Mono<Boolean> existsByEmailOrLogin(String email, String login);
 
+    Mono<Employee> findByEmailOrLogin(String email, String login);
+
 }
