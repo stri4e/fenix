@@ -87,7 +87,7 @@ public class Employee implements Serializable {
                 patronymic,
                 login,
                 email,
-                Boolean.TRUE,
+                Boolean.FALSE,
                 roles
         );
     }

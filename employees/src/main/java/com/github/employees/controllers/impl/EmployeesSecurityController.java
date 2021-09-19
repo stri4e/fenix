@@ -1,9 +1,9 @@
 package com.github.employees.controllers.impl;
 
-import com.github.employees.controllers.IEmployeesController;
+import com.github.employees.controllers.IEmployeesSecurityController;
 import com.github.employees.entities.Account;
 import com.github.employees.payload.EmployAuthDto;
-import com.github.employees.payload.EmployeeDto;
+import com.github.employees.payload.EmployeeDetailDto;
 import com.github.employees.payload.JwtRefreshResponse;
 import com.github.employees.payload.RegistrationResponse;
 import com.github.employees.services.IAccountService;
@@ -21,7 +21,7 @@ import static com.github.employees.utils.TransferObj.ofNewEmployee;
 
 @RestController
 @RequiredArgsConstructor
-public class EmployeesController implements IEmployeesController {
+public class EmployeesSecurityController implements IEmployeesSecurityController {
 
     private final IAccountService accountService;
 
@@ -34,7 +34,7 @@ public class EmployeesController implements IEmployeesController {
     private final IRefreshSessionService refreshSessionService;
 
     @Override
-    public Mono<RegistrationResponse> registration(EmployeeDto payload) {
+    public Mono<RegistrationResponse> registration(EmployeeDetailDto payload) {
         return this.employeesService
                 .existByEmailOrLogin(payload.getEmail(), payload.getLogin())
                 .filter(Predicate.isEqual(Boolean.FALSE))
@@ -54,6 +54,11 @@ public class EmployeesController implements IEmployeesController {
                 .flatMap(employee -> this.refreshSessionService.session(
                         employee, ip, fingerprint, userAgent
                 ));
+    }
+
+    @Override
+    public Mono<Void> locked() {
+        return null;
     }
 
 }
