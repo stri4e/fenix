@@ -12,6 +12,7 @@ import com.github.employees.services.INotificationService;
 import com.github.employees.services.IRefreshSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -21,6 +22,7 @@ import static com.github.employees.utils.TransferObj.ofNewEmployee;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "/v1")
 public class EmployeesSecurityController implements IEmployeesSecurityController {
 
     private final IAccountService accountService;
