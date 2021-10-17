@@ -16,6 +16,20 @@ public class TransferObj {
         );
     }
 
+    public static Role toRole(RoleDto data) {
+        return new Role(
+                data.getId(),
+                data.getRole()
+        );
+    }
+
+    public static RoleDto fromRole(Role data) {
+        return new RoleDto(
+                data.getId(),
+                data.getRole()
+        );
+    }
+
     public static Account toAccount(AccountDto data) {
         return new Account(
                 data.getId(),

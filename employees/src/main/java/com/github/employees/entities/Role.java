@@ -1,6 +1,7 @@
 package com.github.employees.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
@@ -27,6 +28,8 @@ public class Role implements Serializable {
 
     private String role;
 
+    private EntityStatus status = EntityStatus.on;
+
     @CreatedBy
     private UUID createBy;
 
@@ -38,8 +41,24 @@ public class Role implements Serializable {
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
     public Role(@NotBlank(message = "Role is Required") String role) {
         this.role = role;
+    }
+
+    public Role(String id, String role) {
+        this.id = id;
+        this.role = role;
+    }
+
+    public Role role(String role) {
+        this.role = role;
+        return this;
+    }
+
+    public Role status(EntityStatus status) {
+        this.status = status;
+        return this;
     }
 
 }
