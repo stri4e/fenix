@@ -34,7 +34,7 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
     private final IRefreshSessionService refreshSessionService;
 
     @Override
-    public Mono<RegistrationResponse> registration(EmployeeDetailDto payload) {
+    public Mono<RegistrationResponse> submitRegistration(EmployeeDetailDto payload) {
         return this.employeesService
                 .existByEmailOrLogin(payload.getEmail(), payload.getLogin())
                 .filter(Predicate.isEqual(Boolean.FALSE))
