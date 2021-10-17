@@ -1,6 +1,6 @@
 package com.github.employees.controllers.impl;
 
-import com.github.employees.controllers.IEmployeesControllerPagination;
+import com.github.employees.controllers.IEmployeesPaginationController;
 import com.github.employees.entities.Employee;
 import com.github.employees.services.IEmployeesPaginationService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/pagination")
-public class EmployeesControllerPagination implements IEmployeesControllerPagination {
+public class EmployeesPaginationController implements IEmployeesPaginationController {
 
     private final IEmployeesPaginationService employeesPaginationService;
 
