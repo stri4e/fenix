@@ -13,8 +13,6 @@ public class EmergencyContactDto implements Serializable {
 
     private static final long serialVersionUID = 8123210420854015201L;
 
-    private Long id;
-
     private String firstName;
 
     private String lastName;

@@ -14,7 +14,11 @@ public class ProfileDto implements Serializable {
 
     private static final long serialVersionUID = -5333250276781691289L;
 
-    private Long id;
+    private String firstName;
+
+    private String lastName;
+
+    private String patronymic;
 
     private String dateOfBirth;
 

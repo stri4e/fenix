@@ -13,8 +13,6 @@ public class ContactDto implements Serializable {
 
     private static final long serialVersionUID = -5630927194373190406L;
 
-    private Long id;
-
     private String phone;
 
     private String extraPhone;

@@ -10,7 +10,8 @@ import java.util.UUID;
 public interface IAccountController {
 
     @GetMapping
-    Mono<AccountDto> findById(@RequestAttribute(name = "employeeId") UUID employeeId);
+    Mono<AccountDto>
+    findById(@RequestAttribute(name = "employeeId") UUID employeeId);
 
     @PostMapping(path = "/{employeeId}")
     Mono<AccountDto> save(
@@ -18,10 +19,14 @@ public interface IAccountController {
             @RequestBody AccountDto payload
     );
 
-    @PutMapping(path = "/{employeeId}/{status}")
+    @PutMapping(path = "/status/{employeeId}/{status}")
     Mono<Void> updateStatus(
             @PathVariable(name = "employeeId") UUID employeeId,
             @PathVariable(name = "status") EntityStatus status
     );
+
+    @PutMapping(path = "/{employeeId}")
+    Mono<Void> updateAccount(@PathVariable(name = "employeeId") UUID employeeId,
+                             @RequestBody AccountDto payload);
 
 }

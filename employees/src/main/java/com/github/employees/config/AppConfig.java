@@ -22,7 +22,6 @@ public class AppConfig {
         return () -> Mono.deferContextual(context -> context.get("userId"));
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

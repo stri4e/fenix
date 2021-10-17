@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Contact implements Serializable {
 

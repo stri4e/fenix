@@ -13,8 +13,6 @@ public class AddressDto implements Serializable {
 
     private static final long serialVersionUID = -2190901916194264898L;
 
-    private Long id;
-
     private String country;
 
     private String region;

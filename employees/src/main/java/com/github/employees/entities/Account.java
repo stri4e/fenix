@@ -55,6 +55,14 @@ public class Account implements Serializable {
         this.status = status;
     }
 
+    public Account(String id, Profile profile, Contact contact, EmergencyContact emergencyContact, Address address) {
+        this.id = id;
+        this.profile = profile;
+        this.contact = contact;
+        this.emergencyContact = emergencyContact;
+        this.address = address;
+    }
+
     public static Account defaultAccount(Employee employee) {
         return new Account(
                 Profile.defaultProfile(

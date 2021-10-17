@@ -9,4 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/roles")
 public class RoleController implements IRoleController {
+
+
+
 }

@@ -28,5 +28,4 @@ public class EmployeesService implements IEmployeesService {
         return this.employeesRepo.findByEmailOrLogin(email, login);
     }
 
-
 }

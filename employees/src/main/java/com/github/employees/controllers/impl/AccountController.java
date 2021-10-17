@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-import static com.github.employees.utils.TransferObj.toAccount;
+import static com.github.employees.utils.TransferObj.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,4 +38,17 @@ public class AccountController implements IAccountController {
         return this.accountService.readByEmployeeId(employeeId)
                 .flatMap(account -> this.accountService.update(account.status(status)));
     }
+
+    @Override
+    public Mono<Void> updateAccount(UUID employeeId, AccountDto payload) {
+        return this.accountService.readByEmployeeId(employeeId)
+                .flatMap(account -> {
+                    account.setProfile(toProfile(payload.getProfile()));
+                    account.setContact(toContact(payload.getContact()));
+                    account.setEmergencyContact(toEmergencyContact(payload.getEmergencyContact()));
+                    account.setAddress(toAddress(payload.getAddress()));
+                    return this.accountService.update(account);
+                });
+    }
+
 }
