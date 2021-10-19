@@ -38,7 +38,7 @@ public class AppConfig {
 
     @Bean
     public Map<String, KeysStore>
-    keysStore(@Value(value = "#{${keys.main.store}}") Object keysMainStore, ObjectMapper mapper) {
+    keysStore(@Value(value = "#{${keys.store}}") Object keysMainStore, ObjectMapper mapper) {
         return mapper.convertValue(keysMainStore, new TypeReference<>() {});
     }
 
