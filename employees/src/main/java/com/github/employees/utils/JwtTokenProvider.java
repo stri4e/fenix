@@ -3,10 +3,15 @@ package com.github.employees.utils;
 import com.github.employees.entities.Employee;
 import com.github.employees.entities.RefreshSession;
 import com.github.employees.entities.Role;
+import com.github.employees.models.AccessKey;
+import com.github.employees.models.KeysStore;
+import com.github.employees.models.RefreshKey;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -14,56 +19,35 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
 
     private static final String AUTHORITIES = "AUTHORITIES";
 
-    @Value(value = "#{${keys.role}}")
-    private Map<String, String> keysRole;
+    private final Map<String, KeysStore> keysStore;
 
-    @Value(value = "#{${keys.store}}")
-    private Map<String, String> keysStore;
+    private final Map<String, AccessKey> accessKeyStore;
 
-    @Value("${app.admin.expire.time}")
-    private int adminExpireTime;
-
-    @Value("${app.manager.expire.time}")
-    private int managerExpireTime;
-
-    @Value("${app.refresh.expire.time}")
-    private int refreshExpireTime;
+    private final Map<String, RefreshKey> refreshKeyStore;
 
     public String accessToken(Employee employee, List<Role> roles) {
-        List<String> rolesNames = roles.stream()
-                .map(Role::getRole).collect(Collectors.toList());
-        if (rolesNames.contains("ROLE_ADMIN")) {
-            var keyId = this.keysRole.get("admin");
-            return accessToken(employee, roles, this.adminExpireTime, keyId, this.keysStore.get(keyId));
-        } else if (rolesNames.contains("ROLE_MANAGER")) {
-            var keyId = this.keysRole.get("manager");
-            return accessToken(employee, roles, this.managerExpireTime, keyId, this.keysStore.get(keyId));
-        } else {
-            throw new RuntimeException("Not find actual role!");
-        }
+        KeysStore keysStore = roles.stream().map(role -> this.keysStore.get(role.getRole()))
+                .max(Comparator.comparing(KeysStore::getPriority))
+                .orElseThrow();
+        AccessKey key = keysStore.getAccessKey();
+        return accessToken(employee, roles, key.getExpirationTime(), key.getId(), key.getKey());
     }
 
     public RefreshSession
     refreshSession(String fingerprint, String ip, Employee employee, List<Role> roles) {
-        List<String> rolesNames = roles.stream()
-                .map(Role::getRole).collect(Collectors.toList());
+        KeysStore keysStore = roles.stream().map(role -> this.keysStore.get(role.getRole()))
+                .max(Comparator.comparing(KeysStore::getPriority))
+                .orElseThrow();
+        RefreshKey key = keysStore.getRefreshKey();
         var now = new Date();
-        var expire = new Date(now.getTime() + this.refreshExpireTime);
-        if (rolesNames.contains("ROLE_ADMIN")) {
-            var keyId = this.keysRole.get("admin");
-            var token = refreshToken(fingerprint, expire, employee, keyId, this.keysStore.get(keyId));
-            return new RefreshSession(employee.getId(), token, fingerprint, ip, expire);
-        } else if (rolesNames.contains("ROLE_MANAGER")) {
-            var keyId = this.keysRole.get("manager");
-            var token = refreshToken(fingerprint, expire, employee, keyId, this.keysStore.get(keyId));
-            return new RefreshSession(employee.getId(), token, fingerprint, ip, expire);
-        } else {
-            throw new RuntimeException("Not find actual role!");
-        }
+        var expire = new Date(now.getTime() + key.getExpirationTime());
+        var token = refreshToken(fingerprint, expire, employee, key.getId(), key.getKey());
+        return new RefreshSession(employee.getId(), token, fingerprint, ip, expire);
     }
 
     private String accessToken(Employee employee, List<Role> roles, int expireTime, String keyId, String key) {
@@ -81,7 +65,7 @@ public class JwtTokenProvider {
                     .setHeaderParam(JwsHeader.KEY_ID, keyId)
                     .setIssuedAt(new Date())
                     .setExpiration(date)
-                    .signWith(SignatureAlgorithm.HS512, key)
+                    .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(key)), SignatureAlgorithm.HS512)
                     .compact();
         }
         return null;
@@ -97,34 +81,57 @@ public class JwtTokenProvider {
                     .setHeaderParam(JwsHeader.KEY_ID, keyId)
                     .setIssuedAt(new Date())
                     .setExpiration(expire)
-                    .signWith(SignatureAlgorithm.HS512, key)
+                    .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(key)), SignatureAlgorithm.HS512)
                     .compact();
         }
         return null;
     }
 
-    public UUID fetchUser(String token) {
-        var keyId = getKeyId(token);
-        Claims claims = Jwts.parser()
-                .setSigningKey(this.keysStore.get(keyId))
+    public UUID fetchSubjectFromAccessToken(String token) {
+        String keyId = getKeyId(token);
+        return fetchSubject(token, this.accessKeyStore.get(keyId).getKey());
+    }
+
+    public UUID fetchSubjectRefreshToken(String token) {
+        String keyId = getKeyId(token);
+        return fetchSubject(token, this.refreshKeyStore.get(keyId).getKey());
+    }
+
+    public UUID fetchSubject(String token, String key) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         return UUID.fromString(claims.getSubject());
     }
 
-    public String fetchFingerprint(String token) {
-        var keyId = getKeyId(token);
-        Claims claims = Jwts.parser()
-                .setSigningKey(this.keysStore.get(keyId))
+    public String fetchRefreshTokenFingerprint(String token) {
+        return fetchFingerprint(token, this.refreshKeyStore.get(getKeyId(token)).getKey());
+    }
+
+    public String fetchFingerprint(String token, String key) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("fingerprint", String.class);
     }
 
-    public boolean validateRefreshToken(String authToken) {
+    public boolean validateAccessToken(String token) {
+        return validateToken(token, this.accessKeyStore.get(getKeyId(token)).getKey());
+    }
+
+    public boolean validateRefreshToken(String token) {
+        return validateToken(token, this.refreshKeyStore.get(getKeyId(token)).getKey());
+    }
+
+    public boolean validateToken(String token, String key) {
         try {
-            Jwts.parser().setSigningKey(this.keysStore.get(getKeyId(authToken)))
-                    .parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
@@ -144,7 +151,7 @@ public class JwtTokenProvider {
         var signatureIndex = token.lastIndexOf('.');
         var nonSignedToken = token.substring(0, signatureIndex + 1);
         Header<?> h = Jwts.parser().parseClaimsJwt(nonSignedToken).getHeader();
-        return  (String) h.get(JwsHeader.KEY_ID);
+        return (String) h.get(JwsHeader.KEY_ID);
     }
 
 }
