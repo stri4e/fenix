@@ -7,11 +7,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeesService implements IEmployeesService {
 
     private final EmployeesRepo employeesRepo;
+
+    @Override
+    public Mono<Employee> readById(UUID employeeId) {
+        return this.employeesRepo.findById(employeeId);
+    }
 
     @Override
     public Mono<Boolean> existByEmailOrLogin(String email, String login) {
@@ -21,6 +28,12 @@ public class EmployeesService implements IEmployeesService {
     @Override
     public Mono<Employee> create(Employee employee) {
         return this.employeesRepo.save(employee);
+    }
+
+    @Override
+    public Mono<Void> update(Employee employee) {
+        return this.employeesRepo.save(employee)
+                .then();
     }
 
     @Override

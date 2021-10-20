@@ -11,15 +11,13 @@ import com.github.employees.services.IEmployeesService;
 import com.github.employees.services.INotificationService;
 import com.github.employees.services.IRefreshSessionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import static com.github.employees.utils.TransferObj.ofNewEmployee;
@@ -69,8 +67,9 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
     }
 
     @Override
-    public Mono<Void> locked() {
-        return null;
+    public Mono<Void> locked(UUID employeeId) {
+        return this.employeesService.readById(employeeId)
+                .flatMap(employee -> this.employeesService.update(employee.isLockedTrue()));
     }
 
 }
