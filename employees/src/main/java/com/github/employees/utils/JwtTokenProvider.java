@@ -91,6 +91,10 @@ public class JwtTokenProvider {
         return fetchFingerprint(token, this.refreshKeyStore.get(getKeyId(token)).getKey());
     }
 
+    public String fetchRefreshTokenSessionId(String token) {
+        return fetchSessionId(token, this.refreshKeyStore.get(getKeyId(token)).getKey());
+    }
+
     public String fetchFingerprint(String token, String key) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -98,6 +102,15 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("fingerprint", String.class);
+    }
+
+    public String fetchSessionId(String token, String key) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("sessionId", String.class);
     }
 
     public boolean validateAccessToken(String token) {
@@ -128,10 +141,10 @@ public class JwtTokenProvider {
         return false;
     }
 
-    private String getKeyId(String token) {
+    public String getKeyId(String token) {
         var signatureIndex = token.lastIndexOf('.');
         var nonSignedToken = token.substring(0, signatureIndex + 1);
-        Header<?> h = Jwts.parser().parseClaimsJwt(nonSignedToken).getHeader();
+        Header<?> h = Jwts.parserBuilder().build().parseClaimsJwt(nonSignedToken).getHeader();
         return (String) h.get(JwsHeader.KEY_ID);
     }
 

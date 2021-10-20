@@ -11,8 +11,11 @@ import com.github.employees.services.IEmployeesService;
 import com.github.employees.services.INotificationService;
 import com.github.employees.services.IRefreshSessionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -55,9 +58,14 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
         var userName = payload.getUserName();
         return this.employeesService.readByEmailOrLogin(userName, userName)
                 .filter(employee -> employee.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass)))
-                .flatMap(employee -> this.refreshSessionService.session(
+                .flatMap(employee -> this.refreshSessionService.newSession(
                         employee, ip, fingerprint, userAgent
                 ));
+    }
+
+    @Override
+    public Mono<ResponseEntity<Void>> submitLogout(String refreshToken) {
+        return this.refreshSessionService.removeSession(refreshToken);
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.github.employees.controllers;
 
 import com.github.employees.payload.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import reactor.core.publisher.Mono;
@@ -14,6 +16,10 @@ public interface IEmployeesSecurityController {
     @PostMapping(path = "/auth")
     Mono<ResponseEntity<AccessTokenResponse>>
     submitAuth(String ip, String fingerprint, String userAgent, EmployAuthDto payload);
+
+    @PostMapping(path = "/logout")
+    Mono<ResponseEntity<Void>>
+    submitLogout(@CookieValue(name = "refresh_token") String refreshToken);
 
     @PutMapping(path = "/edit")
     Mono<Void> locked();

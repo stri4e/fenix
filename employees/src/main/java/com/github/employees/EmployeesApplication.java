@@ -23,6 +23,6 @@ public class EmployeesApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        this.jwtTokenProvider.accessToken(null, null, null);
+//        this.jwtTokenProvider.accessToken(null, null, null);
     }
 }
