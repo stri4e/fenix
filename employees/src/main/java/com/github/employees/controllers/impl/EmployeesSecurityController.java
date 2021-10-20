@@ -2,10 +2,7 @@ package com.github.employees.controllers.impl;
 
 import com.github.employees.controllers.IEmployeesSecurityController;
 import com.github.employees.entities.Account;
-import com.github.employees.payload.EmployAuthDto;
-import com.github.employees.payload.EmployeeDetailDto;
-import com.github.employees.payload.AccessTokenResponse;
-import com.github.employees.payload.RegistrationResponse;
+import com.github.employees.payload.*;
 import com.github.employees.services.IAccountService;
 import com.github.employees.services.IEmployeesService;
 import com.github.employees.services.INotificationService;
@@ -67,9 +64,9 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
     }
 
     @Override
-    public Mono<Void> locked(UUID employeeId) {
-        return this.employeesService.readById(employeeId)
-                .flatMap(employee -> this.employeesService.update(employee.isLockedTrue()));
+    public Mono<Void> locked(EmployeeAccessDto payload) {
+        return this.employeesService.readById(payload.getEmployeeId())
+                .flatMap(employee -> this.employeesService.update(employee.isLocked(payload.isLocked())));
     }
 
 }

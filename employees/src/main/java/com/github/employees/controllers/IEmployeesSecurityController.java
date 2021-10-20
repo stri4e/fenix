@@ -1,9 +1,6 @@
 package com.github.employees.controllers;
 
-import com.github.employees.payload.AccessTokenResponse;
-import com.github.employees.payload.EmployAuthDto;
-import com.github.employees.payload.EmployeeDetailDto;
-import com.github.employees.payload.RegistrationResponse;
+import com.github.employees.payload.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +24,6 @@ public interface IEmployeesSecurityController {
     submitLogout(@CookieValue(name = "refresh_token") String refreshToken);
 
     @PutMapping(path = "/edit")
-    Mono<Void> locked(@RequestBody UUID employeeId);
+    Mono<Void> locked(@RequestBody EmployeeAccessDto payload);
 
 }

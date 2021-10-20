@@ -101,8 +101,8 @@ public class Employee implements Serializable {
         return passwordEquals.test(this.pass) && !this.isLocked;
     }
 
-    public Employee isLockedTrue() {
-        this.isLocked = Boolean.TRUE;
+    public Employee isLocked(boolean isLocked) {
+        this.isLocked = isLocked;
         return this;
     }
 
