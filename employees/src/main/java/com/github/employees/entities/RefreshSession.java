@@ -27,8 +27,6 @@ public class RefreshSession implements Serializable {
 
     private UUID employeeId;
 
-    private String refreshToken;
-
     private String fingerprint;
 
     private String ip;
@@ -49,9 +47,8 @@ public class RefreshSession implements Serializable {
     @LastModifiedDate
     private LocalDateTime updateAt;
 
-    public RefreshSession(UUID employeeId, String refreshToken, String fingerprint, String ip, Date expireIn) {
+    public RefreshSession(UUID employeeId, String fingerprint, String ip, Date expireIn) {
         this.employeeId = employeeId;
-        this.refreshToken = refreshToken;
         this.fingerprint = fingerprint;
         this.ip = ip;
         this.expireIn = expireIn;

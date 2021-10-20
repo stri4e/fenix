@@ -1,10 +1,8 @@
 package com.github.employees.utils;
 
 import com.github.employees.entities.Employee;
-import com.github.employees.entities.RefreshSession;
 import com.github.employees.entities.Role;
 import com.github.employees.models.AccessKey;
-import com.github.employees.models.KeysStore;
 import com.github.employees.models.RefreshKey;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -24,33 +22,15 @@ public class JwtTokenProvider {
 
     private static final String AUTHORITIES = "AUTHORITIES";
 
-    private final Map<String, KeysStore> keysStore;
-
     private final Map<String, AccessKey> accessKeyStore;
 
     private final Map<String, RefreshKey> refreshKeyStore;
 
-    public String accessToken(Employee employee, List<Role> roles) {
-        KeysStore keysStore = roles.stream().map(role -> this.keysStore.get(role.getRole()))
-                .max(Comparator.comparing(KeysStore::getPriority))
-                .orElseThrow();
-        AccessKey key = keysStore.getAccessKey();
+    public String accessToken(Employee employee, List<Role> roles, AccessKey key) {
         return accessToken(employee, roles, key.getExpirationTime(), key.getId(), key.getKey());
     }
 
-    public RefreshSession
-    refreshSession(String fingerprint, String ip, Employee employee, List<Role> roles) {
-        KeysStore keysStore = roles.stream().map(role -> this.keysStore.get(role.getRole()))
-                .max(Comparator.comparing(KeysStore::getPriority))
-                .orElseThrow();
-        RefreshKey key = keysStore.getRefreshKey();
-        var now = new Date();
-        var expire = new Date(now.getTime() + key.getExpirationTime());
-        var token = refreshToken(fingerprint, expire, employee, key.getId(), key.getKey());
-        return new RefreshSession(employee.getId(), token, fingerprint, ip, expire);
-    }
-
-    private String accessToken(Employee employee, List<Role> roles, int expireTime, String keyId, String key) {
+    public String accessToken(Employee employee, List<Role> roles, int expireTime, String keyId, String key) {
         if (Objects.nonNull(employee)) {
             var now = new Date();
             var date = new Date(now.getTime() + expireTime);
@@ -71,10 +51,11 @@ public class JwtTokenProvider {
         return null;
     }
 
-    private String refreshToken(String fingerprint, Date expire, Employee user, String keyId, String key) {
+    public String refreshToken(String fingerprint, String sessionId, Date expire, Employee user, String keyId, String key) {
         if (Objects.nonNull(user)) {
             return Jwts.builder()
                     .setSubject(user.getId().toString())
+                    .claim("sessionId", sessionId)
                     .claim("fingerprint", fingerprint)
                     .claim("firstName", user.getFirstName())
                     .claim("lastName", user.getLastName())

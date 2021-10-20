@@ -4,13 +4,14 @@ import com.github.employees.controllers.IEmployeesSecurityController;
 import com.github.employees.entities.Account;
 import com.github.employees.payload.EmployAuthDto;
 import com.github.employees.payload.EmployeeDetailDto;
-import com.github.employees.payload.JwtRefreshResponse;
+import com.github.employees.payload.AccessTokenResponse;
 import com.github.employees.payload.RegistrationResponse;
 import com.github.employees.services.IAccountService;
 import com.github.employees.services.IEmployeesService;
 import com.github.employees.services.INotificationService;
 import com.github.employees.services.IRefreshSessionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,7 +50,8 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
     }
 
     @Override
-    public Mono<JwtRefreshResponse> submitAuth(String ip, String fingerprint, String userAgent, EmployAuthDto payload) {
+    public Mono<ResponseEntity<AccessTokenResponse>>
+    submitAuth(String ip, String fingerprint, String userAgent, EmployAuthDto payload) {
         var userName = payload.getUserName();
         return this.employeesService.readByEmailOrLogin(userName, userName)
                 .filter(employee -> employee.isAuth(pass -> this.passwordEncoder.matches(payload.getPass(), pass)))

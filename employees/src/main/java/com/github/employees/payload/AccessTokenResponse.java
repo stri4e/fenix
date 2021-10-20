@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRefreshResponse {
+public class AccessTokenResponse {
 
     public static final String TYPE_HTTP_TOKEN = "Bearer";
 
@@ -15,14 +15,8 @@ public class JwtRefreshResponse {
 
     private String accessToken;
 
-    private String refreshToken;
-
-    private long expireIn;
-
-    public JwtRefreshResponse(String accessToken, String refreshToken, long expireIn) {
+    public AccessTokenResponse(String accessToken) {
         this.tokenType = TYPE_HTTP_TOKEN;
         this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expireIn = expireIn;
     }
 }
