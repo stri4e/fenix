@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import static com.github.employees.utils.TransferObj.ofNewEmployee;
