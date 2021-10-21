@@ -2,10 +2,7 @@ package com.github.employees.controllers;
 
 import com.github.employees.payload.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -17,7 +14,11 @@ public interface IEmployeesSecurityController {
 
     @PostMapping(path = "/auth")
     Mono<ResponseEntity<AccessTokenResponse>>
-    submitAuth(String ip, String fingerprint, String userAgent, EmployAuthDto payload);
+    submitAuth(@RequestAttribute(name = "ip") String ip,
+               @RequestHeader(name = "ETag") String fingerprint,
+               @RequestHeader(name = "User-Agent") String userAgent,
+               EmployAuthDto payload
+    );
 
     @PostMapping(path = "/logout")
     Mono<ResponseEntity<Void>>

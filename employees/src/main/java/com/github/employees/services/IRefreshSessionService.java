@@ -11,6 +11,8 @@ public interface IRefreshSessionService {
 
     Mono<ResponseEntity<AccessTokenResponse>> newSession(Employee employee, String ip, String fingerprint, String userAgent);
 
+    Mono<ResponseEntity<AccessTokenResponse>> updateSession(String ip, String userAgent, String refreshToken);
+
     Mono<ResponseEntity<Void>> removeSession(String refreshToken);
 
 }
