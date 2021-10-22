@@ -18,9 +18,9 @@ public interface IEmployeesSecurityController {
                EmployAuthDto payload
     );
 
-    @PostMapping(path = "/logout")
+    @GetMapping(path = "/logout")
     Mono<ResponseEntity<Void>>
-    submitLogout(@CookieValue(name = "refresh_token") String refreshToken);
+    submitLogout(@CookieValue(name = "refresh_token", required = false) String refreshToken);
 
     @PutMapping(path = "/edit")
     Mono<Void> locked(@RequestBody EmployeeAccessDto payload);

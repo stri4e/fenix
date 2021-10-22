@@ -1,5 +1,6 @@
 package com.github.employees.entities;
 
+import com.github.employees.exceptions.NotFound;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -40,7 +42,9 @@ public class Employee implements Serializable {
 
     private boolean isLocked;
 
-    private Set<String> roles;
+    private Set<String> roles = new HashSet<>();
+
+    private Set<TrustDevice> trustDevices = new HashSet<>();
 
     @CreatedBy
     private UUID createBy;
@@ -103,6 +107,16 @@ public class Employee implements Serializable {
 
     public Employee isLocked(boolean isLocked) {
         this.isLocked = isLocked;
+        return this;
+    }
+
+    public Employee addTrustDevice(TrustDevice trustDevice) {
+        if (this.trustDevices.isEmpty()) {
+            this.trustDevices.add(trustDevice);
+        } else {
+            this.trustDevices.stream().filter(device -> device.equals(trustDevice))
+                    .findFirst().orElseThrow(NotFound::new);
+        }
         return this;
     }
 

@@ -41,4 +41,9 @@ public class EmployeesService implements IEmployeesService {
         return this.employeesRepo.findByEmailOrLogin(email, login);
     }
 
+    @Override
+    public Mono<Employee> readByEmail(String email) {
+        return this.employeesRepo.findByEmail(email);
+    }
+
 }

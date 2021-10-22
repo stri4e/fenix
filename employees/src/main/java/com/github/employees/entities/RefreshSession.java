@@ -80,7 +80,8 @@ public class RefreshSession implements Serializable {
         Version version = agent.getBrowserVersion();
         OperatingSystem os = agent.getOperatingSystem();
         DeviceType deviceType = os.getDeviceType();
-        return this.fingerprint.equals(fingerprint) && this.ip.equals(ip)
+        return this.fingerprint.equals(fingerprint)
+                && this.ip.equals(ip)
                 && this.deviceName.equals(deviceType.getName())
                 && this.osName.equals(os.getName())
                 && this.browserName.equals(browser.getName())

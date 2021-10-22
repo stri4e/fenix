@@ -17,6 +17,8 @@ public interface EmployeesRepo extends ReactiveMongoRepository<Employee, UUID> {
 
     Mono<Employee> findByEmailOrLogin(String email, String login);
 
+    Mono<Employee> findByEmail(String email);
+
     Flux<Employee> findByLockedIs(boolean isLocked, Pageable pageable);
 
 }

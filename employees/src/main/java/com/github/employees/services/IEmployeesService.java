@@ -17,4 +17,6 @@ public interface IEmployeesService {
 
     Mono<Employee> readByEmailOrLogin(String email, String login);
 
+    Mono<Employee> readByEmail(String email);
+
 }
