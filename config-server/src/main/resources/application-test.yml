@@ -16,3 +16,7 @@ spring:
             - '{application}/{profile}'
             - '/global/{profile}'
             - '/keystore/{profile}'
+jwt:
+  keys:
+    store:
+      enabled: false

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(path = "/keys")
 public class KeysStoreController {
 
     private static final String KEYS_STORE = "keys.store";
@@ -55,7 +56,7 @@ public class KeysStoreController {
         List<Instance> instances = this.instanceService.findAllInstances();
         Map<String, KeysStore> stores = keys.stream()
                 .collect(Collectors.toMap(KeysInfo::getRole,
-                        v -> this.jwtKeyGenerator.toKeysStore(v, SignatureAlgorithm.ES512))
+                        v -> this.jwtKeyGenerator.toKeysStore(v, SignatureAlgorithm.HS512))
                 );
         this.propertiesService.createAll(
                 instances.stream()
