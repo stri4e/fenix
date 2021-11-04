@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.config.server.entity.Instance;
 import com.github.config.server.entity.Properties;
 import com.github.config.server.exceptions.FailedDependencyException;
-import com.github.config.server.service.IPropertiesService;
 import com.github.config.server.service.InstanceService;
+import com.github.config.server.service.PropertiesService;
 import com.github.jwt.tokens.models.KeysInfo;
 import com.github.jwt.tokens.models.KeysStore;
 import com.github.jwt.tokens.utils.JwtKeyGenerator;
@@ -28,10 +28,10 @@ public class KeysStoreController {
 
     private final InstanceService instanceService;
 
-    private final IPropertiesService propertiesService;
+    private final PropertiesService propertiesService;
 
     public KeysStoreController(ObjectMapper mapper, JwtKeyGenerator jwtKeyGenerator,
-                               InstanceService instanceService, IPropertiesService propertiesService) {
+                               InstanceService instanceService, PropertiesService propertiesService) {
         this.mapper = mapper;
         this.jwtKeyGenerator = jwtKeyGenerator;
         this.instanceService = instanceService;
