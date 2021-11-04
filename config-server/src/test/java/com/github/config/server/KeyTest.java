@@ -2,18 +2,13 @@ package com.github.config.server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.github.config.server.dto.KeysInfo;
-import com.github.config.server.models.AccessKey;
 import com.github.config.server.models.KeysStore;
-import com.github.config.server.models.RefreshKey;
 import com.github.config.server.utils.TokenGenerator;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class KeyTest {
 

@@ -39,7 +39,6 @@ public class Properties implements Serializable {
     public Properties(String application, String profile, String key, String value) {
         this.application = application;
         this.profile = profile;
-        this.label = label;
         this.key = key;
         this.value = value;
     }
@@ -47,7 +46,6 @@ public class Properties implements Serializable {
     public Properties(String application, String profile, String key, String value, PropsType propsType) {
         this.application = application;
         this.profile = profile;
-        this.label = label;
         this.key = key;
         this.value = value;
         this.propsType = propsType;

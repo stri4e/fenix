@@ -20,4 +20,6 @@ public interface IPropertiesService {
 
     List<Properties> readByParams(String profile, PropsType propsType, EntityStatus status);
 
+    void removeAll();
+
 }

@@ -51,4 +51,9 @@ public class PropertiesService implements IPropertiesService {
     public List<Properties> readByParams(String profile, PropsType propsType, EntityStatus status) {
         return this.propertiesRepo.findByProfileAndPropsTypeAndStatus(profile, propsType, status);
     }
+
+    @Override
+    public void removeAll() {
+        this.propertiesRepo.deleteAll();
+    }
 }
