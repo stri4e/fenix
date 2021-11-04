@@ -1,13 +1,11 @@
 package com.github.employees.entities;
 
 import eu.bitwalker.useragentutils.*;
+import eu.bitwalker.useragentutils.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -47,7 +45,7 @@ public class RefreshSession implements Serializable {
     @CreatedBy
     private UUID createBy;
 
-    @LastModifiedDate
+    @LastModifiedBy
     private UUID updateBy;
 
     @CreatedDate

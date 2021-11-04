@@ -3,10 +3,7 @@ package com.github.employees.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -37,7 +34,7 @@ public class Account implements Serializable {
     @CreatedBy
     private UUID createBy;
 
-    @LastModifiedDate
+    @LastModifiedBy
     private UUID updateBy;
 
     @CreatedDate

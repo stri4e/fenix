@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-public interface IEmployeesSecurityController {
+public interface IEmployeesAccessController {
 
     @PostMapping(path = "/edit/registration")
     Mono<RegistrationResponse> submitRegistration(EmployeeDetailDto payload);

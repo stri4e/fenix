@@ -3,6 +3,8 @@ package com.github.employees.services;
 import com.github.employees.entities.Employee;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface IEmployeesService {
@@ -11,7 +13,7 @@ public interface IEmployeesService {
 
     Mono<Boolean> existByEmailOrLogin(String email, String login);
 
-    Mono<Employee> create(Employee employee);
+    Mono<Employee> create(Employee employee, Set<String> rolesId);
 
     Mono<Void> update(Employee employee);
 

@@ -1,18 +1,17 @@
 package com.github.employees.entities;
 
 import com.github.employees.exceptions.NotFound;
+import com.github.jwt.tokens.entity.TokenInformation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -21,7 +20,7 @@ import java.util.function.Predicate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(value = "employees")
-public class Employee implements Serializable {
+public class Employee implements Serializable, TokenInformation {
 
     private static final long serialVersionUID = -4782435250676883500L;
 
@@ -42,14 +41,14 @@ public class Employee implements Serializable {
 
     private boolean isLocked;
 
-    private Set<String> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     private Set<TrustDevice> trustDevices = new HashSet<>();
 
     @CreatedBy
     private UUID createBy;
 
-    @LastModifiedDate
+    @LastModifiedBy
     private UUID updateBy;
 
     @CreatedDate
@@ -57,6 +56,22 @@ public class Employee implements Serializable {
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
+    public Employee(UUID id,
+                    String firstName,
+                    String lastName,
+                    String patronymic,
+                    String login,
+                    String email,
+                    boolean isLocked) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.login = login;
+        this.email = email;
+        this.isLocked = isLocked;
+    }
 
     public Employee(
             UUID id,
@@ -66,7 +81,7 @@ public class Employee implements Serializable {
             String login,
             String email,
             boolean isLocked,
-            Set<String> roles
+            Set<Role> roles
     ) {
         this.id = id;
         this.firstName = firstName;
@@ -82,8 +97,7 @@ public class Employee implements Serializable {
                                        String lastName,
                                        String patronymic,
                                        String login,
-                                       String email,
-                                       Set<String> roles) {
+                                       String email) {
         return new Employee(
                 UUID.randomUUID(),
                 firstName,
@@ -91,13 +105,17 @@ public class Employee implements Serializable {
                 patronymic,
                 login,
                 email,
-                Boolean.FALSE,
-                roles
+                Boolean.FALSE
         );
     }
 
     public Employee encodedPassword(String pass) {
         this.pass = pass;
+        return this;
+    }
+
+    public Employee addRoles(Set<Role> roles) {
+        this.roles = roles;
         return this;
     }
 
@@ -120,4 +138,23 @@ public class Employee implements Serializable {
         return this;
     }
 
+    @Override
+    public UUID fetchUuIdAsId() {
+        return id;
+    }
+
+    @Override
+    public String fetchId() {
+        return this.id.toString();
+    }
+
+    @Override
+    public List<String> fetchRoles() {
+        return null;
+    }
+
+    @Override
+    public String fetchName() {
+        return String.format("%s %s", this.firstName, this.lastName);
+    }
 }

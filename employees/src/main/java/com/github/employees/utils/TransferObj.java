@@ -11,8 +11,7 @@ public class TransferObj {
                 data.getLastName(),
                 data.getPatronymic(),
                 data.getLogin(),
-                data.getEmail(),
-                data.getRoles()
+                data.getEmail()
         );
     }
 

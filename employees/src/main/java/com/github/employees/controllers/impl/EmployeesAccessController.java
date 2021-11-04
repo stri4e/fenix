@@ -1,6 +1,6 @@
 package com.github.employees.controllers.impl;
 
-import com.github.employees.controllers.IEmployeesSecurityController;
+import com.github.employees.controllers.IEmployeesAccessController;
 import com.github.employees.entities.Account;
 import com.github.employees.payload.*;
 import com.github.employees.services.IAccountService;
@@ -21,7 +21,7 @@ import static com.github.employees.utils.TransferObj.ofNewEmployee;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1")
-public class EmployeesSecurityController implements IEmployeesSecurityController {
+public class EmployeesAccessController implements IEmployeesAccessController {
 
     private final IAccountService accountService;
 
@@ -39,7 +39,7 @@ public class EmployeesSecurityController implements IEmployeesSecurityController
                 .existByEmailOrLogin(payload.getEmail(), payload.getLogin())
                 .filter(Predicate.isEqual(Boolean.FALSE))
                 .flatMap(isExist -> this.employeesService.create(ofNewEmployee(payload)
-                                .encodedPassword(this.passwordEncoder.encode(payload.getPass())))
+                                .encodedPassword(this.passwordEncoder.encode(payload.getPass())), payload.getRoles())
                         .doOnNext(this.notificationService::registrationNotify)
                         .doOnNext(employee -> this.accountService.createDefaultAccount(Account.defaultAccount(employee)))
                         .map(employee -> new RegistrationResponse(employee.getEmail(), payload.getPass()))
