@@ -9,15 +9,15 @@ import com.github.config.server.repository.RoleRepo;
 import com.github.config.server.utils.JsonUtils;
 import com.github.jwt.tokens.models.KeysStore;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
-@Transactional
 public class PropertiesService {
 
     private static final String KEYS_STORE = "keys.store";
@@ -55,22 +55,20 @@ public class PropertiesService {
         );
     }
 
+    @Transactional
     public void propertiesPermission(String profile) {
-        List<RolePermission> roles = this.roleRepo.findAll().stream()
-                .map(role -> new RolePermission(role.getId(), role.getName(), role.getPermission()))
-                .collect(toList());
         List<Instance> instances = this.instanceRepo.findAll();
-        this.propertiesRepo.saveAll(instances.stream()
-                .map(instance -> new Properties(
-                        instance.getName(),
+        Map<String, List<RolePermission>> groupByInstance = instances.stream()
+                .collect(Collectors.toMap(Instance::getName, i -> i.getRoles().stream()
+                        .map(r -> new RolePermission(r.getId(), r.getName(), r.getPermission())).collect(toList())));
+        List<Properties> properties = groupByInstance.keySet().stream()
+                .map(instanceName -> new Properties(
+                        instanceName,
                         profile,
                         ROLES_STORE,
-                        this.jsonUtils.toJson(roles)
-                )
-        ).collect(toList()));
+                        this.jsonUtils.toJson(groupByInstance.get(instanceName))
+                )).collect(toList());
+        this.propertiesRepo.saveAll(properties);
     }
 
-    public void removeAllByKey(String key) {
-        this.propertiesRepo.deleteAllByKey(key);
-    }
 }
