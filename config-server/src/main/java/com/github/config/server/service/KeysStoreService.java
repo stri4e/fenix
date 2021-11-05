@@ -1,12 +1,8 @@
 package com.github.config.server.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.config.server.entity.Instance;
 import com.github.config.server.entity.KeysSettings;
-import com.github.config.server.entity.Properties;
 import com.github.config.server.entity.Role;
-import com.github.config.server.exceptions.FailedDependencyException;
 import com.github.jwt.tokens.models.KeysInfo;
 import com.github.jwt.tokens.models.KeysStore;
 import com.github.jwt.tokens.utils.JwtKeyGenerator;
@@ -26,19 +22,15 @@ public class KeysStoreService {
 
     private static final String KEYS_STORE = "keys.store";
 
-    private final ObjectMapper mapper;
-
     private final JwtKeyGenerator jwtKeyGenerator;
 
     private final InstanceService instanceService;
 
     private final PropertiesService propertiesService;
 
-    public KeysStoreService(ObjectMapper mapper,
-                            JwtKeyGenerator jwtKeyGenerator,
+    public KeysStoreService(JwtKeyGenerator jwtKeyGenerator,
                             InstanceService instanceService,
                             PropertiesService propertiesService) {
-        this.mapper = mapper;
         this.jwtKeyGenerator = jwtKeyGenerator;
         this.instanceService = instanceService;
         this.propertiesService = propertiesService;
@@ -61,11 +53,7 @@ public class KeysStoreService {
                         mapping(Instance::getRoles,
                                 flatMapping(Collection::stream,
                                         toMap(Role::getName, role -> stores.get(role.getName()))))));
-        this.propertiesService.createAll(
-                groupByInstances.keySet().stream()
-                        .map(instanceName -> new Properties(instanceName, profile, KEYS_STORE, toJson(groupByInstances.get(instanceName))))
-                        .collect(toList())
-        );
+        this.propertiesService.createNewKeysStore(groupByInstances, profile, KEYS_STORE);
     }
 
     public KeysInfo fromKeysSetting(KeysSettings key) {
@@ -75,14 +63,6 @@ public class KeysStoreService {
                 key.getAccessTokenExpireTime(),
                 key.getRefreshTokenExpireTime()
         );
-    }
-
-    public String toJson(Object data) {
-        try {
-            return this.mapper.writeValueAsString(data);
-        } catch (JsonProcessingException e) {
-            throw new FailedDependencyException();
-        }
     }
 
 }
