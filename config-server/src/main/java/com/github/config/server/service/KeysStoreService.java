@@ -45,14 +45,20 @@ public class KeysStoreService {
                 .map(Role::getKeysSettings)
                 .map(this::fromKeysSetting)
                 .distinct()
-                .collect(Collectors.toMap(KeysInfo::getRole,
-                        v -> this.jwtKeyGenerator.toKeysStore(v, SignatureAlgorithm.HS512))
+                .collect(Collectors.toMap(
+                                KeysInfo::getRole,
+                                v -> this.jwtKeyGenerator.toKeysStore(v, SignatureAlgorithm.HS512)
+                        )
                 );
         Map<String, Map<String, KeysStore>> groupByInstances = instances.stream().collect(
                 groupingBy(Instance::getName,
                         mapping(Instance::getRoles,
-                                flatMapping(Collection::stream,
-                                        toMap(Role::getName, role -> stores.get(role.getName()))))));
+                                flatMapping(
+                                        Collection::stream,
+                                        toMap(Role::getName, role -> stores.get(role.getName())))
+                        )
+                )
+        );
         this.propertiesService.createNewKeysStore(groupByInstances, profile, KEYS_STORE);
     }
 
