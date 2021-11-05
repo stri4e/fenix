@@ -18,7 +18,7 @@ public class KeysStoreController {
 
     @PostMapping(path = "/{profile}")
     public void generateKeys(@PathVariable(name = "profile") String profile) {
-        this.keysStoreService.newKeysStore(profile);
+        this.keysStoreService.generateNewKeysStore(profile);
     }
 
 }

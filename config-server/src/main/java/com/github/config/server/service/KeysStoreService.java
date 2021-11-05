@@ -12,10 +12,14 @@ import com.github.jwt.tokens.models.KeysStore;
 import com.github.jwt.tokens.utils.JwtKeyGenerator;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 public class KeysStoreService {
@@ -40,7 +44,9 @@ public class KeysStoreService {
         this.propertiesService = propertiesService;
     }
 
-    public void newKeysStore(String profile) {
+    @Transactional
+    public void generateNewKeysStore(String profile) {
+        this.propertiesService.removeAllByKey(KEYS_STORE);
         List<Instance> instances = this.instanceService.findAllInstances();
         Map<String, KeysStore> stores = instances.stream()
                 .flatMap(instance -> instance.getRoles().stream().distinct())
@@ -50,10 +56,15 @@ public class KeysStoreService {
                 .collect(Collectors.toMap(KeysInfo::getRole,
                         v -> this.jwtKeyGenerator.toKeysStore(v, SignatureAlgorithm.HS512))
                 );
+        Map<String, Map<String, KeysStore>> groupByInstances = instances.stream().collect(
+                groupingBy(Instance::getName,
+                        mapping(Instance::getRoles,
+                                flatMapping(Collection::stream,
+                                        toMap(Role::getName, role -> stores.get(role.getName()))))));
         this.propertiesService.createAll(
-                instances.stream()
-                        .map(instance -> new Properties(instance.getName(), profile, KEYS_STORE, toJson(stores)))
-                        .collect(Collectors.toList())
+                groupByInstances.keySet().stream()
+                        .map(instanceName -> new Properties(instanceName, profile, KEYS_STORE, toJson(groupByInstances.get(instanceName))))
+                        .collect(toList())
         );
     }
 
