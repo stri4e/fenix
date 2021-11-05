@@ -21,7 +21,7 @@ public class PropertiesService {
         this.propertiesRepo.saveAll(properties);
     }
 
-    public void removeAll() {
-        this.propertiesRepo.deleteAll();
+    public void removeAllByKey(String key) {
+        this.propertiesRepo.deleteAllByKey(key);
     }
 }

@@ -2,6 +2,7 @@ package com.github.config.server.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "instances")
@@ -11,7 +12,20 @@ public class Instance implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(
+            name = "name",
+            unique = true,
+            nullable = false
+    )
     private String name;
+
+    @ManyToMany(
+            mappedBy = "instances",
+            fetch = FetchType.EAGER,
+            targetEntity = Role.class,
+            cascade = CascadeType.ALL
+    )
+    private Set<Role> roles;
 
     public Instance() {
     }
@@ -29,6 +43,8 @@ public class Instance implements Serializable {
         return name;
     }
 
-
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
 }
