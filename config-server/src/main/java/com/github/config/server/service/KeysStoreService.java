@@ -8,7 +8,6 @@ import com.github.jwt.tokens.models.KeysStore;
 import com.github.jwt.tokens.utils.JwtKeyGenerator;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,8 +18,6 @@ import static java.util.stream.Collectors.*;
 
 @Service
 public class KeysStoreService {
-
-    private static final String KEYS_STORE = "keys.store";
 
     private final JwtKeyGenerator jwtKeyGenerator;
 
@@ -36,9 +33,7 @@ public class KeysStoreService {
         this.propertiesService = propertiesService;
     }
 
-    @Transactional
     public void generateNewKeysStore(String profile) {
-        this.propertiesService.removeAllByKey(KEYS_STORE);
         List<Instance> instances = this.instanceService.findAllInstances();
         Map<String, KeysStore> stores = instances.stream()
                 .flatMap(instance -> instance.getRoles().stream().distinct())
@@ -59,7 +54,7 @@ public class KeysStoreService {
                         )
                 )
         );
-        this.propertiesService.createNewKeysStore(groupByInstances, profile, KEYS_STORE);
+        this.propertiesService.createNewKeysStore(groupByInstances, profile);
     }
 
     public KeysInfo fromKeysSetting(KeysSettings key) {
