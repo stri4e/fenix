@@ -26,6 +26,6 @@ public class EmployeeDetailDto implements Serializable {
 
     private String pass;
 
-    private Set<String> roles;
+    private Set<Long> roles;
 
 }

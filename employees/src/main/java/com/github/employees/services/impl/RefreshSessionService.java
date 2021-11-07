@@ -2,7 +2,7 @@ package com.github.employees.services.impl;
 
 import com.github.employees.entities.Employee;
 import com.github.employees.entities.RefreshSession;
-import com.github.employees.entities.Role;
+import com.github.employees.entities.RolePermission;
 import com.github.employees.payload.AccessTokenResponse;
 import com.github.employees.repository.EmployeesRepo;
 import com.github.employees.repository.RefreshSessionRepo;
@@ -76,7 +76,7 @@ public class RefreshSessionService implements IRefreshSessionService {
     }
 
     private Mono<ResponseEntity<AccessTokenResponse>>
-    collectResponseEntity(Employee employee, String ip, String fingerprint, Date now, Set<Role> roles, UserAgent agent) {
+    collectResponseEntity(Employee employee, String ip, String fingerprint, Date now, Set<RolePermission> roles, UserAgent agent) {
         KeysStore keysStore = roles.stream().map(role -> this.keysStore.get(role.getRole()))
                 .max(Comparator.comparing(KeysStore::getPriority))
                 .orElseThrow();

@@ -13,7 +13,7 @@ public interface IEmployeesService {
 
     Mono<Boolean> existByEmailOrLogin(String email, String login);
 
-    Mono<Employee> create(Employee employee, Set<String> rolesId);
+    Mono<Employee> create(Employee employee, Set<Long> rolesId);
 
     Mono<Void> update(Employee employee);
 

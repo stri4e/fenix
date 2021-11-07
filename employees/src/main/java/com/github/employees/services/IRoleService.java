@@ -1,18 +1,14 @@
 package com.github.employees.services;
 
-import com.github.employees.entities.EntityStatus;
-import com.github.employees.entities.Role;
+import com.github.employees.entities.RolePermission;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.Set;
+
 public interface IRoleService {
 
-    Flux<Role> findAll(EntityStatus status);
-
-    Mono<Role> findById(String id);
-
-    Mono<Role> save(Role role);
-
-    Mono<Void> update(Role role);
+    Flux<RolePermission> findByIds(Set<Long> ids);
 
 }

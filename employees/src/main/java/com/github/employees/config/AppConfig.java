@@ -1,5 +1,10 @@
 package com.github.employees.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.employees.entities.RolePermission;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.ReactiveAuditorAware;
@@ -12,10 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Configuration
 @EnableReactiveMongoAuditing(auditorAwareRef = "auditProvider")
@@ -42,6 +44,12 @@ public class AppConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Set<RolePermission>
+    rolePermission(@Value(value = "${roles.store}") String roles, ObjectMapper mapper) throws JsonProcessingException {
+        return mapper.readValue(roles, new TypeReference<>() {});
     }
 
 }
