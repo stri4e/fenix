@@ -42,7 +42,7 @@ public class Employee implements Serializable, TokenInformation {
 
     private boolean isLocked;
 
-    private Set<RolePermission> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     private Set<TrustDevice> trustDevices = new HashSet<>();
 
@@ -82,7 +82,7 @@ public class Employee implements Serializable, TokenInformation {
             String login,
             String email,
             boolean isLocked,
-            Set<RolePermission> roles
+            Set<Role> roles
     ) {
         this.id = id;
         this.firstName = firstName;
@@ -115,7 +115,7 @@ public class Employee implements Serializable, TokenInformation {
         return this;
     }
 
-    public Employee addRoles(Set<RolePermission> roles) {
+    public Employee addRoles(Set<Role> roles) {
         this.roles = roles;
         return this;
     }
@@ -152,7 +152,7 @@ public class Employee implements Serializable, TokenInformation {
     @Override
     public List<String> fetchRoles() {
         return this.roles.stream()
-                .map(RolePermission::getRole)
+                .map(Role::getRole)
                 .collect(Collectors.toList());
     }
 

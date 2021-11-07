@@ -3,7 +3,7 @@ package com.github.employees.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.employees.entities.RolePermission;
+import com.github.employees.entities.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +47,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Set<RolePermission>
+    public Set<Role>
     rolePermission(@Value(value = "${roles.store}") String roles, ObjectMapper mapper) throws JsonProcessingException {
         return mapper.readValue(roles, new TypeReference<>() {});
     }

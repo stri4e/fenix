@@ -1,6 +1,6 @@
 package com.github.employees.services.impl;
 
-import com.github.employees.entities.RolePermission;
+import com.github.employees.entities.Role;
 import com.github.employees.services.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RoleService implements IRoleService {
 
-    private final Set<RolePermission> roles;
+    private final Set<Role> roles;
 
     @Override
-    public Flux<RolePermission> findByIds(Set<Long> ids) {
-        return Flux.fromStream(this.roles.stream());
+    public Flux<Role> findByIds(Set<Long> ids) {
+        return Flux.fromStream(ids.stream()
+                .flatMap(roleId -> this.roles.stream()
+                        .filter(role -> roleId.equals(role.getId())))
+        );
     }
 
 }
