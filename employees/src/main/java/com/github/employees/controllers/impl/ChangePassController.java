@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import static com.github.employees.entities.TrustDevice.ofTrustDevice;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/v1/change/passwords")
@@ -25,8 +23,7 @@ public class ChangePassController implements IChangePassController {
     public Mono<Void> resetPassword(String ip, String userAgent, ChangePassword payload) {
         UserAgent agent = UserAgent.parseUserAgentString(userAgent);
         return this.employeesService.readByEmail(payload.getEmail())
-                .map(employee -> employee.addTrustDevice(ofTrustDevice(ip, agent))
-                           .encodedPassword(this.passwordEncoder.encode(payload.getPass()))
+                .map(employee -> employee.encodedPassword(this.passwordEncoder.encode(payload.getPass()))
                 ).then();
     }
 

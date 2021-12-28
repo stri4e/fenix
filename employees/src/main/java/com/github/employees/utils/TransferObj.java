@@ -3,6 +3,8 @@ package com.github.employees.utils;
 import com.github.employees.entities.*;
 import com.github.employees.payload.*;
 
+import java.util.UUID;
+
 public class TransferObj {
 
     public static Employee ofNewEmployee(EmployeeDetailDto data) {
@@ -108,6 +110,26 @@ public class TransferObj {
                 data.getFirstName(),
                 data.getLastName(),
                 data.getPhone()
+        );
+    }
+
+    public static TrustDevice toTrustDevice(UUID employeeId, TrustDeviceDto data) {
+        return new TrustDevice(
+                employeeId,
+                data.getIp(),
+                data.getDeviceType(),
+                data.getOsName(),
+                data.getNumber()
+        );
+    }
+
+    public static TrustDeviceDto fromTrustDevice(TrustDevice data) {
+        return new TrustDeviceDto(
+                data.getId(),
+                data.getIp(),
+                data.getDeviceType(),
+                data.getOsName(),
+                data.getNumber()
         );
     }
 

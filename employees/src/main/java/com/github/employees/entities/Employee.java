@@ -1,6 +1,5 @@
 package com.github.employees.entities;
 
-import com.github.employees.exceptions.NotFound;
 import com.github.jwt.tokens.entity.TokenInformation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,8 +42,6 @@ public class Employee implements Serializable, TokenInformation {
     private boolean isLocked;
 
     private Set<Role> roles = new HashSet<>();
-
-    private Set<TrustDevice> trustDevices = new HashSet<>();
 
     @CreatedBy
     private UUID createBy;
@@ -126,16 +123,6 @@ public class Employee implements Serializable, TokenInformation {
 
     public Employee isLocked(boolean isLocked) {
         this.isLocked = isLocked;
-        return this;
-    }
-
-    public Employee addTrustDevice(TrustDevice trustDevice) {
-        if (this.trustDevices.isEmpty()) {
-            this.trustDevices.add(trustDevice);
-        } else {
-            this.trustDevices.stream().filter(device -> device.equals(trustDevice))
-                    .findFirst().orElseThrow(NotFound::new);
-        }
         return this;
     }
 

@@ -1,8 +1,8 @@
 insert into instances(id, name)
 values (1, 'employees'),
-       (2, 'clients'),
+       (2, 'customers'),
        (3, 'employees-gateway'),
-       (4, 'clients-gateway');
+       (4, 'customers-gateway');
 
 insert into roles(id, name)
 values (1, 'ROLE_ADMIN'),
@@ -41,7 +41,7 @@ insert into keys_settings(
          (4, 5, 300000, 150000, 'default', 'access_token', 'refresh_token', 4);
 
 insert into properties (id, application, key, label, profile, props_type, status, value)
-values (nextval('properties_id_seq'), 'clients', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":4,"role":"ROLE_USER","permission":["/**"]}]'),
-       (nextval('properties_id_seq'), 'clients-gateway', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":4,"role":"ROLE_USER","permission":["/**"]}]'),
+values (nextval('properties_id_seq'), 'customers', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":4,"role":"ROLE_USER","permission":["/**"]}]'),
+       (nextval('properties_id_seq'), 'customers-gateway', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":4,"role":"ROLE_USER","permission":["/**"]}]'),
        (nextval('properties_id_seq'), 'employees-gateway', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":1,"role":"ROLE_ADMIN","permission":["/**"]},{"id":2,"role":"ROLE_MANAGER","permission":["/**"]},{"id":3,"role":"ROLE_DEV","permission":["/**"]}]'),
        (nextval('properties_id_seq'), 'employees', 'roles.store', 'latest', 'default', 'def', 'on', '[{"id":1,"role":"ROLE_ADMIN","permission":["/**"]},{"id":2,"role":"ROLE_MANAGER","permission":["/**"]},{"id":3,"role":"ROLE_DEV","permission":["/**"]}]');
